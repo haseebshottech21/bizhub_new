@@ -1,5 +1,4 @@
-import 'package:bizhub_new/view/my_posts/jobs.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:bizhub_new/view/my_posts/jobs/jobs.dart';
 import 'package:flutter/material.dart';
 import '../../utils/mytheme.dart';
 
@@ -14,7 +13,7 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     // late TabController _tabController;
-    final size = MediaQuery.of(context).size;
+    // final size = MediaQuery.of(context).size;
 
     return DefaultTabController(
       length: 2,
@@ -75,123 +74,12 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
             //     return Future.delayed(Duration(seconds: 2));
             //   },
             // ),
-            SliverFillRemaining(
+            const SliverFillRemaining(
               fillOverscroll: true,
               hasScrollBody: true,
               child: TabBarView(
                 children: [
-                  ListView.builder(
-                    shrinkWrap: true,
-                    // physics: const ClampingScrollPhysics(),
-                    primary: false,
-                    padding: const EdgeInsets.all(8.0),
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 2),
-                        child: Container(
-                          width: size.width,
-                          height: size.height * 0.22,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: const Border(
-                              left: BorderSide(
-                                color: MyTheme.greenColor,
-                                width: 3,
-                              ),
-                            ),
-                            boxShadow: kElevationToShadow[2],
-                          ),
-                          child: LayoutBuilder(
-                            builder: (context, size) {
-                              return Column(
-                                children: [
-                                  Container(
-                                    width: size.maxWidth,
-                                    height: size.maxHeight * 0.20,
-                                    padding: const EdgeInsets.all(6.0),
-                                    // color: Colors.grey,
-                                    alignment: Alignment.centerRight,
-                                    child: InkWell(
-                                      // splashColor: Colors.transparent,
-                                      onTap: () {},
-                                      child: const Icon(
-                                        CupertinoIcons.ellipsis_vertical,
-                                        size: 15,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: size.maxWidth,
-                                    height: size.maxHeight * 0.55,
-                                    padding: const EdgeInsets.all(6.0),
-                                    // color: Colors.grey.shade200,
-                                    alignment: Alignment.centerRight,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                          height: size.maxHeight,
-                                          width: size.maxWidth * 0.20,
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(6),
-                                            child: Image.asset(
-                                              'assets/images/job2.jpg',
-                                              fit: BoxFit.fitHeight,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: size.maxWidth * 0.75,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: const [
-                                              Text(
-                                                'I will create your bussiness webiste with new features',
-                                              ),
-                                              Spacer(),
-                                              Text(
-                                                '\$ 50',
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    width: size.maxWidth,
-                                    height: size.maxHeight * 0.25,
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 12,
-                                    ),
-                                    alignment: Alignment.topRight,
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 12,
-                                        vertical: 4,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.green,
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      child: const Text('Active'),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        ),
-                      );
-                    },
-                    // separatorBuilder: (c, i) => const Divider(
-                    //   color: Colors.grey,
-                    // ),
-                    itemCount: 20,
-                  ),
+                  JobsPost(),
                   Text('SERVICE'),
                 ],
                 // controller: _tabController,

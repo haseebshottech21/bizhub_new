@@ -14,6 +14,9 @@ class RouteName {
   static const String home = 'home_screen';
   static const String postDetail = 'post_detail_screen';
 
+  // Posts
+  static const String myJobDetail = 'my_job_detail';
+
   // Create Job / Service
   static const String selectService = 'select_service_screen';
   static const String selectCategory = 'select_category_screen';
