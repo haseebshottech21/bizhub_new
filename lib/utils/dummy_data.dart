@@ -1,3 +1,5 @@
+import 'package:bizhub_new/model/post_model.dart';
+
 import '../model/chat_model.dart';
 import '../model/message_model.dart';
 import '../model/on_board_model.dart';
@@ -30,23 +32,6 @@ final List<String> sliderImages = [
   'https://cdn.mos.cms.futurecdn.net/6J8riT32EkrhW9NYfE5oyK.jpg',
   'https://www.thecreativemomentum.com/hubfs/blog-files/2007%20batch/2007-10-Sites%20for%20Web%20Design%20Inspiration-h-1.jpg',
 ];
-
-// List<Chat> chats = [
-//   Chat(
-//     id: 1,
-//     username: 'Oliva',
-//     message: 'Hey, How are you ?',
-//     unReadCount: 2,
-//     lastMessageAt: '2:40 AM',
-//   ),
-//   Chat(
-//     id: 2,
-//     username: 'Elex',
-//     message: 'I am fine.',
-//     unReadCount: 3,
-//     lastMessageAt: '2:40 AM',
-//   ),
-// ];
 
 List<Chat> getChat() {
   return [
@@ -163,6 +148,39 @@ List<Message> getMessage() {
       text: 'maybe you can help me 🥹',
       isMe: false,
       createdAt: '2:38 PM',
+    ),
+  ];
+}
+
+List<Post> getPosts() {
+  return [
+    Post(
+      id: 1,
+      postImage: 'assets/images/job2.jpg',
+      postTitle: 'I will create your bussiness webiste with new features',
+      postPrice: '50',
+      postStatus: 'Active',
+    ),
+    Post(
+      id: 2,
+      postImage: 'assets/images/job2.jpg',
+      postTitle: 'I will create your bussiness webiste with new features',
+      postPrice: '50',
+      postStatus: 'Active',
+    ),
+    Post(
+      id: 3,
+      postImage: 'assets/images/job2.jpg',
+      postTitle: 'I will create your bussiness webiste with new features',
+      postPrice: '50',
+      postStatus: 'Active',
+    ),
+    Post(
+      id: 4,
+      postImage: 'assets/images/job2.jpg',
+      postTitle: 'I will create your bussiness webiste with new features',
+      postPrice: '50',
+      postStatus: 'Active',
     ),
   ];
 }

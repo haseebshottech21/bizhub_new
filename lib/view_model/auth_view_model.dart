@@ -1,8 +1,19 @@
 import 'package:bizhub_new/utils/routes/routes_name.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import '../repo/auth_repo.dart';
+import '../utils/utils.dart';
 
 class AuthViewModel extends ChangeNotifier {
-  // final _myRepo = AuthRepository();
+  final authRepo = AuthRepository();
+
+  // bool isLoading = false;
+
+  bool passwordHide = true;
+  togglePassword() {
+    passwordHide = !passwordHide;
+    notifyListeners();
+  }
 
   bool isRemember = false;
   checkRemeber() {
@@ -17,6 +28,11 @@ class AuthViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // changLoadingState() {
+  //   isLoading = !isLoading;
+  //   notifyListeners();
+  // }
+
   bool _signupLoading = false;
   bool get signupLoading => _signupLoading;
 
@@ -25,14 +41,60 @@ class AuthViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> login(BuildContext context) async {
+  // Future<void> login(dynamic data, BuildContext context) async {
+  //   setLoad(true);
+  //   authRepo.loginApi(data).then((value) {
+  //     Future.delayed(const Duration(seconds: 3)).then(
+  //       (value) {
+  //         // print(value);
+  //         setLoad(false);
+  //         if (kDebugMode) {
+  //           // clearFields();
+  //           Navigator.of(context).pushNamedAndRemoveUntil(
+  //             RouteName.home,
+  //             (route) => false,
+  //           );
+  //           print('Successfully Login');
+  //           // Utils.toastMessage('Logging Successfully!');
+  //           Fluttertoast.showToast(msg: 'Logging Successfully!');
+  //         }
+  //       },
+  //     );
+  //   }).onError((error, stackTrace) {
+  //     setLoad(false);
+  //     Fluttertoast.showToast(msg: error.toString());
+  //     if (kDebugMode) {
+  //       print(error.toString());
+  //     }
+  //   });
+  // }
+
+  Future<void> login(
+    dynamic data,
+    BuildContext context,
+  ) async {
     setLoad(true);
-    Future.delayed(const Duration(seconds: 3)).then(
-      (value) {
-        setLoad(false);
-        Navigator.pushNamed(context, RouteName.home);
-      },
-    );
+    final loadedData = await authRepo.loginApi(data);
+    // print(loadedData);
+    if (loadedData == null) {
+      setLoad(false);
+    } else if (loadedData != null) {
+      Future.delayed(const Duration(seconds: 1)).then(
+        (value) {
+          // print(value);
+          setLoad(false);
+          if (kDebugMode) {
+            // clearFields();
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              RouteName.home,
+              (route) => false,
+            );
+            // print('Successfully Login');
+            Utils.toastMessage('Logging Successfully!');
+          }
+        },
+      );
+    }
   }
 
   Future<void> signUp(BuildContext context) async {
@@ -55,43 +117,13 @@ class AuthViewModel extends ChangeNotifier {
     );
   }
 
-  // Future<void> loginApi(dynamic data, BuildContext context) async {
-  //   setLoading(true);
-  //   _myRepo.loginApi(data).then((value) {
-  //     setLoading(false);
-  //     final userPrefrence = Provider.of<UserViewModel>(context, listen: false);
-  //     userPrefrence.saveUser(
-  //       UserModel(token: value['token'].toString()),
-  //     );
-  //     Utils.flushBarMessage('Login Successfull', context);
-  //     Navigator.pushNamed(context, RouteName.home);
-  //     if (kDebugMode) {
-  //       print(value.toString());
-  //     }
-  //   }).onError((error, stackTrace) {
-  //     setLoading(false);
-  //     Utils.flushBarMessage(error.toString(), context);
-  //     if (kDebugMode) {
-  //       print(error.toString());
-  //     }
-  //   });
-  // }
-
-  // Future<void> signUpApi(dynamic data, BuildContext context) async {
-  //   signUpLoading(true);
-  //   _myRepo.registerApi(data).then((value) {
-  //     signUpLoading(false);
-  //     Utils.flushBarMessage('Signup Successfully', context);
-  //     Navigator.pushNamed(context, RouteName.home);
-  //     if (kDebugMode) {
-  //       print(value.toString());
-  //     }
-  //   }).onError((error, stackTrace) {
-  //     signUpLoading(false);
-  //     Utils.flushBarMessage(error.toString(), context);
-  //     if (kDebugMode) {
-  //       print(error.toString());
-  //     }
-  //   });
-  // }
+  Future<void> logout(BuildContext context) async {
+    setLoad(true);
+    Future.delayed(const Duration(seconds: 3)).then(
+      (value) {
+        setLoad(false);
+        Navigator.pushNamed(context, RouteName.login);
+      },
+    );
+  }
 }

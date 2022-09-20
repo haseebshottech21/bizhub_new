@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../utils/icons.dart';
 import '../../utils/mytheme.dart';
 
 class InputTextfield extends StatefulWidget {
@@ -32,7 +33,7 @@ class _InputTextfieldState extends State<InputTextfield> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: widget.controller,
       obscureText: widget.isPassword ? widget.obscureText : false,
       style: const TextStyle(color: Colors.black),
@@ -70,6 +71,117 @@ class _InputTextfieldState extends State<InputTextfield> {
                 ),
               )
             : null,
+      ),
+    );
+  }
+}
+
+class InputTextFormField extends StatelessWidget {
+  const InputTextFormField({
+    Key? key,
+    required this.hintText,
+    required this.controller,
+    required this.icon,
+    required this.validator,
+  }) : super(key: key);
+
+  final String hintText;
+  final TextEditingController controller;
+  final IconData icon;
+  final Function validator;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 2.0),
+      child: TextFormField(
+        controller: controller,
+        style: const TextStyle(color: Colors.black),
+        cursorColor: MyTheme.greenColor,
+        validator: (value) => validator(value),
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(2),
+            borderSide: BorderSide.none,
+          ),
+          hintText: hintText,
+          hintStyle: const TextStyle(color: Colors.black45),
+          fillColor: MyTheme.greyColor,
+          filled: true,
+          prefixIcon: Padding(
+            padding: const EdgeInsets.only(left: 12),
+            child: Icon(
+              icon,
+              color: MyTheme.greenColor,
+            ),
+          ),
+          prefixText: '  ',
+        ),
+      ),
+    );
+  }
+}
+
+class InputPasswordTextFormField extends StatelessWidget {
+  const InputPasswordTextFormField({
+    required this.hintText,
+    required this.controller,
+    required this.fontAwsomeIcon,
+    required this.validator,
+    required this.onPress,
+    required this.obscureText,
+    Key? key,
+  }) : super(key: key);
+
+  final String hintText;
+  final TextEditingController controller;
+  final IconData fontAwsomeIcon;
+  final Function validator;
+  final Function onPress;
+  final bool obscureText;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 2.0),
+      child: TextFormField(
+        controller: controller,
+        style: const TextStyle(color: Colors.black),
+        textAlignVertical: TextAlignVertical.center,
+        onSaved: (newValue) {
+          controller.text = newValue!;
+        },
+        validator: (value) => validator(value),
+        obscureText: obscureText,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(2),
+            borderSide: BorderSide.none,
+          ),
+          hintText: hintText,
+          hintStyle: const TextStyle(color: Colors.black45),
+          fillColor: MyTheme.greyColor,
+          filled: true,
+          prefixIcon: Padding(
+            padding: const EdgeInsets.only(left: 12),
+            child: Icon(
+              fontAwsomeIcon,
+              color: MyTheme.greenColor,
+            ),
+          ),
+          prefixText: '  ',
+          suffixIcon: GestureDetector(
+            onTap: () => onPress(),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: Icon(
+                obscureText ? hidePassword : showPassword,
+                color: MyTheme.greenColor,
+              ),
+            ),
+          ),
+          suffixIconColor: MyTheme.greenColor,
+        ),
       ),
     );
   }

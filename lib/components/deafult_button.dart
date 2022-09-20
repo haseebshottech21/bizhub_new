@@ -19,9 +19,9 @@ class DeafultButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: ElevatedButton(
-        onPressed: onPress,
+        onPressed: isloading ? null : onPress,
         style: ElevatedButton.styleFrom(
-          primary: color,
+          backgroundColor: color,
           shape: BeveledRectangleBorder(
             borderRadius: BorderRadius.circular(2),
           ),
@@ -82,7 +82,7 @@ class DeafultIconButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.all(10.0),
         elevation: 0,
-        primary: color,
+        backgroundColor: color,
         shape: BeveledRectangleBorder(
           borderRadius: BorderRadius.circular(2),
         ),

@@ -162,7 +162,7 @@ class ChatWidget extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {},
-                    child: Text('Delete Chat'),
+                    child: const Text('Delete Chat'),
                   ),
                 ],
               ),
@@ -176,11 +176,11 @@ class ChatWidget extends StatelessWidget {
         padding: const EdgeInsets.only(
           top: 8,
           bottom: 8,
-          left: 6,
+          left: 8,
           right: 10,
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             const CachedImageWidget(
               height: 50,
@@ -190,34 +190,38 @@ class ChatWidget extends StatelessWidget {
                   'https://i.pinimg.com/736x/25/78/61/25786134576ce0344893b33a051160b1.jpg',
             ),
             // const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  chat.username,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 17,
+            SizedBox(width: size.width * 0.02),
+            SizedBox(
+              width: size.width * 0.65,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    chat.username,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 17,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  chat.postTitle,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 15,
+                  SizedBox(height: size.height * 0.002),
+                  Text(
+                    chat.postTitle,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  chat.message,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                    color: Colors.black54,
+                  SizedBox(height: size.height * 0.005),
+                  Text(
+                    chat.message,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      color: Colors.black54,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             chat.unReadCount! > 0
                 ? Column(
@@ -231,7 +235,7 @@ class ChatWidget extends StatelessWidget {
                           color: Colors.grey,
                         ),
                       ),
-                      const SizedBox(height: 6),
+                      SizedBox(height: size.height * 0.008),
                       Container(
                         padding: const EdgeInsets.all(6),
                         decoration: const BoxDecoration(

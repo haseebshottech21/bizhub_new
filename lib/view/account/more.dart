@@ -1,17 +1,30 @@
 import 'package:bizhub_new/utils/icons.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
+import 'package:bizhub_new/widgets/common/dialog_box.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../utils/mytheme.dart';
+import '../../view_model/auth_view_model.dart';
 import '../../widgets/common/cached_image.dart';
 
-class MoreScreen extends StatelessWidget {
+class MoreScreen extends StatefulWidget {
   const MoreScreen({Key? key}) : super(key: key);
 
+  @override
+  State<MoreScreen> createState() => _MoreScreenState();
+}
+
+class _MoreScreenState extends State<MoreScreen> {
   @override
   Widget build(BuildContext context) {
     // SystemChrome.setSystemUIOverlayStyle(
     //   const SystemUiOverlayStyle(statusBarColor: MyTheme.greenColor),
     // );
+
+    // AuthViewModel authViewModel =
+    //     Provider.of<AuthViewModel>(context, listen: false);
+
+    final authViewModel = context.watch<AuthViewModel>();
 
     final size = MediaQuery.of(context).size;
 
@@ -26,48 +39,93 @@ class MoreScreen extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(
           children: [
-            const ViewProfile(),
-            const SizedBox(height: 15),
-            const Padding(
-              padding: EdgeInsets.only(left: 15),
-              child: Text(
-                'General',
-                style: TextStyle(
-                  // color: Theme.of(context).textTheme.bodyText1!.color,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                  letterSpacing: 0.5,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const ViewProfile(),
+                const SizedBox(height: 15),
+                const Padding(
+                  padding: EdgeInsets.only(left: 15),
+                  child: Text(
+                    'General',
+                    style: TextStyle(
+                      // color: Theme.of(context).textTheme.bodyText1!.color,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
                 ),
-              ),
+                const SizedBox(height: 15),
+                moreItem(
+                  context: context,
+                  text: 'Setting',
+                  iconData: dashboadOutline,
+                  onTap: () {},
+                ),
+                moreItem(
+                  context: context,
+                  text: 'Setting',
+                  iconData: dashboadOutline,
+                  onTap: () {},
+                ),
+                moreItem(
+                  context: context,
+                  text: 'Setting',
+                  iconData: dashboadOutline,
+                  onTap: () {},
+                ),
+                moreItem(
+                  context: context,
+                  text: 'Setting',
+                  iconData: dashboadOutline,
+                  onTap: () {},
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 14,
+                    bottom: 14,
+                    left: 16,
+                    right: 16,
+                  ),
+                  child:
+                      // Consumer<AuthViewModel>(
+                      //   builder: (context, authViewModel, _) {
+                      //     return
+                      ElevatedButton(
+                    onPressed: () {
+                      simpleDialog(
+                        context: context,
+                        title: 'Confirm Logout',
+                        subTitle: 'You are about to logout',
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          // authViewModel.logout(context);
+                         
+                          context.read<AuthViewModel>().logout(context);
+                        },
+                      );
+                    },
+                    child: const Text('Logout'),
+                  ),
+                  // },
+                ),
+                // )
+              ],
             ),
-            const SizedBox(height: 15),
-            moreItem(
-              context: context,
-              text: 'Setting',
-              iconData: dashboadOutline,
-              onTap: () {},
-            ),
-            moreItem(
-              context: context,
-              text: 'Setting',
-              iconData: dashboadOutline,
-              onTap: () {},
-            ),
-            moreItem(
-              context: context,
-              text: 'Setting',
-              iconData: dashboadOutline,
-              onTap: () {},
-            ),
-            moreItem(
-              context: context,
-              text: 'Setting',
-              iconData: dashboadOutline,
-              onTap: () {},
-            ),
+            // context.read<AuthViewModel>().loading
+            authViewModel.loading
+                ? const Center(child: CircularProgressIndicator())
+                : const SizedBox()
+            // Consumer<AuthViewModel>(
+            //   builder: (context, authViewModel, _) {
+            //     return authViewModel.loading
+            //         ? const Center(child: CircularProgressIndicator())
+            //         : const SizedBox();
+            //   },
+            // ),
           ],
         ),
       ),

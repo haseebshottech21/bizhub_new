@@ -1,6 +1,6 @@
-import 'package:bizhub_new/view/my_posts/jobs/jobs.dart';
 import 'package:flutter/material.dart';
 import '../../utils/mytheme.dart';
+import 'jobs_post/jobs.dart';
 
 class MyPosts extends StatefulWidget {
   const MyPosts({Key? key}) : super(key: key);
@@ -31,7 +31,7 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
               pinned: true,
               centerTitle: true,
               title: const Text(
-                "My Orders",
+                "My Posts",
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -80,7 +80,7 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
               child: TabBarView(
                 children: [
                   JobsPost(),
-                  Text('SERVICE'),
+                  JobsPost(),
                 ],
                 // controller: _tabController,
               ),

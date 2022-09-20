@@ -12,7 +12,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
   // final textController = TextEditingController();
   // final _scrollController = ScrollController();
 
-  late Animation<double> opacity;
+  // late Animation<double> opacity;
   // late AnimationController slideInputController;
   // late Animation<Offset> slideInputAnimation;
 

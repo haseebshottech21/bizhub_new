@@ -35,14 +35,17 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
 
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        elevation: 2.0,
-        // label: const Text('Add a task'),
-        onPressed: () {
-          Navigator.pushNamed(context, RouteName.selectService);
-        },
-        backgroundColor: MyTheme.greenColor,
-        child: const Icon(Icons.add),
+      floatingActionButton: Visibility(
+        visible: MediaQuery.of(context).viewInsets.bottom == 0,
+        child: FloatingActionButton(
+          elevation: 2.0,
+          // label: const Text('Add a task'),
+          onPressed: () {
+            Navigator.pushNamed(context, RouteName.selectService);
+          },
+          backgroundColor: MyTheme.greenColor,
+          child: const Icon(Icons.add),
+        ),
       ),
       // body: currentTab[provider.currentIndex],
       body: PageView(

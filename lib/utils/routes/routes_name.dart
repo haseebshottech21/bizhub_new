@@ -13,6 +13,7 @@ class RouteName {
   // Home
   static const String home = 'home_screen';
   static const String postDetail = 'post_detail_screen';
+  static const String searchPost = 'serach_post';
 
   // Posts
   static const String myJobDetail = 'my_job_detail';

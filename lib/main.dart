@@ -4,6 +4,7 @@ import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/view/splash_screen.dart';
 import 'package:bizhub_new/view_model/auth_view_model.dart';
 import 'package:bizhub_new/view_model/bottom_navigation_view_model.dart';
+import 'package:bizhub_new/view_model/posts_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthViewModel()),
+        ChangeNotifierProvider(create: (_) => PostViewModel()),
         ChangeNotifierProvider(create: (_) => BottomNavigationViewModel()),
       ],
       child: MaterialApp(

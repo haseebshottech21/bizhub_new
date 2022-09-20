@@ -27,7 +27,7 @@ class _PostJobDetailState extends State<PostJobDetail> {
         child: Container(
           // height: size.height * 0.10,
           padding:
-              const EdgeInsets.only(bottom: 20, left: 16, right: 16, top: 10),
+              const EdgeInsets.only(bottom: 25, left: 16, right: 16, top: 10),
           decoration: const BoxDecoration(
             color: Colors.white,
             border: Border(

@@ -1,8 +1,8 @@
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
+import 'package:bizhub_new/view/home/components/all_posts_items.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import '../../widgets/common/app_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -12,140 +12,146 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // final searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     // SystemChrome.setSystemUIOverlayStyle(
     //   const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
     // );
 
+    final size = MediaQuery.of(context).size;
+
     return OrientationBuilder(
       builder: (context, orientation) {
         final isPortrait = orientation == Orientation.portrait;
-
+        // return Scaffold(
+        //   backgroundColor: Colors.grey[200],
+        //   appBar: myAppBar(context: context, appBarTitle: 'Earn Money'),
+        //   body: GridView(
+        //     padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
+        //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        //       crossAxisCount: isPortrait ? 2 : 3,
+        //       mainAxisSpacing: 8,
+        //       crossAxisSpacing: 8,
+        //     ),
+        //     children: List.generate(
+        //       9,
+        //       (index) {
+        //         return jobItem();
+        //       },
+        //     ),
+        //   ),
+        // );
         return Scaffold(
-          backgroundColor: Colors.grey[200],
-          appBar: myAppBar(context: context, appBarTitle: 'Earn Money'),
-          body: GridView(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: isPortrait ? 2 : 3,
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 8,
-            ),
-            children: List.generate(
-              9,
-              (index) {
-                return jobItem();
-              },
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget jobItem() {
-    return InkWell(
-      onTap: () {
-        Navigator.pushNamed(context, RouteName.postDetail);
-      },
-      child: Container(
-        // color: Colors.black,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return Column(
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(6),
-                    topRight: Radius.circular(6),
-                  ),
-                  child: Image.asset(
-                    'assets/images/job2.jpg',
-                    fit: BoxFit.cover,
-                    height: constraints.maxHeight * 0.50,
-                    width: double.infinity,
-                  ),
+          backgroundColor: Colors.grey[50],
+          resizeToAvoidBottomInset: true,
+          body: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                floating: true,
+                pinned: true,
+                snap: false,
+                elevation: 0,
+                // centerTitle: true,
+                backgroundColor: Colors.white,
+                automaticallyImplyLeading: false,
+                titleTextStyle: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 20,
                 ),
-                ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(6),
-                    bottomRight: Radius.circular(6),
-                  ),
-                  // child: Container(
-                  //   height: constraints.maxHeight * 0.40,
-                  //   width: constraints.minWidth,
-                  //   color: Colors.yellow,
-                  // ),
-                  child: SizedBox(
-                    height: constraints.maxHeight * 0.50,
-                    width: constraints.minWidth,
+                title: const Text('Earn Money'),
+                bottom: PreferredSize(
+                  preferredSize: const Size.fromHeight(55.0),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: 4,
+                      left: 12,
+                      right: 12,
+                    ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          height: constraints.maxHeight,
-                          width: constraints.minWidth * 0.03,
-                          color: MyTheme.greenColor,
-                        ),
-                        Container(
-                          height: constraints.maxHeight,
-                          width: constraints.minWidth * 0.92,
-                          padding: const EdgeInsets.only(
-                            left: 8,
-                            right: 5,
-                            top: 5,
-                            bottom: 5,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'I will create your bussiness webiste with new features',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, RouteName.searchPost);
+                          },
+                          child: Container(
+                            width: size.width * 0.80,
+                            height: size.height * 0.05,
+                            margin: const EdgeInsets.only(bottom: 5),
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[50],
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Row(
+                              children: const [
+                                Icon(
+                                  CupertinoIcons.search,
+                                  size: 22,
                                 ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const Spacer(),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: const [
-                                  Text(
-                                    '\$ 50',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                                SizedBox(width: 6),
+                                Text(
+                                  'Find Jobs, Service and more',
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 15,
                                   ),
-                                  Text(
-                                    '30 JUN',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: size.height * 0.045,
+                          child: IconButton(
+                            onPressed: () {},
+                            color: MyTheme.greenColor,
+                            padding: EdgeInsets.zero,
+                            icon:
+                                const Icon(CupertinoIcons.slider_horizontal_3),
                           ),
                         ),
                       ],
                     ),
                   ),
-                )
-              ],
-            );
-          },
-        ),
-      ),
+                ),
+              ),
+              SliverPadding(
+                padding: const EdgeInsets.only(
+                  left: 8,
+                  right: 8,
+                  bottom: 30,
+                  top: 12,
+                ),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      GridView.builder(
+                        addAutomaticKeepAlives: true,
+                        shrinkWrap: true,
+                        physics: const ScrollPhysics(),
+                        padding: EdgeInsets.zero,
+                        itemCount: 9,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: isPortrait ? 2 : 3,
+                          mainAxisSpacing: 8,
+                          crossAxisSpacing: 8,
+                        ),
+                        itemBuilder: (context, index) {
+                          return const AllPostsItem();
+                        },
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
