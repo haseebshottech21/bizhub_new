@@ -1,3 +1,4 @@
+import 'package:bizhub_new/utils/dummy_data.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/view/home/components/all_posts_items.dart';
@@ -61,7 +62,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontWeight: FontWeight.w400,
                   fontSize: 20,
                 ),
-                title: const Text('Earn Money'),
+                title: GestureDetector(
+                  onTap: () {
+                    selectTypeBottom();
+                  },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: const [
+                      Text('Earn Money'),
+                      SizedBox(width: 8),
+                      Icon(
+                        Icons.arrow_drop_down,
+                        color: Colors.black,
+                        size: 22,
+                      ),
+                    ],
+                  ),
+                ),
                 bottom: PreferredSize(
                   preferredSize: const Size.fromHeight(55.0),
                   child: Padding(
@@ -107,7 +124,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: size.height * 0.045,
                           child: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, RouteName.filter);
+                            },
                             color: MyTheme.greenColor,
                             padding: EdgeInsets.zero,
                             icon:
@@ -152,6 +171,121 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         );
       },
+    );
+  }
+
+  selectTypeBottom() {
+    // List typeList = ['Jobs Near By', 'Service Near By'];
+    final typeList = getType();
+    return showModalBottomSheet(
+      backgroundColor: Colors.white,
+      context: context,
+      // isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(15.0),
+        ),
+      ),
+      builder: (context) {
+        // print(object)
+
+        return Container(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 8,
+                  bottom: 15,
+                  left: 12,
+                  right: 12,
+                ),
+                child: Container(
+                  height: 5,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[500],
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 12, bottom: 20),
+                child: Column(
+                  children: List.generate(
+                    typeList.length,
+                    (i) {
+                      return type(
+                        typeText: typeList[i].typeTitle,
+                        typeIcon: typeList[i].typeIcon,
+                        isSelected: typeList[i].typeSelect,
+                        onTap: () {
+                          // setState(() {
+                          //   typeList[index].typeSelect =
+                          //       !typeList[index].typeSelect;
+                          //   print(typeList[index].typeSelect);
+                          // });
+                        },
+                      );
+                    },
+                  ),
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  InkWell type({
+    required String typeText,
+    required IconData typeIcon,
+    required VoidCallback onTap,
+    bool isSelected = false,
+  }) {
+    return InkWell(
+      // onTap: () {
+      //   // serviceType.todo(true, context);
+      //   setState(() {
+      //     isSelected = !isSelected;
+      //     print(isSelected);
+      //   });
+      // },
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          vertical: 12,
+          horizontal: 12,
+        ),
+        child: Row(
+          children: [
+            Icon(
+              typeIcon,
+              size: 28,
+            ),
+            const SizedBox(width: 12),
+            Text(
+              typeText,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const Spacer(),
+            Icon(
+              isSelected
+                  ? CupertinoIcons.checkmark_alt_circle_fill
+                  : CupertinoIcons.circle,
+              color: MyTheme.greenColor,
+              size: 24,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

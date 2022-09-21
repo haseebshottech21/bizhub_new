@@ -101,7 +101,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                                   ),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
-                                    color: Color(0xff1972F5),
+                                    color: const Color(0xff1972F5),
                                   ),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -134,12 +134,15 @@ class _MessagesScreenState extends State<MessagesScreen> {
                             return Row(
                               children: [
                                 Container(
-                                  constraints: BoxConstraints(maxWidth: 250),
-                                  padding: EdgeInsets.all(8),
-                                  margin: EdgeInsets.only(left: 8, bottom: 8),
+                                  constraints:
+                                      const BoxConstraints(maxWidth: 250),
+                                  padding: const EdgeInsets.all(8),
+                                  margin:
+                                      const EdgeInsets.only(left: 8, bottom: 8),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
-                                    color: Color.fromARGB(255, 225, 231, 236),
+                                    color: const Color.fromARGB(
+                                        255, 225, 231, 236),
                                   ),
                                   child: Column(
                                     crossAxisAlignment:

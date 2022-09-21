@@ -5,6 +5,7 @@ import 'package:bizhub_new/widgets/common/cached_image.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 import '../../utils/mytheme.dart';
+import 'components/make_offer.dart';
 
 class PostJobDetail extends StatefulWidget {
   const PostJobDetail({Key? key}) : super(key: key);
@@ -21,6 +22,25 @@ class _PostJobDetailState extends State<PostJobDetail> {
     // );
 
     final size = MediaQuery.of(context).size;
+
+    void makeOffer(BuildContext context) {
+      showModalBottomSheet(
+        backgroundColor: Colors.white,
+        context: context,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(15.0),
+          ),
+        ),
+        builder: (context) => SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: const MakeOffer(),
+          ),
+        ),
+      );
+    }
 
     return Scaffold(
       bottomSheet: SafeArea(
@@ -51,7 +71,7 @@ class _PostJobDetailState extends State<PostJobDetail> {
               Expanded(
                 child: DeafultIconButton(
                   title: 'Make an offer',
-                  onPress: () {},
+                  onPress: () => makeOffer(context),
                   icon: dollor,
                 ),
               ),

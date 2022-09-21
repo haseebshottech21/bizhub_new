@@ -12,6 +12,7 @@ class RouteName {
 
   // Home
   static const String home = 'home_screen';
+  static const String filter = 'filter_screen';
   static const String postDetail = 'post_detail_screen';
   static const String searchPost = 'serach_post';
 
@@ -29,4 +30,9 @@ class RouteName {
   // More
   static const String viewMyProfile = 'my_profile';
   static const String editMyProfile = 'edit_my_profile';
+  static const String changePassword = 'change_password';
+  static const String aboutUs = 'about_us';
+  static const String contactUs = 'contact_us';
+  static const String termAndCondition = 'term_and_condition';
+  static const String privacyPolicy = 'privacy_policy';
 }

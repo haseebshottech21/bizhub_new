@@ -249,3 +249,80 @@ class LabelTextField extends StatelessWidget {
     );
   }
 }
+
+
+class EditLabelTextFields extends StatelessWidget {
+  final String label;
+  final String hintText;
+  final TextEditingController controller;
+  final TextEditingController? passwordController;
+  final Function validator;
+  final bool isEnabled;
+
+  const EditLabelTextFields({
+    required this.label,
+    required this.hintText,
+    required this.controller,
+    required this.validator,
+    this.isEnabled = true,
+    this.passwordController,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(fontSize: 15.0, color: MyTheme.greenColor),
+          ),
+          const SizedBox(height: 2),
+          SizedBox(
+            // height: 40,
+            child: TextFormField(
+              cursorWidth: 1.5,
+              controller: controller,
+              validator: (value) => passwordController == null
+                  ? validator(value)
+                  : validator(
+                      passwordController!.text,
+                      value,
+                    ),
+              enabled: isEnabled,
+              onSaved: (newValue) {
+                controller.text = newValue!;
+              },
+              cursorColor: Colors.black87,
+              // keyboardType: inputType,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                // enabled: false,
+                border: OutlineInputBorder(
+                  borderSide:
+                      const BorderSide(color: Colors.black12, width: 0.1),
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide:
+                      const BorderSide(color: Colors.black54, width: 0.2),
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                // enabledBorder: InputBorder.none,
+                errorBorder: InputBorder.none,
+                // disabledBorder: InputBorder.none,
+                contentPadding: const EdgeInsets.only(
+                    left: 15, bottom: 11, top: 11, right: 15),
+                hintText: hintText,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

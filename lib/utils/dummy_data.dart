@@ -1,8 +1,10 @@
 import 'package:bizhub_new/model/post_model.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../model/chat_model.dart';
 import '../model/message_model.dart';
 import '../model/on_board_model.dart';
+import '../model/type.dart';
 
 List<OnBoardModel> onboardData = [
   OnBoardModel(
@@ -181,6 +183,21 @@ List<Post> getPosts() {
       postTitle: 'I will create your bussiness webiste with new features',
       postPrice: '50',
       postStatus: 'Active',
+    ),
+  ];
+}
+
+List<TypeModel> getType() {
+  return [
+    TypeModel(
+      typeTitle: 'Jobs Near By',
+      typeIcon: CupertinoIcons.money_dollar_circle_fill,
+      typeSelect: true,
+    ),
+    TypeModel(
+      typeTitle: 'Service Near By',
+      typeIcon: CupertinoIcons.briefcase_fill,
+      typeSelect: false,
     ),
   ];
 }

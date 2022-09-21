@@ -1,4 +1,6 @@
 import 'package:bizhub_new/utils/routes/routes_name.dart';
+import 'package:bizhub_new/view/account/change_password.dart';
+import 'package:bizhub_new/view/account/contact_us.dart';
 import 'package:bizhub_new/view/account/profile/edit_my_profile.dart';
 import 'package:bizhub_new/view/account/profile/view_my_profile.dart';
 import 'package:bizhub_new/view/auth/login_screen.dart';
@@ -9,6 +11,7 @@ import 'package:bizhub_new/view/chat/messages.dart';
 import 'package:bizhub_new/view/create/create_post.dart';
 import 'package:bizhub_new/view/create/select_category.dart';
 import 'package:bizhub_new/view/create/select_service.dart';
+import 'package:bizhub_new/view/home/filter_screen.dart';
 import 'package:bizhub_new/view/home/post_detail_screen.dart';
 import 'package:bizhub_new/view/home/search_posts.dart';
 import 'package:bizhub_new/view/navigation/bottom_navigation.dart';
@@ -46,6 +49,8 @@ class RouteGenerator {
       case RouteName.home:
         return MaterialPageRoute(
             builder: (context) => const NavigatoionBarScreen());
+      case RouteName.filter:
+        return MaterialPageRoute(builder: (context) => const FilterScreen());
       case RouteName.postDetail:
         return MaterialPageRoute(builder: (context) => const PostJobDetail());
       case RouteName.searchPost:
@@ -60,10 +65,15 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const CreatePost());
       case RouteName.messages:
         return MaterialPageRoute(builder: (context) => const MessagesScreen());
+      // MORE
       case RouteName.viewMyProfile:
         return MaterialPageRoute(builder: (context) => const ViewMyProfile());
       case RouteName.editMyProfile:
         return MaterialPageRoute(builder: (context) => const EditMyProfile());
+      case RouteName.changePassword:
+        return MaterialPageRoute(builder: (context) => const ChangePassword());
+      case RouteName.contactUs:
+        return MaterialPageRoute(builder: (context) => const ContactUs());
       default:
         return errorRoute();
     }

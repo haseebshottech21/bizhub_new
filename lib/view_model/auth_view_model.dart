@@ -69,6 +69,19 @@ class AuthViewModel extends ChangeNotifier {
   //   });
   // }
 
+  Future<void> signIn(BuildContext context) async {
+    setLoad(true);
+    Future.delayed(const Duration(seconds: 3)).then(
+      (value) {
+        setLoad(false);
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          RouteName.home,
+          (route) => false,
+        );
+      },
+    );
+  }
+
   Future<void> login(
     dynamic data,
     BuildContext context,

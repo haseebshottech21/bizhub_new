@@ -187,9 +187,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           title: 'Log In',
                           isloading: authViewModel.loading,
                           onPress: () {
-                            validateAndLogin();
+                            // validateAndLogin();
                             // print(authViewModel.loading);
-                            // authViewModel.login(context);
+                            authViewModel.signIn(context);
                           },
                         );
                       },

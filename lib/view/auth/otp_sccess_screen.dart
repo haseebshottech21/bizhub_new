@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
 import '../../components/deafult_button.dart';
 import '../../utils/mytheme.dart';
 import '../../widgets/common/app_bar.dart';
@@ -56,7 +56,7 @@ class _OTPSuccessScreenState extends State<OTPSuccessScreen>
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Padding(
-            padding: const EdgeInsets.only(top: 30, bottom: 5),
+            padding: const EdgeInsets.only(top: 30, bottom: 20),
             child: Column(
               children: [
                 const Padding(
