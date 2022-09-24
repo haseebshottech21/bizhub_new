@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../components/deafult_button.dart';
 import '../../utils/mytheme.dart';
+import '../../view_model/posts_view_model.dart';
 import '../../widgets/common/app_bar.dart';
 import '../../widgets/common/input_textfield.dart';
 
@@ -35,12 +37,25 @@ class _CreatePostState extends State<CreatePost> {
           // ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 6),
-            child: DeafultButton(
-              title: 'POST',
-              onPress: () {
-                // Navigator.pushNamed(context, RouteName.createPost);
+            // child: DeafultButton(
+            //   title: 'POST',
+            //   onPress: () {
+            //     // Navigator.pushNamed(context, RouteName.createPost);
+            //   },
+            //   // onPress: null,
+            // ),
+            child: Consumer<PostViewModel>(
+              builder: (context, postViewModel, _) {
+                return DeafultButton(
+                  title: 'POST',
+                  isloading: postViewModel.loading,
+                  onPress: () {
+                    // validateAndLogin();
+                    // print(authViewModel.loading);
+                    postViewModel.createPost(context);
+                  },
+                );
               },
-              // onPress: null,
             ),
           ),
         ),
@@ -86,7 +101,7 @@ class _CreatePostState extends State<CreatePost> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: const [
-                                      Text('UPLOAD UP TO 20 PHOTOS'),
+                                      Text('UPLOAD UP TO 5 PHOTOS'),
                                       Icon(
                                         Icons.arrow_forward_ios,
                                         color: Colors.black,
@@ -115,11 +130,11 @@ class _CreatePostState extends State<CreatePost> {
                       ),
                       // const ProfileImage(),
                       const SizedBox(height: 20),
-                      const LabelTextField(label: 'Price *'),
-                      const SizedBox(height: 25),
-                      const LabelTextField(label: 'Title *'),
-                      const SizedBox(height: 25),
-                      const LabelTextField(label: 'Description *'),
+                      // const LabelTextField(label: 'Price *'),
+                      // const SizedBox(height: 25),
+                      // const LabelTextField(label: 'Title *'),
+                      // const SizedBox(height: 25),
+                      // const LabelTextField(label: 'Description *'),
                       const SizedBox(height: 25),
                       const LocationPicker(),
                     ],

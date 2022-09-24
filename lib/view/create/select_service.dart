@@ -16,7 +16,7 @@ class SelectService extends StatelessWidget {
       appBar: myAppBar(context: context, appBarTitle: 'Select Your Service'),
       bottomSheet: goNext == true
           ? SafeArea(
-              child: Container(
+              child: SizedBox(
                 height: size.height * 0.10,
                 // decoration: const BoxDecoration(
                 //   border: Border(

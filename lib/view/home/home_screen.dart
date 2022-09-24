@@ -16,6 +16,12 @@ class _HomeScreenState extends State<HomeScreen> {
   // final searchController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     // SystemChrome.setSystemUIOverlayStyle(
     //   const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
@@ -189,52 +195,54 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context) {
         // print(object)
 
-        return Container(
-          constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.height,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 8,
-                  bottom: 15,
-                  left: 12,
-                  right: 12,
-                ),
-                child: Container(
-                  height: 5,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[500],
-                    borderRadius: BorderRadius.circular(8),
+        return SafeArea(
+          child: Container(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 6,
+                    bottom: 12,
+                    left: 12,
+                    right: 12,
+                  ),
+                  child: Container(
+                    height: 5,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[500],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 12, bottom: 20),
-                child: Column(
-                  children: List.generate(
-                    typeList.length,
-                    (i) {
-                      return type(
-                        typeText: typeList[i].typeTitle,
-                        typeIcon: typeList[i].typeIcon,
-                        isSelected: typeList[i].typeSelect,
-                        onTap: () {
-                          // setState(() {
-                          //   typeList[index].typeSelect =
-                          //       !typeList[index].typeSelect;
-                          //   print(typeList[index].typeSelect);
-                          // });
-                        },
-                      );
-                    },
+                Padding(
+                  padding: const EdgeInsets.only(top: 12, bottom: 20),
+                  child: Column(
+                    children: List.generate(
+                      typeList.length,
+                      (i) {
+                        return type(
+                          typeText: typeList[i].typeTitle,
+                          typeIcon: typeList[i].typeIcon,
+                          isSelected: typeList[i].typeSelect,
+                          onTap: () {
+                            // setState(() {
+                            //   typeList[index].typeSelect =
+                            //       !typeList[index].typeSelect;
+                            //   print(typeList[index].typeSelect);
+                            // });
+                          },
+                        );
+                      },
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         );
       },

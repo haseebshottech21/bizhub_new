@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 import '../../components/deafult_button.dart';
 import '../../utils/mytheme.dart';
+import '../../utils/routes/routes_name.dart';
 import '../../widgets/common/app_bar.dart';
 
 class OTPSuccessScreen extends StatefulWidget {
@@ -87,6 +88,7 @@ class _OTPSuccessScreenState extends State<OTPSuccessScreen>
                   onPress: () {
                     // print(authViewModel.loading);
                     // authViewModel.login(context);
+                    Navigator.pushNamed(context, RouteName.login);
                   },
                 ),
               ],

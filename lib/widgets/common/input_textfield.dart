@@ -1,80 +1,80 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart';
 import '../../utils/icons.dart';
 import '../../utils/mytheme.dart';
 
-class InputTextfield extends StatefulWidget {
-  final String hintText;
-  final TextEditingController controller;
-  final IconData icon;
-  final bool isPassword;
-  bool obscureText;
-  InputTextfield({
-    required this.hintText,
-    required this.controller,
-    required this.icon,
-    this.isPassword = false,
-    this.obscureText = true,
-    Key? key,
-  }) : super(key: key);
+// class InputTextfield extends StatefulWidget {
+//   final String hintText;
+//   final TextEditingController controller;
+//   final IconData icon;
+//   final bool isPassword;
+//   bool obscureText;
+//   InputTextfield({
+//     required this.hintText,
+//     required this.controller,
+//     required this.icon,
+//     this.isPassword = false,
+//     this.obscureText = true,
+//     Key? key,
+//   }) : super(key: key);
 
-  @override
-  State<InputTextfield> createState() => _InputTextfieldState();
-}
+//   @override
+//   State<InputTextfield> createState() => _InputTextfieldState();
+// }
 
-class _InputTextfieldState extends State<InputTextfield> {
-  bool passwordVisible = false;
+// class _InputTextfieldState extends State<InputTextfield> {
+//   bool passwordVisible = false;
 
-  togglePassword() {
-    passwordVisible = !passwordVisible;
-    widget.obscureText = !widget.obscureText;
-    setState(() {});
-  }
+//   togglePassword() {
+//     passwordVisible = !passwordVisible;
+//     widget.obscureText = !widget.obscureText;
+//     setState(() {});
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: widget.controller,
-      obscureText: widget.isPassword ? widget.obscureText : false,
-      style: const TextStyle(color: Colors.black),
-      cursorColor: MyTheme.greenColor,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(2),
-          borderSide: BorderSide.none,
-        ),
-        hintText: widget.hintText,
-        hintStyle: const TextStyle(color: Colors.black45),
-        fillColor: MyTheme.greyColor,
-        filled: true,
-        prefixIcon: Padding(
-          padding: const EdgeInsets.only(left: 12),
-          child: Icon(
-            widget.icon,
-            color: MyTheme.greenColor,
-          ),
-        ),
-        prefixText: '  ',
-        suffixIcon: widget.isPassword
-            ? GestureDetector(
-                onTap: togglePassword,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 5),
-                  child: Icon(
-                    passwordVisible ? Icons.remove_red_eye : Icons.elderly,
-                    color: MyTheme.greenColor,
-                    // passwordVisible ? showPassword : hidePassword,
-                    // color: node.hasFocus
-                    //     ? const Color(0xFFbc5590)
-                    //     : Colors.grey[400],
-                  ),
-                ),
-              )
-            : null,
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return TextFormField(
+//       controller: widget.controller,
+//       obscureText: widget.isPassword ? widget.obscureText : false,
+//       style: const TextStyle(color: Colors.black),
+//       cursorColor: MyTheme.greenColor,
+//       decoration: InputDecoration(
+//         border: OutlineInputBorder(
+//           borderRadius: BorderRadius.circular(2),
+//           borderSide: BorderSide.none,
+//         ),
+//         hintText: widget.hintText,
+//         hintStyle: const TextStyle(color: Colors.black45),
+//         fillColor: MyTheme.greyColor,
+//         filled: true,
+//         prefixIcon: Padding(
+//           padding: const EdgeInsets.only(left: 12),
+//           child: Icon(
+//             widget.icon,
+//             color: MyTheme.greenColor,
+//           ),
+//         ),
+//         prefixText: '  ',
+//         suffixIcon: widget.isPassword
+//             ? GestureDetector(
+//                 onTap: togglePassword,
+//                 child: Padding(
+//                   padding: const EdgeInsets.only(right: 5),
+//                   child: Icon(
+//                     passwordVisible ? Icons.remove_red_eye : Icons.elderly,
+//                     color: MyTheme.greenColor,
+//                     // passwordVisible ? showPassword : hidePassword,
+//                     // color: node.hasFocus
+//                     //     ? const Color(0xFFbc5590)
+//                     //     : Colors.grey[400],
+//                   ),
+//                 ),
+//               )
+//             : null,
+//       ),
+//     );
+//   }
+// }
 
 class InputTextFormField extends StatelessWidget {
   const InputTextFormField({
@@ -83,12 +83,14 @@ class InputTextFormField extends StatelessWidget {
     required this.controller,
     required this.icon,
     required this.validator,
+    this.inputFormatters,
   }) : super(key: key);
 
   final String hintText;
   final TextEditingController controller;
   final IconData icon;
   final Function validator;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
@@ -99,6 +101,7 @@ class InputTextFormField extends StatelessWidget {
         style: const TextStyle(color: Colors.black),
         cursorColor: MyTheme.greenColor,
         validator: (value) => validator(value),
+        inputFormatters: inputFormatters,
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(2),
@@ -130,11 +133,13 @@ class InputPasswordTextFormField extends StatelessWidget {
     required this.validator,
     required this.onPress,
     required this.obscureText,
+    this.password,
     Key? key,
   }) : super(key: key);
 
   final String hintText;
   final TextEditingController controller;
+  final TextEditingController? password;
   final IconData fontAwsomeIcon;
   final Function validator;
   final Function onPress;
@@ -151,7 +156,12 @@ class InputPasswordTextFormField extends StatelessWidget {
         onSaved: (newValue) {
           controller.text = newValue!;
         },
-        validator: (value) => validator(value),
+        validator: (value) => password == null
+            ? validator(value)
+            : validator(
+                value!.trim(),
+                password!.text.trim(),
+              ),
         obscureText: obscureText,
         decoration: InputDecoration(
           border: OutlineInputBorder(
@@ -189,8 +199,10 @@ class InputPasswordTextFormField extends StatelessWidget {
 
 class LabelTextField extends StatelessWidget {
   final String label;
+  final TextEditingController controller;
   const LabelTextField({
     required this.label,
+    required this.controller,
     Key? key,
   }) : super(key: key);
 
@@ -212,6 +224,7 @@ class LabelTextField extends StatelessWidget {
           cursorColor: MyTheme.greenColor,
           // keyboardType: TextInputType.multiline,
           // maxLines: null,
+          controller: controller,
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.only(
               left: 15,
@@ -249,7 +262,6 @@ class LabelTextField extends StatelessWidget {
     );
   }
 }
-
 
 class EditLabelTextFields extends StatelessWidget {
   final String label;
@@ -322,6 +334,67 @@ class EditLabelTextFields extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class FormTextAreaField extends StatelessWidget {
+  final String hintText;
+  final TextEditingController controller;
+  final Function validator;
+  final int maxLines;
+
+  const FormTextAreaField({
+    required this.hintText,
+    required this.controller,
+    required this.validator,
+    required this.maxLines,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      textAlignVertical: TextAlignVertical.center,
+
+      onSaved: (newValue) {
+        controller.text = newValue!;
+      },
+      validator: (value) => validator(value),
+
+      // textAlign: TextAlign.left,
+      // validator: widget.validator,
+      minLines:
+          maxLines, // any number you need (It works as the rows for the textarea)
+      keyboardType: TextInputType.multiline,
+      maxLines: null,
+      decoration: InputDecoration(
+        // contentPadding: const EdgeInsets.all(10.0),
+        filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.black87),
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: MyTheme.greenColor, width: 1.5),
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        hintText: hintText,
+        hintStyle: const TextStyle(color: Colors.black54),
+        // hintStyle: GoogleFonts.montserrat(color: Colors.black),
+        // isDense: true,
+        // helperText: 'Keep it short, this is just a demo.',
+        // prefixIcon: Padding(
+        //   padding: const EdgeInsets.only(left: 15),
+        //   child: widget.prefixIcon,
+        // ),
+        prefixText: '  ',
+        // suffixIcon: suffixIcon,
+        // suffixText: 'USD',
+        // suffixStyle: const TextStyle(color: Colors.green)),
       ),
     );
   }

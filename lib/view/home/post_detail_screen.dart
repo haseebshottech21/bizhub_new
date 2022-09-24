@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 import '../../utils/mytheme.dart';
 import 'components/make_offer.dart';
+import 'components/send_message.dart';
 
 class PostJobDetail extends StatefulWidget {
   const PostJobDetail({Key? key}) : super(key: key);
@@ -42,6 +43,25 @@ class _PostJobDetailState extends State<PostJobDetail> {
       );
     }
 
+    void sendMessage(BuildContext context) {
+      showModalBottomSheet(
+        backgroundColor: Colors.white,
+        context: context,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(15.0),
+          ),
+        ),
+        builder: (context) => SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: const SendMessage(),
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       bottomSheet: SafeArea(
         child: Container(
@@ -63,7 +83,7 @@ class _PostJobDetailState extends State<PostJobDetail> {
               Expanded(
                 child: DeafultIconButton(
                   title: 'Message',
-                  onPress: () {},
+                  onPress: () => sendMessage(context),
                   icon: chat,
                 ),
               ),

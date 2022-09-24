@@ -1,19 +1,36 @@
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import '../../../utils/mytheme.dart';
+import '../../../view_model/auth_view_model.dart';
 import '../../../widgets/common/cached_image.dart';
 
-class ViewMyProfile extends StatelessWidget {
+class ViewMyProfile extends StatefulWidget {
   const ViewMyProfile({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    // SystemChrome.setSystemUIOverlayStyle(
-    //   const SystemUiOverlayStyle(statusBarColor: MyTheme.greenColor),
-    // );
+  State<ViewMyProfile> createState() => _ViewMyProfileState();
+}
 
-    final size = MediaQuery.of(context).size;
+class _ViewMyProfileState extends State<ViewMyProfile> {
+  getData() {
+    final auth = context.read<AuthViewModel>();
+    auth.setPrefrenceValues();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      getData();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final auth = context.watch<AuthViewModel>();
+
+    // final size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -33,7 +50,10 @@ class ViewMyProfile extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const ViewProfile(),
+          ViewProfile(
+            userName:
+                '${auth.getPrefrenceValue('firstName')} ${auth.getPrefrenceValue('lastName')}',
+          ),
           const SizedBox(height: 15),
           const Padding(
             padding: EdgeInsets.only(left: 15),
@@ -69,7 +89,15 @@ class ViewMyProfile extends StatelessWidget {
                 ),
               ],
             ),
-          )
+          ),
+          // Text(
+          //   '${authViewModel.user!.firstName}',
+          //   textAlign: TextAlign.start,
+          //   style: TextStyle(
+          //     // decoration: TextDecoration.underline,
+          //     color: Colors.blue,
+          //   ),
+          // ),
         ],
       ),
     );
@@ -78,8 +106,11 @@ class ViewMyProfile extends StatelessWidget {
 
 class ViewProfile extends StatelessWidget {
   const ViewProfile({
+    required this.userName,
     Key? key,
   }) : super(key: key);
+
+  final String userName;
 
   @override
   Widget build(BuildContext context) {
@@ -113,9 +144,9 @@ class ViewProfile extends StatelessWidget {
                     'https://i.pinimg.com/736x/25/78/61/25786134576ce0344893b33a051160b1.jpg',
               ),
               const SizedBox(height: 12),
-              const Text(
-                'USER NAME',
-                style: TextStyle(
+              Text(
+                userName,
+                style: const TextStyle(
                   fontSize: 24,
                   color: Colors.white,
                   fontWeight: FontWeight.w500,

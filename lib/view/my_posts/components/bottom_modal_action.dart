@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../widgets/common/dialog_box.dart';
 
 class BottomModalAction extends StatelessWidget {
   final String text;
   final Color color;
+  final VoidCallback? onTap;
   const BottomModalAction({
     required this.text,
+    this.onTap,
     this.color = Colors.black,
     Key? key,
   }) : super(key: key);
@@ -14,15 +15,7 @@ class BottomModalAction extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       splashColor: Colors.transparent,
-      onTap: () {
-        Navigator.of(context).pop();
-        simpleDialog(
-          context: context,
-          title: 'Confirm Delete',
-          subTitle: 'Are you sure you want to Delete ?',
-          onPressed: () {},
-        );
-      },
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.only(
           top: 6,

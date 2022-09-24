@@ -19,8 +19,12 @@ class _LoginScreenState extends State<LoginScreen> {
   final emailAddressController = TextEditingController();
   final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
   final textFieldValidator = TextFieldValidators();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   validateAndLogin() {
     if (!_formKey.currentState!.validate()) {
@@ -33,13 +37,6 @@ class _LoginScreenState extends State<LoginScreen> {
       };
       authViewModel.login(data, context);
     }
-  }
-
-  @override
-  void dispose() {
-    emailAddressController.dispose();
-    passwordController.dispose();
-    super.dispose();
   }
 
   Widget bottom() {
@@ -114,14 +111,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     // ),
                     Consumer<AuthViewModel>(
                       builder: (ctx, authViewModel, _) {
-                        // return FormPasswordIconTextField(
-                        //   hintText: 'Enter Password',
-                        //   controller: passwordController,
-                        //   fontAwsomeIcon: passwordIcon,
-                        //   validator: textFieldValidator.passwordErrorGetter,
-                        //   onPress: signupToggle.togglePassword,
-                        //   obscureText: signupToggle.passwordVisible,
-                        // );
                         return InputPasswordTextFormField(
                           controller: passwordController,
                           hintText: 'Password',
@@ -187,9 +176,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           title: 'Log In',
                           isloading: authViewModel.loading,
                           onPress: () {
-                            // validateAndLogin();
+                            validateAndLogin();
                             // print(authViewModel.loading);
-                            authViewModel.signIn(context);
+                            // authViewModel.signIn(context);
                           },
                         );
                       },
@@ -202,5 +191,12 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    emailAddressController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 }

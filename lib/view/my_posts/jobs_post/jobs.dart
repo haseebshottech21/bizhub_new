@@ -46,9 +46,7 @@ class _JobsPostState extends State<JobsPost> {
                 padding: const EdgeInsets.all(8.0),
                 itemCount: postView.getMyPosts.length,
                 itemBuilder: (context, index) {
-                  return JobPostItem(
-                    myJob: postView.getMyPosts[index],
-                  );
+                  return JobPostItem(myJob: postView.getMyPosts[index]);
                 },
               );
       },

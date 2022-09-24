@@ -14,16 +14,24 @@ class MoreScreen extends StatefulWidget {
 }
 
 class _MoreScreenState extends State<MoreScreen> {
+  getData() {
+    final auth = context.read<AuthViewModel>();
+    auth.setPrefrenceValues();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      getData();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setSystemUIOverlayStyle(
-    //   const SystemUiOverlayStyle(statusBarColor: MyTheme.greenColor),
-    // );
+    final auth = context.watch<AuthViewModel>();
 
-    // AuthViewModel authViewModel =
-    //     Provider.of<AuthViewModel>(context, listen: false);
-
-    final authViewModel = context.watch<AuthViewModel>();
+    // print(authViewModel.user!.firstName.toString());
 
     final size = MediaQuery.of(context).size;
 
@@ -38,158 +46,146 @@ class _MoreScreenState extends State<MoreScreen> {
         ),
       ),
       body: SafeArea(
-        child: Stack(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const ViewProfile(),
-                const SizedBox(height: 15),
-                const Padding(
-                  padding: EdgeInsets.only(left: 15),
-                  child: Text(
-                    'General',
-                    style: TextStyle(
-                      // color: Theme.of(context).textTheme.bodyText1!.color,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15),
-                moreItem(
-                  context: context,
-                  text: 'Change Password',
-                  iconData: Icons.lock,
-                  onTap: () {
-                    Navigator.pushNamed(context, RouteName.changePassword);
-                  },
-                ),
-                moreItem(
-                  context: context,
-                  text: 'About Us',
-                  iconData: Icons.perm_device_info,
-                  onTap: () {
-                    Navigator.pushNamed(context, RouteName.aboutUs);
-                  },
-                ),
-                // moreItem(
-                //   context: context,
-                //   text: 'Contact Us',
-                //   iconData: Icons.phone,
-                //   onTap: () {
-                //     Navigator.pushNamed(context, RouteName.contactUs);
-                //   },
-                // ),
-                moreItem(
-                  context: context,
-                  text: 'Term & Condition',
-                  iconData: Icons.bookmark_add_rounded,
-                  onTap: () {
-                    Navigator.pushNamed(context, RouteName.termAndCondition);
-                  },
-                ),
-                moreItem(
-                  context: context,
-                  text: 'Privacy Policy',
-                  iconData: Icons.privacy_tip,
-                  onTap: () {
-                    Navigator.pushNamed(context, RouteName.privacyPolicy);
-                  },
-                ),
-                // moreItem(
-                //   context: context,
-                //   text: 'Logout',
-                //   iconData: dashboadOutline,
-                //   onTap: () {
-                //     simpleDialog(
-                //       context: context,
-                //       title: 'Confirm Logout',
-                //       subTitle: 'You are about to logout',
-                //       onPressed: () {
-                //         Navigator.of(context).pop();
-                //         // authViewModel.logout(context);
-
-                //         context.read<AuthViewModel>().logout(context);
-                //       },
-                //     );
-                //   },
-                // ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16.0, 12.0, 14.0, 14.0),
-                  child: TextButton(
-                    onPressed: () {
-                      simpleDialog(
-                        context: context,
-                        title: 'Confirm Logout',
-                        subTitle: 'You are about to logout',
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          // authViewModel.logout(context);
-
-                          context.read<AuthViewModel>().logout(context);
-                        },
-                      );
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                        Colors.red.withOpacity(0.1),
-                      ),
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                        const EdgeInsets.fromLTRB(30.0, 6.0, 30.0, 6.0),
-                      ),
-                    ),
-                    child: const Text(
-                      'Logout',
-                      style: TextStyle(
-                        color: MyTheme.redBorder,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ),
-                // Padding(
-                //   padding: const EdgeInsets.only(
-                //     top: 14,
-                //     bottom: 14,
-                //     left: 16,
-                //     right: 16,
-                //   ),
-                //   child:
-                //       // Consumer<AuthViewModel>(
-                //       //   builder: (context, authViewModel, _) {
-                //       //     return
-                //       ElevatedButton(
-                //     onPressed: () {
-                //       simpleDialog(
-                //         context: context,
-                //         title: 'Confirm Logout',
-                //         subTitle: 'You are about to logout',
-                //         onPressed: () {
-                //           Navigator.of(context).pop();
-                //           // authViewModel.logout(context);
-
-                //           context.read<AuthViewModel>().logout(context);
-                //         },
-                //       );
-                //     },
-                //     child: const Text('Logout'),
-                //   ),
-                // ),
-              ],
+            ViewProfile(
+              userName:
+                  '${auth.getPrefrenceValue('firstName')} ${auth.getPrefrenceValue('lastName')}',
             ),
-            // context.read<AuthViewModel>().loading
-            authViewModel.loading
-                ? const Center(child: CircularProgressIndicator())
-                : const SizedBox()
-            // Consumer<AuthViewModel>(
-            //   builder: (context, authViewModel, _) {
-            //     return authViewModel.loading
-            //         ? const Center(child: CircularProgressIndicator())
-            //         : const SizedBox();
+            const SizedBox(height: 15),
+            const Padding(
+              padding: EdgeInsets.only(left: 15),
+              child: Text(
+                'General',
+                style: TextStyle(
+                  // color: Theme.of(context).textTheme.bodyText1!.color,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                  letterSpacing: 0.5,
+                ),
+              ),
+            ),
+            const SizedBox(height: 15),
+            moreItem(
+              context: context,
+              text: 'Change Password',
+              iconData: Icons.lock,
+              onTap: () {
+                Navigator.pushNamed(context, RouteName.changePassword);
+              },
+            ),
+            moreItem(
+              context: context,
+              text: 'About Us',
+              iconData: Icons.perm_device_info,
+              onTap: () {
+                Navigator.pushNamed(context, RouteName.aboutUs);
+              },
+            ),
+            // moreItem(
+            //   context: context,
+            //   text: 'Contact Us',
+            //   iconData: Icons.phone,
+            //   onTap: () {
+            //     Navigator.pushNamed(context, RouteName.contactUs);
             //   },
+            // ),
+            moreItem(
+              context: context,
+              text: 'Term & Condition',
+              iconData: Icons.bookmark_add_rounded,
+              onTap: () {
+                Navigator.pushNamed(context, RouteName.termAndCondition);
+              },
+            ),
+            moreItem(
+              context: context,
+              text: 'Privacy Policy',
+              iconData: Icons.privacy_tip,
+              onTap: () {
+                Navigator.pushNamed(context, RouteName.privacyPolicy);
+              },
+            ),
+            // moreItem(
+            //   context: context,
+            //   text: 'Logout',
+            //   iconData: dashboadOutline,
+            //   onTap: () {
+            //     simpleDialog(
+            //       context: context,
+            //       title: 'Confirm Logout',
+            //       subTitle: 'You are about to logout',
+            //       onPressed: () {
+            //         Navigator.of(context).pop();
+            //         // authViewModel.logout(context);
+
+            //         context.read<AuthViewModel>().logout(context);
+            //       },
+            //     );
+            //   },
+            // ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16.0, 12.0, 14.0, 14.0),
+              child: TextButton(
+                onPressed: () {
+                  simpleShowDialog(
+                    context: context,
+                    title: 'Confirm Logout',
+                    subTitle: 'You are about to logout',
+                    press: () {
+                      Navigator.of(context).pop();
+                      // authViewModel.logout(context);
+
+                      context.read<AuthViewModel>().logout(context);
+                    },
+                  );
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    Colors.red.withOpacity(0.1),
+                  ),
+                  padding: MaterialStateProperty.all<EdgeInsets>(
+                    const EdgeInsets.fromLTRB(30.0, 6.0, 30.0, 6.0),
+                  ),
+                ),
+                child: const Text(
+                  'Logout',
+                  style: TextStyle(
+                    color: MyTheme.redBorder,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(
+            //     top: 14,
+            //     bottom: 14,
+            //     left: 16,
+            //     right: 16,
+            //   ),
+            //   child:
+            //       // Consumer<AuthViewModel>(
+            //       //   builder: (context, authViewModel, _) {
+            //       //     return
+            //       ElevatedButton(
+            //     onPressed: () {
+            //       simpleDialog(
+            //         context: context,
+            //         title: 'Confirm Logout',
+            //         subTitle: 'You are about to logout',
+            //         onPressed: () {
+            //           Navigator.of(context).pop();
+            //           // authViewModel.logout(context);
+
+            //           context.read<AuthViewModel>().logout(context);
+            //         },
+            //       );
+            //     },
+            //     child: const Text('Logout'),
+            //   ),
             // ),
           ],
         ),
@@ -254,8 +250,11 @@ class _MoreScreenState extends State<MoreScreen> {
 
 class ViewProfile extends StatelessWidget {
   const ViewProfile({
+    required this.userName,
     Key? key,
   }) : super(key: key);
+
+  final String userName;
 
   @override
   Widget build(BuildContext context) {
@@ -296,9 +295,9 @@ class ViewProfile extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'USER NAME',
-                    style: TextStyle(
+                  Text(
+                    userName,
+                    style: const TextStyle(
                       fontSize: 24,
                       color: Colors.white,
                       fontWeight: FontWeight.w500,

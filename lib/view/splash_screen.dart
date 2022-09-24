@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-
 import '../utils/mytheme.dart';
 import '../utils/routes/routes_name.dart';
+import '../utils/shared_prefrences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -15,6 +15,7 @@ class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
+  final prefrences = Prefrences();
 
   @override
   void initState() {
@@ -29,12 +30,25 @@ class _SplashScreenState extends State<SplashScreen>
     );
     _animationController.forward();
 
-    Timer(
-      const Duration(milliseconds: 2500),
-      () => Navigator.pushNamed(context, RouteName.onboard),
-    );
+    checkAuthentication();
 
     super.initState();
+  }
+
+  void checkAuthentication() async {
+    final token = await prefrences.getSharedPreferenceValue('token');
+    // print('token ' + token.toString());
+    if (token == null || token == '') {
+      Timer(
+        const Duration(milliseconds: 2500),
+        () => Navigator.pushNamed(context, RouteName.onboard),
+      );
+    } else {
+      Timer(
+        const Duration(milliseconds: 2500),
+        () => Navigator.pushNamed(context, RouteName.home),
+      );
+    }
   }
 
   @override

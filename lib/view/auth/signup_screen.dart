@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../components/deafult_button.dart';
+import '../../utils/field_validator.dart';
 import '../../utils/mytheme.dart';
 import '../../utils/routes/routes_name.dart';
 import '../../view_model/auth_view_model.dart';
@@ -24,8 +25,42 @@ class _SignupScreenState extends State<SignupScreen> {
   final phoneNumberController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
-  // final textFieldValidator = TextFieldValidators();
+  final textFieldValidator = TextFieldValidators();
   final _formKey = GlobalKey<FormState>();
+
+  //   final emailAddressController = TextEditingController();
+  // final passwordController = TextEditingController();
+  // final _formKey = GlobalKey<FormState>();
+
+  // final textFieldValidator = TextFieldValidators();
+
+  validateAndSignup() {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    } else {
+      final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
+      Map data = {
+        "first_name": firstNameController.text.trim(),
+        "last_name": lastNameController.text.trim(),
+        "email": emailAddressController.text.trim(),
+        "phone": phoneNumberController.text.trim(),
+        "password": passwordController.text.trim(),
+        "password_confirmation": confirmPasswordController.text.trim(),
+        "device_id": '123',
+      };
+      authViewModel.signUp(data, context);
+    }
+  }
+
+  @override
+  void dispose() {
+    firstNameController.dispose();
+    lastNameController.dispose();
+    emailAddressController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,42 +98,65 @@ class _SignupScreenState extends State<SignupScreen> {
                     children: [
                       const ProfileImage(),
                       const SizedBox(height: 15),
-                      InputTextfield(
+                      InputTextFormField(
                         controller: firstNameController,
                         hintText: 'First Name',
                         icon: Icons.person,
+                        validator: textFieldValidator.firstNameErrorGetter,
                       ),
                       const SizedBox(height: 8),
-                      InputTextfield(
+                      InputTextFormField(
                         controller: lastNameController,
                         hintText: 'Last Name',
                         icon: Icons.person,
+                        validator: textFieldValidator.lastNameErrorGetter,
                       ),
                       const SizedBox(height: 8),
-                      InputTextfield(
+                      InputTextFormField(
                         controller: emailAddressController,
                         hintText: 'Email Address',
                         icon: Icons.email,
+                        validator: textFieldValidator.emailErrorGetter,
                       ),
                       const SizedBox(height: 8),
-                      InputTextfield(
-                        controller: emailAddressController,
+                      InputTextFormField(
+                        controller: phoneNumberController,
                         hintText: 'Phone',
                         icon: Icons.phone,
+                        validator: textFieldValidator.phoneNumberErrorGetter,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(11),
+                        ],
                       ),
                       const SizedBox(height: 8),
-                      InputTextfield(
-                        controller: passwordController,
-                        hintText: 'Password',
-                        icon: Icons.password,
-                        isPassword: true,
-                      ),
-                      const SizedBox(height: 8),
-                      InputTextfield(
-                        controller: confirmPasswordController,
-                        hintText: 'Confirm Password',
-                        icon: Icons.password,
-                        isPassword: true,
+                      Consumer<AuthViewModel>(
+                        builder: (context, authViewModel, _) {
+                          return Column(
+                            children: [
+                              InputPasswordTextFormField(
+                                controller: passwordController,
+                                hintText: 'Password',
+                                fontAwsomeIcon: Icons.password,
+                                validator:
+                                    textFieldValidator.passwordErrorGetter,
+                                obscureText: authViewModel.passwordHide,
+                                onPress: authViewModel.togglePassword,
+                              ),
+                              const SizedBox(height: 8),
+                              InputPasswordTextFormField(
+                                controller: confirmPasswordController,
+                                hintText: 'Confirm Password',
+                                fontAwsomeIcon: Icons.password,
+                                validator: textFieldValidator
+                                    .confirmPasswordErrorGetter,
+                                password: passwordController,
+                                obscureText: authViewModel.confirmPasswordHide,
+                                onPress: authViewModel.toggleConfirmPassword,
+                              ),
+                            ],
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -135,9 +193,11 @@ class _SignupScreenState extends State<SignupScreen> {
                   return DeafultButton(
                     title: 'Sign Up',
                     isloading: authViewModel.loading,
+                    // onPress: validateAndSignup,
                     onPress: () {
+                      validateAndSignup();
                       // print(authViewModel.loading);
-                      authViewModel.signUp(context);
+                      // authViewModel.signUp(context);
                     },
                   );
                 },

@@ -18,6 +18,7 @@ class RouteName {
 
   // Posts
   static const String myJobDetail = 'my_job_detail';
+  static const String myJobComplete = 'my_job_complete';
 
   // Create Job / Service
   static const String selectService = 'select_service_screen';

@@ -10,15 +10,6 @@ class TextFieldValidators {
     return null;
   }
 
-  dynamic uniqueTokenErrorGetter(String value) {
-    if (value.isEmpty) {
-      return 'Please Enter Token';
-    } else if (value.length != 4) {
-      return 'Token must be 4 characters';
-    }
-    return null;
-  }
-
   dynamic lastNameErrorGetter(String value) {
     if (value.isEmpty) {
       return 'Please Enter Last Name';
@@ -26,6 +17,15 @@ class TextFieldValidators {
       return 'Last Name length Should be less than 30';
     } else if (value.length < 3) {
       return 'Last Name must at least 3 characters';
+    }
+    return null;
+  }
+
+  dynamic uniqueTokenErrorGetter(String value) {
+    if (value.isEmpty) {
+      return 'Please Enter Token';
+    } else if (value.length != 4) {
+      return 'Token must be 4 characters';
     }
     return null;
   }

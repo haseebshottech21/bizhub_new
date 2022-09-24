@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 
 class BottomNavigationViewModel with ChangeNotifier {
-  int _currentIndex = 0;
+  int bottomIndex = 0;
 
-  int get currentIndex => _currentIndex;
+  int get currentIndex => bottomIndex;
 
   // set currentIndex(int index) {
   //   _currentIndex = index;
@@ -11,7 +11,7 @@ class BottomNavigationViewModel with ChangeNotifier {
   // }
 
   toggleCurrentIndex(int index) {
-    _currentIndex = index;
+    bottomIndex = index;
     notifyListeners();
   }
 }

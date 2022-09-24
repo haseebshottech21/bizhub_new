@@ -14,6 +14,7 @@ import 'package:bizhub_new/view/create/select_service.dart';
 import 'package:bizhub_new/view/home/filter_screen.dart';
 import 'package:bizhub_new/view/home/post_detail_screen.dart';
 import 'package:bizhub_new/view/home/search_posts.dart';
+import 'package:bizhub_new/view/my_posts/jobs_post/job_complete.dart';
 import 'package:bizhub_new/view/navigation/bottom_navigation.dart';
 import 'package:bizhub_new/view/onboard_screen.dart';
 import 'package:bizhub_new/view/splash_screen.dart';
@@ -57,6 +58,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const SearchPosts());
       case RouteName.myJobDetail:
         return MaterialPageRoute(builder: (context) => const MyJobDetail());
+      case RouteName.myJobComplete:
+        return MaterialPageRoute(builder: (context) => const JobComplete());
       case RouteName.selectService:
         return MaterialPageRoute(builder: (context) => const SelectService());
       case RouteName.selectCategory:

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../model/post_model.dart';
 import '../../../utils/mytheme.dart';
+import '../../../widgets/common/dialog_box.dart';
 import 'bottom_modal_action.dart';
 
 class JobPostItem extends StatelessWidget {
@@ -97,17 +98,58 @@ class JobPostItem extends StatelessWidget {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               mainAxisSize: MainAxisSize.min,
-                                              children: const [
-                                                SizedBox(height: 10),
+                                              children: [
+                                                const SizedBox(height: 10),
                                                 BottomModalAction(
                                                   text: 'Delete',
                                                   color: Colors.red,
+                                                  onTap: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) =>
+                                                          simpleDialog(
+                                                        context: context,
+                                                        title:
+                                                            'Confirm Delete ?',
+                                                        subTitle:
+                                                            'Are you sure to delete job!',
+                                                        onPressed: () {},
+                                                      ),
+                                                    );
+                                                  },
                                                 ),
                                                 BottomModalAction(
-                                                    text: 'Mark as complete'),
+                                                  text: 'Mark as complete',
+                                                  onTap: () {
+                                                    Navigator.of(context).pop();
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) =>
+                                                          simpleDialog(
+                                                        context: context,
+                                                        title:
+                                                            'Confirm Completed ?',
+                                                        subTitle:
+                                                            'Are you sure your job complete!',
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                          Navigator.pushNamed(
+                                                              context,
+                                                              RouteName
+                                                                  .myJobComplete);
+                                                        },
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
                                                 BottomModalAction(
-                                                    text: 'Cancel'),
-                                                SizedBox(height: 15),
+                                                  text: 'Cancel',
+                                                  onTap: () =>
+                                                      Navigator.of(context)
+                                                          .pop(),
+                                                ),
+                                                const SizedBox(height: 15),
                                               ],
                                             ),
                                           ),
