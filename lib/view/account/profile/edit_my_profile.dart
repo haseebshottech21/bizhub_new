@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../components/deafult_button.dart';
 import '../../../widgets/common/app_bar.dart';
 import '../../../widgets/common/input_textfield.dart';
-import '../../../widgets/common/profile_image.dart';
+import '../component/profile_image.dart';
 
 class EditMyProfile extends StatefulWidget {
   const EditMyProfile({Key? key}) : super(key: key);
@@ -27,6 +27,7 @@ class _EditMyProfileState extends State<EditMyProfile> {
     lastNameController.text = auth.user!.lastName.toString();
     emailAddressController.text = auth.user!.email.toString();
     phoneNumberController.text = auth.user!.phone.toString();
+    // print('Image: ' + auth.image.toString());
   }
 
   @override
@@ -47,6 +48,9 @@ class _EditMyProfileState extends State<EditMyProfile> {
         "last_name": lastNameController.text.trim(),
         "email": emailAddressController.text.trim(),
         "phone": phoneNumberController.text.trim(),
+        // if (authViewModel.imageDetail['imagePath'].toString().isNotEmpty)
+        //   "image": authViewModel.imageDetail['image'].toString(),
+        // "extension": authViewModel.imageDetail['extension'].toString(),
         "device_id": '123',
       };
       authViewModel.updateUser(data, context);

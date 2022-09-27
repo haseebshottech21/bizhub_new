@@ -144,10 +144,72 @@ class AuthRepository {
     }
   }
 
+  Future<dynamic> forgotPasswordApi(dynamic data) async {
+    try {
+      http.Response response = await http.post(
+        Uri.parse(AppUrl.forgotPasswordEndPoint),
+        body: data,
+        headers: AppUrl.header,
+      );
+      final responseLoaded = jsonDecode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print(responseLoaded.toString());
+        return responseLoaded;
+      } else {
+        Utils.toastMessage(responseLoaded['message']);
+      }
+    } catch (e) {
+      // print(e.toString());
+      Utils.toastMessage(e.toString());
+      // Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  Future<dynamic> resetPasswordApi(dynamic data) async {
+    try {
+      http.Response response = await http.post(
+        Uri.parse(AppUrl.resetPasswordEndPoint),
+        body: data,
+        headers: AppUrl.header,
+      );
+      final responseLoaded = jsonDecode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print(responseLoaded.toString());
+        return responseLoaded;
+      } else {
+        Utils.toastMessage(responseLoaded['message']);
+      }
+    } catch (e) {
+      // print(e.toString());
+      Utils.toastMessage(e.toString());
+      // Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
   Future<dynamic> updateUserApi(dynamic data) async {
     try {
       http.Response response = await http.post(
         Uri.parse(AppUrl.updateUserEndPoint),
+        body: data,
+        headers: await AppUrl().headerWithAuth(),
+      );
+      final responseLoaded = jsonDecode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        updateCrediential(responseLoaded['data']);
+        return responseLoaded;
+      } else {
+        Utils.toastMessage(responseLoaded['message']);
+      }
+    } catch (e) {
+      // print(e.toString());
+      Utils.toastMessage(e.toString());
+    }
+  }
+
+  Future<dynamic> updatePasswordApi(dynamic data) async {
+    try {
+      http.Response response = await http.post(
+        Uri.parse(AppUrl.updatePasswordEndPoint),
         body: data,
         headers: await AppUrl().headerWithAuth(),
       );

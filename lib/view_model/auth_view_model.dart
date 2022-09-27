@@ -1,4 +1,6 @@
 // import 'package:bizhub_new/model/user_model.dart';
+import 'dart:convert';
+import 'dart:io';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/utils/shared_prefrences.dart';
 import 'package:flutter/foundation.dart';
@@ -12,6 +14,7 @@ import 'bottom_navigation_view_model.dart';
 class AuthViewModel extends ChangeNotifier {
   final authRepo = AuthRepository();
   final prefrences = Prefrences();
+  File? image;
   UserModel? user;
 
   // bool isLoading = false;
@@ -61,6 +64,30 @@ class AuthViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Map<String, String> imageDetail = {
+    'image': '',
+    'imagePath': '',
+    'extension': ''
+  };
+
+  Future setImage({
+    required BuildContext context,
+    required File file,
+  }) async {
+    image = file;
+    Navigator.of(context).pop();
+
+    final bytes = File(image!.path).readAsBytesSync();
+    String base64Image =
+        "data:image/${image!.path.split('.').last};base64,${base64Encode(bytes)}";
+    imageDetail = {
+      'image': base64Image,
+      'imagePath': image!.path,
+      'extension': image!.path.split('.').last
+    };
+    notifyListeners();
+  }
+
   Map<String, String> prefrence = {
     'firstName': '',
     'lastName': '',
@@ -79,7 +106,7 @@ class AuthViewModel extends ChangeNotifier {
       'email': email,
       'phone': phone,
     };
-    print(prefrence);
+    // print(prefrence);
     notifyListeners();
   }
 
@@ -96,34 +123,6 @@ class AuthViewModel extends ChangeNotifier {
       setLoad(false);
     }
   }
-
-  // Future<void> login(dynamic data, BuildContext context) async {
-  //   setLoad(true);
-  //   authRepo.loginApi(data).then((value) {
-  //     Future.delayed(const Duration(seconds: 3)).then(
-  //       (value) {
-  //         // print(value);
-  //         setLoad(false);
-  //         if (kDebugMode) {
-  //           // clearFields();
-  //           Navigator.of(context).pushNamedAndRemoveUntil(
-  //             RouteName.home,
-  //             (route) => false,
-  //           );
-  //           print('Successfully Login');
-  //           // Utils.toastMessage('Logging Successfully!');
-  //           Fluttertoast.showToast(msg: 'Logging Successfully!');
-  //         }
-  //       },
-  //     );
-  //   }).onError((error, stackTrace) {
-  //     setLoad(false);
-  //     Fluttertoast.showToast(msg: error.toString());
-  //     if (kDebugMode) {
-  //       print(error.toString());
-  //     }
-  //   });
-  // }
 
   Future<void> signIn(BuildContext context) async {
     setLoad(true);
@@ -227,6 +226,91 @@ class AuthViewModel extends ChangeNotifier {
     }
   }
 
+  Future<void> passwordVerificationEmail({
+    required String emailAddress,
+    required BuildContext context,
+  }) async {
+    setLoad(true);
+    Map data = {
+      'email': emailAddress,
+    };
+    if (emailAddress.isNotEmpty) {
+      await Prefrences().setSharedPreferenceValue('verifyemail', emailAddress);
+    }
+    final loadedData = await authRepo.forgotPasswordApi(data);
+    // print(loadedData);
+    if (loadedData == null) {
+      setLoad(false);
+    } else if (loadedData != null) {
+      Future.delayed(const Duration(seconds: 1)).then(
+        (value) {
+          // print(value);
+          setLoad(false);
+          if (kDebugMode) {
+            Navigator.pushNamed(context, RouteName.resetPassword);
+            Utils.toastMessage('Send Verification Code!');
+          }
+        },
+      );
+    }
+  }
+
+  Future<void> resetPassword({
+    required String verificationCode,
+    required String newPassword,
+    required String confirmNewPassword,
+    required BuildContext context,
+  }) async {
+    setLoad(true);
+    Map data = {
+      'forget_token': verificationCode,
+      'password': newPassword,
+      'password_confirmation': confirmNewPassword,
+      'email': await Prefrences().getSharedPreferenceValue('verifyemail'),
+    };
+    final loadedData = await authRepo.resetPasswordApi(data);
+    // print(loadedData);
+    if (loadedData == null) {
+      setLoad(false);
+    } else if (loadedData != null) {
+      Future.delayed(const Duration(seconds: 1)).then(
+        (value) {
+          // print(value);
+          setLoad(false);
+          if (kDebugMode) {
+            Navigator.pushNamed(context, RouteName.login);
+            Utils.toastMessage('Password Update Successfully!');
+          }
+        },
+      );
+    }
+  }
+
+  Future<void> updatePassword(
+    dynamic data,
+    BuildContext context,
+  ) async {
+    setLoad(true);
+    final loadedData = await authRepo.updatePasswordApi(data);
+    // print(loadedData);
+    if (loadedData == null) {
+      setLoad(false);
+    } else if (loadedData != null) {
+      Future.delayed(const Duration(seconds: 1)).then(
+        (value) {
+          // print(value);
+          setLoad(false);
+          if (kDebugMode) {
+            // clearFields();
+            Navigator.of(context).pop();
+            // print('Successfully Login');
+            Utils.toastMessage('Password Update Successfully!');
+          }
+        },
+      );
+    }
+  }
+
   // Future<void> signUp(BuildContext context) async {
   //   setLoad(true);
   //   Future.delayed(const Duration(seconds: 3)).then(
@@ -274,11 +358,13 @@ class AuthViewModel extends ChangeNotifier {
           setLoad(false);
           if (kDebugMode) {
             // clearFields();
-            Navigator.pushNamed(context, RouteName.otp);
-
             Provider.of<BottomNavigationViewModel>(context, listen: false)
                 .bottomIndex = 0;
-            Navigator.pushNamed(context, RouteName.login);
+            // Navigator.pushNamed(context, RouteName.login);
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              RouteName.login,
+              (route) => false,
+            );
             // print('Successfully Login');
             Utils.toastMessage('Logged Out');
           }

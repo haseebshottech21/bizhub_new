@@ -8,7 +8,7 @@ import '../../utils/mytheme.dart';
 import '../../utils/routes/routes_name.dart';
 import '../../view_model/auth_view_model.dart';
 import '../../widgets/common/auth_botom.dart';
-import '../../widgets/common/profile_image.dart';
+import '../account/component/profile_image.dart';
 import '../../widgets/common/input_textfield.dart';
 
 class SignupScreen extends StatefulWidget {

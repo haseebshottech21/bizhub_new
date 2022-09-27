@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Utils {
   // Change Focus Node
@@ -68,4 +72,21 @@ class Utils {
   //     Navigator.of(context).pop();
   //   }
   // }
+
+  Future<dynamic> getImageFromSource(
+    BuildContext context,
+    ImageSource source,
+  ) async {
+    try {
+      var image = await ImagePicker().pickImage(source: source);
+      if (image == null) return null;
+      // if (toCrop) {
+      //   var croppedImage = await cropImage(imageFile: File(image.path));
+      //   return croppedImage;
+      // }
+      return File(image.path);
+    } on PlatformException {
+      Navigator.of(context).pop();
+    }
+  }
 }

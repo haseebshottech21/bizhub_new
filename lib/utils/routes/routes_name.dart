@@ -7,6 +7,8 @@ class RouteName {
   static const String welcome = 'welcome_screen';
   static const String login = 'login_view';
   static const String signup = 'signup_view';
+  static const String forgotPassword = 'forgot_password';
+  static const String resetPassword = 'reset_password';
   static const String otp = 'otp_view';
   static const String otpSuccess = 'otp_success';
 

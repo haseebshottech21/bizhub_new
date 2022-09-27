@@ -3,8 +3,10 @@ import 'package:bizhub_new/view/account/change_password.dart';
 import 'package:bizhub_new/view/account/contact_us.dart';
 import 'package:bizhub_new/view/account/profile/edit_my_profile.dart';
 import 'package:bizhub_new/view/account/profile/view_my_profile.dart';
+import 'package:bizhub_new/view/auth/forgot_password_screen.dart';
 import 'package:bizhub_new/view/auth/login_screen.dart';
 import 'package:bizhub_new/view/auth/otp_sccess_screen.dart';
+import 'package:bizhub_new/view/auth/reset_password_screen.dart';
 import 'package:bizhub_new/view/auth/signup_screen.dart';
 import 'package:bizhub_new/view/auth/welcome_auth_screen.dart';
 import 'package:bizhub_new/view/chat/messages.dart';
@@ -41,6 +43,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const LoginScreen());
       case RouteName.signup:
         return MaterialPageRoute(builder: (context) => const SignupScreen());
+      case RouteName.forgotPassword:
+        return MaterialPageRoute(builder: (context) => const ForgotPassword());
+      case RouteName.resetPassword:
+        return MaterialPageRoute(builder: (context) => const ResetPassword());
       case RouteName.otp:
         return MaterialPageRoute(
             builder: (context) => const OTPVerificationScreen());

@@ -23,9 +23,9 @@ class TextFieldValidators {
 
   dynamic uniqueTokenErrorGetter(String value) {
     if (value.isEmpty) {
-      return 'Please Enter Token';
+      return 'Please Enter Code';
     } else if (value.length != 4) {
-      return 'Token must be 4 characters';
+      return 'Code must be 4 characters';
     }
     return null;
   }

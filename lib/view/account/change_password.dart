@@ -15,12 +15,25 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
-  final currentPasswordController = TextEditingController();
+  // final currentPasswordController = TextEditingController();
   final newPasswordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   final textFieldValidator = TextFieldValidators();
+
+  validateAndUpdate() {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    } else {
+      final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
+      Map data = {
+        "password": newPasswordController.text,
+        "password_confirmation": confirmPasswordController.text,
+      };
+      authViewModel.updatePassword(data, context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,60 +55,40 @@ class _ChangePasswordState extends State<ChangePassword> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Reset Password',
+                        'Update Password',
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      const Text(
-                        'Current Password',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      InputPasswordTextFormField(
-                        controller: currentPasswordController,
-                        hintText: 'Password',
-                        fontAwsomeIcon: Icons.password,
-                        validator: textFieldValidator.passwordErrorGetter,
-                        // obscureText: authViewModel.passwordHide,
-                        // onPress: authViewModel.togglePassword,
-                        obscureText: true,
-                        onPress: () {},
-                      ),
-                      const SizedBox(height: 16),
-                      const Text(
-                        'New Password',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      InputPasswordTextFormField(
-                        controller: newPasswordController,
-                        hintText: 'New Password',
-                        fontAwsomeIcon: Icons.password,
-                        validator: textFieldValidator.passwordErrorGetter,
-                        // obscureText: authViewModel.passwordHide,
-                        // onPress: authViewModel.togglePassword,
-                        obscureText: true,
-                        onPress: () {},
-                      ),
-                      const SizedBox(height: 8),
-                      InputPasswordTextFormField(
-                        controller: confirmPasswordController,
-                        hintText: 'Confirm New Password',
-                        fontAwsomeIcon: Icons.password,
-                        validator: textFieldValidator.passwordErrorGetter,
-                        // obscureText: authViewModel.passwordHide,
-                        // onPress: authViewModel.togglePassword,
-                        obscureText: true,
-                        onPress: () {},
+                      const SizedBox(height: 20),
+                      Consumer<AuthViewModel>(
+                        builder: (context, authViewModel, _) {
+                          return Column(
+                            children: [
+                              InputPasswordTextFormField(
+                                controller: newPasswordController,
+                                hintText: 'New Password',
+                                fontAwsomeIcon: Icons.password,
+                                validator:
+                                    textFieldValidator.passwordErrorGetter,
+                                obscureText: authViewModel.passwordHide,
+                                onPress: authViewModel.togglePassword,
+                              ),
+                              const SizedBox(height: 8),
+                              InputPasswordTextFormField(
+                                controller: confirmPasswordController,
+                                hintText: 'Confirm New Password',
+                                fontAwsomeIcon: Icons.password,
+                                validator: textFieldValidator
+                                    .confirmPasswordErrorGetter,
+                                password: newPasswordController,
+                                obscureText: authViewModel.confirmPasswordHide,
+                                onPress: authViewModel.toggleConfirmPassword,
+                              ),
+                            ],
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -108,6 +101,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                     title: 'Update Password',
                     isloading: authViewModel.loading,
                     onPress: () {
+                      validateAndUpdate();
                       // print(authViewModel.loading);
                       // authViewModel.signUp(context);
                     },
@@ -120,5 +114,12 @@ class _ChangePasswordState extends State<ChangePassword> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    newPasswordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
   }
 }
