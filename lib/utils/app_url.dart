@@ -14,8 +14,15 @@ class AppUrl {
   static var updatePasswordEndPoint = '$baseUrl/api/change-password';
   static var logoutEndPoint = '$baseUrl/api/logout';
 
-  // Show User
+  //  Categories
+  static var showCategoriesEndPoint = '$baseUrl/api/categories-show';
+
+  // User
   static var showUserEndPoint = '$baseUrl/api/show-user';
+
+  // Service
+  static var createServiceEndPoint = '$baseUrl/api/add-service';
+  static var myPosertServiceEndPoint = '$baseUrl/api/my-services';
 
   static const Map<String, String> header = {
     'Accept': 'application/json',

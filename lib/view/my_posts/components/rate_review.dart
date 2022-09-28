@@ -192,14 +192,14 @@ rateReviewDialog({
                     ),
                   ),
                   const SizedBox(height: 15),
-                  Center(
-                    child: FormTextAreaField(
-                      controller: comment,
-                      hintText: 'Review',
-                      validator: (va) {},
-                      maxLines: 2,
-                    ),
-                  ),
+                  // Center(
+                  //   child: FormTextAreaField(
+                  //     controller: comment,
+                  //     hintText: 'Review',
+                  //     validator: (va) {},
+                  //     maxLines: 2,
+                  //   ),
+                  // ),
                   const SizedBox(height: 10),
                 ],
               ),

@@ -1,13 +1,13 @@
+import 'package:bizhub_new/model/service_model.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../model/post_model.dart';
 import '../../../utils/mytheme.dart';
 import '../../../widgets/common/dialog_box.dart';
 import 'bottom_modal_action.dart';
 
 class JobPostItem extends StatelessWidget {
-  final Post myJob;
+  final ServiceModel myJob;
   const JobPostItem({
     required this.myJob,
     Key? key,
@@ -64,7 +64,7 @@ class JobPostItem extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(6),
                             child: Image.asset(
-                              myJob.postImage,
+                              'assets/images/job2.jpg',
                               fit: BoxFit.fitHeight,
                             ),
                           ),
@@ -81,7 +81,7 @@ class JobPostItem extends StatelessWidget {
                               children: [
                                 SizedBox(
                                   width: size.maxWidth * 0.65,
-                                  child: Text(myJob.postTitle),
+                                  child: Text(myJob.serviceTitle.toString()),
                                 ),
                                 InkWell(
                                   splashColor: Colors.transparent,
@@ -169,7 +169,7 @@ class JobPostItem extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '\$ ${myJob.postPrice}',
+                                  '\$ ${myJob.serviceAmount}',
                                   style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w500,
@@ -184,9 +184,9 @@ class JobPostItem extends StatelessWidget {
                                     color: Colors.blue,
                                     borderRadius: BorderRadius.circular(6),
                                   ),
-                                  child: Text(
-                                    myJob.postStatus,
-                                    style: const TextStyle(color: Colors.white),
+                                  child: const Text(
+                                    'Active',
+                                    style: TextStyle(color: Colors.white),
                                   ),
                                 ),
                               ],

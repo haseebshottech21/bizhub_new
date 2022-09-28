@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -88,5 +89,21 @@ class Utils {
     } on PlatformException {
       Navigator.of(context).pop();
     }
+  }
+
+  Future<List<Map<String, dynamic>>> selectImages() async {
+    final images = await ImagePicker().pickMultiImage();
+    List<Map<String, dynamic>> imageDetails = [];
+    if (images != null) {
+      for (var image in images) {
+        Map<String, dynamic> imageDetail = {};
+        imageDetail['extension'] = image.path.split('.').last;
+        imageDetail['imagePath'] = image.path;
+        imageDetail['image'] =
+            base64Encode(await File(image.path).readAsBytes());
+        imageDetails.add(imageDetail);
+      }
+    }
+    return imageDetails;
   }
 }
