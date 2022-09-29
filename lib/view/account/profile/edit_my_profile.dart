@@ -27,7 +27,7 @@ class _EditMyProfileState extends State<EditMyProfile> {
     lastNameController.text = auth.user!.lastName.toString();
     emailAddressController.text = auth.user!.email.toString();
     phoneNumberController.text = auth.user!.phone.toString();
-    // print('Image: ' + auth.image.toString());
+    print('Image: ${auth.user!.image.toString()}');
   }
 
   @override

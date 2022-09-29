@@ -1,6 +1,4 @@
-import 'package:bizhub_new/model/post_model.dart';
 import 'package:bizhub_new/model/service_model.dart';
-import 'package:bizhub_new/utils/dummy_data.dart';
 import 'package:bizhub_new/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +8,9 @@ import 'bottom_navigation_view_model.dart';
 
 class MyServiceViewModel extends ChangeNotifier {
   final serviceRepo = ServiceRepository();
-  List<Post> getMyPosts = [];
   List<ServiceModel> posterServiceList = [];
+  List<ServiceModel> workerServiceList = [];
+  ServiceModel? serviceModel;
   List<Map<String, dynamic>> serviceImgaes = [];
   bool? isPoster;
 
@@ -56,28 +55,6 @@ class MyServiceViewModel extends ChangeNotifier {
     }
   }
 
-  // bool _signupLoading = false;
-  // bool get signupLoading => _signupLoading;
-
-  // signUpLoading(bool value) {
-  //   _signupLoading = value;
-  //   notifyListeners();
-  // }
-
-  // Future<void> createPost(BuildContext context) async {
-  //   setLoad(true);
-  //   Future.delayed(const Duration(seconds: 3)).then(
-  //     (value) {
-  //       setLoad(false);
-  //       Provider.of<BottomNavigationViewModel>(context, listen: false)
-  //           .bottomIndex = 1;
-  //       Navigator.of(context).pop();
-  //       Navigator.of(context).pop();
-  //       Navigator.of(context).pop();
-  //     },
-  //   );
-  // }
-
   Future<void> createPost(
     dynamic data,
     BuildContext context,
@@ -105,26 +82,80 @@ class MyServiceViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> myJobs() async {
-    setLoad(true);
-    Future.delayed(const Duration(seconds: 3)).then(
-      (value) {
-        getMyPosts = getPosts();
-        // notifyListeners();
-        setLoad(false);
-      },
-    );
-  }
+  // Future<void> myJobs() async {
+  //   setLoad(true);
+  //   Future.delayed(const Duration(seconds: 3)).then(
+  //     (value) {
+  //       getMyPosts = getPosts();
+  //       // notifyListeners();
+  //       setLoad(false);
+  //     },
+  //   );
+  // }
 
-  Future<void> getMyPoseterServiceList(
+  Future<void> getMyPosterServiceList(
     BuildContext context,
   ) async {
     setLoad(true);
-    Future.delayed(const Duration(seconds: 3)).then(
+    Future.delayed(const Duration(seconds: 1)).then(
       (value) async {
         // getMyPosts = getPosts();
         if (posterServiceList.isEmpty) {
           posterServiceList = await serviceRepo.fetchMyPosterServiceList();
+        }
+        setLoad(false);
+      },
+    );
+    notifyListeners();
+  }
+
+  Future getMyPosterServices(BuildContext context) async {
+    final provider = Provider.of<MyServiceViewModel>(context, listen: false);
+    provider.posterServiceList.clear();
+    await provider.getMyPosterServiceList(context);
+  }
+
+  Future<void> getMyPosterServiceDetail({
+    required BuildContext context,
+    required String serviceId,
+  }) async {
+    setLoad(true);
+    Future.delayed(const Duration(seconds: 1)).then(
+      (value) async {
+        serviceModel =
+            await serviceRepo.fetchMyPosterService(serviceId: serviceId);
+        setLoad(false);
+      },
+    );
+    notifyListeners();
+  }
+
+  Future<void> deleteMyPosterService({
+    required BuildContext context,
+    required String serviceId,
+  }) async {
+    setLoad(true);
+    final response = await serviceRepo.deleteMyService(serviceId: serviceId);
+    if (response) {
+      Future.delayed(Duration.zero).then((value) {
+        Navigator.of(context).pop();
+        setLoad(false);
+        getMyPosterServices(context);
+        Utils.toastMessage('Service delete Successfully!');
+      });
+    }
+  }
+
+  // WORKER
+  Future<void> getMyWorkerServiceList(
+    BuildContext context,
+  ) async {
+    setLoad(true);
+    Future.delayed(const Duration(seconds: 1)).then(
+      (value) async {
+        // getMyPosts = getPosts();
+        if (workerServiceList.isEmpty) {
+          workerServiceList = await serviceRepo.fetchMyWorkerServiceList();
         }
         setLoad(false);
       },

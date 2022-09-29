@@ -1,5 +1,5 @@
 class ServiceModel {
-  int? serviceId;
+  String? serviceId;
   String? serviceTitle;
   String? serviceDesc;
   String? serviceAmount;
@@ -14,7 +14,7 @@ class ServiceModel {
   });
 
   factory ServiceModel.fromJson(Map<String, dynamic> json) => ServiceModel(
-        serviceId: json['id'],
+        serviceId: json['id'].toString(),
         serviceTitle: json['title'],
         serviceDesc: json['description'],
         serviceAmount: json['amount'],

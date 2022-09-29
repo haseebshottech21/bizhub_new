@@ -59,6 +59,7 @@ class _CreatePostState extends State<CreatePost> {
           location.placeDetailModel.placeLocation.latitude.toString();
       post.serviceBody['address'] =
           location.placeDetailModel.placeAddress.trim();
+      post.serviceBody['is_negotiable'] = '0';
 
       // provider.serviceBody['amount'] = jobBugetController.text.trim();
       // provider.serviceBody['people_required'] =
@@ -68,7 +69,7 @@ class _CreatePostState extends State<CreatePost> {
       //     provider.isPriceNegotiable ? '1' : '0';
       // provider.serviceBody['type'] = provider.isPoster! ? '0' : '1';
 
-      // provider.createService(provider.serviceBody, context);
+      post.createPost(post.serviceBody, context);
       print(post.serviceBody);
     }
   }

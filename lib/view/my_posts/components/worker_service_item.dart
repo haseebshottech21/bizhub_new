@@ -1,15 +1,16 @@
-import 'package:bizhub_new/model/service_model.dart';
-import 'package:bizhub_new/utils/routes/routes_name.dart';
+import 'package:bizhub_new/view/my_posts/components/bottom_modal_action.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../../model/service_model.dart';
 import '../../../utils/mytheme.dart';
+import '../../../utils/routes/routes_name.dart';
 import '../../../widgets/common/dialog_box.dart';
-import 'bottom_modal_action.dart';
+import '../services_post/my_work_detail.dart';
 
-class JobPostItem extends StatelessWidget {
-  final ServiceModel myJob;
-  const JobPostItem({
-    required this.myJob,
+class WorkerServiceItem extends StatelessWidget {
+  final ServiceModel myWorkerService;
+  const WorkerServiceItem({
+    required this.myWorkerService,
     Key? key,
   }) : super(key: key);
 
@@ -17,11 +18,13 @@ class JobPostItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
+    // print(myPosterService.serviceId);
+
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 6),
       child: Container(
         width: size.width,
-        height: size.height * 0.15,
+        height: size.height * 0.13,
         decoration: BoxDecoration(
           color: Colors.white,
           // borderRadius: BorderRadius.only(
@@ -56,10 +59,22 @@ class JobPostItem extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, RouteName.myJobDetail);
+                          // Navigator.pushNamed(context, RouteName.myJobDetail);
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => MyWorkDetail(
+                                serviceId: myWorkerService.serviceId.toString(),
+                              ),
+                              // settings: RouteSettings(
+                              //   arguments: {
+                              //     'id': myPosterService.serviceId,
+                              //   },
+                              // ),
+                            ),
+                          );
                         },
                         child: SizedBox(
-                          height: size.maxHeight * 0.60,
+                          height: size.maxHeight * 0.70,
                           width: size.maxWidth * 0.20,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(6),
@@ -81,7 +96,8 @@ class JobPostItem extends StatelessWidget {
                               children: [
                                 SizedBox(
                                   width: size.maxWidth * 0.65,
-                                  child: Text(myJob.serviceTitle.toString()),
+                                  child: Text(
+                                      myWorkerService.serviceTitle.toString()),
                                 ),
                                 InkWell(
                                   splashColor: Colors.transparent,
@@ -169,7 +185,7 @@ class JobPostItem extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '\$ ${myJob.serviceAmount}',
+                                  '\$ ${myWorkerService.serviceAmount}',
                                   style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w500,

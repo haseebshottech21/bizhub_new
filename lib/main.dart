@@ -2,6 +2,7 @@ import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/utils/routes/routes.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/view/splash_screen.dart';
+import 'package:bizhub_new/view_model/all_services_view_model.dart';
 import 'package:bizhub_new/view_model/auth_view_model.dart';
 import 'package:bizhub_new/view_model/bottom_navigation_view_model.dart';
 import 'package:bizhub_new/view_model/category_view_model.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthViewModel()),
         ChangeNotifierProvider(create: (_) => CategoryViewModel()),
+        ChangeNotifierProvider(create: (_) => AllServicesViewModel()),
         ChangeNotifierProvider(create: (_) => MyServiceViewModel()),
         ChangeNotifierProvider(create: (_) => LocationViewModel()),
         ChangeNotifierProvider(create: (_) => BottomNavigationViewModel()),

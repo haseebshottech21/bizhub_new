@@ -1,3 +1,4 @@
+import 'package:bizhub_new/view/my_posts/services_post/services.dart';
 import 'package:flutter/material.dart';
 import '../../utils/mytheme.dart';
 import 'jobs_post/jobs.dart';
@@ -80,7 +81,7 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
               child: TabBarView(
                 children: [
                   JobsPost(),
-                  JobsPost(),
+                  MyWorkerServices(),
                 ],
                 // controller: _tabController,
               ),
@@ -89,73 +90,5 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
         ),
       ),
     );
-
-    // return DefaultTabController(
-    //   length: 2,
-    //   child: Scaffold(
-    //     appBar: AppBar(
-    //       backgroundColor: Colors.white,
-    //       automaticallyImplyLeading: false,
-    //       elevation: 2,
-    //       bottom: TabBar(
-    //         indicatorColor: MyTheme.greenColor,
-    //         indicatorWeight: 5,
-    //         splashBorderRadius: BorderRadius.circular(5),
-    //         indicator: const UnderlineTabIndicator(
-    //           borderSide: BorderSide(
-    //             width: 4.0,
-    //             color: MyTheme.greenColor,
-    //           ),
-    //           insets: EdgeInsets.symmetric(horizontal: 30.0),
-    //         ),
-    //         tabs: [
-    //           Tab(
-    //             child: Text(
-    //               'Jobs'.toUpperCase(),
-    //               style: const TextStyle(color: Colors.black),
-    //             ),
-    //           ),
-    //           Tab(
-    //             child: Text(
-    //               'Services'.toUpperCase(),
-    //               style: const TextStyle(color: Colors.black),
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //       title: const Text('POSTS', style: TextStyle(color: Colors.black)),
-    //     ),
-    //     body: TabBarView(
-    //       children: [
-    //         SizedBox(
-    //           height: size.height * 0.70,
-    //           width: size.width,
-    //           child: ListView(
-    //             children: [
-    //               LayoutBuilder(
-    //                 builder: (context, constraints) {
-    //                   return Container(
-    //                     width: constraints.maxWidth,
-    //                     height: constraints.maxHeight * 0.20,
-    //                     // color: Colors.grey,
-    //                     decoration: const BoxDecoration(
-    //                       border: Border(
-    //                         left: BorderSide(
-    //                           color: Colors.black,
-    //                           width: 4,
-    //                         ),
-    //                       ),
-    //                     ),
-    //                   );
-    //                 },
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-    //         Text('SERVICE'),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }

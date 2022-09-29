@@ -33,6 +33,32 @@ class ServiceRepository {
     }
   }
 
+  // All Services
+  Future<List<ServiceModel>> fetchAllServicesList({
+    required String serviceType,
+  }) async {
+    try {
+      final response = await http.get(
+        Uri.parse('${AppUrl.allServiceEndPoint}?type=$serviceType'),
+        headers: await AppUrl().headerWithAuth(),
+      );
+      // print(response.body);
+      final loadedData = json.decode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        List<ServiceModel> allServicesList = (loadedData['data'] as List)
+            .map((e) => ServiceModel.fromJson(e))
+            .toList();
+        return allServicesList;
+      } else {
+        Utils.toastMessage(loadedData['message']);
+      }
+    } catch (e) {
+      Utils.toastMessage(e.toString());
+    }
+    return [];
+  }
+
+  // POSTER
   Future<List<ServiceModel>> fetchMyPosterServiceList() async {
     try {
       final response = await http.get(
@@ -53,5 +79,78 @@ class ServiceRepository {
       Utils.toastMessage(e.toString());
     }
     return [];
+  }
+
+  Future<ServiceModel?> fetchMyPosterService({
+    required String serviceId,
+  }) async {
+    ServiceModel? myPosterService;
+    try {
+      final response = await http.get(
+        Uri.parse('${AppUrl.myPosterServiceDetailEndPoint}/$serviceId'),
+        headers: await AppUrl().headerWithAuth(),
+      );
+      // print(response.body);
+      final loadedData = json.decode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // ServiceModel myPosterService =
+        //     loadedData['data'].map((e) => ServiceModel.fromJson(e)).toList();
+        myPosterService = ServiceModel.fromJson(loadedData['data']);
+        // print(myPosterService);
+        return myPosterService;
+      } else {
+        Utils.toastMessage(loadedData['message']);
+      }
+    } catch (e) {
+      Utils.toastMessage(e.toString());
+    }
+    return myPosterService;
+  }
+
+  // WORKER
+  Future<List<ServiceModel>> fetchMyWorkerServiceList() async {
+    try {
+      final response = await http.get(
+        Uri.parse(AppUrl.myWorkerServiceEndPoint),
+        headers: await AppUrl().headerWithAuth(),
+      );
+      // print(response.body);
+      final loadedData = json.decode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        List<ServiceModel> myWorkerServiceList = (loadedData['data'] as List)
+            .map((e) => ServiceModel.fromJson(e))
+            .toList();
+        return myWorkerServiceList;
+      } else {
+        Utils.toastMessage(loadedData['message']);
+      }
+    } catch (e) {
+      Utils.toastMessage(e.toString());
+    }
+    return [];
+  }
+
+  // DELETE
+  Future<bool> deleteMyService({
+    required String serviceId,
+  }) async {
+    // ServiceModel? myPosterService;
+    try {
+      final response = await http.delete(
+        Uri.parse('${AppUrl.deleteMyServiceEndPoint}/$serviceId'),
+        headers: await AppUrl().headerWithAuth(),
+      );
+      // print(response.body);
+      final loadedData = json.decode(response.body);
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        Utils.toastMessage(loadedData['message']);
+        return false;
+      }
+    } catch (e) {
+      Utils.toastMessage(e.toString());
+      return false;
+    }
   }
 }

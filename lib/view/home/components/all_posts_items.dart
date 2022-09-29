@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import '../../../model/service_model.dart';
 import '../../../utils/mytheme.dart';
 import '../../../utils/routes/routes_name.dart';
 
 class AllPostsItem extends StatelessWidget {
-  const AllPostsItem({Key? key}) : super(key: key);
+  const AllPostsItem({Key? key, required this.serviceModel}) : super(key: key);
+
+  final ServiceModel serviceModel;
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +70,9 @@ class AllPostsItem extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                'I will create your bussiness webiste with new features',
-                                style: TextStyle(
+                              Text(
+                                serviceModel.serviceTitle.toString(),
+                                style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
                                 ),
@@ -80,15 +83,15 @@ class AllPostsItem extends StatelessWidget {
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
-                                children: const [
+                                children: [
                                   Text(
-                                    '\$ 50',
-                                    style: TextStyle(
+                                    '\$ ${serviceModel.serviceAmount}',
+                                    style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                  Text(
+                                  const Text(
                                     '30 JUN',
                                     style: TextStyle(
                                       fontSize: 12,

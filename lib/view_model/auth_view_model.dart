@@ -78,8 +78,7 @@ class AuthViewModel extends ChangeNotifier {
     Navigator.of(context).pop();
 
     final bytes = File(image!.path).readAsBytesSync();
-    String base64Image =
-        "data:image/${image!.path.split('.').last};base64,${base64Encode(bytes)}";
+    String base64Image = base64Encode(bytes);
     imageDetail = {
       'image': base64Image,
       'imagePath': image!.path,
@@ -91,6 +90,7 @@ class AuthViewModel extends ChangeNotifier {
   Map<String, String> prefrence = {
     'firstName': '',
     'lastName': '',
+    'image': '',
     'email': '',
     'phone': '',
   };
@@ -98,11 +98,13 @@ class AuthViewModel extends ChangeNotifier {
   void setPrefrenceValues() async {
     final firstName = await prefrences.getSharedPreferenceValue('firstname');
     final lastName = await prefrences.getSharedPreferenceValue('lastname');
+    final image = await prefrences.getSharedPreferenceValue('image');
     final email = await prefrences.getSharedPreferenceValue('email');
     final phone = await prefrences.getSharedPreferenceValue('phone');
     prefrence = {
       'firstName': firstName,
       'lastName': lastName,
+      'image': image,
       'email': email,
       'phone': phone,
     };
@@ -118,11 +120,29 @@ class AuthViewModel extends ChangeNotifier {
     BuildContext context,
   ) async {
     setLoad(true);
-    user = await authRepo.showUser();
-    if (user != null) {
-      setLoad(false);
-    }
+    user ??= await authRepo.showUser();
+    setLoad(false);
+    // if (user != null) {
+    //   setLoad(false);
+    // }
+    notifyListeners();
   }
+
+  // Future<void> getMyPosterServiceList(
+  //   BuildContext context,
+  // ) async {
+  //   setLoad(true);
+  //   Future.delayed(const Duration(seconds: 3)).then(
+  //     (value) async {
+  //       // getMyPosts = getPosts();
+  //       if (posterServiceList.isEmpty) {
+  //         posterServiceList = await serviceRepo.fetchMyPosterServiceList();
+  //       }
+  //       setLoad(false);
+  //     },
+  //   );
+  //   notifyListeners();
+  // }
 
   Future<void> signIn(BuildContext context) async {
     setLoad(true);

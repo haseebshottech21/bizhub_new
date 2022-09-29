@@ -22,7 +22,11 @@ class AppUrl {
 
   // Service
   static var createServiceEndPoint = '$baseUrl/api/add-service';
+  static var allServiceEndPoint = '$baseUrl/api/service';
   static var myPosertServiceEndPoint = '$baseUrl/api/my-services';
+  static var myWorkerServiceEndPoint = '$baseUrl/api/my-worker-services';
+  static var myPosterServiceDetailEndPoint = '$baseUrl/api/service-detail';
+  static var deleteMyServiceEndPoint = '$baseUrl/api/delete-service';
 
   static const Map<String, String> header = {
     'Accept': 'application/json',

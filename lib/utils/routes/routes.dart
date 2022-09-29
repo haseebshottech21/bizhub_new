@@ -16,6 +16,7 @@ import 'package:bizhub_new/view/create/select_service.dart';
 import 'package:bizhub_new/view/home/filter_screen.dart';
 import 'package:bizhub_new/view/home/post_detail_screen.dart';
 import 'package:bizhub_new/view/home/search_posts.dart';
+// import 'package:bizhub_new/view/my_posts/components/post_item.dart';
 import 'package:bizhub_new/view/my_posts/jobs_post/job_complete.dart';
 import 'package:bizhub_new/view/navigation/bottom_navigation.dart';
 import 'package:bizhub_new/view/onboard_screen.dart';
@@ -23,10 +24,11 @@ import 'package:bizhub_new/view/splash_screen.dart';
 import 'package:bizhub_new/widgets/common/loading_screen.dart';
 import 'package:flutter/material.dart';
 import '../../view/auth/otp_verification_screen.dart';
-import '../../view/my_posts/jobs_post/my_job_detail.dart';
+// import '../../view/my_posts/jobs_post/my_job_detail.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
+    // final arguments = settings.arguments;
     switch (settings.name) {
       // case RouteName.home:
       //   return MaterialPageRoute(builder: (context) => const HomeView());
@@ -62,8 +64,11 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const PostJobDetail());
       case RouteName.searchPost:
         return MaterialPageRoute(builder: (context) => const SearchPosts());
-      case RouteName.myJobDetail:
-        return MaterialPageRoute(builder: (context) => const MyJobDetail());
+      // case RouteName.myJobDetail:
+      //   return MaterialPageRoute(
+
+      //     builder: (context) => MyJobDetail(),
+      //   );
       case RouteName.myJobComplete:
         return MaterialPageRoute(builder: (context) => const JobComplete());
       case RouteName.selectService:

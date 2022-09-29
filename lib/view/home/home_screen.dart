@@ -4,6 +4,8 @@ import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/view/home/components/all_posts_items.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../view_model/all_services_view_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -13,12 +15,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // final searchController = TextEditingController();
-
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getAllServices();
+    });
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
+  }
+
+  Future<void> getAllServices() async {
+    await Provider.of<AllServicesViewModel>(context, listen: false)
+        .getAllServicesList(context);
   }
 
   @override
@@ -32,24 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return OrientationBuilder(
       builder: (context, orientation) {
         final isPortrait = orientation == Orientation.portrait;
-        // return Scaffold(
-        //   backgroundColor: Colors.grey[200],
-        //   appBar: myAppBar(context: context, appBarTitle: 'Earn Money'),
-        //   body: GridView(
-        //     padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
-        //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        //       crossAxisCount: isPortrait ? 2 : 3,
-        //       mainAxisSpacing: 8,
-        //       crossAxisSpacing: 8,
-        //     ),
-        //     children: List.generate(
-        //       9,
-        //       (index) {
-        //         return jobItem();
-        //       },
-        //     ),
-        //   ),
-        // );
         return Scaffold(
           backgroundColor: Colors.grey[50],
           resizeToAvoidBottomInset: true,
@@ -154,19 +143,28 @@ class _HomeScreenState extends State<HomeScreen> {
                 sliver: SliverList(
                   delegate: SliverChildListDelegate(
                     [
-                      GridView.builder(
-                        addAutomaticKeepAlives: true,
-                        shrinkWrap: true,
-                        physics: const ScrollPhysics(),
-                        padding: EdgeInsets.zero,
-                        itemCount: 9,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: isPortrait ? 2 : 3,
-                          mainAxisSpacing: 8,
-                          crossAxisSpacing: 8,
-                        ),
-                        itemBuilder: (context, index) {
-                          return const AllPostsItem();
+                      Consumer<AllServicesViewModel>(
+                        builder: (context, allServiceViewModel, _) {
+                          return GridView.builder(
+                            addAutomaticKeepAlives: true,
+                            shrinkWrap: true,
+                            physics: const ScrollPhysics(),
+                            padding: EdgeInsets.zero,
+                            itemCount:
+                                allServiceViewModel.allServiceList.length,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: isPortrait ? 2 : 3,
+                              mainAxisSpacing: 8,
+                              crossAxisSpacing: 8,
+                            ),
+                            itemBuilder: (context, index) {
+                              return AllPostsItem(
+                                serviceModel:
+                                    allServiceViewModel.allServiceList[index],
+                              );
+                            },
+                          );
                         },
                       )
                     ],

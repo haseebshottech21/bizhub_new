@@ -2,6 +2,7 @@ class UserModel {
   int? userId;
   String? firstName;
   String? lastName;
+  String? image;
   String? email;
   String? phone;
 
@@ -9,6 +10,7 @@ class UserModel {
     this.userId,
     this.firstName,
     this.lastName,
+    this.image,
     this.email,
     this.phone,
   });
@@ -17,6 +19,7 @@ class UserModel {
         userId: json['id'],
         firstName: json['first_name'],
         lastName: json['last_name'],
+        image: json['image'],
         email: json['email'],
         phone: json['phone'],
       );
@@ -25,6 +28,7 @@ class UserModel {
         'userId': userId,
         'firstName': firstName,
         'lastName': lastName,
+        'image': image,
         'email': email,
         'phone': phone,
       };

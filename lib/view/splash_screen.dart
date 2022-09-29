@@ -37,7 +37,9 @@ class _SplashScreenState extends State<SplashScreen>
 
   void checkAuthentication() async {
     final token = await prefrences.getSharedPreferenceValue('token');
+    // final image = await prefrences.getSharedPreferenceValue('image');
     // print('token ' + token.toString());
+    // print('image ' + image.toString());
     if (token == null || token == '') {
       Timer(
         const Duration(milliseconds: 2500),

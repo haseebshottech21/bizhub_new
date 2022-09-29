@@ -1,9 +1,8 @@
 import 'package:bizhub_new/view_model/my_service_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../widgets/common/skelton.dart';
-import '../components/post_item.dart';
+import '../components/poster_service_item.dart';
 
 class JobsPost extends StatefulWidget {
   const JobsPost({Key? key}) : super(key: key);
@@ -16,10 +15,14 @@ class _JobsPostState extends State<JobsPost> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<MyServiceViewModel>(context, listen: false)
-          .getMyPoseterServiceList(context);
+      getMyPostserList();
     });
     super.initState();
+  }
+
+  Future<void> getMyPostserList() async {
+    await Provider.of<MyServiceViewModel>(context, listen: false)
+        .getMyPosterServiceList(context);
   }
 
   @override
@@ -29,27 +32,36 @@ class _JobsPostState extends State<JobsPost> {
 
     return Consumer<MyServiceViewModel>(
       builder: (context, postView, _) {
-        return postView.posterServiceList.isEmpty
-            ? ListView.separated(
-                padding: const EdgeInsets.all(12.0),
-                itemCount: 6,
-                itemBuilder: (context, index) {
-                  return const PostItemSkelton();
-                },
-                separatorBuilder: (context, index) {
-                  return const SizedBox(height: 16);
-                },
-              )
-            : ListView.builder(
-                shrinkWrap: true,
-                // physics: const ClampingScrollPhysics(),
-                primary: false,
-                padding: const EdgeInsets.all(8.0),
-                itemCount: postView.posterServiceList.length,
-                itemBuilder: (context, index) {
-                  return JobPostItem(myJob: postView.posterServiceList[index]);
-                },
+        // if (postView.loading) {
+        //   return const Center(
+        //     child: CircularProgressIndicator(),
+        //   );
+        // } else
+        if (postView.posterServiceList.isEmpty) {
+          return ListView.separated(
+            padding: const EdgeInsets.all(12.0),
+            itemCount: 6,
+            itemBuilder: (context, index) {
+              return const PostItemSkelton();
+            },
+            separatorBuilder: (context, index) {
+              return const SizedBox(height: 16);
+            },
+          );
+        } else {
+          return ListView.builder(
+            shrinkWrap: true,
+            // physics: const ClampingScrollPhysics(),
+            primary: false,
+            padding: const EdgeInsets.all(8.0),
+            itemCount: postView.posterServiceList.length,
+            itemBuilder: (context, index) {
+              return JobPostItem(
+                myPosterService: postView.posterServiceList[index],
               );
+            },
+          );
+        }
       },
     );
   }

@@ -2,6 +2,7 @@ import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/widgets/common/dialog_box.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../utils/app_url.dart';
 import '../../utils/mytheme.dart';
 import '../../view_model/auth_view_model.dart';
 import '../../widgets/common/cached_image.dart';
@@ -54,6 +55,9 @@ class _MoreScreenState extends State<MoreScreen> {
                 ViewProfile(
                   userName:
                       '${auth.getPrefrenceValue('firstName')} ${auth.getPrefrenceValue('lastName')}',
+                  userImage: auth.getPrefrenceValue('image').isEmpty
+                      ? 'https://i.pinimg.com/736x/25/78/61/25786134576ce0344893b33a051160b1.jpg'
+                      : AppUrl.baseUrl + auth.getPrefrenceValue('image'),
                 ),
                 const SizedBox(height: 15),
                 const Padding(
@@ -263,10 +267,12 @@ class _MoreScreenState extends State<MoreScreen> {
 class ViewProfile extends StatelessWidget {
   const ViewProfile({
     required this.userName,
+    required this.userImage,
     Key? key,
   }) : super(key: key);
 
   final String userName;
+  final String userImage;
 
   @override
   Widget build(BuildContext context) {
@@ -300,8 +306,7 @@ class ViewProfile extends StatelessWidget {
                 height: size.height * 0.10,
                 width: size.width * 0.20,
                 radius: 100,
-                imgUrl:
-                    'https://i.pinimg.com/736x/25/78/61/25786134576ce0344893b33a051160b1.jpg',
+                imgUrl: userImage,
               ),
               const SizedBox(width: 12),
               Column(

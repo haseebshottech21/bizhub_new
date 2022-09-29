@@ -298,6 +298,10 @@ class AuthRepository {
       'lastname',
       loadedData['user']['last_name'],
     );
+    if (loadedData['user']['image'] != null) {
+      await prefrence.setSharedPreferenceValue(
+          'image', loadedData['user']['image']);
+    }
     await prefrence.setSharedPreferenceValue(
       'email',
       loadedData['user']['email'],
@@ -321,6 +325,7 @@ class AuthRepository {
     await prefrence.removeSharedPreferenceValue('token');
     await prefrence.removeSharedPreferenceValue('firstname');
     await prefrence.removeSharedPreferenceValue('lastname');
+    await prefrence.removeSharedPreferenceValue('image');
     await prefrence.removeSharedPreferenceValue('email');
     await prefrence.removeSharedPreferenceValue('phone');
   }
