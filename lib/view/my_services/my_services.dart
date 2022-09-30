@@ -1,7 +1,7 @@
-import 'package:bizhub_new/view/my_posts/services_post/services.dart';
+import 'package:bizhub_new/view/my_services/worker/services.dart';
 import 'package:flutter/material.dart';
 import '../../utils/mytheme.dart';
-import 'jobs_post/jobs.dart';
+import 'poster/jobs.dart';
 
 class MyPosts extends StatefulWidget {
   const MyPosts({Key? key}) : super(key: key);

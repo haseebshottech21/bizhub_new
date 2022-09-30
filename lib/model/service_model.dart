@@ -1,9 +1,12 @@
+import 'package:bizhub_new/model/service_images_model.dart';
+
 class ServiceModel {
   String? serviceId;
   String? serviceTitle;
   String? serviceDesc;
   String? serviceAmount;
   String? serviceNegotiable;
+  List<ServiceImagesModel>? imagesList;
 
   ServiceModel({
     this.serviceId,
@@ -11,6 +14,7 @@ class ServiceModel {
     this.serviceDesc,
     this.serviceAmount,
     this.serviceNegotiable,
+    this.imagesList,
   });
 
   factory ServiceModel.fromJson(Map<String, dynamic> json) => ServiceModel(
@@ -19,6 +23,11 @@ class ServiceModel {
         serviceDesc: json['description'],
         serviceAmount: json['amount'],
         serviceNegotiable: json['is_negotiable'],
+        imagesList: json['images'] == null
+            ? []
+            : (json['images'] as List)
+                .map((e) => ServiceImagesModel.fromJson(e))
+                .toList(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -27,5 +36,6 @@ class ServiceModel {
         'description': serviceDesc,
         'amount': serviceAmount,
         'is_negotiable': serviceNegotiable,
+        'images': imagesList,
       };
 }

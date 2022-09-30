@@ -317,6 +317,9 @@ class AuthRepository {
         'firstname', loadedData['first_name']);
     await prefrence.setSharedPreferenceValue(
         'lastname', loadedData['last_name']);
+    if (loadedData['image'] != null) {
+      await prefrence.setSharedPreferenceValue('image', loadedData['image']);
+    }
     await prefrence.setSharedPreferenceValue('email', loadedData['email']);
     await prefrence.setSharedPreferenceValue('phone', loadedData['phone']);
   }

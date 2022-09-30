@@ -28,6 +28,10 @@ class AppUrl {
   static var myPosterServiceDetailEndPoint = '$baseUrl/api/service-detail';
   static var deleteMyServiceEndPoint = '$baseUrl/api/delete-service';
 
+  // Comments
+  static var sendOfferEndPoint = '$baseUrl/api/send-offer';
+
+
   static const Map<String, String> header = {
     'Accept': 'application/json',
     // 'Content-Type': 'application/json'

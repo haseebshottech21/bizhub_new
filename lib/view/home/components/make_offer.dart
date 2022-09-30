@@ -1,5 +1,7 @@
+import 'package:bizhub_new/view_model/all_services_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class MakeOffer extends StatelessWidget {
   const MakeOffer({Key? key}) : super(key: key);
@@ -60,13 +62,20 @@ class MakeOffer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  // var task = Task(title: titileController.text);
-                  // context.read<TaskBloc>().add(AddTask(task: task));
-                  Navigator.pop(context);
+              Consumer<AllServicesViewModel>(
+                builder: (context, allServicesViewModel, _) {
+                  return ElevatedButton(
+                    onPressed: allServicesViewModel.offerLoading
+                        ? null
+                        : () {
+                            // var task = Task(title: titileController.text);
+                            // context.read<TaskBloc>().add(AddTask(task: task));
+                            allServicesViewModel.sendOffer(context);
+                            // Navigator.pop(context);
+                          },
+                    child: const Text('Send Offer'),
+                  );
                 },
-                child: const Text('Send Offer'),
               ),
             ],
           ),

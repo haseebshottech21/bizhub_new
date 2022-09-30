@@ -2,6 +2,7 @@ import 'package:bizhub_new/utils/app_url.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../utils/mytheme.dart';
 import '../../../view_model/auth_view_model.dart';
 import '../../../widgets/common/cached_image.dart';
@@ -85,13 +86,22 @@ class _ViewMyProfileState extends State<ViewMyProfile> {
                     color: Colors.grey.shade500,
                   ),
                 ),
-                const Text(
-                  "www.google.com",
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    // decoration: TextDecoration.underline,
-                    color: Colors.blue,
+                GestureDetector(
+                  child: const Text(
+                    "www.google.com",
+                    // viewProfile.response['url'] ?? '',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      // decoration: TextDecoration.underline,
+                      color: Colors.blue,
+                    ),
                   ),
+                  onTap: () async {
+                    const url = 'https://www.google.com';
+                    // var url =
+                    //     'https://' + viewProfile.response['url'].toString();
+                    if (await canLaunch(url)) launch(url);
+                  },
                 ),
               ],
             ),
@@ -143,8 +153,8 @@ class ViewProfile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CachedImageWidget(
-              height: size.height * 0.18,
-              width: size.width * 0.36,
+              height: size.height * 0.20,
+              width: size.width * 0.40,
               radius: 100,
               imgUrl: userImage,
             ),

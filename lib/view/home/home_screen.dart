@@ -1,7 +1,7 @@
 import 'package:bizhub_new/utils/dummy_data.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
-import 'package:bizhub_new/view/home/components/all_posts_items.dart';
+import 'package:bizhub_new/view/home/components/all_services_items.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -1,16 +1,19 @@
-import 'package:bizhub_new/view/my_posts/components/bottom_modal_action.dart';
+import 'package:bizhub_new/model/service_model.dart';
+import 'package:bizhub_new/utils/app_url.dart';
+import 'package:bizhub_new/utils/routes/routes_name.dart';
+import 'package:bizhub_new/view_model/my_service_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../model/service_model.dart';
+import 'package:provider/provider.dart';
 import '../../../utils/mytheme.dart';
-import '../../../utils/routes/routes_name.dart';
 import '../../../widgets/common/dialog_box.dart';
-import '../services_post/my_work_detail.dart';
+import '../poster/my_job_detail.dart';
+import 'bottom_modal_action.dart';
 
-class WorkerServiceItem extends StatelessWidget {
-  final ServiceModel myWorkerService;
-  const WorkerServiceItem({
-    required this.myWorkerService,
+class JobPostItem extends StatelessWidget {
+  final ServiceModel myPosterService;
+  const JobPostItem({
+    required this.myPosterService,
     Key? key,
   }) : super(key: key);
 
@@ -24,7 +27,7 @@ class WorkerServiceItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Container(
         width: size.width,
-        height: size.height * 0.13,
+        height: size.height * 0.12,
         decoration: BoxDecoration(
           color: Colors.white,
           // borderRadius: BorderRadius.only(
@@ -62,8 +65,8 @@ class WorkerServiceItem extends StatelessWidget {
                           // Navigator.pushNamed(context, RouteName.myJobDetail);
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => MyWorkDetail(
-                                serviceId: myWorkerService.serviceId.toString(),
+                              builder: (context) => MyJobDetail(
+                                serviceId: myPosterService.serviceId.toString(),
                               ),
                               // settings: RouteSettings(
                               //   arguments: {
@@ -74,19 +77,21 @@ class WorkerServiceItem extends StatelessWidget {
                           );
                         },
                         child: SizedBox(
-                          height: size.maxHeight * 0.70,
-                          width: size.maxWidth * 0.20,
+                          height: size.maxHeight * 0.76,
+                          width: size.maxWidth * 0.18,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(6),
-                            child: Image.asset(
-                              'assets/images/job2.jpg',
+                            child: Image.network(
+                              AppUrl.baseUrl +
+                                  myPosterService.imagesList![0].image
+                                      .toString(),
                               fit: BoxFit.fitHeight,
                             ),
                           ),
                         ),
                       ),
                       SizedBox(
-                        width: size.maxWidth * 0.72,
+                        width: size.maxWidth * 0.74,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -94,10 +99,14 @@ class WorkerServiceItem extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                SizedBox(
-                                  width: size.maxWidth * 0.65,
-                                  child: Text(
-                                      myWorkerService.serviceTitle.toString()),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 4),
+                                  child: SizedBox(
+                                    width: size.maxWidth * 0.65,
+                                    child: Text(
+                                      myPosterService.serviceTitle.toString(),
+                                    ),
+                                  ),
                                 ),
                                 InkWell(
                                   splashColor: Colors.transparent,
@@ -120,6 +129,7 @@ class WorkerServiceItem extends StatelessWidget {
                                                   text: 'Delete',
                                                   color: Colors.red,
                                                   onTap: () {
+                                                    Navigator.of(context).pop();
                                                     showDialog(
                                                       context: context,
                                                       builder: (context) =>
@@ -129,7 +139,19 @@ class WorkerServiceItem extends StatelessWidget {
                                                             'Confirm Delete ?',
                                                         subTitle:
                                                             'Are you sure to delete job!',
-                                                        onPressed: () {},
+                                                        onPressed: () {
+                                                          context
+                                                              .read<
+                                                                  MyServiceViewModel>()
+                                                              .deleteMyPosterService(
+                                                                serviceId:
+                                                                    myPosterService
+                                                                        .serviceId
+                                                                        .toString(),
+                                                                context:
+                                                                    context,
+                                                              );
+                                                        },
                                                       ),
                                                     );
                                                   },
@@ -185,9 +207,9 @@ class WorkerServiceItem extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '\$ ${myWorkerService.serviceAmount}',
+                                  '\$ ${myPosterService.serviceAmount}',
                                   style: const TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 17,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),

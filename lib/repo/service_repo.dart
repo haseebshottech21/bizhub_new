@@ -58,6 +58,32 @@ class ServiceRepository {
     return [];
   }
 
+  Future<ServiceModel?> fetchAllService({
+    required String serviceId,
+  }) async {
+    ServiceModel? allService;
+    try {
+      final response = await http.get(
+        Uri.parse('${AppUrl.myPosterServiceDetailEndPoint}/$serviceId'),
+        headers: await AppUrl().headerWithAuth(),
+      );
+      // print(response.body);
+      final loadedData = json.decode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // ServiceModel myPosterService =
+        //     loadedData['data'].map((e) => ServiceModel.fromJson(e)).toList();
+        allService = ServiceModel.fromJson(loadedData['data']);
+        // print(myPosterService);
+        return allService;
+      } else {
+        Utils.toastMessage(loadedData['message']);
+      }
+    } catch (e) {
+      Utils.toastMessage(e.toString());
+    }
+    return allService;
+  }
+
   // POSTER
   Future<List<ServiceModel>> fetchMyPosterServiceList() async {
     try {

@@ -78,6 +78,7 @@ class AuthViewModel extends ChangeNotifier {
     Navigator.of(context).pop();
 
     final bytes = File(image!.path).readAsBytesSync();
+    // String base64Image = "data:image/${image!.path.split('.').last};base64,${base64Encode(bytes)}";
     String base64Image = base64Encode(bytes);
     imageDetail = {
       'image': base64Image,
@@ -86,6 +87,9 @@ class AuthViewModel extends ChangeNotifier {
     };
     notifyListeners();
   }
+
+  //       'image': 'data:image/${image.path.split('.').last};base64,' +
+  //           base64Encode(await img.readAsBytes()),
 
   Map<String, String> prefrence = {
     'firstName': '',

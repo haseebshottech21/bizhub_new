@@ -10,7 +10,7 @@ class CachedImageWidget extends StatelessWidget {
     required this.imgUrl,
     this.height,
     this.width,
-    this.radius = 50.0,
+    this.radius = 75.0,
     Key? key,
   }) : super(key: key);
 

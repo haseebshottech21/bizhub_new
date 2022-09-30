@@ -49,7 +49,7 @@ class _CreatePostState extends State<CreatePost> {
 
       post.serviceBody['type'] = post.isPoster! ? '0' : '1';
       post.serviceBody['category_id'] = category.categoryId;
-      post.serviceBody['images'] = jsonEncode(post.serviceImgaes);
+      post.serviceBody['images'] = json.encode(post.serviceImgaes);
       post.serviceBody['title'] = titleController.text.trim();
       post.serviceBody['description'] = descController.text.trim();
       post.serviceBody['amount'] = priceController.text.trim();
@@ -61,14 +61,6 @@ class _CreatePostState extends State<CreatePost> {
           location.placeDetailModel.placeAddress.trim();
       post.serviceBody['is_negotiable'] = '0';
 
-      // provider.serviceBody['amount'] = jobBugetController.text.trim();
-      // provider.serviceBody['people_required'] =
-      //     noOfPeopleController.text.trim();
-      // provider.serviceBody['category_id'] = provider.serviceCategoryId;
-      // provider.serviceBody['is_negotiable'] =
-      //     provider.isPriceNegotiable ? '1' : '0';
-      // provider.serviceBody['type'] = provider.isPoster! ? '0' : '1';
-
       post.createPost(post.serviceBody, context);
       print(post.serviceBody);
     }
@@ -76,30 +68,30 @@ class _CreatePostState extends State<CreatePost> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    // final size = MediaQuery.of(context).size;
 
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       backgroundColor: MyTheme.whiteColor,
       appBar: myAppBar(context: context, appBarTitle: 'Create Your Post'),
-      bottomSheet: post == true
-          ? SafeArea(
-              child: SizedBox(
-                height: size.height * 0.10,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 14, horizontal: 6),
-                  child: DeafultButton(
-                    title: 'POST',
-                    onPress: () {
-                      // print(post.isPoster);
-                    },
-                    // onPress: null,
-                  ),
-                ),
-              ),
-            )
-          : const SizedBox(),
+      // bottomSheet: post == true
+      //     ? SafeArea(
+      //         child: SizedBox(
+      //           height: size.height * 0.10,
+      //           child: Padding(
+      //             padding:
+      //                 const EdgeInsets.symmetric(vertical: 14, horizontal: 6),
+      //             child: DeafultButton(
+      //               title: 'POST',
+      //               onPress: () {
+      //                 // print(post.isPoster);
+      //               },
+      //               // onPress: null,
+      //             ),
+      //           ),
+      //         ),
+      //       )
+      //     : const SizedBox(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(
@@ -145,13 +137,16 @@ class _CreatePostState extends State<CreatePost> {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 14, horizontal: 0),
-                child: DeafultButton(
-                  title: 'POST',
-                  onPress: () {
-                    // print(post.isPoster);
-                    validateAndJobPost();
+                child: Consumer<MyServiceViewModel>(
+                  builder: (context, serviceViewModel, _) {
+                    return DeafultButton(
+                      title: 'POST',
+                      isloading: serviceViewModel.loading,
+                      onPress: () {
+                        validateAndJobPost();
+                      },
+                    );
                   },
-                  // onPress: null,
                 ),
               ),
             ],

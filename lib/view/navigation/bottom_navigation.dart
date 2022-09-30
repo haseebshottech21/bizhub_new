@@ -5,10 +5,10 @@ import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/view/account/more.dart';
 import 'package:bizhub_new/view/chat/chats.dart';
 import 'package:bizhub_new/view/home/home_screen.dart';
-import 'package:bizhub_new/view/my_posts/my_posts.dart';
 import 'package:bizhub_new/view_model/bottom_navigation_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../my_services/my_services.dart';
 
 class NavigatoionBarScreen extends StatefulWidget {
   const NavigatoionBarScreen({Key? key}) : super(key: key);

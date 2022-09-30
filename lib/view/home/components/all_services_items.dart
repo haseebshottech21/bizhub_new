@@ -1,7 +1,9 @@
+import 'package:bizhub_new/utils/app_url.dart';
 import 'package:flutter/material.dart';
 import '../../../model/service_model.dart';
 import '../../../utils/mytheme.dart';
-import '../../../utils/routes/routes_name.dart';
+// import '../../../utils/routes/routes_name.dart';
+import '../all_service_detail_screen.dart';
 
 class AllPostsItem extends StatelessWidget {
   const AllPostsItem({Key? key, required this.serviceModel}) : super(key: key);
@@ -12,7 +14,14 @@ class AllPostsItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, RouteName.postDetail);
+        // Navigator.pushNamed(context, RouteName.postDetail);
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => PostJobDetail(
+              serviceId: serviceModel.serviceId.toString(),
+            ),
+          ),
+        );
       },
       child: Container(
         // color: Colors.black,
@@ -30,10 +39,11 @@ class AllPostsItem extends StatelessWidget {
                     topLeft: Radius.circular(6),
                     topRight: Radius.circular(6),
                   ),
-                  child: Image.asset(
-                    'assets/images/job2.jpg',
+                  child: Image.network(
+                    AppUrl.baseUrl +
+                        serviceModel.imagesList![0].image.toString(),
                     fit: BoxFit.cover,
-                    height: constraints.maxHeight * 0.50,
+                    height: constraints.maxHeight * 0.55,
                     width: double.infinity,
                   ),
                 ),
@@ -48,7 +58,7 @@ class AllPostsItem extends StatelessWidget {
                   //   color: Colors.yellow,
                   // ),
                   child: SizedBox(
-                    height: constraints.maxHeight * 0.50,
+                    height: constraints.maxHeight * 0.45,
                     width: constraints.minWidth,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,

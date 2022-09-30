@@ -1,18 +1,16 @@
-import 'package:bizhub_new/model/service_model.dart';
-import 'package:bizhub_new/utils/routes/routes_name.dart';
-import 'package:bizhub_new/view_model/my_service_view_model.dart';
+import 'package:bizhub_new/view/my_services/components/bottom_modal_action.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import '../../../model/service_model.dart';
 import '../../../utils/mytheme.dart';
+import '../../../utils/routes/routes_name.dart';
 import '../../../widgets/common/dialog_box.dart';
-import '../jobs_post/my_job_detail.dart';
-import 'bottom_modal_action.dart';
+import '../worker/my_work_detail.dart';
 
-class JobPostItem extends StatelessWidget {
-  final ServiceModel myPosterService;
-  const JobPostItem({
-    required this.myPosterService,
+class WorkerServiceItem extends StatelessWidget {
+  final ServiceModel myWorkerService;
+  const WorkerServiceItem({
+    required this.myWorkerService,
     Key? key,
   }) : super(key: key);
 
@@ -64,8 +62,8 @@ class JobPostItem extends StatelessWidget {
                           // Navigator.pushNamed(context, RouteName.myJobDetail);
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => MyJobDetail(
-                                serviceId: myPosterService.serviceId.toString(),
+                              builder: (context) => MyWorkDetail(
+                                serviceId: myWorkerService.serviceId.toString(),
                               ),
                               // settings: RouteSettings(
                               //   arguments: {
@@ -99,7 +97,7 @@ class JobPostItem extends StatelessWidget {
                                 SizedBox(
                                   width: size.maxWidth * 0.65,
                                   child: Text(
-                                      myPosterService.serviceTitle.toString()),
+                                      myWorkerService.serviceTitle.toString()),
                                 ),
                                 InkWell(
                                   splashColor: Colors.transparent,
@@ -122,7 +120,6 @@ class JobPostItem extends StatelessWidget {
                                                   text: 'Delete',
                                                   color: Colors.red,
                                                   onTap: () {
-                                                    Navigator.of(context).pop();
                                                     showDialog(
                                                       context: context,
                                                       builder: (context) =>
@@ -132,19 +129,7 @@ class JobPostItem extends StatelessWidget {
                                                             'Confirm Delete ?',
                                                         subTitle:
                                                             'Are you sure to delete job!',
-                                                        onPressed: () {
-                                                          context
-                                                              .read<
-                                                                  MyServiceViewModel>()
-                                                              .deleteMyPosterService(
-                                                                serviceId:
-                                                                    myPosterService
-                                                                        .serviceId
-                                                                        .toString(),
-                                                                context:
-                                                                    context,
-                                                              );
-                                                        },
+                                                        onPressed: () {},
                                                       ),
                                                     );
                                                   },
@@ -200,7 +185,7 @@ class JobPostItem extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '\$ ${myPosterService.serviceAmount}',
+                                  '\$ ${myWorkerService.serviceAmount}',
                                   style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w500,

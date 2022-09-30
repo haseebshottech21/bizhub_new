@@ -1,5 +1,5 @@
-import 'package:bizhub_new/view/my_posts/components/rate_review.dart';
 import 'package:flutter/material.dart';
+import '../components/rate_review.dart';
 
 class JobComplete extends StatelessWidget {
   const JobComplete({Key? key}) : super(key: key);

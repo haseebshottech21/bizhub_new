@@ -2,6 +2,7 @@ import 'package:bizhub_new/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../components/deafult_button.dart';
+import '../../../utils/app_url.dart';
 import '../../../widgets/common/app_bar.dart';
 import '../../../widgets/common/input_textfield.dart';
 import '../component/profile_image.dart';
@@ -18,16 +19,23 @@ class _EditMyProfileState extends State<EditMyProfile> {
   final lastNameController = TextEditingController();
   final emailAddressController = TextEditingController();
   final phoneNumberController = TextEditingController();
+  final urlController = TextEditingController();
+  final descriptionController = TextEditingController();
+  String profileImage = '';
   final _formKey = GlobalKey<FormState>();
 
   void getProfileValues() async {
     final auth = Provider.of<AuthViewModel>(context, listen: false);
     await auth.getUser(context);
+    profileImage = auth.user!.image.toString();
     firstNameController.text = auth.user!.firstName.toString();
     lastNameController.text = auth.user!.lastName.toString();
     emailAddressController.text = auth.user!.email.toString();
     phoneNumberController.text = auth.user!.phone.toString();
-    print('Image: ${auth.user!.image.toString()}');
+    urlController.text = (auth.user!.url ?? '').toString();
+    descriptionController.text = (auth.user!.description ?? '').toString();
+    // print('Image: $profileImage');
+    // print(auth.user!.url);
   }
 
   @override
@@ -44,16 +52,20 @@ class _EditMyProfileState extends State<EditMyProfile> {
     } else {
       final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
       Map data = {
+        if (authViewModel.imageDetail['imagePath'].toString().isNotEmpty)
+          "image": authViewModel.imageDetail['image'].toString(),
+        if (authViewModel.imageDetail['imagePath'].toString().isNotEmpty)
+          "extension": authViewModel.imageDetail['extension'].toString(),
         "first_name": firstNameController.text.trim(),
         "last_name": lastNameController.text.trim(),
         "email": emailAddressController.text.trim(),
         "phone": phoneNumberController.text.trim(),
-        // if (authViewModel.imageDetail['imagePath'].toString().isNotEmpty)
-        //   "image": authViewModel.imageDetail['image'].toString(),
-        // "extension": authViewModel.imageDetail['extension'].toString(),
+        "url": urlController.text.trim(),
+        "description": descriptionController.text.trim(),
         "device_id": '123',
       };
       authViewModel.updateUser(data, context);
+      // print('image ${authViewModel.imageDetail}');
     }
   }
 
@@ -84,7 +96,9 @@ class _EditMyProfileState extends State<EditMyProfile> {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Column(
                           children: [
-                            const ProfileImage(),
+                            ProfileImage(
+                              imageUrl: AppUrl.baseUrl + profileImage,
+                            ),
                             const SizedBox(height: 20),
                             LabelTextField(
                               label: 'First Name',
@@ -99,11 +113,27 @@ class _EditMyProfileState extends State<EditMyProfile> {
                             LabelTextField(
                               label: 'Email',
                               controller: emailAddressController,
+                              isEnabled: false,
                             ),
                             const SizedBox(height: 20),
                             LabelTextField(
                               label: 'Phone',
                               controller: phoneNumberController,
+                              isEnabled: false,
+                            ),
+                            const SizedBox(height: 20),
+                            LabelTextField(
+                              label: 'Website Url or Social Media Url',
+                              hintText: 'www.yourwebiste.com',
+                              controller: urlController,
+                            ),
+                            const SizedBox(height: 20),
+                            LabelTextField(
+                              label: 'Description',
+                              hintText: 'About yourself...',
+                              controller: descriptionController,
+                              textAreaField: true,
+                              minLinesTextArea: 4,
                             ),
                           ],
                         ),

@@ -8,10 +8,16 @@ import '../../../utils/mytheme.dart';
 import '../../../utils/utils.dart';
 
 class ProfileImage extends StatelessWidget {
-  const ProfileImage({Key? key}) : super(key: key);
+  const ProfileImage({
+    Key? key,
+    this.imageUrl,
+  }) : super(key: key);
+
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
+    // final profileViewModel = Provider.of<AuthViewModel>(context, listen: true);
     return Consumer<AuthViewModel>(
       builder: (context, authViewModel, _) {
         return GestureDetector(
@@ -22,18 +28,32 @@ class ProfileImage extends StatelessWidget {
             child: Stack(
               children: [
                 authViewModel.imageDetail['imagePath'].toString().isEmpty
-                    ? Center(
+                    ?
+                    // Center(
+                    //     child: Container(
+                    //       width: 125,
+                    //       height: 125,
+                    //       decoration: BoxDecoration(
+                    //         color: Colors.grey.shade200,
+                    //         borderRadius: BorderRadius.circular(5),
+                    //       ),
+                    //       child: const Icon(
+                    //         Icons.person,
+                    //         size: 115,
+                    //         color: Colors.black38,
+                    //       ),
+                    //     ),
+                    //   )
+                    Center(
                         child: Container(
                           width: 125,
                           height: 125,
                           decoration: BoxDecoration(
-                            color: Colors.grey.shade200,
                             borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: const Icon(
-                            Icons.person,
-                            size: 115,
-                            color: Colors.black38,
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(imageUrl!),
+                            ),
                           ),
                         ),
                       )

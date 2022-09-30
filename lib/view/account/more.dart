@@ -303,21 +303,23 @@ class ViewProfile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               CachedImageWidget(
-                height: size.height * 0.10,
-                width: size.width * 0.20,
-                radius: 100,
+                height: size.height * 0.09,
+                width: size.width * 0.18,
                 imgUrl: userImage,
               ),
               const SizedBox(width: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    userName,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
+                  SizedBox(
+                    width: size.width * 0.70,
+                    child: Text(
+                      userName,
+                      style: const TextStyle(
+                        fontSize: 22,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 2),

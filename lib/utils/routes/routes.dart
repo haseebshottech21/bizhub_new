@@ -14,17 +14,15 @@ import 'package:bizhub_new/view/create/create_post.dart';
 import 'package:bizhub_new/view/create/select_category.dart';
 import 'package:bizhub_new/view/create/select_service.dart';
 import 'package:bizhub_new/view/home/filter_screen.dart';
-import 'package:bizhub_new/view/home/post_detail_screen.dart';
 import 'package:bizhub_new/view/home/search_posts.dart';
-// import 'package:bizhub_new/view/my_posts/components/post_item.dart';
-import 'package:bizhub_new/view/my_posts/jobs_post/job_complete.dart';
 import 'package:bizhub_new/view/navigation/bottom_navigation.dart';
 import 'package:bizhub_new/view/onboard_screen.dart';
 import 'package:bizhub_new/view/splash_screen.dart';
 import 'package:bizhub_new/widgets/common/loading_screen.dart';
 import 'package:flutter/material.dart';
 import '../../view/auth/otp_verification_screen.dart';
-// import '../../view/my_posts/jobs_post/my_job_detail.dart';
+import '../../view/my_services/poster/edit_poster_service.dart';
+import '../../view/my_services/poster/job_complete.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -60,8 +58,8 @@ class RouteGenerator {
             builder: (context) => const NavigatoionBarScreen());
       case RouteName.filter:
         return MaterialPageRoute(builder: (context) => const FilterScreen());
-      case RouteName.postDetail:
-        return MaterialPageRoute(builder: (context) => const PostJobDetail());
+      // case RouteName.postDetail:
+      //   return MaterialPageRoute(builder: (context) => const PostJobDetail());
       case RouteName.searchPost:
         return MaterialPageRoute(builder: (context) => const SearchPosts());
       // case RouteName.myJobDetail:
@@ -77,6 +75,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const SelectCategory());
       case RouteName.createPost:
         return MaterialPageRoute(builder: (context) => const CreatePost());
+      case RouteName.editMyPosterService:
+        return MaterialPageRoute(
+            builder: (context) => const EditMyPosterService());
       case RouteName.messages:
         return MaterialPageRoute(builder: (context) => const MessagesScreen());
       // MORE

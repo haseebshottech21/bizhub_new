@@ -126,12 +126,18 @@ class InputPasswordTextFormField extends StatelessWidget {
 
 class LabelTextField extends StatelessWidget {
   final String label;
+  final String? hintText;
   final TextEditingController controller;
+  final bool isEnabled;
   final bool? textAreaField;
+  final int? minLinesTextArea;
   const LabelTextField({
     required this.label,
     required this.controller,
+    this.hintText = '',
+    this.isEnabled = true,
     this.textAreaField = false,
+    this.minLinesTextArea = 5,
     Key? key,
   }) : super(key: key);
 
@@ -154,6 +160,7 @@ class LabelTextField extends StatelessWidget {
                 cursorColor: MyTheme.greenColor,
                 // keyboardType: TextInputType.multiline,
                 // maxLines: null,
+                enabled: isEnabled,
                 controller: controller,
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.only(
@@ -174,8 +181,8 @@ class LabelTextField extends StatelessWidget {
                       color: MyTheme.greenColor,
                     ),
                   ),
-                  // hintText: widget.hintText,
-                  // hintStyle: const TextStyle(color: Colors.black45),
+                  hintText: hintText,
+                  hintStyle: const TextStyle(color: Colors.black45),
                   fillColor: Colors.white,
                   filled: true,
                   // prefixIcon: Padding(
@@ -194,7 +201,7 @@ class LabelTextField extends StatelessWidget {
                 // keyboardType: TextInputType.multiline,
                 // maxLines: null,
                 controller: controller,
-                minLines: 5,
+                minLines: minLinesTextArea,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 decoration: InputDecoration(
@@ -216,8 +223,8 @@ class LabelTextField extends StatelessWidget {
                       color: MyTheme.greenColor,
                     ),
                   ),
-                  // hintText: widget.hintText,
-                  // hintStyle: const TextStyle(color: Colors.black45),
+                  hintText: hintText,
+                  hintStyle: const TextStyle(color: Colors.black45),
                   fillColor: Colors.white,
                   filled: true,
                   // prefixIcon: Padding(
