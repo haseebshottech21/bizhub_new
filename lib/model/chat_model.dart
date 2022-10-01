@@ -1,3 +1,7 @@
+import 'package:bizhub_new/model/message_model.dart';
+import 'package:bizhub_new/model/service_model.dart';
+import 'package:bizhub_new/model/user_model.dart';
+
 class Chat {
   int id;
   String username;
@@ -58,4 +62,44 @@ class Chat {
       lastMessageAt: map['lastMessageAt'] ?? '',
     );
   }
+}
+
+class ChatModel {
+  String? chatId;
+  String? receiverId;
+  String? senderId;
+  String? serviceId;
+  MessageModel? message;
+  ServiceModel? service;
+  UserModel? user;
+
+  ChatModel({
+    this.chatId,
+    this.receiverId,
+    this.senderId,
+    this.serviceId,
+    this.message,
+    this.service,
+    this.user,
+  });
+
+  factory ChatModel.fromJson(Map<String, dynamic> json) => ChatModel(
+        chatId: json['id'].toString(),
+        receiverId: json['receiver_id'].toString(),
+        senderId: json['sender_id'].toString(),
+        serviceId: json['service_id'].toString(),
+        message: MessageModel.fromJson(json['message']),
+        service: ServiceModel.fromJson(json['service']),
+        user: UserModel.fromJson(json['sender_details']),
+      );
+
+  Map<String, dynamic> toJson() => {
+        'id': serviceId,
+        'receiver_id': receiverId,
+        'sender_id': senderId,
+        'service_id': serviceId,
+        'message': message,
+        'service': service,
+        'sender_details': user,
+      };
 }

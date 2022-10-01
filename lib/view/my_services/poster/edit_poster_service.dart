@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bizhub_new/model/service_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +24,8 @@ class _EditMyPosterServiceState extends State<EditMyPosterService> {
 
   @override
   Widget build(BuildContext context) {
+    // Map arguments = ModalRoute.of(context)?.settings.arguments as Map;
+    // print(arguments['id']);
     return Scaffold(
       appBar: AppBar(
         title: Text(

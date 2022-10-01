@@ -1,14 +1,17 @@
+import 'package:bizhub_new/utils/shared_prefrences.dart';
 import 'package:flutter/material.dart';
 import '../model/service_model.dart';
-import '../repo/comment_repo.dart';
+import '../repo/chat_repo.dart';
 import '../repo/service_repo.dart';
 import '../utils/utils.dart';
 
 class AllServicesViewModel extends ChangeNotifier {
   final serviceRepo = ServiceRepository();
-  final commentRepo = CommentRepository();
+  final chatRepo = ChatRepository();
+  final prefernce = Prefrences();
   List<ServiceModel> allServiceList = [];
   ServiceModel? serviceModel;
+  bool nearByJobs = true;
 
   List<ServiceModel> displayList = [];
 
@@ -32,6 +35,25 @@ class AllServicesViewModel extends ChangeNotifier {
   setOfferLoad(bool status) {
     _offerLoading = status;
     notifyListeners();
+  }
+
+  selectType(bool type, BuildContext context) {
+    nearByJobs = type;
+    setLoad(true);
+    Future.delayed(Duration.zero).then(
+      (value) async {
+        // getMyPosts = getPosts();
+        // if (allServiceList.isEmpty) {
+        allServiceList = await serviceRepo.fetchAllServicesList(
+          serviceType: nearByJobs ? '0' : '1',
+        );
+        // }
+        setLoad(false);
+      },
+    );
+    Navigator.of(context).pop();
+    notifyListeners();
+    // print(isPoster);
   }
 
   Future<void> getAllServicesList(
@@ -70,7 +92,7 @@ class AllServicesViewModel extends ChangeNotifier {
     BuildContext context,
   ) async {
     setOfferLoad(true);
-    // final loadedData = await commentRepo.sendOfferApi(data);
+    // final loadedData = await chatRepo.sendOfferApi(data);
     // // print(loadedData);
     // if (loadedData == null) {
     //   setLoad(false);
@@ -83,5 +105,4 @@ class AllServicesViewModel extends ChangeNotifier {
       },
     );
   }
-  // }
 }

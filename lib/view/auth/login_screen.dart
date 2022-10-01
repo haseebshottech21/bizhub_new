@@ -39,15 +39,15 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Widget bottom() {
-    return AuthBottom(
-      title: 'Don\'t have an account?',
-      text: 'Sign Up!',
-      onTap: () {
-        Navigator.of(context).pushNamed(RouteName.signup);
-      },
-    );
-  }
+  // Widget bottom() {
+  //   return AuthBottom(
+  //     title: 'Don\'t have an account?',
+  //     text: 'Sign Up!',
+  //     onTap: () {
+  //       Navigator.of(context).pushNamed(RouteName.signup);
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,13 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: MyTheme.whiteColor,
       resizeToAvoidBottomInset: false,
-      bottomSheet: bottom(),
+      bottomSheet: AuthBottom(
+        title: 'Don\'t have an account?',
+        text: 'Sign Up!',
+        onTap: () {
+          Navigator.of(context).pushNamed(RouteName.signup);
+        },
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(

@@ -29,7 +29,8 @@ class RouteName {
   static const String editMyPosterService = 'edit_poster_service';
 
   // Chat
-  static const String messages = 'messages_screen';
+  static const String posterMessages = 'poster_messages';
+  static const String workerMessages = 'worker_messages';
 
   // More
   static const String viewMyProfile = 'my_profile';

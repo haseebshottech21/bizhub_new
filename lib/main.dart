@@ -6,6 +6,7 @@ import 'package:bizhub_new/view_model/all_services_view_model.dart';
 import 'package:bizhub_new/view_model/auth_view_model.dart';
 import 'package:bizhub_new/view_model/bottom_navigation_view_model.dart';
 import 'package:bizhub_new/view_model/category_view_model.dart';
+import 'package:bizhub_new/view_model/chat_view_model.dart';
 import 'package:bizhub_new/view_model/location_view_model.dart';
 import 'package:bizhub_new/view_model/my_service_view_model.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CategoryViewModel()),
         ChangeNotifierProvider(create: (_) => AllServicesViewModel()),
         ChangeNotifierProvider(create: (_) => MyServiceViewModel()),
+        ChangeNotifierProvider(create: (_) => ChatViewModel()),
         ChangeNotifierProvider(create: (_) => LocationViewModel()),
         ChangeNotifierProvider(create: (_) => BottomNavigationViewModel()),
       ],

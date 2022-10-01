@@ -28,9 +28,11 @@ class AppUrl {
   static var myPosterServiceDetailEndPoint = '$baseUrl/api/service-detail';
   static var deleteMyServiceEndPoint = '$baseUrl/api/delete-service';
 
-  // Comments
+  // Chats
   static var sendOfferEndPoint = '$baseUrl/api/send-offer';
-
+  static var posterChatListEndPoint = '$baseUrl/api/poster-offer-list';
+  static var workerChatListEndPoint = '$baseUrl/api/service-offer-list';
+  static var messagesListEndPoint = '$baseUrl/api/fetch-chat';
 
   static const Map<String, String> header = {
     'Accept': 'application/json',

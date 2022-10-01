@@ -42,7 +42,7 @@ class ServiceRepository {
         Uri.parse('${AppUrl.allServiceEndPoint}?type=$serviceType'),
         headers: await AppUrl().headerWithAuth(),
       );
-      // print(response.body);
+      // print('${AppUrl.allServiceEndPoint}?type=$serviceType');
       final loadedData = json.decode(response.body);
       if (response.statusCode == 200 || response.statusCode == 201) {
         List<ServiceModel> allServicesList = (loadedData['data'] as List)

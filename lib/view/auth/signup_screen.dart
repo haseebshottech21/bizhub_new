@@ -34,11 +34,16 @@ class _SignupScreenState extends State<SignupScreen> {
 
   // final textFieldValidator = TextFieldValidators();
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   validateAndSignup() {
     if (!_formKey.currentState!.validate()) {
       return;
     } else {
-      final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
+      final authViewModel = Provider.of<AuthViewModel>(context, listen: true);
       Map data = {
         "first_name": firstNameController.text.trim(),
         "last_name": lastNameController.text.trim(),
@@ -50,16 +55,6 @@ class _SignupScreenState extends State<SignupScreen> {
       };
       authViewModel.signUp(data, context);
     }
-  }
-
-  @override
-  void dispose() {
-    firstNameController.dispose();
-    lastNameController.dispose();
-    emailAddressController.dispose();
-    passwordController.dispose();
-    confirmPasswordController.dispose();
-    super.dispose();
   }
 
   @override
@@ -96,7 +91,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Column(
                     children: [
-                      const ProfileImage(),
+                      // const ProfileImage(),
                       const SizedBox(height: 15),
                       InputTextFormField(
                         controller: firstNameController,
@@ -208,5 +203,15 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    firstNameController.dispose();
+    lastNameController.dispose();
+    emailAddressController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
   }
 }

@@ -40,7 +40,7 @@ class _MyJobDetailState extends State<MyJobDetail> {
     // final serviceViewModel =
     //     Provider.of<MyServiceViewModel>(context, listen: true);
 
-    final serviceViewModel = context.watch<MyServiceViewModel>();
+    // final serviceViewModel = context.watch<MyServiceViewModel>();
 
     return Scaffold(
       body: Stack(
@@ -103,15 +103,10 @@ class _MyJobDetailState extends State<MyJobDetail> {
                     margin: const EdgeInsets.symmetric(horizontal: 12),
                     child: InkWell(
                       onTap: () {
-                        // Navigator.of(context).pop();
-                        // Navigator.pushNamed(
-                        //   context,
-                        //   RouteName.editMyPosterService,
-                        //   arguments: serviceViewModel.serviceModel,
-                        // );
-                        Navigator.of(context).pushNamed(
+                        Navigator.pushNamed(
+                          context,
                           RouteName.editMyPosterService,
-                          arguments: serviceViewModel.serviceModel,
+                          // arguments: {"id": 2, "name": "Nokia"},
                         );
                       },
                       child: const Icon(Icons.edit, color: Colors.white),

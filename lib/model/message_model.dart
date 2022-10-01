@@ -56,3 +56,43 @@ class Message {
         "createdAt": createdAt,
       };
 }
+
+class MessageModel {
+  String? messageId;
+  String? chatId;
+  String? receiverId;
+  String? senderId;
+  String? message;
+  String? offer;
+  String? createdAt;
+
+  MessageModel({
+    this.messageId,
+    this.chatId,
+    this.receiverId,
+    this.senderId,
+    this.message,
+    this.offer,
+    this.createdAt,
+  });
+
+  factory MessageModel.fromJson(Map<String, dynamic> json) => MessageModel(
+        messageId: json['id'].toString(),
+        chatId: json['chat_id'].toString(),
+        receiverId: json['receiver_id'].toString(),
+        senderId: json['sender_id'].toString(),
+        message: json['message'].toString(),
+        offer: json['offer'].toString(),
+        createdAt: json['created_at'].toString(),
+      );
+
+  Map<String, dynamic> toJson() => {
+        'id': messageId,
+        'chat_id': chatId,
+        'receiver_id': receiverId,
+        'sender_id': senderId,
+        'message': message,
+        'offer': offer,
+        'created_at': createdAt,
+      };
+}

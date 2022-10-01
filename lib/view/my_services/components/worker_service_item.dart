@@ -2,6 +2,7 @@ import 'package:bizhub_new/view/my_services/components/bottom_modal_action.dart'
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../model/service_model.dart';
+import '../../../utils/app_url.dart';
 import '../../../utils/mytheme.dart';
 import '../../../utils/routes/routes_name.dart';
 import '../../../widgets/common/dialog_box.dart';
@@ -74,12 +75,14 @@ class WorkerServiceItem extends StatelessWidget {
                           );
                         },
                         child: SizedBox(
-                          height: size.maxHeight * 0.70,
-                          width: size.maxWidth * 0.20,
+                          height: size.maxHeight * 0.76,
+                          width: size.maxWidth * 0.18,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(6),
-                            child: Image.asset(
-                              'assets/images/job2.jpg',
+                            child: Image.network(
+                              AppUrl.baseUrl +
+                                  myWorkerService.imagesList![0].image
+                                      .toString(),
                               fit: BoxFit.fitHeight,
                             ),
                           ),

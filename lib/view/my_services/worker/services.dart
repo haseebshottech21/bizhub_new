@@ -26,29 +26,42 @@ class _MyWorkerServicesState extends State<MyWorkerServices> {
   Widget build(BuildContext context) {
     return Consumer<MyServiceViewModel>(
       builder: (context, postView, _) {
-        return postView.workerServiceList.isEmpty
-            ? ListView.separated(
-                padding: const EdgeInsets.all(12.0),
-                itemCount: 6,
-                itemBuilder: (context, index) {
-                  return const PostItemSkelton();
-                },
-                separatorBuilder: (context, index) {
-                  return const SizedBox(height: 16);
-                },
-              )
-            : ListView.builder(
-                shrinkWrap: true,
-                // physics: const ClampingScrollPhysics(),
-                primary: false,
-                padding: const EdgeInsets.all(8.0),
-                itemCount: postView.workerServiceList.length,
-                itemBuilder: (context, index) {
-                  return WorkerServiceItem(
-                    myWorkerService: postView.workerServiceList[index],
-                  );
-                },
+        if (postView.loading) {
+          return ListView.separated(
+            padding: const EdgeInsets.all(12.0),
+            itemCount: 6,
+            itemBuilder: (context, index) {
+              return const PostItemSkelton();
+            },
+            separatorBuilder: (context, index) {
+              return const SizedBox(height: 16);
+            },
+          );
+        } else if (postView.workerServiceList.isEmpty) {
+          return const Center(
+            child: Text(
+              'No Service Available',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20.0,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          );
+        } else {
+          return ListView.builder(
+            shrinkWrap: true,
+            // physics: const ClampingScrollPhysics(),
+            primary: false,
+            padding: const EdgeInsets.all(8.0),
+            itemCount: postView.workerServiceList.length,
+            itemBuilder: (context, index) {
+              return WorkerServiceItem(
+                myWorkerService: postView.workerServiceList[index],
               );
+            },
+          );
+        }
       },
     );
   }

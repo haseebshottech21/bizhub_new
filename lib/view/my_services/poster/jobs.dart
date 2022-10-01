@@ -32,12 +32,7 @@ class _JobsPostState extends State<JobsPost> {
 
     return Consumer<MyServiceViewModel>(
       builder: (context, postView, _) {
-        // if (postView.loading) {
-        //   return const Center(
-        //     child: CircularProgressIndicator(),
-        //   );
-        // } else
-        if (postView.posterServiceList.isEmpty) {
+        if (postView.loading) {
           return ListView.separated(
             padding: const EdgeInsets.all(12.0),
             itemCount: 6,
@@ -47,6 +42,17 @@ class _JobsPostState extends State<JobsPost> {
             separatorBuilder: (context, index) {
               return const SizedBox(height: 16);
             },
+          );
+        } else if (postView.posterServiceList.isEmpty) {
+          return const Center(
+            child: Text(
+              'No Job Available',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20.0,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
           );
         } else {
           return ListView.builder(
