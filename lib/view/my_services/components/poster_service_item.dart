@@ -1,13 +1,14 @@
 import 'package:bizhub_new/model/service_model.dart';
 import 'package:bizhub_new/utils/app_url.dart';
-import 'package:bizhub_new/utils/routes/routes_name.dart';
+// import 'package:bizhub_new/utils/routes/routes_name.dart';
+import 'package:bizhub_new/view/my_services/jobs/lead_complete.dart';
 import 'package:bizhub_new/view_model/my_service_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/mytheme.dart';
 import '../../../widgets/common/dialog_box.dart';
-import '../poster/my_job_detail.dart';
+import '../jobs/my_job_detail.dart';
 import 'bottom_modal_action.dart';
 
 class JobPostItem extends StatelessWidget {
@@ -21,13 +22,13 @@ class JobPostItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    // print(myPosterService.serviceId);
+    // print(myPosterService.serviceStatus);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Container(
         width: size.width,
-        height: size.height * 0.12,
+        height: size.height * 0.13,
         decoration: BoxDecoration(
           color: Colors.white,
           // borderRadius: BorderRadius.only(
@@ -68,30 +69,28 @@ class JobPostItem extends StatelessWidget {
                               builder: (context) => MyJobDetail(
                                 serviceId: myPosterService.serviceId.toString(),
                               ),
-                              // settings: RouteSettings(
-                              //   arguments: {
-                              //     'id': myPosterService.serviceId,
-                              //   },
-                              // ),
                             ),
                           );
                         },
-                        child: SizedBox(
-                          height: size.maxHeight * 0.76,
-                          width: size.maxWidth * 0.18,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(6),
-                            child: Image.network(
-                              AppUrl.baseUrl +
-                                  myPosterService.imagesList![0].image
-                                      .toString(),
-                              fit: BoxFit.fitHeight,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
+                          child: SizedBox(
+                            height: size.maxHeight * 0.76,
+                            width: size.maxWidth * 0.20,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(6),
+                              child: Image.network(
+                                AppUrl.baseUrl +
+                                    myPosterService.imagesList![0].image
+                                        .toString(),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),
                       ),
                       SizedBox(
-                        width: size.maxWidth * 0.74,
+                        width: size.maxWidth * 0.72,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -156,31 +155,49 @@ class JobPostItem extends StatelessWidget {
                                                     );
                                                   },
                                                 ),
-                                                BottomModalAction(
-                                                  text: 'Mark as complete',
-                                                  onTap: () {
-                                                    Navigator.of(context).pop();
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (context) =>
-                                                          simpleDialog(
+                                                if (myPosterService
+                                                        .serviceStatus ==
+                                                    '0')
+                                                  BottomModalAction(
+                                                    text: 'Mark as complete',
+                                                    onTap: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      showDialog(
                                                         context: context,
-                                                        title:
-                                                            'Confirm Completed ?',
-                                                        subTitle:
-                                                            'Are you sure your job complete!',
-                                                        onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                          Navigator.pushNamed(
+                                                        builder: (context) =>
+                                                            simpleDialog(
+                                                          context: context,
+                                                          title:
+                                                              'Confirm Completed ?',
+                                                          subTitle:
+                                                              'Are you sure your job complete!',
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                            // Navigator.pushNamed(
+                                                            //     context,
+                                                            //     RouteName
+                                                            //         .myJobComplete);
+                                                            Navigator.push(
                                                               context,
-                                                              RouteName
-                                                                  .myJobComplete);
-                                                        },
-                                                      ),
-                                                    );
-                                                  },
-                                                ),
+                                                              MaterialPageRoute(
+                                                                builder: (ctx) =>
+                                                                    const LeadComplete(),
+                                                                settings:
+                                                                    RouteSettings(
+                                                                  arguments:
+                                                                      myPosterService
+                                                                          .serviceId,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
                                                 BottomModalAction(
                                                   text: 'Cancel',
                                                   onTap: () =>
@@ -219,12 +236,16 @@ class JobPostItem extends StatelessWidget {
                                     vertical: 4,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: Colors.blue,
+                                    color: myPosterService.serviceStatus == '0'
+                                        ? Colors.blue
+                                        : Colors.green,
                                     borderRadius: BorderRadius.circular(6),
                                   ),
-                                  child: const Text(
-                                    'Active',
-                                    style: TextStyle(color: Colors.white),
+                                  child: Text(
+                                    myPosterService.serviceStatus == '0'
+                                        ? 'Active'
+                                        : 'Complete',
+                                    style: const TextStyle(color: Colors.white),
                                   ),
                                 ),
                               ],

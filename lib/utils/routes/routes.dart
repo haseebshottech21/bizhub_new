@@ -11,6 +11,7 @@ import 'package:bizhub_new/view/auth/signup_screen.dart';
 import 'package:bizhub_new/view/auth/welcome_auth_screen.dart';
 import 'package:bizhub_new/view/chat/messages.dart';
 import 'package:bizhub_new/view/chat/poster/poster_messages.dart';
+import 'package:bizhub_new/view/chat/worker/worker_messages.dart';
 import 'package:bizhub_new/view/create/create_post.dart';
 import 'package:bizhub_new/view/create/select_category.dart';
 import 'package:bizhub_new/view/create/select_service.dart';
@@ -22,8 +23,8 @@ import 'package:bizhub_new/view/splash_screen.dart';
 import 'package:bizhub_new/widgets/common/loading_screen.dart';
 import 'package:flutter/material.dart';
 import '../../view/auth/otp_verification_screen.dart';
-import '../../view/my_services/poster/edit_poster_service.dart';
-import '../../view/my_services/poster/job_complete.dart';
+import '../../view/my_services/jobs/edit_poster_service.dart';
+import '../../view/my_services/jobs/lead_complete.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -38,8 +39,8 @@ class RouteGenerator {
       case RouteName.welcome:
         return MaterialPageRoute(
             builder: (context) => const WelcomeAuthScreen());
-      case RouteName.loading:
-        return MaterialPageRoute(builder: (context) => const LoadingScreen());
+      // case RouteName.loading:
+      //   return MaterialPageRoute(builder: (context) => const LoadingScreen());
       case RouteName.login:
         return MaterialPageRoute(builder: (context) => const LoginScreen());
       case RouteName.signup:
@@ -68,8 +69,8 @@ class RouteGenerator {
 
       //     builder: (context) => MyJobDetail(),
       //   );
-      case RouteName.myJobComplete:
-        return MaterialPageRoute(builder: (context) => const JobComplete());
+      // case RouteName.myJobComplete:
+      //   return MaterialPageRoute(builder: (context) => const JobComplete());
       case RouteName.selectService:
         return MaterialPageRoute(builder: (context) => const SelectService());
       case RouteName.selectCategory:
@@ -79,8 +80,11 @@ class RouteGenerator {
       case RouteName.editMyPosterService:
         return MaterialPageRoute(
             builder: (context) => const EditMyPosterService());
+      // Messages
       case RouteName.posterMessages:
         return MaterialPageRoute(builder: (context) => const PosterMessages());
+      case RouteName.workerMessages:
+        return MaterialPageRoute(builder: (context) => const WorkerMessages());
       // MORE
       case RouteName.viewMyProfile:
         return MaterialPageRoute(builder: (context) => const ViewMyProfile());

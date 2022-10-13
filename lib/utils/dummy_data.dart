@@ -104,55 +104,55 @@ List<Chat> getChat() {
   ];
 }
 
-List<Message> getMessage() {
-  return [
-    Message(
-      text: 'Hello',
-      isMe: false,
-      createdAt: '2:30 PM',
-    ),
-    Message(
-      text: 'Hey, How are you?',
-      isMe: true,
-      createdAt: '2:31 PM',
-    ),
-    Message(
-      text: 'I am fine',
-      isMe: false,
-      createdAt: '2:32 PM',
-    ),
-    Message(
-      text: 'And you?',
-      isMe: false,
-      createdAt: '2:33 PM',
-    ),
-    Message(
-      text: 'I am fine too',
-      isMe: true,
-      createdAt: '2:34 PM',
-    ),
-    Message(
-      text: 'Did you finished the task?',
-      isMe: true,
-      createdAt: '2:35 PM',
-    ),
-    Message(
-      text: 'ahh, I finished it',
-      isMe: false,
-      createdAt: '2:36 PM',
-    ),
-    Message(
-      text: 'no, I am still working on it',
-      isMe: false,
-      createdAt: '2:37 PM',
-    ),
-    Message(
-      text: 'maybe you can help me 🥹',
-      isMe: false,
-      createdAt: '2:38 PM',
-    ),
-  ];
-}
+// List<Message> getMessage() {
+//   return [
+//     Message(
+//       text: 'Hello',
+//       isMe: false,
+//       createdAt: '2:30 PM',
+//     ),
+//     Message(
+//       text: 'Hey, How are you?',
+//       isMe: true,
+//       createdAt: '2:31 PM',
+//     ),
+//     Message(
+//       text: 'I am fine',
+//       isMe: false,
+//       createdAt: '2:32 PM',
+//     ),
+//     Message(
+//       text: 'And you?',
+//       isMe: false,
+//       createdAt: '2:33 PM',
+//     ),
+//     Message(
+//       text: 'I am fine too',
+//       isMe: true,
+//       createdAt: '2:34 PM',
+//     ),
+//     Message(
+//       text: 'Did you finished the task?',
+//       isMe: true,
+//       createdAt: '2:35 PM',
+//     ),
+//     Message(
+//       text: 'ahh, I finished it',
+//       isMe: false,
+//       createdAt: '2:36 PM',
+//     ),
+//     Message(
+//       text: 'no, I am still working on it',
+//       isMe: false,
+//       createdAt: '2:37 PM',
+//     ),
+//     Message(
+//       text: 'maybe you can help me 🥹',
+//       isMe: false,
+//       createdAt: '2:38 PM',
+//     ),
+//   ];
+// }
 
 List<Post> getPosts() {
   return [

@@ -1,9 +1,11 @@
 import 'package:bizhub_new/model/category_model.dart';
 import 'package:bizhub_new/repo/category_repo.dart';
+import 'package:bizhub_new/utils/shared_prefrences.dart';
 import 'package:flutter/material.dart';
 
 class CategoryViewModel extends ChangeNotifier {
   final catRepo = CategoryRepository();
+  final prefrence = Prefrences();
   List<CategoryModel> categoryList = [];
 
   String categoryId = '';
@@ -24,6 +26,29 @@ class CategoryViewModel extends ChangeNotifier {
     } else {
       categoryId = id;
     }
+    notifyListeners();
+  }
+
+  // int selectedIndex = 0;
+  String filterCatId = '';
+  // selectFilterCategory(String catId) {
+  //   if (catId.isNotEmpty) {
+  //     filterCatId = catId;
+  //   }
+  //   print(filterCatId);
+  // }
+
+  setCategoryId(String catId) async {
+    if (filterCatId == '') {
+      filterCatId = catId;
+    }
+    await prefrence.setSharedPreferenceValue('catId', catId);
+    notifyListeners();
+  }
+
+  clearFilter() async {
+    filterCatId = '';
+    await prefrence.setSharedPreferenceValue('catId', filterCatId);
     notifyListeners();
   }
 

@@ -7,6 +7,7 @@ import '../../../utils/mytheme.dart';
 import '../../../utils/routes/routes_name.dart';
 import '../../../widgets/common/dialog_box.dart';
 import '../worker/my_work_detail.dart';
+import '../worker/service_complete.dart';
 
 class WorkerServiceItem extends StatelessWidget {
   final ServiceModel myWorkerService;
@@ -74,16 +75,19 @@ class WorkerServiceItem extends StatelessWidget {
                             ),
                           );
                         },
-                        child: SizedBox(
-                          height: size.maxHeight * 0.76,
-                          width: size.maxWidth * 0.18,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(6),
-                            child: Image.network(
-                              AppUrl.baseUrl +
-                                  myWorkerService.imagesList![0].image
-                                      .toString(),
-                              fit: BoxFit.fitHeight,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
+                          child: SizedBox(
+                            height: size.maxHeight * 0.76,
+                            width: size.maxWidth * 0.18,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(6),
+                              child: Image.network(
+                                AppUrl.baseUrl +
+                                    myWorkerService.imagesList![0].image
+                                        .toString(),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),
@@ -137,31 +141,71 @@ class WorkerServiceItem extends StatelessWidget {
                                                     );
                                                   },
                                                 ),
-                                                BottomModalAction(
-                                                  text: 'Mark as complete',
-                                                  onTap: () {
-                                                    Navigator.of(context).pop();
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (context) =>
-                                                          simpleDialog(
+                                                // BottomModalAction(
+                                                //   text: 'Mark as complete',
+                                                //   onTap: () {
+                                                //     Navigator.of(context).pop();
+                                                //     showDialog(
+                                                //       context: context,
+                                                //       builder: (context) =>
+                                                //           simpleDialog(
+                                                //         context: context,
+                                                //         title:
+                                                //             'Confirm Completed ?',
+                                                //         subTitle:
+                                                //             'Are you sure your job complete!',
+                                                //         onPressed: () {
+                                                //           Navigator.of(context)
+                                                //               .pop();
+                                                //           Navigator.pushNamed(
+                                                //               context,
+                                                //               RouteName
+                                                //                   .myJobComplete);
+                                                //         },
+                                                //       ),
+                                                //     );
+                                                //   },
+                                                // ),
+                                                if (myWorkerService
+                                                        .serviceStatus ==
+                                                    '0')
+                                                  BottomModalAction(
+                                                    text: 'Mark as complete',
+                                                    onTap: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      showDialog(
                                                         context: context,
-                                                        title:
-                                                            'Confirm Completed ?',
-                                                        subTitle:
-                                                            'Are you sure your job complete!',
-                                                        onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                          Navigator.pushNamed(
+                                                        builder: (context) =>
+                                                            simpleDialog(
+                                                          context: context,
+                                                          title:
+                                                              'Confirm Completed ?',
+                                                          subTitle:
+                                                              'Are you sure your job complete!',
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+
+                                                            Navigator.push(
                                                               context,
-                                                              RouteName
-                                                                  .myJobComplete);
-                                                        },
-                                                      ),
-                                                    );
-                                                  },
-                                                ),
+                                                              MaterialPageRoute(
+                                                                builder: (ctx) =>
+                                                                    const ServiceComplete(),
+                                                                settings:
+                                                                    RouteSettings(
+                                                                  arguments:
+                                                                      myWorkerService
+                                                                          .serviceId,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
                                                 BottomModalAction(
                                                   text: 'Cancel',
                                                   onTap: () =>

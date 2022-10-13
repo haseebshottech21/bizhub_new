@@ -5,8 +5,8 @@ import '../../../utils/mytheme.dart';
 // import '../../../utils/routes/routes_name.dart';
 import '../all_service_detail_screen.dart';
 
-class AllPostsItem extends StatelessWidget {
-  const AllPostsItem({Key? key, required this.serviceModel}) : super(key: key);
+class AllServiceIem extends StatelessWidget {
+  const AllServiceIem({Key? key, required this.serviceModel}) : super(key: key);
 
   final ServiceModel serviceModel;
 
@@ -35,18 +35,17 @@ class AllPostsItem extends StatelessWidget {
             return Column(
               children: [
                 ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(6),
-                    topRight: Radius.circular(6),
-                  ),
-                  child: Image.network(
-                    AppUrl.baseUrl +
-                        serviceModel.imagesList![0].image.toString(),
-                    fit: BoxFit.cover,
-                    height: constraints.maxHeight * 0.55,
-                    width: double.infinity,
-                  ),
-                ),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(6),
+                      topRight: Radius.circular(6),
+                    ),
+                    child: Image.network(
+                      AppUrl.baseUrl +
+                          serviceModel.imagesList![0].image.toString(),
+                      fit: BoxFit.cover,
+                      height: constraints.maxHeight * 0.55,
+                      width: double.infinity,
+                    )),
                 ClipRRect(
                   borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(6),

@@ -61,7 +61,7 @@ class TextFieldValidators {
     if (int.parse(value) < 5) {
       return 'Budget Must Be Greater than \$5';
     }
-    if (value.length >= 6) {
+    if (value.length >= 7) {
       return 'Budget Must be less then or equal to 6 digits';
     }
 

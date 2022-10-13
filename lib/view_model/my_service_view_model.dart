@@ -10,7 +10,9 @@ class MyServiceViewModel extends ChangeNotifier {
   final serviceRepo = ServiceRepository();
   List<ServiceModel> posterServiceList = [];
   List<ServiceModel> workerServiceList = [];
+  // List<OfferModel> offersList = [];
   ServiceModel? serviceModel;
+  ServiceCompleteModel? serviceCompleteModel;
   List<Map<String, dynamic>> serviceImgaes = [];
   bool? isPoster;
 
@@ -93,9 +95,11 @@ class MyServiceViewModel extends ChangeNotifier {
   //   );
   // }
 
+  // JOBS
   Future<void> getMyPosterServiceList(
     BuildContext context,
   ) async {
+    posterServiceList.clear();
     setLoad(true);
     Future.delayed(const Duration(seconds: 1)).then(
       (value) async {
@@ -130,6 +134,7 @@ class MyServiceViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // DELETE JOB
   Future<void> deleteMyPosterService({
     required BuildContext context,
     required String serviceId,
@@ -146,10 +151,11 @@ class MyServiceViewModel extends ChangeNotifier {
     }
   }
 
-  // WORKER
+  // SERVICES
   Future<void> getMyWorkerServiceList(
     BuildContext context,
   ) async {
+    workerServiceList.clear();
     setLoad(true);
     Future.delayed(const Duration(seconds: 1)).then(
       (value) async {
@@ -161,5 +167,104 @@ class MyServiceViewModel extends ChangeNotifier {
       },
     );
     notifyListeners();
+  }
+
+  // COMPLETE JOB DETAIL
+  Future<void> getJobCompleteDetail({
+    required BuildContext context,
+    required String serviceId,
+  }) async {
+    setLoad(true);
+    Future.delayed(const Duration(seconds: 1)).then(
+      (value) async {
+        serviceCompleteModel =
+            await serviceRepo.fetchCompleteService(serviceId: serviceId);
+        setLoad(false);
+      },
+    );
+    notifyListeners();
+  }
+
+  int rating = 0;
+  String review = 'NO REVIEW';
+  totalRating(int rate) {
+    rating = rate;
+    if (rate == 0) {
+      review = 'NO REVIEW';
+    } else if (rate == 1) {
+      review = 'NOT SATISFIED';
+    } else if (rate == 2) {
+      review = 'SATISFIED';
+    } else if (rate == 3) {
+      review = 'GOOD';
+    } else if (rate == 4) {
+      review = 'VERY GOOD';
+    } else if (rate == 5) {
+      review = 'EXCELLENT';
+    }
+    // print(rate);
+    notifyListeners();
+  }
+
+  resetRating(BuildContext context) {
+    rating = 0;
+    Navigator.of(context).pop();
+    notifyListeners();
+  }
+
+  // RATE LEADS
+  Future<void> rateAndCompleteLeads(
+    dynamic data,
+    BuildContext context,
+  ) async {
+    setLoad(true);
+    final loadedData = await serviceRepo.completeAndRate(data);
+    // print(loadedData);
+    if (loadedData == null) {
+      setLoad(false);
+    } else if (loadedData != null) {
+      Future.delayed(const Duration(seconds: 1)).then(
+        (value) {
+          // print(value);
+          setLoad(false);
+          if (kDebugMode) {
+            Navigator.of(context).pop();
+            Utils.toastMessage('Rating Submit Successfully!');
+            Future.delayed(const Duration(seconds: 2)).then((value) async {
+              await getMyPosterServiceList(context);
+            });
+            Navigator.of(context).pop();
+          }
+        },
+      );
+    }
+  }
+
+  // RATE SERVICE
+  Future<void> rateAndCompleteService(
+    dynamic data,
+    BuildContext context,
+  ) async {
+    setLoad(true);
+    final loadedData = await serviceRepo.completeAndRate(data);
+    // print(loadedData);
+    if (loadedData == null) {
+      setLoad(false);
+    } else if (loadedData != null) {
+      Future.delayed(const Duration(seconds: 1)).then(
+        (value) {
+          // print(value);
+          setLoad(false);
+          if (kDebugMode) {
+            Navigator.of(context).pop();
+            Utils.toastMessage('Rating Submit Successfully!');
+            Future.delayed(const Duration(seconds: 2)).then((value) async {
+              await getMyWorkerServiceList(context);
+            });
+            Navigator.of(context).pop();
+          }
+        },
+      );
+    }
   }
 }

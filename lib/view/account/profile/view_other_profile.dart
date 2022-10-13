@@ -1,40 +1,19 @@
-import 'package:bizhub_new/utils/app_url.dart';
-import 'package:bizhub_new/utils/routes/routes_name.dart';
+import 'package:bizhub_new/model/user_model.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
+
+import '../../../utils/app_url.dart';
 import '../../../utils/mytheme.dart';
-import '../../../view_model/auth_view_model.dart';
 import '../component/view_profile.dart';
 
-class ViewMyProfile extends StatefulWidget {
-  const ViewMyProfile({Key? key}) : super(key: key);
-
-  @override
-  State<ViewMyProfile> createState() => _ViewMyProfileState();
-}
-
-class _ViewMyProfileState extends State<ViewMyProfile> {
-  getData() {
-    final auth = context.read<AuthViewModel>();
-    auth.setPrefrenceValues();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      getData();
-    });
-  }
+class ViewOtherProfile extends StatelessWidget {
+  const ViewOtherProfile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final auth = context.watch<AuthViewModel>();
+    final UserModel profile =
+        ModalRoute.of(context)!.settings.arguments as UserModel;
 
-    // final size = MediaQuery.of(context).size;
-
-    // print(auth.getPrefrenceValue('image'));
+    // print(profile.firstName);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -42,24 +21,15 @@ class _ViewMyProfileState extends State<ViewMyProfile> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: MyTheme.greenColor,
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, RouteName.editMyProfile);
-            },
-            icon: const Icon(Icons.edit),
-          )
-        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ViewProfile(
-            userName:
-                '${auth.getPrefrenceValue('firstName')} ${auth.getPrefrenceValue('lastName')}',
-            userImage: auth.getPrefrenceValue('image').isEmpty
+            userName: '${profile.firstName} ${profile.lastName}',
+            userImage: profile.image!.isEmpty
                 ? 'https://i.pinimg.com/736x/25/78/61/25786134576ce0344893b33a051160b1.jpg'
-                : AppUrl.baseUrl + auth.getPrefrenceValue('image'),
+                : AppUrl.baseUrl + profile.image!,
           ),
           const SizedBox(height: 15),
           const Padding(
@@ -97,10 +67,10 @@ class _ViewMyProfileState extends State<ViewMyProfile> {
                     ),
                   ),
                   onTap: () async {
-                    const url = 'https://www.google.com';
+                    // const url = 'https://www.google.com';
                     // var url =
                     //     'https://' + viewProfile.response['url'].toString();
-                    if (await canLaunch(url)) launch(url);
+                    // if (await canLaunch(url)) launch(url);
                   },
                 ),
               ],

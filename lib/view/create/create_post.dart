@@ -4,8 +4,10 @@ import 'package:bizhub_new/view/create/component/upload_images.dart';
 import 'package:bizhub_new/view_model/category_view_model.dart';
 import 'package:bizhub_new/view_model/my_service_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../components/deafult_button.dart';
+import '../../utils/field_validator.dart';
 import '../../utils/mytheme.dart';
 import '../../view_model/location_view_model.dart';
 import '../../widgets/common/app_bar.dart';
@@ -22,6 +24,7 @@ class _CreatePostState extends State<CreatePost> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
+  final textFieldValidator = TextFieldValidators();
   final _formKey = GlobalKey<FormState>();
   bool post = false;
 
@@ -41,7 +44,9 @@ class _CreatePostState extends State<CreatePost> {
       final post = Provider.of<MyServiceViewModel>(context, listen: false);
       final category = Provider.of<CategoryViewModel>(context, listen: false);
       final location = Provider.of<LocationViewModel>(context, listen: false);
-
+      if (post.serviceImgaes.isEmpty) {
+        Utils.toastMessage('Please add pictures');
+      }
       if (location.placeDetailModel.placeAddress.isEmpty) {
         Utils.toastMessage('Please choose location');
         return;
@@ -62,7 +67,7 @@ class _CreatePostState extends State<CreatePost> {
       post.serviceBody['is_negotiable'] = '0';
 
       post.createPost(post.serviceBody, context);
-      print(post.serviceBody);
+      // print(post.serviceBody);
     }
   }
 
@@ -115,12 +120,14 @@ class _CreatePostState extends State<CreatePost> {
                       LabelTextField(
                         label: 'Title *',
                         controller: titleController,
+                        validator: textFieldValidator.titleErrorGetter,
                       ),
                       const SizedBox(height: 20),
                       LabelTextField(
                         label: 'Description *',
                         controller: descController,
                         textAreaField: true,
+                        validator: textFieldValidator.descriptionErrorGetter,
                       ),
                       const SizedBox(height: 20),
                       const LocationPicker(),
@@ -128,6 +135,11 @@ class _CreatePostState extends State<CreatePost> {
                       LabelTextField(
                         label: 'Price *',
                         controller: priceController,
+                        validator: textFieldValidator.budgetRangeErrorGetter,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(6),
+                        ],
                       ),
                     ],
                   ),

@@ -50,7 +50,7 @@ class SelectService extends StatelessWidget {
             selectType(
               size: size,
               mainAxisAlignment: MainAxisAlignment.start,
-              serviceType: 'POSTER',
+              serviceType: 'POST',
               selectType: (post.isPoster != null && post.isPoster == true)
                   ? true
                   : false,
@@ -59,7 +59,7 @@ class SelectService extends StatelessWidget {
             selectType(
               size: size,
               mainAxisAlignment: MainAxisAlignment.center,
-              serviceType: 'WORKER',
+              serviceType: 'SERVICE',
               selectType: (post.isPoster != null && post.isPoster == false)
                   ? true
                   : false,

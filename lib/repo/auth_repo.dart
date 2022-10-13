@@ -133,6 +133,29 @@ class AuthRepository {
       final responseLoaded = jsonDecode(response.body);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
+        setOTPCredientail(responseLoaded['data']);
+
+        return responseLoaded;
+      } else {
+        Utils.toastMessage(responseLoaded['message']);
+      }
+    } catch (e) {
+      // print(e.toString());
+      Utils.toastMessage(e.toString());
+      // Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  Future<dynamic> validateOTPApi(dynamic data) async {
+    try {
+      http.Response response = await http.post(
+        Uri.parse(AppUrl.validateOTPEndPoint),
+        body: data,
+        headers: AppUrl.header,
+      );
+      final responseLoaded = jsonDecode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // print(responseLoaded.toString());
         return responseLoaded;
       } else {
         Utils.toastMessage(responseLoaded['message']);
@@ -153,7 +176,7 @@ class AuthRepository {
       );
       final responseLoaded = jsonDecode(response.body);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        print(responseLoaded.toString());
+        // print(responseLoaded.toString());
         return responseLoaded;
       } else {
         Utils.toastMessage(responseLoaded['message']);
@@ -174,7 +197,7 @@ class AuthRepository {
       );
       final responseLoaded = jsonDecode(response.body);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        print(responseLoaded.toString());
+        // print(responseLoaded.toString());
         return responseLoaded;
       } else {
         Utils.toastMessage(responseLoaded['message']);
@@ -309,6 +332,13 @@ class AuthRepository {
     await prefrence.setSharedPreferenceValue(
       'phone',
       loadedData['user']['phone'],
+    );
+  }
+
+  Future<void> setOTPCredientail(dynamic loadedData) async {
+    await prefrence.setSharedPreferenceValue(
+      'uniqueId',
+      loadedData['uniqueId'],
     );
   }
 

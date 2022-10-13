@@ -1,26 +1,31 @@
 import 'package:bizhub_new/utils/app_url.dart';
 import 'package:flutter/material.dart';
 import '../../../model/chat_model.dart';
-import '../../../utils/routes/routes_name.dart';
+// import '../../../utils/routes/routes_name.dart';
 import '../../../widgets/common/cached_image.dart';
 
 class ChatWidget extends StatelessWidget {
-  final ChatModel chat;
   const ChatWidget({
     required this.chat,
+    required this.onTap,
     Key? key,
   }) : super(key: key);
+
+  final ChatModel chat;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
+    // print(chat.message!.message);
+
+    // return Container();
+
     return Padding(
       padding: const EdgeInsets.only(top: 4),
       child: InkWell(
-        onTap: () {
-          Navigator.pushNamed(context, RouteName.posterMessages);
-        },
+        onTap: onTap,
         onLongPress: () {
           showModalBottomSheet(
             backgroundColor: Colors.white,
@@ -71,8 +76,8 @@ class ChatWidget extends StatelessWidget {
           width: size.width,
           // color: Colors.yellow,
           padding: const EdgeInsets.only(
-            top: 8,
-            bottom: 8,
+            top: 10,
+            bottom: 10,
             left: 8,
             right: 10,
           ),
@@ -90,34 +95,52 @@ class ChatWidget extends StatelessWidget {
               // const SizedBox(width: 10),
               SizedBox(width: size.width * 0.02),
               SizedBox(
-                width: size.width * 0.60,
+                width: size.width * 0.50,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      '${chat.user!.firstName} ${chat.user!.lastName}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 17,
-                      ),
-                    ),
-                    SizedBox(height: size.height * 0.002),
+                    // Text(
+                    //   '${chat.user!.firstName!.substring(0, 1)} ${chat.user!.lastName}',
+                    //   style: const TextStyle(
+                    //     fontWeight: FontWeight.w500,
+                    //     fontSize: 14,
+                    //   ),
+                    // ),
+                    // SizedBox(height: size.height * 0.002),
                     Text(
                       chat.service!.serviceTitle.toString(),
                       style: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
                       ),
                     ),
-                    SizedBox(height: size.height * 0.005),
-                    Text(
-                      chat.message!.offer.toString(),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        color: Colors.black54,
+                    SizedBox(height: size.height * 0.002),
+                    if (chat.message!.offer == null)
+                      Text(
+                        chat.message!.message.toString(),
+                        // chat.message!.offer == 'null'
+                        //     ? chat.message!.message.toString()
+                        //     : chat.message!.offer.toString(),
+                        maxLines: 1,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                          color: Colors.black54,
+                        ),
                       ),
-                    ),
+                    if (chat.message!.message == null)
+                      Text(
+                        'Offer : ${chat.message!.offer}',
+                        // chat.message!.offer == 'null'
+                        //     ? chat.message!.message.toString()
+                        //     : chat.message!.offer.toString(),
+                        maxLines: 1,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                          color: Colors.black54,
+                        ),
+                      ),
                   ],
                 ),
               ),

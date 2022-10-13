@@ -1,4 +1,4 @@
-package com.example.bizhub_new
+package com.example.bizhub
 
 import io.flutter.embedding.android.FlutterActivity
 

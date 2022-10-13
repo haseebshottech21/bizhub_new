@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "569333853926",
+    "project_id": "bizhubai-a8775",
+    "storage_bucket": "bizhubai-a8775.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:569333853926:android:d7f367bbdbe57664d35527",
+        "android_client_info": {
+          "package_name": "com.example.bizhub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "569333853926-6dpnifcdmlnhrlkv9q6m7i1kul2nldcj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo-czhn1ajCiMufjPido5tTwyDCRpw62Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "569333853926-6dpnifcdmlnhrlkv9q6m7i1kul2nldcj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

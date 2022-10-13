@@ -1,15 +1,19 @@
+import 'dart:io';
 import 'package:bizhub_new/widgets/common/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../../components/deafult_button.dart';
+import '../../main.dart';
 import '../../utils/field_validator.dart';
 import '../../utils/mytheme.dart';
 import '../../utils/routes/routes_name.dart';
+import '../../utils/utils.dart';
 import '../../view_model/auth_view_model.dart';
 import '../../widgets/common/auth_botom.dart';
-import '../account/component/profile_image.dart';
 import '../../widgets/common/input_textfield.dart';
+import '../account/component/select_photo.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -34,8 +38,15 @@ class _SignupScreenState extends State<SignupScreen> {
 
   // final textFieldValidator = TextFieldValidators();
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  // }
+
   @override
   void initState() {
+    final auth = Provider.of<AuthViewModel>(context, listen: false);
+    auth.initialSignupValues();
     super.initState();
   }
 
@@ -43,16 +54,21 @@ class _SignupScreenState extends State<SignupScreen> {
     if (!_formKey.currentState!.validate()) {
       return;
     } else {
-      final authViewModel = Provider.of<AuthViewModel>(context, listen: true);
+      final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
       Map data = {
+        if (authViewModel.imageDetail['imagePath'].toString().isNotEmpty)
+          "image": authViewModel.imageDetail['image'].toString(),
+        if (authViewModel.imageDetail['imagePath'].toString().isNotEmpty)
+          "extension": authViewModel.imageDetail['extension'].toString(),
         "first_name": firstNameController.text.trim(),
         "last_name": lastNameController.text.trim(),
         "email": emailAddressController.text.trim(),
         "phone": phoneNumberController.text.trim(),
         "password": passwordController.text.trim(),
         "password_confirmation": confirmPasswordController.text.trim(),
-        "device_id": '123',
+        "device_id": MyApp.notifyToken,
       };
+      // print(data);
       authViewModel.signUp(data, context);
     }
   }
@@ -92,6 +108,83 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: Column(
                     children: [
                       // const ProfileImage(),
+                      Consumer<AuthViewModel>(
+                        builder: (context, auth, _) {
+                          // print(auth.imageDetail['imagePath'].toString());
+                          return GestureDetector(
+                            onTap: () => _showSelectPhoto(context),
+                            // onTap: () {},
+                            child: SizedBox(
+                              height: 150,
+                              width: 150,
+                              child: Stack(
+                                children: [
+                                  auth.imageDetail['imagePath']
+                                          .toString()
+                                          .isEmpty
+                                      ? Center(
+                                          child: Container(
+                                            width: 125,
+                                            height: 125,
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey.shade200,
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                            child: const Icon(
+                                              Icons.person,
+                                              size: 115,
+                                              color: Colors.black38,
+                                            ),
+                                          ),
+                                        )
+                                      : Center(
+                                          child: Container(
+                                            width: 125,
+                                            height: 125,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: FileImage(
+                                                  File(
+                                                    auth.imageDetail[
+                                                            'imagePath']
+                                                        .toString(),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                  Positioned(
+                                    right: 5,
+                                    bottom: 5,
+                                    child: Container(
+                                      // width: 32,
+                                      // height: 32,
+                                      padding: const EdgeInsets.all(2),
+                                      decoration: BoxDecoration(
+                                        color: MyTheme.greenColor,
+                                        borderRadius: BorderRadius.circular(6),
+                                        // border: Border.all(color: Colors.white, width: 2),
+                                      ),
+                                      child: const Center(
+                                        child: Icon(
+                                          Icons.add,
+                                          color: MyTheme.whiteColor,
+                                          size: 25,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                       const SizedBox(height: 15),
                       InputTextFormField(
                         controller: firstNameController,
@@ -121,7 +214,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         validator: textFieldValidator.phoneNumberErrorGetter,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
-                          LengthLimitingTextInputFormatter(11),
+                          LengthLimitingTextInputFormatter(10),
                         ],
                       ),
                       const SizedBox(height: 8),
@@ -188,12 +281,12 @@ class _SignupScreenState extends State<SignupScreen> {
                   return DeafultButton(
                     title: 'Sign Up',
                     isloading: authViewModel.loading,
-                    // onPress: validateAndSignup,
-                    onPress: () {
-                      validateAndSignup();
-                      // print(authViewModel.loading);
-                      // authViewModel.signUp(context);
-                    },
+                    onPress: validateAndSignup,
+                    // onPress: () {
+                    //   validateAndSignup();
+                    //   // print(authViewModel.loading);
+                    //   // authViewModel.signUp(context);
+                    // },
                   );
                 },
               ),
@@ -213,5 +306,89 @@ class _SignupScreenState extends State<SignupScreen> {
     passwordController.dispose();
     confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  void _showSelectPhoto(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(15.0),
+        ),
+      ),
+      builder: (context) => DraggableScrollableSheet(
+        initialChildSize: 0.22,
+        maxChildSize: 0.26,
+        minChildSize: 0.22,
+        expand: false,
+        builder: (context, scrollController) {
+          return Consumer<AuthViewModel>(
+            builder: (context, authViewModel, _) {
+              return SingleChildScrollView(
+                controller: scrollController,
+                child: Stack(
+                  alignment: Alignment.topCenter,
+                  clipBehavior: Clip.none,
+                  children: [
+                    Positioned(
+                      top: 10,
+                      child: Container(
+                        width: 50,
+                        height: 4,
+                        // margin: const EdgeInsets.only(bottom: 20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(2.5),
+                          color: Colors.black54,
+                        ),
+                      ),
+                    ),
+                    // const SizedBox(height: 30),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 25),
+                      child: Column(
+                        children: [
+                          SelectPhoto(
+                            textLabel: 'Select from Gallery',
+                            icon: Icons.image,
+                            onTap: () async {
+                              var image = await Utils().getImageFromSource(
+                                context,
+                                ImageSource.gallery,
+                              );
+                              if (image == null) return;
+                              authViewModel.setImage(
+                                context: context,
+                                file: image,
+                              );
+                            },
+                          ),
+                          // const SizedBox(height: 5),
+                          SelectPhoto(
+                            onTap: () async {
+                              var image = await Utils().getImageFromSource(
+                                context,
+                                ImageSource.camera,
+                              );
+                              if (image == null) return;
+                              authViewModel.setImage(
+                                context: context,
+                                file: image,
+                              );
+                            },
+                            textLabel: 'Select from Camera',
+                            icon: Icons.camera_alt_outlined,
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
   }
 }

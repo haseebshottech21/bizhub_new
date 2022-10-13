@@ -1,6 +1,11 @@
 import 'package:bizhub_new/components/deafult_button.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
+import 'package:bizhub_new/utils/shared_prefrences.dart';
+import 'package:bizhub_new/view_model/all_services_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../view_model/category_view_model.dart';
 
 class FilterScreen extends StatefulWidget {
   const FilterScreen({Key? key}) : super(key: key);
@@ -10,20 +15,35 @@ class FilterScreen extends StatefulWidget {
 }
 
 class _FilterScreenState extends State<FilterScreen> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getAllData();
+    });
+    super.initState();
+  }
+
+  getAllData() {
+    final categories = Provider.of<CategoryViewModel>(context, listen: false);
+    categories.getCategoriesList(context);
+  }
+
   RangeValues currentRangeValues = const RangeValues(0, 2000);
 
   int selectedIndex = 0;
-  List<String> options = [
-    'Woolha',
-    'Flutter',
-    'Dart',
-    'Web develop',
-    'App Develop',
-    'Market'
-  ];
+  // List<String> options = [
+  //   'Woolha',
+  //   'Flutter',
+  //   'Dart',
+  //   'Web develop',
+  //   'App Develop',
+  //   'Market'
+  // ];
 
   @override
   Widget build(BuildContext context) {
+    final category = Provider.of<CategoryViewModel>(context, listen: true);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -44,6 +64,8 @@ class _FilterScreenState extends State<FilterScreen> {
           TextButton(
             onPressed: () {
               // Navigator.of(context).pop();
+              // category.filterCatId = '';
+              context.read<CategoryViewModel>().clearFilter();
             },
             child: const Text('Reset'),
           ),
@@ -122,11 +144,11 @@ class _FilterScreenState extends State<FilterScreen> {
               spacing: 6.0,
               runSpacing: 6.0,
               children: List.generate(
-                options.length,
+                category.categoryList.length,
                 (index) {
                   return ChoiceChip(
                     label: Text(
-                      options[index],
+                      category.categoryList[index].catTitle.toString(),
                       style: TextStyle(
                         color: selectedIndex == index
                             ? Colors.white
@@ -141,6 +163,9 @@ class _FilterScreenState extends State<FilterScreen> {
                       setState(() {
                         if (selected) {
                           selectedIndex = index;
+                          category.setCategoryId(
+                            category.categoryList[index].catId.toString(),
+                          );
                         }
                       });
                     },
@@ -149,9 +174,17 @@ class _FilterScreenState extends State<FilterScreen> {
               ),
             ),
             const SizedBox(height: 30),
-            DeafultButton(
-              title: 'Apply',
-              onPress: () {},
+            Consumer<AllServicesViewModel>(
+              builder: (context, allServices, _) {
+                return DeafultButton(
+                  // isloading: allServices.loading,
+                  title: 'Apply',
+                  onPress: () async {
+                    print('category: ${category.filterCatId}');
+                    print(await Prefrences().getSharedPreferenceValue('catId'));
+                  },
+                );
+              },
             )
           ],
         ),

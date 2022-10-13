@@ -1,4 +1,4 @@
-import 'package:bizhub_new/utils/dummy_data.dart';
+// import 'package:bizhub_new/utils/dummy_data.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/view/home/components/all_services_items.dart';
@@ -26,6 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> getAllServices() async {
     await Provider.of<AllServicesViewModel>(context, listen: false)
         .getAllServicesList(context);
+    // await Provider.of<AllServicesViewModel>(context, listen: false)
+    //     .checkAllServices(context);
   }
 
   @override
@@ -179,7 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     crossAxisSpacing: 8,
                                   ),
                                   itemBuilder: (context, index) {
-                                    return AllPostsItem(
+                                    return AllServiceIem(
                                       serviceModel: allServiceViewModel
                                           .allServiceList[index],
                                     );

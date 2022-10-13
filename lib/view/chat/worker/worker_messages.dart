@@ -1,18 +1,19 @@
-import 'package:bizhub_new/utils/mytheme.dart';
+import 'package:bizhub_new/view/chat/component/offer_message_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../utils/mytheme.dart';
 import '../../../view_model/chat_view_model.dart';
-import '../component/offer_message_item.dart';
 
-class PosterMessages extends StatefulWidget {
-  const PosterMessages({Key? key}) : super(key: key);
+class WorkerMessages extends StatefulWidget {
+  const WorkerMessages({Key? key}) : super(key: key);
 
   @override
-  State<PosterMessages> createState() => _PosterMessagesState();
+  State<WorkerMessages> createState() => _WorkerMessagesState();
 }
 
-class _PosterMessagesState extends State<PosterMessages> {
+class _WorkerMessagesState extends State<WorkerMessages> {
+  // final ScrollController scrollController = ScrollController();
   final messageController = TextEditingController();
 
   @override
@@ -35,11 +36,7 @@ class _PosterMessagesState extends State<PosterMessages> {
   Widget build(BuildContext context) {
     Map? chat = ModalRoute.of(context)!.settings.arguments as Map;
 
-    // final message = context.watch<ChatViewModel>();
-
-    // print(serviceId.toString());
     return Scaffold(
-      // backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
         leading: const BackButton(color: Colors.black),
         backgroundColor: Colors.white,
@@ -72,59 +69,75 @@ class _PosterMessagesState extends State<PosterMessages> {
               children: [
                 Consumer<ChatViewModel>(
                   builder: (context, chatViewModel, _) {
-                    if (chatViewModel.loading) {
-                      return const Expanded(
-                        child: Center(child: CircularProgressIndicator()),
-                      );
-                    }
                     return Expanded(
-                      child: ListView.builder(
-                        reverse: true,
-                        itemCount: chatViewModel.messageList.length,
-                        itemBuilder: (context, index) {
-                          // print(chatViewModel.messageList[index].message);
-                          if (chatViewModel.messageList[index].isMe == true) {
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                if (chatViewModel.messageList[index].offer ==
-                                    null)
-                                  MessageItem(
-                                    message: chatViewModel.messageList[index],
-                                  ),
-                                if (chatViewModel.messageList[index].message ==
-                                    null)
-                                  OfferMessageItem(
-                                    message: chatViewModel.messageList[index],
-                                  )
-                              ],
-                            );
-                          } else {
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                if (chatViewModel.messageList[index].offer ==
-                                    null)
-                                  MessageItem(
-                                    message: chatViewModel.messageList[index],
-                                    isMe: false,
-                                  ),
-                                if (chatViewModel.messageList[index].message ==
-                                    null)
-                                  OfferMessageItem(
-                                    message: chatViewModel.messageList[index],
-                                    isMe: false,
-                                  )
-                              ],
-                            );
-                          }
-                        },
-                      ),
+                      child: chatViewModel.loading
+                          ? const Center(child: CircularProgressIndicator())
+                          : ListView.builder(
+                              reverse: true,
+                              padding: const EdgeInsets.only(top: 20),
+                              itemCount: chatViewModel.messageList.length,
+                              itemBuilder: (context, index) {
+                                // print(chatViewModel.messageList[index].isMe);
+                                if (chatViewModel.messageList[index].isMe ==
+                                    true) {
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      // MessageItem(
+                                      //   message: chatViewModel.messageList[index],
+                                      // ),
+                                      if (chatViewModel
+                                              .messageList[index].offer ==
+                                          null)
+                                        MessageItem(
+                                          message:
+                                              chatViewModel.messageList[index],
+                                        ),
+                                      if (chatViewModel
+                                              .messageList[index].message ==
+                                          null)
+                                        OfferMessageItem(
+                                          message:
+                                              chatViewModel.messageList[index],
+                                        )
+                                    ],
+                                  );
+                                } else {
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      if (chatViewModel
+                                              .messageList[index].offer ==
+                                          null)
+                                        // Text(
+                                        //   chatViewModel.messageList[index].message
+                                        //       .toString(),
+                                        // ),
+                                        MessageItem(
+                                          message:
+                                              chatViewModel.messageList[index],
+                                          isMe: false,
+                                        ),
+                                      if (chatViewModel
+                                              .messageList[index].message ==
+                                          null)
+                                        // Text(
+                                        //   chatViewModel.messageList[index].offer
+                                        //       .toString(),
+                                        // )
+                                        OfferMessageItem(
+                                          message:
+                                              chatViewModel.messageList[index],
+                                          isMe: false,
+                                        )
+                                    ],
+                                  );
+                                }
+                              },
+                            ),
                     );
                   },
                 ),
-                //  MessageBottom(),
-
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Card(
@@ -152,7 +165,6 @@ class _PosterMessagesState extends State<PosterMessages> {
                                       color: MyTheme.greenColor,
                                       size: 24,
                                     ),
-                                    const SizedBox(width: 5),
                                     Expanded(
                                       child: Container(
                                         margin:
@@ -211,23 +223,20 @@ class _PosterMessagesState extends State<PosterMessages> {
                               ),
                               Consumer<ChatViewModel>(
                                 builder: (context, messageViewModel, _) {
-                                  return
-                                      // messageViewModel.messageLoading
-                                      //     ? const Center(
-                                      //         child: CircularProgressIndicator(),
-                                      //       )
-                                      //     :
-                                      IconButton(
+                                  return IconButton(
                                     splashRadius: 20,
                                     icon: Icon(
                                       Icons.send,
                                       // color: isVisible
                                       //     ? Colors.grey.shade700
                                       //     : Colors.blue,
-                                      color: Colors.grey.shade600,
+                                      color: Colors.grey.shade700,
                                     ),
                                     onPressed: () {
                                       Map data = {
+                                        // "service_id": serviceId,
+                                        // "receiver_id": '1',
+                                        // "message": messageController.text,
                                         "service_id": chat['service_id'],
                                         "receiver_id": messageViewModel
                                             .oppositeUser!.userId

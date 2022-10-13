@@ -33,13 +33,13 @@ class Chats extends StatelessWidget {
             tabs: [
               Tab(
                 child: Text(
-                  'Poster'.toUpperCase(),
+                  'Leads'.toUpperCase(),
                   style: const TextStyle(color: Colors.black),
                 ),
               ),
               Tab(
                 child: Text(
-                  'Worker'.toUpperCase(),
+                  'Services'.toUpperCase(),
                   style: const TextStyle(color: Colors.black),
                 ),
               ),

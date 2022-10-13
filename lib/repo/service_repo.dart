@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:bizhub_new/model/service_model.dart';
-
 import '../utils/app_url.dart';
 import '../utils/shared_prefrences.dart';
 import 'package:http/http.dart' as http;
@@ -36,10 +34,12 @@ class ServiceRepository {
   // All Services
   Future<List<ServiceModel>> fetchAllServicesList({
     required String serviceType,
+    String categoryId = '',
   }) async {
     try {
       final response = await http.get(
-        Uri.parse('${AppUrl.allServiceEndPoint}?type=$serviceType'),
+        Uri.parse(
+            '${AppUrl.allServiceEndPoint}?type=$serviceType&cat_id=$categoryId'),
         headers: await AppUrl().headerWithAuth(),
       );
       // print('${AppUrl.allServiceEndPoint}?type=$serviceType');
@@ -58,10 +58,10 @@ class ServiceRepository {
     return [];
   }
 
-  Future<ServiceModel?> fetchAllService({
+  Future<ServiceDetalModel?> fetchAllServiceDetail({
     required String serviceId,
   }) async {
-    ServiceModel? allService;
+    ServiceDetalModel? allService;
     try {
       final response = await http.get(
         Uri.parse('${AppUrl.myPosterServiceDetailEndPoint}/$serviceId'),
@@ -72,7 +72,7 @@ class ServiceRepository {
       if (response.statusCode == 200 || response.statusCode == 201) {
         // ServiceModel myPosterService =
         //     loadedData['data'].map((e) => ServiceModel.fromJson(e)).toList();
-        allService = ServiceModel.fromJson(loadedData['data']);
+        allService = ServiceDetalModel.fromJson(loadedData['data']);
         // print(myPosterService);
         return allService;
       } else {
@@ -177,6 +177,55 @@ class ServiceRepository {
     } catch (e) {
       Utils.toastMessage(e.toString());
       return false;
+    }
+  }
+
+  // COMPLETE
+  Future<ServiceCompleteModel?> fetchCompleteService({
+    required String serviceId,
+  }) async {
+    ServiceCompleteModel? serviceCompleteModel;
+    try {
+      final response = await http.get(
+        Uri.parse('${AppUrl.completeMyServiceEndPoint}/$serviceId'),
+        headers: await AppUrl().headerWithAuth(),
+      );
+      // print(response.body);
+      final loadedData = json.decode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // ServiceModel myPosterService =
+        //     loadedData['data'].map((e) => ServiceModel.fromJson(e)).toList();
+        serviceCompleteModel =
+            ServiceCompleteModel.fromJson(loadedData['data']);
+        // print(myPosterService);
+        return serviceCompleteModel;
+      } else {
+        Utils.toastMessage(loadedData['message']);
+      }
+    } catch (e) {
+      Utils.toastMessage(e.toString());
+    }
+    return serviceCompleteModel;
+  }
+
+  // RATE
+  Future<dynamic> completeAndRate(dynamic data) async {
+    try {
+      http.Response response = await http.post(
+        Uri.parse(AppUrl.rateAndCompleteServiceEndPoint),
+        body: data,
+        headers: await AppUrl().headerWithAuth(),
+      );
+      final responseLoaded = jsonDecode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return responseLoaded;
+      } else {
+        Utils.toastMessage(responseLoaded['message']);
+      }
+    } catch (e) {
+      // print(e.toString());
+      Utils.toastMessage(e.toString());
+      // Fluttertoast.showToast(msg: e.toString());
     }
   }
 }

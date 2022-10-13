@@ -128,12 +128,16 @@ class LabelTextField extends StatelessWidget {
   final String label;
   final String? hintText;
   final TextEditingController controller;
+  final Function? validator;
   final bool isEnabled;
   final bool? textAreaField;
   final int? minLinesTextArea;
+  final List<TextInputFormatter>? inputFormatters;
   const LabelTextField({
     required this.label,
     required this.controller,
+    this.validator,
+    this.inputFormatters,
     this.hintText = '',
     this.isEnabled = true,
     this.textAreaField = false,
@@ -155,11 +159,13 @@ class LabelTextField extends StatelessWidget {
         ),
         const SizedBox(height: 1),
         textAreaField == false
-            ? TextField(
+            ? TextFormField(
                 style: const TextStyle(color: Colors.black),
                 cursorColor: MyTheme.greenColor,
                 // keyboardType: TextInputType.multiline,
                 // maxLines: null,
+                validator: (value) => validator!(value),
+                inputFormatters: inputFormatters,
                 enabled: isEnabled,
                 controller: controller,
                 decoration: InputDecoration(
@@ -195,7 +201,7 @@ class LabelTextField extends StatelessWidget {
                   prefixText: ' ',
                 ),
               )
-            : TextField(
+            : TextFormField(
                 style: const TextStyle(color: Colors.black),
                 cursorColor: MyTheme.greenColor,
                 // keyboardType: TextInputType.multiline,
@@ -204,6 +210,7 @@ class LabelTextField extends StatelessWidget {
                 minLines: minLinesTextArea,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
+                validator: (value) => validator!(value),
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.only(
                     left: 15,

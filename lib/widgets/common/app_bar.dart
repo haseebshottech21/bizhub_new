@@ -68,17 +68,18 @@ actionAppBar({
 }) {
   return AppBar(
     backgroundColor: MyTheme.whiteColor,
+    automaticallyImplyLeading: false,
     elevation: 3,
-    leading: IconButton(
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-      icon: const Icon(
-        Icons.arrow_back,
-        color: MyTheme.greenColor,
-        size: 22.0,
-      ),
-    ),
+    // leading: IconButton(
+    //   onPressed: () {
+    //     Navigator.of(context).pop();
+    //   },
+    //   icon: const Icon(
+    //     Icons.arrow_back,
+    //     color: MyTheme.greenColor,
+    //     size: 22.0,
+    //   ),
+    // ),
     centerTitle: false,
     title: Text(
       appBarTitle,

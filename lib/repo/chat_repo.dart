@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:bizhub_new/model/chat_model.dart';
 import 'package:bizhub_new/model/message_model.dart';
+import 'package:bizhub_new/model/user_model.dart';
 import 'package:http/http.dart' as http;
 import '../utils/app_url.dart';
 import '../utils/utils.dart';
 
 class ChatRepository {
+  // Send Offer
   Future<dynamic> sendOfferApi(dynamic data) async {
     try {
       http.Response response = await http.post(
@@ -28,8 +30,31 @@ class ChatRepository {
     }
   }
 
+  // Send Message
+  Future<dynamic> sendMessageApi(dynamic data) async {
+    try {
+      http.Response response = await http.post(
+        Uri.parse(AppUrl.sendOfferEndPoint),
+        body: data,
+        headers: await AppUrl().headerWithAuth(),
+      );
+
+      final responseLoaded = jsonDecode(response.body);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return responseLoaded;
+      } else {
+        Utils.toastMessage(responseLoaded['message']);
+      }
+    } catch (e) {
+      // print(e.toString());
+      Utils.toastMessage(e.toString());
+      // Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
   // Poster Chats List
-  Future<List<ChatModel>> fetchMyPosterChatsList() async {
+  Future<List<ChatModel>> fetchMyLeadChatsList() async {
     try {
       final response = await http.get(
         Uri.parse(AppUrl.posterChatListEndPoint),
@@ -54,7 +79,7 @@ class ChatRepository {
   }
 
   // Poster Messages List
-  Future<List<MessageModel>> fetchMyPosterMessagesList({
+  Future<Map<String, dynamic>> fetchMessagesList({
     required String chatId,
   }) async {
     try {
@@ -65,10 +90,14 @@ class ChatRepository {
       // print(response.body);
       final loadedData = json.decode(response.body);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        List<MessageModel> myMessagesList = (loadedData['data'] as List)
-            .map((e) => MessageModel.fromJson(e))
-            .toList();
-        return myMessagesList;
+        List<MessageModel> myMessagesList =
+            (loadedData['data']["messages"] as List)
+                .map((e) => MessageModel.fromJson(e))
+                .toList();
+        return {
+          "messages": myMessagesList,
+          "user": UserModel.fromJson(loadedData['data']["user"]),
+        };
       } else {
         // print(loadedData['message']);
         Utils.toastMessage(loadedData['message']);
@@ -77,11 +106,11 @@ class ChatRepository {
       // print(e.toString());
       Utils.toastMessage(e.toString());
     }
-    return [];
+    return {};
   }
 
   // Worker Chats List
-  Future<List<ChatModel>> fetchMyWorkerChatsList() async {
+  Future<List<ChatModel>> fetchMyServiceChatsList() async {
     try {
       final response = await http.get(
         Uri.parse(AppUrl.workerChatListEndPoint),
@@ -90,10 +119,10 @@ class ChatRepository {
       // print(response.body);
       final loadedData = json.decode(response.body);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        List<ChatModel> myPosterServiceList = (loadedData['data'] as List)
+        List<ChatModel> myServiceChatList = (loadedData['data'] as List)
             .map((e) => ChatModel.fromJson(e))
             .toList();
-        return myPosterServiceList;
+        return myServiceChatList;
       } else {
         // print(loadedData['message']);
         Utils.toastMessage(loadedData['message']);

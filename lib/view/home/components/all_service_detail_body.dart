@@ -1,4 +1,5 @@
 import 'package:bizhub_new/utils/app_url.dart';
+import 'package:bizhub_new/view/account/profile/view_other_profile.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/mytheme.dart';
 import '../../../view_model/all_services_view_model.dart';
@@ -15,6 +16,7 @@ class AllServiceDetailBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final user = allServiceViewModel.serviceDetalModel!.user;
 
     return SingleChildScrollView(
       child: Column(
@@ -24,10 +26,11 @@ class AllServiceDetailBody extends StatelessWidget {
             height: size.height * 0.28,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: allServiceViewModel.serviceModel!.imagesList!.length,
+              itemCount:
+                  allServiceViewModel.serviceDetalModel!.imagesList!.length,
               itemBuilder: (BuildContext context, int index) {
                 final serviceImages =
-                    allServiceViewModel.serviceModel!.imagesList![index];
+                    allServiceViewModel.serviceDetalModel!.imagesList![index];
                 return GestureDetector(
                   onTap: () => {},
                   child: Stack(
@@ -61,7 +64,7 @@ class AllServiceDetailBody extends StatelessWidget {
                           ),
                           child: Center(
                             child: Text(
-                              '${index + 1}/${allServiceViewModel.serviceModel!.imagesList!.length}',
+                              '${index + 1}/${allServiceViewModel.serviceDetalModel!.imagesList!.length}',
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 12,
@@ -84,7 +87,7 @@ class AllServiceDetailBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '\$ ${allServiceViewModel.serviceModel!.serviceAmount.toString()}',
+                  '\$ ${allServiceViewModel.serviceDetalModel!.serviceAmount.toString()}',
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
@@ -92,7 +95,8 @@ class AllServiceDetailBody extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  allServiceViewModel.serviceModel!.serviceTitle.toString(),
+                  allServiceViewModel.serviceDetalModel!.serviceTitle
+                      .toString(),
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
@@ -126,7 +130,7 @@ class AllServiceDetailBody extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  allServiceViewModel.serviceModel!.serviceDesc.toString(),
+                  allServiceViewModel.serviceDetalModel!.serviceDesc.toString(),
                   style: const TextStyle(
                     fontSize: 14,
                     color: Colors.grey,
@@ -137,7 +141,20 @@ class AllServiceDetailBody extends StatelessWidget {
                 const Divider(),
                 const SizedBox(height: 5),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ViewOtherProfile(),
+                        settings: RouteSettings(
+                          // arguments: {
+                          //   'first_name': user!.firstName,
+                          // },
+                          arguments: user,
+                        ),
+                      ),
+                    );
+                  },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                       vertical: 4,
@@ -146,23 +163,24 @@ class AllServiceDetailBody extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        const CachedImageWidget(
+                        CachedImageWidget(
                           height: 55,
                           width: 55,
                           radius: 50,
-                          imgUrl:
-                              'https://i.pinimg.com/736x/25/78/61/25786134576ce0344893b33a051160b1.jpg',
+                          imgUrl: user!.image!.isEmpty
+                              ? AppUrl.emptyImage
+                              : AppUrl.baseUrl + user.image.toString(),
                         ),
                         const SizedBox(width: 12),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
-                              'USER NAME',
-                              style: TextStyle(fontSize: 14),
+                              '${user.firstName} ${user.lastName}',
+                              style: const TextStyle(fontSize: 14),
                             ),
-                            SizedBox(height: 2),
-                            Text(
+                            const SizedBox(height: 2),
+                            const Text(
                               'VIEW PROFILE',
                               style: TextStyle(
                                 color: MyTheme.greenColor,

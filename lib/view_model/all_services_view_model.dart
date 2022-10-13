@@ -11,6 +11,7 @@ class AllServicesViewModel extends ChangeNotifier {
   final prefernce = Prefrences();
   List<ServiceModel> allServiceList = [];
   ServiceModel? serviceModel;
+  ServiceDetalModel? serviceDetalModel;
   bool nearByJobs = true;
 
   List<ServiceModel> displayList = [];
@@ -37,8 +38,12 @@ class AllServicesViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  selectType(bool type, BuildContext context) {
+  selectType(
+    bool type,
+    BuildContext context,
+  ) {
     nearByJobs = type;
+    allServiceList.clear();
     setLoad(true);
     Future.delayed(Duration.zero).then(
       (value) async {
@@ -56,16 +61,32 @@ class AllServicesViewModel extends ChangeNotifier {
     // print(isPoster);
   }
 
+  // checkAllServices(BuildContext context) async {
+  //   String catId = '';
+  //   catId = await prefernce.getSharedPreferenceValue('catId');
+  //   if (catId.isEmpty) {
+  //     getAllServicesList(context, catId);
+  //     print('All Services');
+  //   } else {
+  //     getAllServicesList(context, catId);
+  //     print('CatWise');
+  //   }
+  // }
+
   Future<void> getAllServicesList(
     BuildContext context,
   ) async {
+    allServiceList.clear();
     setLoad(true);
     Future.delayed(const Duration(seconds: 1)).then(
       (value) async {
         // getMyPosts = getPosts();
         if (allServiceList.isEmpty) {
-          allServiceList =
-              await serviceRepo.fetchAllServicesList(serviceType: '0');
+          allServiceList = await serviceRepo.fetchAllServicesList(
+            serviceType: '0',
+            // categoryId: await Prefrences().getSharedPreferenceValue('catId'),
+            // categoryId: categoryId,
+          );
         }
         setLoad(false);
       },
@@ -80,29 +101,57 @@ class AllServicesViewModel extends ChangeNotifier {
     setLoad(true);
     Future.delayed(const Duration(seconds: 1)).then(
       (value) async {
-        serviceModel = await serviceRepo.fetchAllService(serviceId: serviceId);
+        serviceDetalModel =
+            await serviceRepo.fetchAllServiceDetail(serviceId: serviceId);
         setLoad(false);
       },
     );
     notifyListeners();
   }
 
-  Future<void> sendOffer(
-    // dynamic data,
-    BuildContext context,
-  ) async {
+  // SEND OFFER
+  Future<void> sendOffer({
+    required dynamic data,
+    required BuildContext context,
+    TextEditingController? controller,
+  }) async {
     setOfferLoad(true);
-    // final loadedData = await chatRepo.sendOfferApi(data);
+    final loadedData = await chatRepo.sendOfferApi(data);
     // // print(loadedData);
-    // if (loadedData == null) {
-    //   setLoad(false);
-    // } else if (loadedData != null) {
-    Future.delayed(const Duration(seconds: 2)).then(
-      (value) {
-        setOfferLoad(false);
-        Utils.toastMessage('Offer Send Successfully!');
-        Navigator.of(context).pop();
-      },
-    );
+    if (loadedData == null) {
+      setLoad(false);
+    } else if (loadedData != null) {
+      Future.delayed(const Duration(seconds: 2)).then(
+        (value) {
+          setOfferLoad(false);
+          Utils.toastMessage('Offer Send Successfully!');
+          Navigator.of(context).pop();
+          controller!.clear();
+        },
+      );
+    }
+  }
+
+  // SEND MESSAGE
+  Future<void> sendMessage({
+    required dynamic data,
+    required BuildContext context,
+    TextEditingController? controller,
+  }) async {
+    setOfferLoad(true);
+    final loadedData = await chatRepo.sendOfferApi(data);
+    // // print(loadedData);
+    if (loadedData == null) {
+      setLoad(false);
+    } else if (loadedData != null) {
+      Future.delayed(const Duration(seconds: 2)).then(
+        (value) {
+          setOfferLoad(false);
+          Utils.toastMessage('Message Send Successfully!');
+          Navigator.of(context).pop();
+          controller!.clear();
+        },
+      );
+    }
   }
 }

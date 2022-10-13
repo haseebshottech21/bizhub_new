@@ -64,6 +64,11 @@ class AuthViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  initialSignupValues() {
+    imageDetail['imagePath'] = '';
+    imageDetail['extension'] = '';
+  }
+
   Map<String, String> imageDetail = {
     'image': '',
     'imagePath': '',
@@ -123,6 +128,7 @@ class AuthViewModel extends ChangeNotifier {
   Future<void> getUser(
     BuildContext context,
   ) async {
+    user = null;
     setLoad(true);
     user ??= await authRepo.showUser();
     setLoad(false);
@@ -216,7 +222,7 @@ class AuthViewModel extends ChangeNotifier {
           setLoad(false);
           if (kDebugMode) {
             // clearFields();
-            Navigator.pushNamed(context, RouteName.otpSuccess);
+            Navigator.pushNamed(context, RouteName.otp);
             // print('Successfully Login');
             Utils.toastMessage('Register Successfully!');
           }
@@ -345,15 +351,42 @@ class AuthViewModel extends ChangeNotifier {
   //   );
   // }
 
-  Future<void> otpVerify(BuildContext context) async {
+  Future<void> otpValidate({
+    required String otpCode,
+    required BuildContext context,
+  }) async {
     setLoad(true);
-    Future.delayed(const Duration(seconds: 3)).then(
-      (value) {
-        setLoad(false);
-        Navigator.pushNamed(context, RouteName.otpSuccess);
-      },
-    );
+    Map data = {
+      'otp': otpCode,
+      'unique_id': await Prefrences().getSharedPreferenceValue('uniqueId'),
+    };
+    final loadedData = await authRepo.validateOTPApi(data);
+    // print(loadedData);
+    if (loadedData == null) {
+      setLoad(false);
+    } else if (loadedData != null) {
+      Future.delayed(const Duration(seconds: 1)).then(
+        (value) {
+          // print(value);
+          setLoad(false);
+          if (kDebugMode) {
+            Navigator.pushNamed(context, RouteName.otpSuccess);
+            // Utils.toastMessage('Password Update Successfully!');
+          }
+        },
+      );
+    }
   }
+
+  // Future<void> otpVerify(BuildContext context) async {
+  //   setLoad(true);
+  //   Future.delayed(const Duration(seconds: 3)).then(
+  //     (value) {
+  //       setLoad(false);
+  //       Navigator.pushNamed(context, RouteName.otpSuccess);
+  //     },
+  //   );
+  // }
 
   // Future<void> logout(BuildContext context) async {
   //   setLoad(true);

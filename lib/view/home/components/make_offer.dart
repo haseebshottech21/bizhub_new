@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 class MakeOffer extends StatelessWidget {
   const MakeOffer({Key? key}) : super(key: key);
 
+  // final AllServicesViewModel servicesViewModel;
+
   @override
   Widget build(BuildContext context) {
     TextEditingController offerController = TextEditingController();
@@ -62,21 +64,32 @@ class MakeOffer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Consumer<AllServicesViewModel>(
-                builder: (context, allServicesViewModel, _) {
-                  return ElevatedButton(
-                    onPressed: allServicesViewModel.offerLoading
-                        ? null
-                        : () {
-                            // var task = Task(title: titileController.text);
-                            // context.read<TaskBloc>().add(AddTask(task: task));
-                            allServicesViewModel.sendOffer(context);
-                            // Navigator.pop(context);
-                          },
-                    child: const Text('Send Offer'),
-                  );
-                },
-              ),
+              // Consumer<AllServicesViewModel>(
+              //   builder: (context, allServicesViewModel, _) {
+              //     return ElevatedButton(
+              //       onPressed: allServicesViewModel.offerLoading
+              //           ? null
+              //           : () {
+              //               Map data = {
+              //                 'receiver_id':
+              //                     servicesViewModel.serviceDetalModel!.userId,
+              //                 'service_id': servicesViewModel
+              //                     .serviceDetalModel!.serviceId,
+              //                 'offer': offerController.text.trim(),
+              //               };
+              //               print(data);
+              //               // var task = Task(title: titileController.text);
+              //               // context.read<TaskBloc>().add(AddTask(task: task));
+              //               // allServicesViewModel.sendOffer(
+              //               //   context: context,
+              //               //   data: {},
+              //               // );
+              //               // Navigator.pop(context);
+              //             },
+              //       child: const Text('Send Offer'),
+              //     );
+              //   },
+              // ),
             ],
           ),
         ],
