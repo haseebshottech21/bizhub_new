@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:bizhub_new/view/onboard_screen.dart';
 import 'package:flutter/material.dart';
 import '../utils/mytheme.dart';
 import '../utils/routes/routes_name.dart';
@@ -43,12 +44,12 @@ class _SplashScreenState extends State<SplashScreen>
     if (token == null || token == '') {
       Timer(
         const Duration(milliseconds: 2500),
-        () => Navigator.pushNamed(context, RouteName.onboard),
+        () => Navigator.pushReplacementNamed(context, RouteName.onboard),
       );
     } else {
       Timer(
         const Duration(milliseconds: 2500),
-        () => Navigator.pushNamed(context, RouteName.home),
+        () => Navigator.pushReplacementNamed(context, RouteName.home),
       );
     }
   }

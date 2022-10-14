@@ -1,6 +1,6 @@
 import 'package:bizhub_new/model/service_model.dart';
 import 'package:bizhub_new/utils/utils.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../repo/service_repo.dart';
@@ -71,14 +71,14 @@ class MyServiceViewModel extends ChangeNotifier {
         (value) {
           // print(value);
           setLoad(false);
-          if (kDebugMode) {
-            Provider.of<BottomNavigationViewModel>(context, listen: false)
-                .bottomIndex = 1;
-            Navigator.of(context).pop();
-            Navigator.of(context).pop();
-            Navigator.of(context).pop();
-            Utils.toastMessage('Service Create Successfully!');
-          }
+          // if (kDebugMode) {
+          Provider.of<BottomNavigationViewModel>(context, listen: false)
+              .bottomIndex = 1;
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+          Utils.toastMessage('Service Create Successfully!');
+          // }
         },
       );
     }
@@ -227,14 +227,14 @@ class MyServiceViewModel extends ChangeNotifier {
         (value) {
           // print(value);
           setLoad(false);
-          if (kDebugMode) {
-            Navigator.of(context).pop();
-            Utils.toastMessage('Rating Submit Successfully!');
-            Future.delayed(const Duration(seconds: 2)).then((value) async {
-              await getMyPosterServiceList(context);
-            });
-            Navigator.of(context).pop();
-          }
+          // if (kDebugMode) {
+          Navigator.of(context).pop();
+          Utils.toastMessage('Rating Submit Successfully!');
+          Future.delayed(const Duration(seconds: 2)).then((value) async {
+            await getMyPosterServiceList(context);
+          });
+          Navigator.of(context).pop();
+          // }
         },
       );
     }
@@ -255,14 +255,14 @@ class MyServiceViewModel extends ChangeNotifier {
         (value) {
           // print(value);
           setLoad(false);
-          if (kDebugMode) {
-            Navigator.of(context).pop();
-            Utils.toastMessage('Rating Submit Successfully!');
-            Future.delayed(const Duration(seconds: 2)).then((value) async {
-              await getMyWorkerServiceList(context);
-            });
-            Navigator.of(context).pop();
-          }
+          // if (kDebugMode) {
+          Navigator.of(context).pop();
+          Utils.toastMessage('Rating Submit Successfully!');
+          Future.delayed(const Duration(seconds: 2)).then((value) async {
+            await getMyWorkerServiceList(context);
+          });
+          Navigator.of(context).pop();
+          // }
         },
       );
     }

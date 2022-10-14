@@ -3,13 +3,13 @@ import 'package:bizhub_new/view/account/change_password.dart';
 import 'package:bizhub_new/view/account/contact_us.dart';
 import 'package:bizhub_new/view/account/profile/edit_my_profile.dart';
 import 'package:bizhub_new/view/account/profile/view_my_profile.dart';
+import 'package:bizhub_new/view/account/select_language.dart';
 import 'package:bizhub_new/view/auth/forgot_password_screen.dart';
 import 'package:bizhub_new/view/auth/login_screen.dart';
 import 'package:bizhub_new/view/auth/otp_sccess_screen.dart';
 import 'package:bizhub_new/view/auth/reset_password_screen.dart';
 import 'package:bizhub_new/view/auth/signup_screen.dart';
 import 'package:bizhub_new/view/auth/welcome_auth_screen.dart';
-import 'package:bizhub_new/view/chat/messages.dart';
 import 'package:bizhub_new/view/chat/poster/poster_messages.dart';
 import 'package:bizhub_new/view/chat/worker/worker_messages.dart';
 import 'package:bizhub_new/view/create/create_post.dart';
@@ -20,18 +20,14 @@ import 'package:bizhub_new/view/home/search_posts.dart';
 import 'package:bizhub_new/view/navigation/bottom_navigation.dart';
 import 'package:bizhub_new/view/onboard_screen.dart';
 import 'package:bizhub_new/view/splash_screen.dart';
-import 'package:bizhub_new/widgets/common/loading_screen.dart';
 import 'package:flutter/material.dart';
 import '../../view/auth/otp_verification_screen.dart';
 import '../../view/my_services/jobs/edit_poster_service.dart';
-import '../../view/my_services/jobs/lead_complete.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // final arguments = settings.arguments;
     switch (settings.name) {
-      // case RouteName.home:
-      //   return MaterialPageRoute(builder: (context) => const HomeView());
       case RouteName.splash:
         return MaterialPageRoute(builder: (context) => const SplashScreen());
       case RouteName.onboard:
@@ -39,8 +35,6 @@ class RouteGenerator {
       case RouteName.welcome:
         return MaterialPageRoute(
             builder: (context) => const WelcomeAuthScreen());
-      // case RouteName.loading:
-      //   return MaterialPageRoute(builder: (context) => const LoadingScreen());
       case RouteName.login:
         return MaterialPageRoute(builder: (context) => const LoginScreen());
       case RouteName.signup:
@@ -92,6 +86,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const EditMyProfile());
       case RouteName.changePassword:
         return MaterialPageRoute(builder: (context) => const ChangePassword());
+      case RouteName.selectLanguage:
+        return MaterialPageRoute(builder: (context) => const SelectLanguage());
       case RouteName.contactUs:
         return MaterialPageRoute(builder: (context) => const ContactUs());
       default:

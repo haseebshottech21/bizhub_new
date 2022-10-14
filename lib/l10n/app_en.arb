@@ -1,0 +1,11 @@
+{
+    "helloWorld": "Hello World!",
+    "viewYourProfile" : "VIEW YOUR PROFILE",
+    "general" : "General",
+    "changePassword" : "Change Password",
+    "selectLanguage" : "Select Language",
+    "aboutUs" : "About Us",
+    "termAndCondition" : "Term & Condition",
+    "privacyPolicy" : "Privacy Policy",
+    "logout" : "Logout" 
+}

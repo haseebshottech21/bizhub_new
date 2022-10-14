@@ -325,63 +325,127 @@ class EditLabelTextFields extends StatelessWidget {
   }
 }
 
-// class FormTextAreaField extends StatelessWidget {
-//   final String hintText;
-//   final TextEditingController controller;
-//   final Function validator;
-//   final int maxLines;
+class UpdateLabelTextField extends StatelessWidget {
+  final String label;
+  final String? hintText;
+  final TextEditingController controller;
+  // final Function? validator;
+  final bool isEnabled;
+  final bool? textAreaField;
+  final int? minLinesTextArea;
+  final List<TextInputFormatter>? inputFormatters;
+  const UpdateLabelTextField({
+    required this.label,
+    required this.controller,
+    // this.validator,
+    this.inputFormatters,
+    this.hintText = '',
+    this.isEnabled = true,
+    this.textAreaField = false,
+    this.minLinesTextArea = 5,
+    Key? key,
+  }) : super(key: key);
 
-//   const FormTextAreaField({
-//     required this.hintText,
-//     required this.controller,
-//     required this.validator,
-//     required this.maxLines,
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return TextFormField(
-//       controller: controller,
-//       textAlignVertical: TextAlignVertical.center,
-
-//       onSaved: (newValue) {
-//         controller.text = newValue!;
-//       },
-//       validator: (value) => validator(value),
-
-//       // textAlign: TextAlign.left,
-//       // validator: widget.validator,
-//       minLines:
-//           maxLines, // any number you need (It works as the rows for the textarea)
-//       keyboardType: TextInputType.multiline,
-//       maxLines: null,
-//       decoration: InputDecoration(
-//         // contentPadding: const EdgeInsets.all(10.0),
-//         filled: true,
-//         fillColor: Colors.white,
-//         border: OutlineInputBorder(
-//           borderSide: const BorderSide(color: Colors.black87),
-//           borderRadius: BorderRadius.circular(5.0),
-//         ),
-//         focusedBorder: OutlineInputBorder(
-//           borderSide: const BorderSide(color: MyTheme.greenColor, width: 1.5),
-//           borderRadius: BorderRadius.circular(5.0),
-//         ),
-//         hintText: hintText,
-//         hintStyle: const TextStyle(color: Colors.black54),
-//         // hintStyle: GoogleFonts.montserrat(color: Colors.black),
-//         // isDense: true,
-//         // helperText: 'Keep it short, this is just a demo.',
-//         // prefixIcon: Padding(
-//         //   padding: const EdgeInsets.only(left: 15),
-//         //   child: widget.prefixIcon,
-//         // ),
-//         prefixText: '  ',
-//         // suffixIcon: suffixIcon,
-//         // suffixText: 'USD',
-//         // suffixStyle: const TextStyle(color: Colors.green)),
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 14.0,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height: 1),
+        textAreaField == false
+            ? TextFormField(
+                style: const TextStyle(color: Colors.black),
+                cursorColor: MyTheme.greenColor,
+                // keyboardType: TextInputType.multiline,
+                // maxLines: null,
+                // validator: (value) => validator!(value),
+                inputFormatters: inputFormatters,
+                enabled: isEnabled,
+                controller: controller,
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.only(
+                    left: 15,
+                    bottom: 10,
+                    top: 10,
+                    right: 15,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4),
+                    borderSide: const BorderSide(
+                      color: Colors.black,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4),
+                    borderSide: const BorderSide(
+                      color: MyTheme.greenColor,
+                    ),
+                  ),
+                  hintText: hintText,
+                  hintStyle: const TextStyle(color: Colors.black45),
+                  fillColor: Colors.white,
+                  filled: true,
+                  // prefixIcon: Padding(
+                  //   padding: const EdgeInsets.only(left: 12),
+                  //   child: Icon(
+                  //     widget.icon,
+                  //     color: MyTheme.greenColor,
+                  //   ),
+                  // ),
+                  prefixText: ' ',
+                ),
+              )
+            : TextFormField(
+                style: const TextStyle(color: Colors.black),
+                cursorColor: MyTheme.greenColor,
+                // keyboardType: TextInputType.multiline,
+                // maxLines: null,
+                controller: controller,
+                minLines: minLinesTextArea,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                // validator: (value) => validator!(value),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.only(
+                    left: 15,
+                    bottom: 10,
+                    top: 10,
+                    right: 15,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4),
+                    borderSide: const BorderSide(
+                      color: Colors.black,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4),
+                    borderSide: const BorderSide(
+                      color: MyTheme.greenColor,
+                    ),
+                  ),
+                  hintText: hintText,
+                  hintStyle: const TextStyle(color: Colors.black45),
+                  fillColor: Colors.white,
+                  filled: true,
+                  // prefixIcon: Padding(
+                  //   padding: const EdgeInsets.only(left: 12),
+                  //   child: Icon(
+                  //     widget.icon,
+                  //     color: MyTheme.greenColor,
+                  //   ),
+                  // ),
+                  prefixText: ' ',
+                ),
+              ),
+      ],
+    );
+  }
+}

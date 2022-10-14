@@ -8,6 +8,7 @@ import '../../widgets/common/app_bar.dart';
 class OTPSuccessScreen extends StatefulWidget {
   const OTPSuccessScreen({Key? key}) : super(key: key);
 
+
   @override
   State<OTPSuccessScreen> createState() => _OTPSuccessScreenState();
 }

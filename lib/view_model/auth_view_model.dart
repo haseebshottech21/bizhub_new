@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/utils/shared_prefrences.dart';
-import 'package:flutter/foundation.dart';
+import 'package:bizhub_new/view/navigation/test_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../model/user_model.dart';
@@ -192,15 +192,19 @@ class AuthViewModel extends ChangeNotifier {
         (value) {
           // print(value);
           setLoad(false);
-          if (kDebugMode) {
-            // clearFields();
-            Navigator.of(context).pushNamedAndRemoveUntil(
-              RouteName.home,
-              (route) => false,
-            );
-            // print(loadedData['message'].toString());
-            Utils.toastMessage('Logging Successfully!');
-          }
+          // if (kDebugMode) {
+          // clearFields();
+          // Navigator.of(context).pushNamedAndRemoveUntil(
+          //   RouteName.home,
+          //   (route) => false,
+          // );
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            RouteName.home,
+            (route) => false,
+          );
+          // print(loadedData['message'].toString());
+          Utils.toastMessage('Logging Successfully!');
+          // }
         },
       );
     }
@@ -220,12 +224,12 @@ class AuthViewModel extends ChangeNotifier {
         (value) {
           // print(value);
           setLoad(false);
-          if (kDebugMode) {
-            // clearFields();
-            Navigator.pushNamed(context, RouteName.otp);
-            // print('Successfully Login');
-            Utils.toastMessage('Register Successfully!');
-          }
+          // if (kDebugMode) {
+          // clearFields();
+          Navigator.pushNamed(context, RouteName.otp);
+          // print('Successfully Login');
+          Utils.toastMessage('Register Successfully!');
+          // }
         },
       );
     }
@@ -237,20 +241,15 @@ class AuthViewModel extends ChangeNotifier {
   ) async {
     setbtnLoad(true);
     final loadedData = await authRepo.updateUserApi(data);
-    // print(loadedData);
+    // // print(loadedData);
     if (loadedData == null) {
       setbtnLoad(false);
     } else if (loadedData != null) {
       Future.delayed(const Duration(seconds: 1)).then(
         (value) {
-          // print(value);
           setbtnLoad(false);
-          if (kDebugMode) {
-            // clearFields();
-            Navigator.of(context).pop();
-            // print('Successfully Login');
-            Utils.toastMessage('Successfully Update');
-          }
+          Navigator.of(context).pop();
+          Utils.toastMessage('Successfully Update');
         },
       );
     }
@@ -276,10 +275,10 @@ class AuthViewModel extends ChangeNotifier {
         (value) {
           // print(value);
           setLoad(false);
-          if (kDebugMode) {
-            Navigator.pushNamed(context, RouteName.resetPassword);
-            Utils.toastMessage('Send Verification Code!');
-          }
+          // if (kDebugMode) {
+          Navigator.pushNamed(context, RouteName.resetPassword);
+          Utils.toastMessage('Send Verification Code!');
+          // }
         },
       );
     }
@@ -307,10 +306,10 @@ class AuthViewModel extends ChangeNotifier {
         (value) {
           // print(value);
           setLoad(false);
-          if (kDebugMode) {
-            Navigator.pushNamed(context, RouteName.login);
-            Utils.toastMessage('Password Update Successfully!');
-          }
+          // if (kDebugMode) {
+          Navigator.pushNamed(context, RouteName.login);
+          Utils.toastMessage('Password Update Successfully!');
+          // }
         },
       );
     }
@@ -330,12 +329,12 @@ class AuthViewModel extends ChangeNotifier {
         (value) {
           // print(value);
           setLoad(false);
-          if (kDebugMode) {
-            // clearFields();
-            Navigator.of(context).pop();
-            // print('Successfully Login');
-            Utils.toastMessage('Password Update Successfully!');
-          }
+          // if (kDebugMode) {
+          // clearFields();
+          Navigator.of(context).pop();
+          // print('Successfully Login');
+          Utils.toastMessage('Password Update Successfully!');
+          // }
         },
       );
     }
@@ -369,10 +368,10 @@ class AuthViewModel extends ChangeNotifier {
         (value) {
           // print(value);
           setLoad(false);
-          if (kDebugMode) {
-            Navigator.pushNamed(context, RouteName.otpSuccess);
-            // Utils.toastMessage('Password Update Successfully!');
-          }
+          // if (kDebugMode) {
+          Navigator.pushNamed(context, RouteName.otpSuccess);
+          // Utils.toastMessage('Password Update Successfully!');
+          // }
         },
       );
     }
@@ -409,24 +408,23 @@ class AuthViewModel extends ChangeNotifier {
     if (loadedData == null) {
       setLoad(false);
     } else if (loadedData != null) {
-      Future.delayed(const Duration(seconds: 1)).then(
-        (value) {
-          // print(value);
-          setLoad(false);
-          if (kDebugMode) {
-            // clearFields();
-            Provider.of<BottomNavigationViewModel>(context, listen: false)
-                .bottomIndex = 0;
-            // Navigator.pushNamed(context, RouteName.login);
-            Navigator.of(context).pushNamedAndRemoveUntil(
-              RouteName.login,
-              (route) => false,
-            );
-            // print('Successfully Login');
-            Utils.toastMessage('Logged Out');
-          }
-        },
-      );
+      Future.delayed(const Duration(seconds: 1)).then((value) {
+        // print(value);
+        setLoad(false);
+        // if (kDebugMode) {
+        // clearFields();
+        Provider.of<BottomNavigationViewModel>(context, listen: false)
+            .bottomIndex = 0;
+        // Navigator.pushNamed(context, RouteName.login);
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          RouteName.login,
+          (route) => false,
+        );
+        // print('Successfully Login');
+        Utils.toastMessage('Logged Out');
+      }
+          // },
+          );
     }
   }
 }

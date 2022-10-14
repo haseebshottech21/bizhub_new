@@ -1,5 +1,7 @@
+import 'package:bizhub_new/language/language_constant.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/widgets/common/dialog_box.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../utils/app_url.dart';
@@ -60,11 +62,11 @@ class _MoreScreenState extends State<MoreScreen> {
                       : AppUrl.baseUrl + auth.getPrefrenceValue('image'),
                 ),
                 const SizedBox(height: 15),
-                const Padding(
-                  padding: EdgeInsets.only(left: 15),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
                   child: Text(
-                    'General',
-                    style: TextStyle(
+                    translation(context).general,
+                    style: const TextStyle(
                       // color: Theme.of(context).textTheme.bodyText1!.color,
                       fontSize: 18,
                       fontWeight: FontWeight.w400,
@@ -75,7 +77,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 const SizedBox(height: 15),
                 moreItem(
                   context: context,
-                  text: 'Change Password',
+                  text: translation(context).changePassword,
                   iconData: Icons.lock,
                   onTap: () {
                     Navigator.pushNamed(context, RouteName.changePassword);
@@ -83,7 +85,15 @@ class _MoreScreenState extends State<MoreScreen> {
                 ),
                 moreItem(
                   context: context,
-                  text: 'About Us',
+                  text: translation(context).selectLanguage,
+                  iconData: CupertinoIcons.globe,
+                  onTap: () {
+                    Navigator.pushNamed(context, RouteName.selectLanguage);
+                  },
+                ),
+                moreItem(
+                  context: context,
+                  text: translation(context).aboutUs,
                   iconData: Icons.perm_device_info,
                   onTap: () {
                     Navigator.pushNamed(context, RouteName.aboutUs);
@@ -99,7 +109,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 // ),
                 moreItem(
                   context: context,
-                  text: 'Term & Condition',
+                  text: translation(context).termAndCondition,
                   iconData: Icons.bookmark_add_rounded,
                   onTap: () {
                     Navigator.pushNamed(context, RouteName.termAndCondition);
@@ -107,7 +117,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 ),
                 moreItem(
                   context: context,
-                  text: 'Privacy Policy',
+                  text: translation(context).privacyPolicy,
                   iconData: Icons.privacy_tip,
                   onTap: () {
                     Navigator.pushNamed(context, RouteName.privacyPolicy);
@@ -155,9 +165,9 @@ class _MoreScreenState extends State<MoreScreen> {
                         const EdgeInsets.fromLTRB(30.0, 6.0, 30.0, 6.0),
                       ),
                     ),
-                    child: const Text(
-                      'Logout',
-                      style: TextStyle(
+                    child: Text(
+                      translation(context).logout,
+                      style: const TextStyle(
                         color: MyTheme.redBorder,
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -324,7 +334,7 @@ class ViewProfile extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    'VIEW YOUR PROFILE',
+                    translation(context).viewYourProfile,
                     style: TextStyle(
                       color: Colors.grey.shade50,
                       fontWeight: FontWeight.w500,

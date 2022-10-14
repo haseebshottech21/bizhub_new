@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../components/deafult_button.dart';
 import '../../../utils/app_url.dart';
+import '../../../utils/field_validator.dart';
 import '../../../widgets/common/app_bar.dart';
 import '../../../widgets/common/input_textfield.dart';
 import '../component/profile_image.dart';
@@ -21,6 +22,7 @@ class _EditMyProfileState extends State<EditMyProfile> {
   final phoneNumberController = TextEditingController();
   final urlController = TextEditingController();
   final descriptionController = TextEditingController();
+  final textFieldValidator = TextFieldValidators();
   String profileImage = '';
   final _formKey = GlobalKey<FormState>();
 
@@ -62,10 +64,9 @@ class _EditMyProfileState extends State<EditMyProfile> {
         "phone": phoneNumberController.text.trim(),
         "url": urlController.text.trim(),
         "description": descriptionController.text.trim(),
-        "device_id": '123',
       };
       authViewModel.updateUser(data, context);
-      // print('image ${authViewModel.imageDetail}');
+      // print(data);
     }
   }
 
@@ -103,32 +104,35 @@ class _EditMyProfileState extends State<EditMyProfile> {
                             LabelTextField(
                               label: 'First Name',
                               controller: firstNameController,
+                              validator:
+                                  textFieldValidator.firstNameErrorGetter,
                             ),
                             const SizedBox(height: 20),
                             LabelTextField(
                               label: 'Last Name',
                               controller: lastNameController,
+                              validator: textFieldValidator.lastNameErrorGetter,
                             ),
                             const SizedBox(height: 20),
-                            LabelTextField(
+                            UpdateLabelTextField(
                               label: 'Email',
                               controller: emailAddressController,
                               isEnabled: false,
                             ),
                             const SizedBox(height: 20),
-                            LabelTextField(
+                            UpdateLabelTextField(
                               label: 'Phone',
                               controller: phoneNumberController,
                               isEnabled: false,
                             ),
                             const SizedBox(height: 20),
-                            LabelTextField(
+                            UpdateLabelTextField(
                               label: 'Website Url or Social Media Url',
                               hintText: 'www.yourwebiste.com',
                               controller: urlController,
                             ),
                             const SizedBox(height: 20),
-                            LabelTextField(
+                            UpdateLabelTextField(
                               label: 'Description',
                               hintText: 'About yourself...',
                               controller: descriptionController,
@@ -147,8 +151,6 @@ class _EditMyProfileState extends State<EditMyProfile> {
                           isloading: authViewModel.btnloading,
                           onPress: () {
                             validateAndUpdate();
-                            // print(authViewModel.loading);
-                            // authViewModel.signIn(context);
                           },
                         );
                       },

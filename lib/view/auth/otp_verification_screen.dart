@@ -10,6 +10,7 @@ import '../../widgets/common/app_bar.dart';
 class OTPVerificationScreen extends StatefulWidget {
   const OTPVerificationScreen({Key? key}) : super(key: key);
 
+
   @override
   State<OTPVerificationScreen> createState() => _OTPVerificationScreenState();
 }

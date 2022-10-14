@@ -7,6 +7,8 @@ import '../widgets/onboard_widget.dart';
 class OnboardScreen extends StatefulWidget {
   const OnboardScreen({Key? key}) : super(key: key);
 
+  static const routeName = '/onboard';
+
   @override
   State<OnboardScreen> createState() => _OnboardScreenState();
 }
