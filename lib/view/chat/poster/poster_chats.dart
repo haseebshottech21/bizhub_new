@@ -2,7 +2,7 @@ import 'package:bizhub_new/view/chat/poster/poster_messages.dart';
 import 'package:bizhub_new/view_model/chat_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../utils/routes/routes_name.dart';
+// import '../../../utils/routes/routes_name.dart';
 import '../component/chat_item.dart';
 
 class PosterChats extends StatefulWidget {
@@ -164,7 +164,10 @@ class _PosterChatsState extends State<PosterChats> {
                           'chat_id': leadsChats.leadChatList[index].chatId,
                           'service_id':
                               leadsChats.leadChatList[index].serviceId,
-                          'sender_id': leadsChats.leadChatList[index].senderId,
+                          'userName':
+                              '${leadsChats.leadChatList[index].user!.firstName!} ${leadsChats.leadChatList[index].user!.lastName}',
+                          'userImage':
+                              leadsChats.leadChatList[index].user!.image,
                         },
                       ),
                     ),

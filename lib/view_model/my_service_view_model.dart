@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../repo/service_repo.dart';
 import 'bottom_navigation_view_model.dart';
+import 'category_view_model.dart';
 
 class MyServiceViewModel extends ChangeNotifier {
   final serviceRepo = ServiceRepository();
@@ -27,6 +28,25 @@ class MyServiceViewModel extends ChangeNotifier {
     'address': '',
     'is_negotiable': '',
   };
+
+  initailValue(BuildContext context) {
+    final category = Provider.of<CategoryViewModel>(context, listen: false);
+    isPoster = null;
+    category.categoryId = '';
+    category.categoryName = '';
+  }
+
+  bool isPriceNegotiable = false;
+  togglePriceNegotiable() {
+    isPriceNegotiable = !isPriceNegotiable;
+    notifyListeners();
+  }
+
+  // bool isPriceNegotiable = false;
+  changePriceNegotiable(bool value) {
+    isPriceNegotiable = value;
+    notifyListeners();
+  }
 
   bool _loading = false;
   bool get loading => _loading;
@@ -57,6 +77,7 @@ class MyServiceViewModel extends ChangeNotifier {
     }
   }
 
+  // CREATE
   Future<void> createPost(
     dynamic data,
     BuildContext context,
@@ -72,6 +93,8 @@ class MyServiceViewModel extends ChangeNotifier {
           // print(value);
           setLoad(false);
           // if (kDebugMode) {
+          initailValue(context);
+          serviceImgaes.clear();
           Provider.of<BottomNavigationViewModel>(context, listen: false)
               .bottomIndex = 1;
           Navigator.of(context).pop();

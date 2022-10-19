@@ -4,6 +4,7 @@ import 'package:bizhub_new/view_model/auth_view_model.dart';
 import 'package:bizhub_new/widgets/common/auth_botom.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+// import '../../main.dart';
 import '../../utils/field_validator.dart';
 import '../../utils/routes/routes_name.dart';
 import '../../widgets/common/input_textfield.dart';
@@ -34,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Map data = {
         "email": emailAddressController.text,
         "password": passwordController.text,
+        // 'notification_id' : MyApp.notifyToken,
       };
       authViewModel.login(data, context);
     }

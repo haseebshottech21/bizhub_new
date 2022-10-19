@@ -37,7 +37,7 @@ class WelcomeAuthScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 12.0),
                 const Text(
-                  'Post Find and Connect with',
+                  'Post Find and Connect',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 17,

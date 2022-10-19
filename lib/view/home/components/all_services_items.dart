@@ -35,17 +35,29 @@ class AllServiceIem extends StatelessWidget {
             return Column(
               children: [
                 ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(6),
-                      topRight: Radius.circular(6),
-                    ),
-                    child: Image.network(
-                      AppUrl.baseUrl +
-                          serviceModel.imagesList![0].image.toString(),
-                      fit: BoxFit.cover,
-                      height: constraints.maxHeight * 0.55,
-                      width: double.infinity,
-                    )),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(6),
+                    topRight: Radius.circular(6),
+                  ),
+                  child: serviceModel.imagesList!.isEmpty
+                      ? Container(
+                          height: constraints.maxHeight * 0.55,
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          color: Colors.black,
+                          child: Image.asset(
+                            'assets/images/bizhub_logo.png',
+                            fit: BoxFit.contain,
+                          ),
+                        )
+                      : Image.network(
+                          AppUrl.baseUrl +
+                              serviceModel.imagesList![0].image.toString(),
+                          fit: BoxFit.cover,
+                          height: constraints.maxHeight * 0.55,
+                          width: double.infinity,
+                        ),
+                ),
                 ClipRRect(
                   borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(6),
@@ -89,26 +101,26 @@ class AllServiceIem extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                               ),
                               const Spacer(),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    '\$ ${serviceModel.serviceAmount}',
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  const Text(
-                                    '30 JUN',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
-                              )
+                              Text(
+                                '\$ ${serviceModel.serviceAmount}',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              // Row(
+                              //   mainAxisAlignment:
+                              //       MainAxisAlignment.spaceBetween,
+                              //   children: [
+                              //     const Text(
+                              //       '30 JUN',
+                              //       style: TextStyle(
+                              //         fontSize: 12,
+                              //         color: Colors.grey,
+                              //       ),
+                              //     ),
+                              //   ],
+                              // )
                             ],
                           ),
                         ),

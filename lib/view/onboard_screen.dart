@@ -35,7 +35,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
                 backimg: onboardData[index].image,
                 title: onboardData[index].text,
                 desc: onboardData[index].description,
-                desc2: onboardData[index].subDes,
+                // desc2: onboardData[index].subDes,
               ),
             ),
             Padding(

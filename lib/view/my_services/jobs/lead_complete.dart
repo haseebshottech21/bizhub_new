@@ -1,6 +1,7 @@
 import 'package:bizhub_new/components/deafult_button.dart';
 import 'package:bizhub_new/model/offers_model.dart';
 import 'package:bizhub_new/utils/app_url.dart';
+import 'package:bizhub_new/utils/mytheme.dart';
 // import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -82,7 +83,7 @@ class _LeadCompleteState extends State<LeadComplete> {
                 children: [
                   _uiTop(size, serviceViewModel),
                   const SizedBox(height: 20),
-                  const Text('Who can complete your job ?', style: titleStyle),
+                  const Text('Who did the job ?', style: titleStyle),
                   const SizedBox(height: 10),
                   serviceViewModel.serviceCompleteModel!.offersList!.isEmpty
                       ? const Padding(
@@ -200,18 +201,39 @@ class _LeadCompleteState extends State<LeadComplete> {
                                                     ),
                                                   ),
                                                   const SizedBox(height: 16),
-                                                  SizedBox(
-                                                    width: 50,
-                                                    height: 50,
-                                                    child: ClipOval(
-                                                      child: Image.network(
-                                                        AppUrl.baseUrl +
-                                                            userOffers.image
-                                                                .toString(),
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    ),
-                                                  ),
+                                                  userOffers.image == null
+                                                      ? Container(
+                                                          width: 50,
+                                                          height: 50,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors
+                                                                .grey.shade50,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        50),
+                                                          ),
+                                                          child: const Icon(
+                                                            Icons.person,
+                                                            color: MyTheme
+                                                                .greenColor,
+                                                          ),
+                                                        )
+                                                      : SizedBox(
+                                                          width: 50,
+                                                          height: 50,
+                                                          child: ClipOval(
+                                                            child:
+                                                                Image.network(
+                                                              AppUrl.baseUrl +
+                                                                  userOffers
+                                                                      .image
+                                                                      .toString(),
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                          ),
+                                                        ),
                                                   const SizedBox(height: 12),
                                                   Text(
                                                     '${userOffers.firstName} ${userOffers.lastName}',
@@ -437,12 +459,20 @@ class _LeadCompleteState extends State<LeadComplete> {
                               },
                               child: ListTile(
                                 contentPadding: EdgeInsets.zero,
-                                leading: CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                    AppUrl.baseUrl +
-                                        userOffers.image.toString(),
-                                  ),
-                                ),
+                                leading: userOffers.image == null
+                                    ? CircleAvatar(
+                                        backgroundColor: Colors.grey.shade100,
+                                        child: const Icon(
+                                          Icons.person,
+                                          color: MyTheme.greenColor,
+                                        ),
+                                      )
+                                    : CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                          AppUrl.baseUrl +
+                                              userOffers.image.toString(),
+                                        ),
+                                      ),
                                 title: Text(
                                   '${userOffers.firstName} ${userOffers.lastName}',
                                   style: nameStyle,

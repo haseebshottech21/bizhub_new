@@ -4,8 +4,12 @@ import 'package:bizhub_new/view_model/category_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../components/deafult_button.dart';
+import '../../utils/mytheme.dart';
 import '../../utils/routes/routes_name.dart';
-import '../../widgets/common/app_bar.dart';
+import '../../view_model/bottom_navigation_view_model.dart';
+import '../../view_model/my_service_view_model.dart';
+// import '../../widgets/common/app_bar.dart';
+import '../../widgets/common/dialog_box.dart';
 import 'component/category_item.dart';
 
 class SelectCategory extends StatefulWidget {
@@ -34,12 +38,59 @@ class _SelectCategoryState extends State<SelectCategory> {
     final size = MediaQuery.of(context).size;
     final category = Provider.of<CategoryViewModel>(context, listen: true);
 
-    var image =
-        'https://www.familyhandyman.com/wp-content/uploads/2020/03/4e43e850-61u5vx9jfvl._ac_sl1000_.jpg';
+    // var image =
+    //     'https://www.familyhandyman.com/wp-content/uploads/2020/03/4e43e850-61u5vx9jfvl._ac_sl1000_.jpg';
 
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      appBar: myAppBar(context: context, appBarTitle: 'Select Category'),
+      // appBar: myAppBar(context: context, appBarTitle: 'Select Category'),
+      appBar: AppBar(
+        backgroundColor: MyTheme.whiteColor,
+        automaticallyImplyLeading: false,
+        elevation: 3,
+        leading: IconButton(
+          onPressed: () {
+            Provider.of<BottomNavigationViewModel>(context, listen: false)
+                .toggleCurrentIndex(0);
+            final service =
+                Provider.of<MyServiceViewModel>(context, listen: false);
+            // final category =
+            //     Provider.of<CategoryViewModel>(context, listen: false);
+            showDialog(
+              context: context,
+              builder: (_) => cancelDialog(
+                context: context,
+                title: 'Leave',
+                subTitle: 'Are you sure you want to leave ?',
+                onPressed: () {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    RouteName.home,
+                    (route) => false,
+                  );
+                  service.initailValue(context);
+                  // post.isPoster = null;
+                  // category.categoryId = '';
+                  // category.categoryName = '';
+                },
+              ),
+            );
+          },
+          icon: const Icon(
+            Icons.clear,
+            color: Colors.black,
+            size: 22.0,
+          ),
+        ),
+        centerTitle: true,
+        title: const Text(
+          'Select Category',
+          style: TextStyle(
+            color: Colors.black87,
+            fontWeight: FontWeight.w400,
+            fontSize: 17,
+          ),
+        ),
+      ),
       bottomSheet: category.categoryId.isNotEmpty
           ? SafeArea(
               child: Padding(

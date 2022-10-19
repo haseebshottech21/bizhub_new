@@ -7,7 +7,7 @@ class ServiceModel {
   String? serviceTitle;
   String? serviceDesc;
   String? serviceAmount;
-  String? serviceNegotiable;
+  bool? serviceNegotiable;
   String? serviceStatus;
   List<ServiceImagesModel>? imagesList;
 
@@ -26,7 +26,7 @@ class ServiceModel {
         serviceTitle: json['title'],
         serviceDesc: json['description'],
         serviceAmount: json['amount'],
-        serviceNegotiable: json['is_negotiable'],
+        serviceNegotiable: json['is_negotiable'] == '0' ? false : true,
         serviceStatus: json['status'],
         imagesList: json['images'] == null
             ? []

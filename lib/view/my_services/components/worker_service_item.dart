@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../model/service_model.dart';
 import '../../../utils/app_url.dart';
 import '../../../utils/mytheme.dart';
-import '../../../utils/routes/routes_name.dart';
+// import '../../../utils/routes/routes_name.dart';
 import '../../../widgets/common/dialog_box.dart';
 import '../worker/my_work_detail.dart';
 import '../worker/service_complete.dart';
@@ -135,7 +135,7 @@ class WorkerServiceItem extends StatelessWidget {
                                                         title:
                                                             'Confirm Delete ?',
                                                         subTitle:
-                                                            'Are you sure to delete job!',
+                                                            'Are you sure you want to delete job ?',
                                                         onPressed: () {},
                                                       ),
                                                     );

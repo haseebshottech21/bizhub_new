@@ -73,7 +73,7 @@ class _ServiceCompleteState extends State<ServiceComplete> {
                 children: [
                   _uiTop(size, serviceViewModel),
                   const SizedBox(height: 20),
-                  const Text('Who can complete your job ?', style: titleStyle),
+                  const Text('Who did the job ?', style: titleStyle),
                   const SizedBox(height: 10),
                   serviceViewModel.serviceCompleteModel!.offersList!.isEmpty
                       ? const Padding(

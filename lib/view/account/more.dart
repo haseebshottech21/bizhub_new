@@ -83,14 +83,14 @@ class _MoreScreenState extends State<MoreScreen> {
                     Navigator.pushNamed(context, RouteName.changePassword);
                   },
                 ),
-                moreItem(
-                  context: context,
-                  text: translation(context).selectLanguage,
-                  iconData: CupertinoIcons.globe,
-                  onTap: () {
-                    Navigator.pushNamed(context, RouteName.selectLanguage);
-                  },
-                ),
+                // moreItem(
+                //   context: context,
+                //   text: translation(context).selectLanguage,
+                //   iconData: CupertinoIcons.globe,
+                //   onTap: () {
+                //     Navigator.pushNamed(context, RouteName.selectLanguage);
+                //   },
+                // ),
                 moreItem(
                   context: context,
                   text: translation(context).aboutUs,

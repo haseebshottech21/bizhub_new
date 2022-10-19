@@ -1,13 +1,13 @@
 class OnBoardModel {
   final String text;
   final String description;
-  final String subDes;
+  // final String subDes;
   final String image;
 
   OnBoardModel({
     required this.text,
     required this.description,
-    required this.subDes,
+    // required this.subDes,
     required this.image,
   });
 
@@ -20,7 +20,7 @@ class OnBoardModel {
     return OnBoardModel(
       text: text ?? this.text,
       description: description ?? this.description,
-      subDes: subDes ?? this.subDes,
+      // subDes: subDes ?? this.subDes,
       image: image ?? this.image,
     );
   }
@@ -29,7 +29,7 @@ class OnBoardModel {
     return {
       'text': text,
       'description': description,
-      'subDes': subDes,
+      // 'subDes': subDes,
       'image': image,
     };
   }
@@ -38,7 +38,7 @@ class OnBoardModel {
     return OnBoardModel(
       text: map['text'] ?? '',
       description: map['description'] ?? '',
-      subDes: map['subDes'] ?? '',
+      // subDes: map['subDes'] ?? '',
       image: map['image'] ?? '',
     );
   }

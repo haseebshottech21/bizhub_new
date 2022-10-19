@@ -1,4 +1,3 @@
-// import 'package:bizhub_new/utils/dummy_data.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/view/home/components/all_services_items.dart';
@@ -48,11 +47,12 @@ class _HomeScreenState extends State<HomeScreen> {
           body: CustomScrollView(
             slivers: [
               SliverAppBar(
-                floating: true,
+                floating: false,
                 pinned: true,
                 snap: false,
                 elevation: 0,
                 // centerTitle: true,
+
                 backgroundColor: Colors.white,
                 automaticallyImplyLeading: false,
                 titleTextStyle: const TextStyle(
@@ -60,26 +60,44 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontWeight: FontWeight.w400,
                   fontSize: 20,
                 ),
+                titleSpacing: 12.0,
                 title: GestureDetector(
                   onTap: () {
                     selectTypeBottom();
                   },
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const [
-                      Text('Earn Money'),
-                      SizedBox(width: 8),
-                      Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.black,
-                        size: 22,
-                      ),
-                    ],
+                  child: Container(
+                    width: size.width * 0.26,
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      boxShadow: kElevationToShadow[1],
+                      color: MyTheme.greenColor,
+                      // border: Border.all(color: MyTheme.greenColor),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: const [
+                        Text(
+                          'Find',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 1.0,
+                            color: Colors.white,
+                          ),
+                        ),
+                        // SizedBox(width: 8),
+                        Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.white,
+                          size: 24,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-
                 bottom: PreferredSize(
-                  preferredSize: const Size.fromHeight(55.0),
+                  preferredSize: const Size.fromHeight(50.0),
                   child: Padding(
                     padding: const EdgeInsets.only(
                       bottom: 4,
@@ -110,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 SizedBox(width: 6),
                                 Text(
-                                  'Find Jobs, Service and more',
+                                  'Search',
                                   style: TextStyle(
                                     color: Colors.black54,
                                     fontSize: 15,
@@ -266,7 +284,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         //   onTap: () => post.selectServiceType(false),
                         // ),
                         type(
-                          typeText: 'Near By Jobs',
+                          typeText: 'Jobs Near By',
                           typeIcon: CupertinoIcons.money_dollar_circle_fill,
                           isSelected: allServiceViewModel.nearByJobs == true
                               ? true
@@ -275,7 +293,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               allServiceViewModel.selectType(true, context),
                         ),
                         type(
-                          typeText: 'Service Near By',
+                          typeText: 'Services Near By',
                           typeIcon: CupertinoIcons.briefcase_fill,
                           isSelected: allServiceViewModel.nearByJobs == false
                               ? true

@@ -138,8 +138,10 @@ class _WorkerChatsState extends State<WorkerChats> {
                               serviceChats.servicesChatList[index].chatId,
                           'service_id':
                               serviceChats.servicesChatList[index].serviceId,
-                          'sender_id':
-                              serviceChats.servicesChatList[index].senderId,
+                          'userName':
+                              '${serviceChats.servicesChatList[index].user!.firstName!} ${serviceChats.servicesChatList[index].user!.lastName}',
+                          'userImage':
+                              serviceChats.servicesChatList[index].user!.image,
                         },
                       ),
                     ),

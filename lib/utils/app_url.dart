@@ -33,6 +33,7 @@ class AppUrl {
 
   // Chats
   static var sendOfferEndPoint = '$baseUrl/api/send-offer';
+  static var allChatListEndPoint = '$baseUrl/api/all-chats-list';
   static var posterChatListEndPoint = '$baseUrl/api/poster-offer-list';
   static var workerChatListEndPoint = '$baseUrl/api/service-offer-list';
   static var messagesListEndPoint = '$baseUrl/api/fetch-chat';

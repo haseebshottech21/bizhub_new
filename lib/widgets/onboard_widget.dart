@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import '../components/deafult_button.dart';
 
 class OnBoardWidget extends StatelessWidget {
-  final String title, desc, desc2, backimg;
+  final String title, desc, backimg;
   const OnBoardWidget({
     required this.title,
     required this.desc,
-    required this.desc2,
+    // required this.desc2,
     required this.backimg,
     Key? key,
   }) : super(key: key);
@@ -73,15 +73,15 @@ class OnBoardWidget extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 5.0),
-                Text(
-                  desc2,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+                // Text(
+                //   desc2,
+                //   style: const TextStyle(
+                //     color: Colors.white,
+                //     fontSize: 17,
+                //     fontWeight: FontWeight.w600,
+                //   ),
+                //   textAlign: TextAlign.center,
+                // ),
                 const SizedBox(height: 20.0),
                 // FormButton(
                 //   text: 'Get Started',

@@ -138,4 +138,19 @@ class TextFieldValidators {
     }
     return null;
   }
+
+  // String urlPattern =
+  //     r"(https?|http)://([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?";
+  // // var match = RegExp( , caseSensitive: false)
+  // //     .firstMatch('https://www.google.com');
+  // var match = RegExp(urlPattern);
+
+  dynamic urlErrorGetter(String value) {
+    if (!RegExp(
+            r"([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?")
+        .hasMatch(value)) {
+      return 'Enter Valid Url';
+    }
+    return null;
+  }
 }

@@ -130,6 +130,7 @@ class _EditMyProfileState extends State<EditMyProfile> {
                               label: 'Website Url or Social Media Url',
                               hintText: 'www.yourwebiste.com',
                               controller: urlController,
+                              // validator: (value) {},
                             ),
                             const SizedBox(height: 20),
                             UpdateLabelTextField(

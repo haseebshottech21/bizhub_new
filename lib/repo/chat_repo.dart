@@ -53,6 +53,31 @@ class ChatRepository {
     }
   }
 
+  // All Chats List
+  Future<List<ChatModel>> fetchMyAllChatsList() async {
+    try {
+      final response = await http.get(
+        Uri.parse(AppUrl.allChatListEndPoint),
+        headers: await AppUrl().headerWithAuth(),
+      );
+      // print(response.body);
+      final loadedData = json.decode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        List<ChatModel> myallChatList = (loadedData['data'] as List)
+            .map((e) => ChatModel.fromJson(e))
+            .toList();
+        return myallChatList;
+      } else {
+        // print(loadedData['message']);
+        Utils.toastMessage(loadedData['message']);
+      }
+    } catch (e) {
+      // print(e.toString());
+      Utils.toastMessage(e.toString());
+    }
+    return [];
+  }
+
   // Poster Chats List
   Future<List<ChatModel>> fetchMyLeadChatsList() async {
     try {

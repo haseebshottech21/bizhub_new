@@ -19,6 +19,8 @@ IconData notificationMute = CupertinoIcons.bell_slash;
 
 IconData lockOutline = CupertinoIcons.lock;
 
+IconData chat = CupertinoIcons.chat_bubble;
+
 IconData cameraOutline = CupertinoIcons.camera;
 IconData cameraSolid = CupertinoIcons.camera_fill;
 
@@ -31,5 +33,4 @@ IconData cancel = CupertinoIcons.clear;
 
 IconData setting = CupertinoIcons.settings_solid;
 
-IconData chat = CupertinoIcons.chat_bubble;
 IconData dollor = CupertinoIcons.money_dollar_circle;

@@ -3,7 +3,8 @@ import 'package:bizhub_new/utils/icons.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/view/account/more.dart';
-import 'package:bizhub_new/view/chat/chats.dart';
+// import 'package:bizhub_new/view/chat/chats.dart';
+import 'package:bizhub_new/view/chat/my_chats/my_chats.dart';
 import 'package:bizhub_new/view/home/home_screen.dart';
 import 'package:bizhub_new/view_model/bottom_navigation_view_model.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,8 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
     HomeScreen(),
     MyPosts(),
     // Center(child: Text('Post')),
-    Chats(),
+    // Chats(),
+    MyChats(),
     MoreScreen(),
   ];
 
@@ -89,7 +91,7 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
               const SizedBox(width: 20),
               buildNavBarItem(
                 context: context,
-                icon: Icons.inbox,
+                icon: chat,
                 // activeIcon: Icons.inbox,
                 index: 2,
                 isActive: false,

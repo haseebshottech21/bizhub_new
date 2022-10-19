@@ -2,12 +2,15 @@ import 'package:bizhub_new/model/chat_model.dart';
 import 'package:bizhub_new/model/message_model.dart';
 import 'package:bizhub_new/model/user_model.dart';
 import 'package:bizhub_new/repo/chat_repo.dart';
+import 'package:bizhub_new/repo/notification_repo.dart';
 import 'package:flutter/material.dart';
 
 class ChatViewModel extends ChangeNotifier {
   final chatRepo = ChatRepository();
+  final notification = NotificationRepo();
   List<ChatModel> leadChatList = [];
   List<ChatModel> servicesChatList = [];
+  List<ChatModel> allChatList = [];
   List<MessageModel> messageList = [];
   UserModel? oppositeUser;
 
@@ -24,6 +27,23 @@ class ChatViewModel extends ChangeNotifier {
   bool get messageLoading => _messageLoading;
   setMessageLoad(bool status) {
     _messageLoading = status;
+    notifyListeners();
+  }
+
+  // My All Chats List
+  Future<void> getMyAllChatList(
+    BuildContext context,
+  ) async {
+    allChatList.clear();
+    setLoad(true);
+    Future.delayed(const Duration(seconds: 1)).then(
+      (value) async {
+        if (allChatList.isEmpty) {
+          allChatList = await chatRepo.fetchMyAllChatsList();
+        }
+        setLoad(false);
+      },
+    );
     notifyListeners();
   }
 
@@ -98,12 +118,31 @@ class ChatViewModel extends ChangeNotifier {
     if (loadedData == null) {
       setMessageLoad(false);
     } else if (loadedData != null) {
-      Future.delayed(Duration.zero).then((value) {
-        // Navigator.of(context).pop();
-        setMessageLoad(false);
-        getMessageList(context: context, chatId: chatId);
-        // Utils.toastMessage('Service delete Successfully!');
-      });
+      Future.delayed(Duration.zero).then(
+        (value) async {
+          // Navigator.of(context).pop();
+          // setMessageLoad(false);
+          // getMessageList(context: context, chatId: chatId);
+          // Future.delayed(const Duration(seconds: 1)).then(
+          //   (value) async {
+          // if (messageList.isEmpty) {
+          final response = await chatRepo.fetchMessagesList(chatId: chatId);
+          // if (response.isNotEmpty) {
+          messageList = response['messages'] as List<MessageModel>;
+          // oppositeUser = response['user'] as UserModel;
+          // }
+          // }
+
+          setMessageLoad(false);
+        },
+      );
+      // Utils.toastMessage('Service delete Successfully!');
+      // });
+
+      // notification.sendNotification(
+      //   notiTitle: 'Message',
+      //   notiBody: '',
+      // );
     }
   }
 }

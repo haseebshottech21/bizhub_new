@@ -1,4 +1,5 @@
 import 'dart:io';
+// import 'package:bizhub_new/model/service_model.dart';
 import 'package:bizhub_new/model/service_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +22,32 @@ class _EditMyPosterServiceState extends State<EditMyPosterService> {
   final TextEditingController descController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  MyServiceViewModel? myServiceViewModel;
+
+  void getServicesValues() async {
+    final ServiceModel serviceModel =
+        ModalRoute.of(context)!.settings.arguments as ServiceModel;
+    titleController.text = serviceModel.serviceTitle.toString();
+    descController.text = serviceModel.serviceDesc.toString();
+    priceController.text = serviceModel.serviceAmount.toString();
+    myServiceViewModel!.isPriceNegotiable = serviceModel.serviceNegotiable!;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      getServicesValues();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     // Map arguments = ModalRoute.of(context)?.settings.arguments as Map;
     // print(arguments['id']);
+
+    // print(serviceModel.serviceTitle);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -86,6 +108,22 @@ class _EditMyPosterServiceState extends State<EditMyPosterService> {
                   ),
                 ),
               ),
+              const SizedBox(height: 10.0),
+              // Consumer<MyServiceViewModel>(
+              //   builder: (ctx, serviceViewModel, _) {
+              //     return CheckboxListTile(
+              //       value: serviceViewModel.isPriceNegotiable,
+              //       onChanged: (val) {
+              //         serviceViewModel.changePriceNegotiable(val!);
+              //       },
+              //       title: const Text(
+              //         'Price Negotiable',
+              //         style: TextStyle(color: Colors.black),
+              //       ),
+              //       activeColor: MyTheme.greenColor,
+              //     );
+              //   },
+              // ),
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 14),

@@ -120,7 +120,7 @@ class _SearchPostsState extends State<SearchPosts> {
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   );
@@ -153,15 +153,22 @@ class _SearchPostsState extends State<SearchPosts> {
                       //     color: Colors.amber,
                       //   ),
                       // ),
-                      leading: Image.network(
-                        AppUrl.baseUrl +
-                            allServiceViewModel
-                                .displayList[index].imagesList![0].image
-                                .toString(),
-                        height: 50,
-                        width: 50,
-                        fit: BoxFit.cover,
-                      ),
+                      leading: allServiceViewModel
+                              .displayList[index].imagesList!.isNotEmpty
+                          ? Image.network(
+                              AppUrl.baseUrl +
+                                  allServiceViewModel
+                                      .displayList[index].imagesList![0].image
+                                      .toString(),
+                              height: 50,
+                              width: 50,
+                              fit: BoxFit.cover,
+                            )
+                          : Container(
+                              width: 50,
+                              height: 50,
+                              color: Colors.greenAccent,
+                            ),
                     );
                   }),
                 );

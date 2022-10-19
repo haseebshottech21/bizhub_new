@@ -1,4 +1,5 @@
 import 'package:bizhub_new/utils/app_url.dart';
+import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:flutter/material.dart';
 import '../../../model/chat_model.dart';
 // import '../../../utils/routes/routes_name.dart';
@@ -18,7 +19,7 @@ class ChatWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    // print(chat.message!.message);
+    // print(chat.user!.image);
 
     // return Container();
 
@@ -27,50 +28,50 @@ class ChatWidget extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         onLongPress: () {
-          showModalBottomSheet(
-            backgroundColor: Colors.white,
-            context: context,
-            // isScrollControlled: true,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(15.0),
-              ),
-            ),
-            builder: (context) {
-              // print(object)
-              return Container(
-                constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 8,
-                        bottom: 15,
-                        left: 12,
-                        right: 12,
-                      ),
-                      child: Container(
-                        height: 6,
-                        width: 70,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[500],
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: const Text('Delete Chat'),
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
+          // showModalBottomSheet(
+          //   backgroundColor: Colors.white,
+          //   context: context,
+          //   // isScrollControlled: true,
+          //   shape: const RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.vertical(
+          //       top: Radius.circular(15.0),
+          //     ),
+          //   ),
+          //   builder: (context) {
+          //     // print(object)
+          //     return Container(
+          //       constraints: BoxConstraints(
+          //         maxHeight: MediaQuery.of(context).size.height,
+          //       ),
+          //       child: Column(
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         mainAxisSize: MainAxisSize.min,
+          //         children: <Widget>[
+          //           Padding(
+          //             padding: const EdgeInsets.only(
+          //               top: 8,
+          //               bottom: 15,
+          //               left: 12,
+          //               right: 12,
+          //             ),
+          //             child: Container(
+          //               height: 6,
+          //               width: 70,
+          //               decoration: BoxDecoration(
+          //                 color: Colors.grey[500],
+          //                 borderRadius: BorderRadius.circular(8),
+          //               ),
+          //             ),
+          //           ),
+          //           InkWell(
+          //             onTap: () {},
+          //             child: const Text('Delete Chat'),
+          //           ),
+          //         ],
+          //       ),
+          //     );
+          //   },
+          // );
         },
         child: Container(
           width: size.width,
@@ -84,14 +85,28 @@ class ChatWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              CachedImageWidget(
-                height: 50,
-                width: 50,
-                radius: 4,
-                // imgUrl:
-                //     'https://i.pinimg.com/736x/25/78/61/25786134576ce0344893b33a051160b1.jpg',
-                imgUrl: AppUrl.baseUrl + chat.user!.image.toString(),
-              ),
+              chat.user!.image == null
+                  ? Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade50,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: const Icon(
+                        Icons.person,
+                        size: 40,
+                        color: MyTheme.greenColor,
+                      ),
+                    )
+                  : CachedImageWidget(
+                      height: 50,
+                      width: 50,
+                      radius: 4,
+                      // imgUrl:
+                      //     'https://i.pinimg.com/736x/25/78/61/25786134576ce0344893b33a051160b1.jpg',
+                      imgUrl: AppUrl.baseUrl + chat.user!.image.toString(),
+                    ),
               // const SizedBox(width: 10),
               SizedBox(width: size.width * 0.02),
               SizedBox(

@@ -4,7 +4,10 @@ import 'package:bizhub_new/view_model/my_service_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../utils/routes/routes_name.dart';
+import '../../view_model/bottom_navigation_view_model.dart';
 import '../../widgets/common/app_bar.dart';
+import '../../widgets/common/dialog_box.dart';
+// import '../../widgets/common/dialog_box.dart';
 
 class SelectService extends StatelessWidget {
   const SelectService({Key? key}) : super(key: key);
@@ -17,7 +20,48 @@ class SelectService extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      appBar: myAppBar(context: context, appBarTitle: 'Select Your Service'),
+      appBar: AppBar(
+        backgroundColor: MyTheme.whiteColor,
+        automaticallyImplyLeading: false,
+        elevation: 3,
+        leading: IconButton(
+          onPressed: () {
+            Provider.of<BottomNavigationViewModel>(context, listen: false)
+                .toggleCurrentIndex(0);
+            final post =
+                Provider.of<MyServiceViewModel>(context, listen: false);
+            showDialog(
+              context: context,
+              builder: (_) => cancelDialog(
+                context: context,
+                title: 'Leave',
+                subTitle: 'Are you sure you want to leave ?',
+                onPressed: () {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    RouteName.home,
+                    (route) => false,
+                  );
+                  post.isPoster = null;
+                },
+              ),
+            );
+          },
+          icon: const Icon(
+            Icons.clear,
+            color: Colors.black,
+            size: 22.0,
+          ),
+        ),
+        centerTitle: true,
+        title: const Text(
+          'What You Like To Post',
+          style: TextStyle(
+            color: Colors.black87,
+            fontWeight: FontWeight.w400,
+            fontSize: 17,
+          ),
+        ),
+      ),
       bottomSheet: post.isPoster != null
           ? SafeArea(
               child: Padding(
@@ -50,7 +94,7 @@ class SelectService extends StatelessWidget {
             selectType(
               size: size,
               mainAxisAlignment: MainAxisAlignment.start,
-              serviceType: 'POST',
+              serviceType: 'JOB',
               selectType: (post.isPoster != null && post.isPoster == true)
                   ? true
                   : false,
@@ -85,7 +129,7 @@ class SelectService extends StatelessWidget {
           onTap: () => onTap(),
           child: Container(
             width: size.width * 0.45,
-            height: size.height * 0.35,
+            height: size.height * 0.40,
             decoration: BoxDecoration(
               color: selectType ? MyTheme.greenColor : Colors.white,
               borderRadius: BorderRadius.circular(6),
@@ -111,7 +155,15 @@ class SelectService extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Center(
-                        child: Text(serviceType),
+                        child: Text(
+                          serviceType,
+                          style: TextStyle(
+                            color: selectType ? Colors.white : Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 1.0,
+                          ),
+                        ),
                       ),
                     )
                   ],

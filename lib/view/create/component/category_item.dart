@@ -54,8 +54,7 @@ class CategoryItem extends StatelessWidget {
                   ),
                 ),
                 categoryViewModel.categoryId == category.catId.toString()
-                    ? const SizedBox()
-                    : Container(
+                    ? Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           gradient: LinearGradient(
@@ -71,7 +70,7 @@ class CategoryItem extends StatelessWidget {
                           ),
                         ),
                       )
-                // : const SizedBox()
+                    : const SizedBox()
               ],
             ),
             Align(

@@ -11,21 +11,18 @@ List<OnBoardModel> onboardData = [
     text: 'Welcome to BizHub',
     description:
         'Search for services, you need done and find services you can do for others.',
-    subDes: 'Get Bizzy With it',
     image: 'assets/images/welcome.jpg',
   ),
   OnBoardModel(
     text: 'Start Searching Services',
     description:
         'Sign up to provide services you know how to render. Make some extra cash. Find leads from people near you that need your services.',
-    subDes: '',
     image: 'assets/images/intro_1_bg.png',
   ),
   OnBoardModel(
     text: 'Connect with Providers',
     description:
         'Providers will be notified when new services are available in their area, allowing you to have multiple offers as soon as possible.\n\n“Find the help you are looking for"',
-    subDes: '',
     image: 'assets/images/intro_2_bg.png',
   ),
 ];

@@ -79,12 +79,14 @@ class JobPostItem extends StatelessWidget {
                             width: size.maxWidth * 0.20,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(6),
-                              child: Image.network(
-                                AppUrl.baseUrl +
-                                    myPosterService.imagesList![0].image
-                                        .toString(),
-                                fit: BoxFit.cover,
-                              ),
+                              child: myPosterService.imagesList!.isEmpty
+                                  ? Container(color: Colors.grey)
+                                  : Image.network(
+                                      AppUrl.baseUrl +
+                                          myPosterService.imagesList![0].image
+                                              .toString(),
+                                      fit: BoxFit.cover,
+                                    ),
                             ),
                           ),
                         ),
@@ -137,7 +139,7 @@ class JobPostItem extends StatelessWidget {
                                                         title:
                                                             'Confirm Delete ?',
                                                         subTitle:
-                                                            'Are you sure to delete job!',
+                                                            'Are you sure you want to delete job ?',
                                                         onPressed: () {
                                                           context
                                                               .read<

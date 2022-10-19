@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/routes/routes_name.dart';
 import '../components/poster_detail_body.dart';
+import 'edit_poster_service.dart';
 
 class MyJobDetail extends StatefulWidget {
   const MyJobDetail({
@@ -37,8 +38,8 @@ class _MyJobDetailState extends State<MyJobDetail> {
   Widget build(BuildContext context) {
     // final size = MediaQuery.of(context).size;
 
-    // final serviceViewModel =
-    //     Provider.of<MyServiceViewModel>(context, listen: true);
+    final myServiceViewModel =
+        Provider.of<MyServiceViewModel>(context, listen: true);
 
     // final serviceViewModel = context.watch<MyServiceViewModel>();
 
@@ -103,10 +104,22 @@ class _MyJobDetailState extends State<MyJobDetail> {
                     margin: const EdgeInsets.symmetric(horizontal: 12),
                     child: InkWell(
                       onTap: () {
-                        Navigator.pushNamed(
+                        // Navigator.pushNamed(
+                        //   context,
+                        //   RouteName.editMyPosterService,
+                        //   // arguments: {"id": 2, "name": "Nokia"},
+                        // );
+                        Navigator.push(
                           context,
-                          RouteName.editMyPosterService,
-                          // arguments: {"id": 2, "name": "Nokia"},
+                          MaterialPageRoute(
+                            builder: (context) => const EditMyPosterService(),
+                            settings: RouteSettings(
+                              // arguments: {
+                              //   'first_name': user!.firstName,
+                              // },
+                              arguments: myServiceViewModel.serviceModel,
+                            ),
+                          ),
                         );
                       },
                       child: const Icon(Icons.edit, color: Colors.white),

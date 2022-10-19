@@ -9,8 +9,11 @@ import 'package:provider/provider.dart';
 import '../../components/deafult_button.dart';
 import '../../utils/field_validator.dart';
 import '../../utils/mytheme.dart';
+import '../../utils/routes/routes_name.dart';
+import '../../view_model/bottom_navigation_view_model.dart';
 import '../../view_model/location_view_model.dart';
-import '../../widgets/common/app_bar.dart';
+// import '../../widgets/common/app_bar.dart';
+import '../../widgets/common/dialog_box.dart';
 import '../../widgets/common/input_textfield.dart';
 
 class CreatePost extends StatefulWidget {
@@ -44,17 +47,20 @@ class _CreatePostState extends State<CreatePost> {
       final post = Provider.of<MyServiceViewModel>(context, listen: false);
       final category = Provider.of<CategoryViewModel>(context, listen: false);
       final location = Provider.of<LocationViewModel>(context, listen: false);
-      if (post.serviceImgaes.isEmpty) {
-        Utils.toastMessage('Please add pictures');
-      }
+      // if (post.serviceImgaes.isEmpty) {
+      //   Utils.toastMessage('Please add pictures');
+      // }
       if (location.placeDetailModel.placeAddress.isEmpty) {
         Utils.toastMessage('Please choose location');
         return;
       }
-
+      // if (post.serviceImgaes.isNotEmpty) {
+      if (post.serviceBody['images'] != null) {
+        post.serviceBody['images'] = json.encode(post.serviceImgaes);
+      }
       post.serviceBody['type'] = post.isPoster! ? '0' : '1';
       post.serviceBody['category_id'] = category.categoryId;
-      post.serviceBody['images'] = json.encode(post.serviceImgaes);
+      // post.serviceBody['images'] = json.encode(post.serviceImgaes);
       post.serviceBody['title'] = titleController.text.trim();
       post.serviceBody['description'] = descController.text.trim();
       post.serviceBody['amount'] = priceController.text.trim();
@@ -64,10 +70,11 @@ class _CreatePostState extends State<CreatePost> {
           location.placeDetailModel.placeLocation.latitude.toString();
       post.serviceBody['address'] =
           location.placeDetailModel.placeAddress.trim();
-      post.serviceBody['is_negotiable'] = '0';
+      post.serviceBody['is_negotiable'] = post.isPriceNegotiable ? '1' : '0';
 
-      post.createPost(post.serviceBody, context);
-      // print(post.serviceBody);
+      // post.createPost(post.serviceBody, context);
+      print(post.serviceBody);
+      // }
     }
   }
 
@@ -78,7 +85,55 @@ class _CreatePostState extends State<CreatePost> {
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       backgroundColor: MyTheme.whiteColor,
-      appBar: myAppBar(context: context, appBarTitle: 'Create Your Post'),
+      // appBar: myAppBar(context: context, appBarTitle: 'Create Your Post'),
+      appBar: AppBar(
+        backgroundColor: MyTheme.whiteColor,
+        automaticallyImplyLeading: false,
+        elevation: 3,
+        leading: IconButton(
+          onPressed: () {
+            Provider.of<BottomNavigationViewModel>(context, listen: false)
+                .toggleCurrentIndex(0);
+            final service =
+                Provider.of<MyServiceViewModel>(context, listen: false);
+            // final category =
+            //     Provider.of<CategoryViewModel>(context, listen: false);
+            showDialog(
+              context: context,
+              builder: (_) => cancelDialog(
+                context: context,
+                title: 'Leave',
+                subTitle: 'Are you sure you want to leave ?',
+                onPressed: () {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    RouteName.home,
+                    (route) => false,
+                  );
+                  service.initailValue(context);
+                  service.serviceImgaes.clear();
+                  // post.isPoster = null;
+                  // category.categoryId = '';
+                  // category.categoryName = '';
+                },
+              ),
+            );
+          },
+          icon: const Icon(
+            Icons.clear,
+            color: Colors.black,
+            size: 22.0,
+          ),
+        ),
+        centerTitle: true,
+        title: const Text(
+          'Select Category',
+          style: TextStyle(
+            color: Colors.black87,
+            fontWeight: FontWeight.w400,
+            fontSize: 17,
+          ),
+        ),
+      ),
       // bottomSheet: post == true
       //     ? SafeArea(
       //         child: SizedBox(
@@ -145,6 +200,22 @@ class _CreatePostState extends State<CreatePost> {
                   ),
                 ),
               ),
+              const SizedBox(height: 10.0),
+              Consumer<MyServiceViewModel>(
+                builder: (ctx, serviceViewModel, _) {
+                  return CheckboxListTile(
+                    value: serviceViewModel.isPriceNegotiable,
+                    onChanged: (val) {
+                      serviceViewModel.togglePriceNegotiable();
+                    },
+                    title: const Text(
+                      'Price Negotiable',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    activeColor: MyTheme.greenColor,
+                  );
+                },
+              ),
               const SizedBox(height: 20),
               Padding(
                 padding:
@@ -180,6 +251,7 @@ class LocationPicker extends StatelessWidget {
 
     return Consumer<LocationViewModel>(
       builder: (context, locationViewModel, _) {
+        // print(locationViewModel.address);
         return Container(
           width: size.width,
           decoration: BoxDecoration(
