@@ -1,4 +1,5 @@
 import 'package:bizhub_new/utils/app_url.dart';
+import 'package:bizhub_new/view/home/components/google_map_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../model/service_model.dart';
 import '../../../utils/mytheme.dart';
@@ -22,6 +23,11 @@ class AllServiceIem extends StatelessWidget {
             ),
           ),
         );
+        // Navigator.of(context).push(
+        //   MaterialPageRoute(
+        //     builder: (context) => const GoogleMapScreen(),
+        //   ),
+        // );
       },
       child: Container(
         // color: Colors.black,

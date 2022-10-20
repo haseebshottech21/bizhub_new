@@ -15,7 +15,6 @@ class PlacesRepo {
           'https://maps.googleapis.com/maps/api/place/autocomplete/json?key=$mapAPIKEY&input=$query',
         ),
       );
-
       final loadedData = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
@@ -43,6 +42,7 @@ class PlacesRepo {
       final loadedData = jsonDecode(response.body);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
+        // print(loadedData);
         final placeDetail = PlaceDetailModel.fromJson(loadedData['result']);
         return placeDetail;
       } else {

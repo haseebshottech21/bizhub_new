@@ -72,8 +72,8 @@ class _CreatePostState extends State<CreatePost> {
           location.placeDetailModel.placeAddress.trim();
       post.serviceBody['is_negotiable'] = post.isPriceNegotiable ? '1' : '0';
 
-      // post.createPost(post.serviceBody, context);
-      print(post.serviceBody);
+      post.createPost(post.serviceBody, context);
+      // print(post.serviceBody);
       // }
     }
   }
@@ -263,7 +263,12 @@ class LocationPicker extends StatelessWidget {
             ),
           ),
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                RouteName.searchLocation,
+                arguments: false,
+              );
+            },
             child: Padding(
               padding: const EdgeInsets.only(
                 left: 12,
@@ -317,3 +322,86 @@ class LocationPicker extends StatelessWidget {
     );
   }
 }
+
+// class ZipCodePicker extends StatelessWidget {
+//   const ZipCodePicker({
+//     Key? key,
+//   }) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final size = MediaQuery.of(context).size;
+
+//     return Consumer<LocationViewModel>(
+//       builder: (context, locationViewModel, _) {
+//         // print(locationViewModel.address);
+//         return Container(
+//           width: size.width,
+//           decoration: BoxDecoration(
+//             color: Colors.white,
+//             borderRadius: BorderRadius.circular(4),
+//             border: Border.all(
+//               color: Colors.black,
+//               width: 0.8,
+//             ),
+//           ),
+//           child: InkWell(
+//             onTap: () {
+//               Navigator.of(context).pushNamed(
+//                 RouteName.searchLocation,
+//                 arguments: false,
+//               );
+//             },
+//             child: Padding(
+//               padding: const EdgeInsets.only(
+//                 left: 12,
+//                 bottom: 10,
+//                 top: 10,
+//                 right: 12,
+//               ),
+//               child: Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                 children: [
+//                   Column(
+//                     crossAxisAlignment: CrossAxisAlignment.start,
+//                     children: [
+//                       const Text(
+//                         'Zip Code',
+//                         style: TextStyle(
+//                           fontSize: 15.0,
+//                           fontWeight: FontWeight.w500,
+//                         ),
+//                       ),
+//                       const SizedBox(height: 4),
+//                       SizedBox(
+//                         width: size.width * 0.80,
+//                         child: Text(
+//                           locationViewModel.placeDetailModel.postalCode ==
+//                                   '00000'
+//                               ? 'Postal Code'
+//                               : locationViewModel.placeDetailModel.postalCode,
+//                           style: TextStyle(
+//                             color: Colors.grey.shade700,
+//                             fontSize: 14.0,
+//                             fontWeight: FontWeight.w300,
+//                           ),
+//                           maxLines: 1,
+//                           overflow: TextOverflow.ellipsis,
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                   const Icon(
+//                     Icons.arrow_forward_ios,
+//                     color: Colors.black,
+//                     size: 16,
+//                   )
+//                 ],
+//               ),
+//             ),
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }

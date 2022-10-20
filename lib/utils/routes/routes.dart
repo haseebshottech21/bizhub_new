@@ -12,6 +12,7 @@ import 'package:bizhub_new/view/auth/signup_screen.dart';
 import 'package:bizhub_new/view/auth/welcome_auth_screen.dart';
 import 'package:bizhub_new/view/chat/poster/poster_messages.dart';
 import 'package:bizhub_new/view/chat/worker/worker_messages.dart';
+import 'package:bizhub_new/view/create/component/serach_location.dart';
 import 'package:bizhub_new/view/create/create_post.dart';
 import 'package:bizhub_new/view/create/select_category.dart';
 import 'package:bizhub_new/view/create/select_service.dart';
@@ -74,6 +75,8 @@ class RouteGenerator {
       case RouteName.editMyPosterService:
         return MaterialPageRoute(
             builder: (context) => const EditMyPosterService());
+      case RouteName.searchLocation:
+        return MaterialPageRoute(builder: (context) => const SearchLocation());
       // Messages
       case RouteName.posterMessages:
         return MaterialPageRoute(builder: (context) => const PosterMessages());

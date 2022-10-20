@@ -27,6 +27,7 @@ class RouteName {
   static const String selectCategory = '/select_category_screen';
   static const String createPost = '/create_post_screen';
   static const String editMyPosterService = '/edit_poster_service';
+  static const String searchLocation = '/search_location';
 
   // Chat
   static const String posterMessages = '/poster_messages';

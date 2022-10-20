@@ -2,9 +2,10 @@
     package="com.example.bizhub">
     <uses-permission android:name="android.permission.INTERNET"/> 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBgeFPOQMiMVVrElHYD5l5YSCmNlu8QFXI"/>
+
     <queries>
         <!-- If your app opens http URLs -->
         <intent>
@@ -52,5 +53,11 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        
+        <meta-data 
+            android:name="com.google.android.geo.API_KEY" 
+            android:value="AIzaSyB7Ng7-HV7vIkFSF9XEThw_O2PSo_196zw"
+        />
     </application>
 </manifest>

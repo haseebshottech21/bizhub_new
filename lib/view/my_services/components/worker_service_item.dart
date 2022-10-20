@@ -1,10 +1,11 @@
 import 'package:bizhub_new/view/my_services/components/bottom_modal_action.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../model/service_model.dart';
 import '../../../utils/app_url.dart';
 import '../../../utils/mytheme.dart';
-// import '../../../utils/routes/routes_name.dart';
+import '../../../view_model/my_service_view_model.dart';
 import '../../../widgets/common/dialog_box.dart';
 import '../worker/my_work_detail.dart';
 import '../worker/service_complete.dart';
@@ -82,12 +83,14 @@ class WorkerServiceItem extends StatelessWidget {
                             width: size.maxWidth * 0.18,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(6),
-                              child: Image.network(
-                                AppUrl.baseUrl +
-                                    myWorkerService.imagesList![0].image
-                                        .toString(),
-                                fit: BoxFit.cover,
-                              ),
+                              child: myWorkerService.imagesList!.isEmpty
+                                  ? Container(color: Colors.grey)
+                                  : Image.network(
+                                      AppUrl.baseUrl +
+                                          myWorkerService.imagesList![0].image
+                                              .toString(),
+                                      fit: BoxFit.cover,
+                                    ),
                             ),
                           ),
                         ),
@@ -127,6 +130,7 @@ class WorkerServiceItem extends StatelessWidget {
                                                   text: 'Delete',
                                                   color: Colors.red,
                                                   onTap: () {
+                                                    Navigator.of(context).pop();
                                                     showDialog(
                                                       context: context,
                                                       builder: (context) =>
@@ -136,36 +140,23 @@ class WorkerServiceItem extends StatelessWidget {
                                                             'Confirm Delete ?',
                                                         subTitle:
                                                             'Are you sure you want to delete job ?',
-                                                        onPressed: () {},
+                                                        onPressed: () {
+                                                          context
+                                                              .read<
+                                                                  MyServiceViewModel>()
+                                                              .deleteMyService(
+                                                                serviceId:
+                                                                    myWorkerService
+                                                                        .serviceId
+                                                                        .toString(),
+                                                                context:
+                                                                    context,
+                                                              );
+                                                        },
                                                       ),
                                                     );
                                                   },
                                                 ),
-                                                // BottomModalAction(
-                                                //   text: 'Mark as complete',
-                                                //   onTap: () {
-                                                //     Navigator.of(context).pop();
-                                                //     showDialog(
-                                                //       context: context,
-                                                //       builder: (context) =>
-                                                //           simpleDialog(
-                                                //         context: context,
-                                                //         title:
-                                                //             'Confirm Completed ?',
-                                                //         subTitle:
-                                                //             'Are you sure your job complete!',
-                                                //         onPressed: () {
-                                                //           Navigator.of(context)
-                                                //               .pop();
-                                                //           Navigator.pushNamed(
-                                                //               context,
-                                                //               RouteName
-                                                //                   .myJobComplete);
-                                                //         },
-                                                //       ),
-                                                //     );
-                                                //   },
-                                                // ),
                                                 if (myWorkerService
                                                         .serviceStatus ==
                                                     '0')
@@ -187,7 +178,10 @@ class WorkerServiceItem extends StatelessWidget {
                                                             Navigator.of(
                                                                     context)
                                                                 .pop();
-
+                                                            // Navigator.pushNamed(
+                                                            //     context,
+                                                            //     RouteName
+                                                            //         .myJobComplete);
                                                             Navigator.push(
                                                               context,
                                                               MaterialPageRoute(

@@ -144,7 +144,7 @@ class JobPostItem extends StatelessWidget {
                                                           context
                                                               .read<
                                                                   MyServiceViewModel>()
-                                                              .deleteMyPosterService(
+                                                              .deleteMyLead(
                                                                 serviceId:
                                                                     myPosterService
                                                                         .serviceId

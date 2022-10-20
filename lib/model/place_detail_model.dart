@@ -8,6 +8,15 @@ class PlaceDetailModel {
     required this.placeLocation,
   });
   factory PlaceDetailModel.fromJson(Map<String, dynamic> json) {
+    // final addressList = (json['address_components'] as List);
+    // final lastObject = addressList.elementAt(addressList.length - 1);
+    // final code = '00000';
+    // if ((lastObject["types"] as List).contains("postal_code")) {
+    //   print(lastObject["short_name"]);
+    // } else {
+    //   print("00000");
+    // }
+
     return PlaceDetailModel(
       placeAddress: json['formatted_address'],
       placeLocation: LatLng(

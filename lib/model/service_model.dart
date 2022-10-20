@@ -9,6 +9,8 @@ class ServiceModel {
   String? serviceAmount;
   bool? serviceNegotiable;
   String? serviceStatus;
+  String? latitude;
+  String? longitude;
   List<ServiceImagesModel>? imagesList;
 
   ServiceModel({
@@ -18,6 +20,8 @@ class ServiceModel {
     this.serviceAmount,
     this.serviceNegotiable,
     this.serviceStatus,
+    this.latitude,
+    this.longitude,
     this.imagesList,
   });
 
@@ -28,6 +32,8 @@ class ServiceModel {
         serviceAmount: json['amount'],
         serviceNegotiable: json['is_negotiable'] == '0' ? false : true,
         serviceStatus: json['status'],
+        latitude: json['latitude'],
+        longitude: json['longitude'],
         imagesList: json['images'] == null
             ? []
             : (json['images'] as List)
@@ -42,6 +48,8 @@ class ServiceModel {
         'amount': serviceAmount,
         'is_negotiable': serviceNegotiable,
         'status': serviceStatus,
+        'latitude': latitude,
+        'longitude': longitude,
         'images': imagesList,
       };
 }
@@ -53,6 +61,8 @@ class ServiceDetalModel {
   String? serviceDesc;
   String? serviceAmount;
   String? serviceNegotiable;
+  String? latitude;
+  String? longitude;
   List<ServiceImagesModel>? imagesList;
   UserModel? user;
 
@@ -63,6 +73,8 @@ class ServiceDetalModel {
     this.serviceDesc,
     this.serviceAmount,
     this.serviceNegotiable,
+    this.latitude,
+    this.longitude,
     this.imagesList,
     this.user,
   });
@@ -75,6 +87,8 @@ class ServiceDetalModel {
         serviceDesc: json['description'],
         serviceAmount: json['amount'],
         serviceNegotiable: json['is_negotiable'],
+        latitude: json['latitude'],
+        longitude: json['longitude'],
         imagesList: json['images'] == null
             ? []
             : (json['images'] as List)
@@ -90,6 +104,8 @@ class ServiceDetalModel {
         'description': serviceDesc,
         'amount': serviceAmount,
         'is_negotiable': serviceNegotiable,
+        'latitude': latitude,
+        'longitude': longitude,
         'images': imagesList,
         'user': user,
       };

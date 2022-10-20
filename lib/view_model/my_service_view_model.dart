@@ -158,7 +158,7 @@ class MyServiceViewModel extends ChangeNotifier {
   }
 
   // DELETE JOB
-  Future<void> deleteMyPosterService({
+  Future<void> deleteMyLead({
     required BuildContext context,
     required String serviceId,
   }) async {
@@ -169,7 +169,7 @@ class MyServiceViewModel extends ChangeNotifier {
         Navigator.of(context).pop();
         setLoad(false);
         getMyPosterServices(context);
-        Utils.toastMessage('Service delete Successfully!');
+        Utils.toastMessage('Job delete Successfully!');
       });
     }
   }
@@ -190,6 +190,29 @@ class MyServiceViewModel extends ChangeNotifier {
       },
     );
     notifyListeners();
+  }
+
+  Future getMyServices(BuildContext context) async {
+    final provider = Provider.of<MyServiceViewModel>(context, listen: false);
+    provider.workerServiceList.clear();
+    await provider.getMyWorkerServiceList(context);
+  }
+
+  // DELETE SERVICE
+  Future<void> deleteMyService({
+    required BuildContext context,
+    required String serviceId,
+  }) async {
+    setLoad(true);
+    final response = await serviceRepo.deleteMyService(serviceId: serviceId);
+    if (response) {
+      Future.delayed(Duration.zero).then((value) {
+        Navigator.of(context).pop();
+        setLoad(false);
+        Utils.toastMessage('Service delete Successfully!');
+        getMyServices(context);
+      });
+    }
   }
 
   // COMPLETE JOB DETAIL
