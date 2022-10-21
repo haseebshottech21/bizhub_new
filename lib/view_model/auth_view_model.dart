@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/utils/shared_prefrences.dart';
-import 'package:bizhub_new/view/navigation/test_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../model/user_model.dart';
@@ -16,6 +15,7 @@ class AuthViewModel extends ChangeNotifier {
   final prefrences = Prefrences();
   File? image;
   UserModel? user;
+  UserModel? viewUser;
 
   // bool isLoading = false;
 
@@ -255,6 +255,21 @@ class AuthViewModel extends ChangeNotifier {
     }
   }
 
+  // VIEW OTHER PROFILE
+  Future<void> viewOtherProfile({
+    required BuildContext context,
+    required String userId,
+  }) async {
+    setLoad(true);
+    Future.delayed(const Duration(seconds: 1)).then(
+      (value) async {
+        viewUser = await authRepo.showOtherUser(userId: userId);
+        setLoad(false);
+      },
+    );
+    notifyListeners();
+  }
+
   Future<void> passwordVerificationEmail({
     required String emailAddress,
     required BuildContext context,
@@ -340,16 +355,6 @@ class AuthViewModel extends ChangeNotifier {
     }
   }
 
-  // Future<void> signUp(BuildContext context) async {
-  //   setLoad(true);
-  //   Future.delayed(const Duration(seconds: 3)).then(
-  //     (value) {
-  //       setLoad(false);
-  //       Navigator.pushNamed(context, RouteName.otp);
-  //     },
-  //   );
-  // }
-
   Future<void> otpValidate({
     required String otpCode,
     required BuildContext context,
@@ -377,28 +382,6 @@ class AuthViewModel extends ChangeNotifier {
     }
   }
 
-  // Future<void> otpVerify(BuildContext context) async {
-  //   setLoad(true);
-  //   Future.delayed(const Duration(seconds: 3)).then(
-  //     (value) {
-  //       setLoad(false);
-  //       Navigator.pushNamed(context, RouteName.otpSuccess);
-  //     },
-  //   );
-  // }
-
-  // Future<void> logout(BuildContext context) async {
-  //   setLoad(true);
-  //   Future.delayed(const Duration(seconds: 3)).then(
-  //     (value) {
-  //       setLoad(false);
-  //       Provider.of<BottomNavigationViewModel>(context, listen: false)
-  //           .bottomIndex = 0;
-  //       Navigator.pushNamed(context, RouteName.login);
-  //     },
-  //   );
-  // }
-
   Future<void> logout(
     BuildContext context,
   ) async {
@@ -422,9 +405,7 @@ class AuthViewModel extends ChangeNotifier {
         );
         // print('Successfully Login');
         Utils.toastMessage('Logged Out');
-      }
-          // },
-          );
+      });
     }
   }
 }

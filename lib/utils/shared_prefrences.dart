@@ -20,6 +20,20 @@ class Prefrences {
   //   SharedPreferences preferences = await SharedPreferences.getInstance();
   //   preferences.setBool(key, value);
   // }
+  Future<void> setSharedPreferenceListValue(
+    String key,
+    List<String> value,
+  ) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setStringList(key, value);
+  }
+
+  Future<List<String>> getSharedPreferenceListValue(
+    String key,
+  ) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getStringList(key) ?? [];
+  }
 
   // Future<void> removeSharedPreferenceValue(String key) async {
   //   SharedPreferences preferences = await SharedPreferences.getInstance();

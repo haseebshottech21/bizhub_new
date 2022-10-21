@@ -61,18 +61,6 @@ class AllServicesViewModel extends ChangeNotifier {
     // print(isPoster);
   }
 
-  // checkAllServices(BuildContext context) async {
-  //   String catId = '';
-  //   catId = await prefernce.getSharedPreferenceValue('catId');
-  //   if (catId.isEmpty) {
-  //     getAllServicesList(context, catId);
-  //     print('All Services');
-  //   } else {
-  //     getAllServicesList(context, catId);
-  //     print('CatWise');
-  //   }
-  // }
-
   Future<void> getAllServicesList(
     BuildContext context,
   ) async {

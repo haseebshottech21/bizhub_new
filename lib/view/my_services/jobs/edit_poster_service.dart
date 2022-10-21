@@ -1,11 +1,17 @@
+import 'dart:convert';
 import 'dart:io';
 // import 'package:bizhub_new/model/service_model.dart';
 import 'package:bizhub_new/model/service_model.dart';
+import 'package:bizhub_new/utils/app_url.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../../components/deafult_button.dart';
+import '../../../utils/field_validator.dart';
 import '../../../utils/mytheme.dart';
+import '../../../utils/routes/routes_name.dart';
 import '../../../view_model/location_view_model.dart';
 import '../../../view_model/my_service_view_model.dart';
 import '../../../widgets/common/input_textfield.dart';
@@ -21,24 +27,70 @@ class _EditMyPosterServiceState extends State<EditMyPosterService> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
+  final textFieldValidator = TextFieldValidators();
+  // final String imagePath = '';
   final _formKey = GlobalKey<FormState>();
+  LocationViewModel? locationViewModel;
   MyServiceViewModel? myServiceViewModel;
 
-  void getServicesValues() async {
-    final ServiceModel serviceModel =
-        ModalRoute.of(context)!.settings.arguments as ServiceModel;
+  setFields(ServiceModel serviceModel) {
     titleController.text = serviceModel.serviceTitle.toString();
     descController.text = serviceModel.serviceDesc.toString();
     priceController.text = serviceModel.serviceAmount.toString();
-    myServiceViewModel!.isPriceNegotiable = serviceModel.serviceNegotiable!;
   }
 
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      getServicesValues();
-    });
+  void didChangeDependencies() {
+    final serviceModel =
+        ModalRoute.of(context)!.settings.arguments as ServiceModel;
+    locationViewModel = Provider.of<LocationViewModel>(context, listen: false);
+    myServiceViewModel =
+        Provider.of<MyServiceViewModel>(context, listen: false);
+    locationViewModel!.latLng =
+        LatLng(serviceModel.latitude!, serviceModel.longitude!);
+    locationViewModel!.getLocationFromCoordinates(
+      LatLng(serviceModel.latitude!, serviceModel.longitude!),
+    );
+    myServiceViewModel!.isPriceNegotiable = serviceModel.serviceNegotiable!;
+    myServiceViewModel!.serviceImgaes = serviceModel.imagesList!.map((e) {
+      return {
+        "id": e.id,
+        'image_path': e.image,
+        "local": false,
+      };
+    }).toList();
+    setFields(serviceModel);
+    super.didChangeDependencies();
+  }
+
+  validateAndUpdate() {
+    // if (!_formKey.currentState!.validate()) {
+    //   return;
+    // } else {
+    final myServiceViewModel =
+        Provider.of<MyServiceViewModel>(context, listen: false);
+    final locationViewModel =
+        Provider.of<LocationViewModel>(context, listen: false);
+
+    final serviceModel =
+        ModalRoute.of(context)!.settings.arguments as ServiceModel;
+    Map data = {
+      'id': serviceModel.serviceId,
+      // 'category_id' : serviceModel,
+      'title': titleController.text.trim(),
+      'description': descController.text.trim(),
+      'amount': priceController.text.trim(),
+      'is_negotiable': myServiceViewModel.isPriceNegotiable ? '1' : '0',
+      'address': locationViewModel.placeDetailModel.placeAddress.toString(),
+      'latitude':
+          locationViewModel.placeDetailModel.placeLocation.latitude.toString(),
+      'longitude':
+          locationViewModel.placeDetailModel.placeLocation.longitude.toString(),
+      'images': json.encode(myServiceViewModel.serviceImgaes),
+    };
+    print(data);
+    // myServiceViewModel.updateService(data: data, context: context);
+    // }
   }
 
   @override
@@ -47,6 +99,7 @@ class _EditMyPosterServiceState extends State<EditMyPosterService> {
     // print(arguments['id']);
 
     // print(serviceModel.serviceTitle);
+    final size = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: AppBar(
@@ -90,12 +143,14 @@ class _EditMyPosterServiceState extends State<EditMyPosterService> {
                       LabelTextField(
                         label: 'Title *',
                         controller: titleController,
+                        validator: textFieldValidator.titleErrorGetter,
                       ),
                       const SizedBox(height: 20),
                       LabelTextField(
                         label: 'Description *',
                         controller: descController,
                         textAreaField: true,
+                        validator: textFieldValidator.descriptionErrorGetter,
                       ),
                       const SizedBox(height: 20),
                       const LocationPicker(),
@@ -103,38 +158,43 @@ class _EditMyPosterServiceState extends State<EditMyPosterService> {
                       LabelTextField(
                         label: 'Price *',
                         controller: priceController,
+                        validator: textFieldValidator.budgetRangeErrorGetter,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(6),
+                        ],
                       ),
                     ],
                   ),
                 ),
               ),
               const SizedBox(height: 10.0),
-              // Consumer<MyServiceViewModel>(
-              //   builder: (ctx, serviceViewModel, _) {
-              //     return CheckboxListTile(
-              //       value: serviceViewModel.isPriceNegotiable,
-              //       onChanged: (val) {
-              //         serviceViewModel.changePriceNegotiable(val!);
-              //       },
-              //       title: const Text(
-              //         'Price Negotiable',
-              //         style: TextStyle(color: Colors.black),
-              //       ),
-              //       activeColor: MyTheme.greenColor,
-              //     );
-              //   },
-              // ),
+              Consumer<MyServiceViewModel>(
+                builder: (ctx, serviceViewModel, _) {
+                  return CheckboxListTile(
+                    value: serviceViewModel.isPriceNegotiable,
+                    onChanged: (val) {
+                      serviceViewModel.changePriceNegotiable(val!);
+                    },
+                    title: const Text(
+                      'Price Negotiable',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    activeColor: MyTheme.greenColor,
+                  );
+                },
+              ),
               const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                child: DeafultButton(
-                  title: 'UPDATE',
-                  onPress: () {
-                    // print(post.isPoster);
-                    // validateAndJobPost();
-                  },
-                  // onPress: null,
-                ),
+              Consumer<MyServiceViewModel>(
+                builder: (context, myServiceViewModel, _) {
+                  return DeafultButton(
+                    title: 'UPDATE',
+                    isloading: myServiceViewModel.loading,
+                    onPress: () {
+                      validateAndUpdate();
+                    },
+                  );
+                },
               ),
             ],
           ),
@@ -154,6 +214,7 @@ class UploadImages extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Consumer<MyServiceViewModel>(
       builder: (context, postViewModel, _) {
+        // print(postViewModel.serviceImgaes);
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -223,21 +284,32 @@ class UploadImages extends StatelessWidget {
                       children: [
                         Container(
                           height: size.height * 0.20,
-                          width: size.width * 0.45,
+                          width: size.width * 0.50,
                           decoration: BoxDecoration(
                             color: Colors.grey[100],
                             border: Border.all(
                               color: MyTheme.greenColor,
                             ),
                             borderRadius: BorderRadius.circular(3),
-                            image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: FileImage(
-                                File(
-                                  postViewModel.serviceImgaes[0]['imagePath'],
-                                ),
-                              ),
-                            ),
+                            image:
+                                postViewModel.serviceImgaes[0]['local'] == false
+                                    ? DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: NetworkImage(
+                                          AppUrl.baseUrl +
+                                              postViewModel.serviceImgaes[0]
+                                                  ['image_path'],
+                                        ),
+                                      )
+                                    : DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: FileImage(
+                                          File(
+                                            postViewModel.serviceImgaes[0]
+                                                ['imagePath'],
+                                          ),
+                                        ),
+                                      ),
                           ),
                         ),
                         const Positioned(
@@ -302,7 +374,12 @@ class LocationPicker extends StatelessWidget {
             ),
           ),
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                RouteName.searchLocation,
+                arguments: false,
+              );
+            },
             child: Padding(
               padding: const EdgeInsets.only(
                 left: 12,

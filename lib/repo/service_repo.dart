@@ -34,16 +34,22 @@ class ServiceRepository {
   // All Services
   Future<List<ServiceModel>> fetchAllServicesList({
     required String serviceType,
-    String categoryId = '',
+    // String categoryId = '',
   }) async {
     try {
+      var catIds = "";
+      for (var element
+          in (await prefrence.getSharedPreferenceListValue("categories"))) {
+        catIds += "cat_ids[]=$element&";
+      }
+      // print('${AppUrl.allServiceEndPoint}?type=$serviceType&$catIds');
       final response = await http.get(
-        Uri.parse(
-            '${AppUrl.allServiceEndPoint}?type=$serviceType&cat_id=$categoryId'),
+        Uri.parse('${AppUrl.allServiceEndPoint}?type=$serviceType&$catIds'),
         headers: await AppUrl().headerWithAuth(),
       );
       // print('${AppUrl.allServiceEndPoint}?type=$serviceType');
       final loadedData = json.decode(response.body);
+      // print(loadedData);
       if (response.statusCode == 200 || response.statusCode == 201) {
         List<ServiceModel> allServicesList = (loadedData['data'] as List)
             .map((e) => ServiceModel.fromJson(e))

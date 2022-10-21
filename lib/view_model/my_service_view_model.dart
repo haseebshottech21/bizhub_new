@@ -29,6 +29,18 @@ class MyServiceViewModel extends ChangeNotifier {
     'is_negotiable': '',
   };
 
+  Map<String, dynamic> updateServiceBody = {
+    'category_id': '',
+    'images': [],
+    'title': '',
+    'description': '',
+    'amount': '',
+    'latitude': '',
+    'longitude': '',
+    'address': '',
+    'is_negotiable': '',
+  };
+
   initailValue(BuildContext context) {
     final category = Provider.of<CategoryViewModel>(context, listen: false);
     isPoster = null;
@@ -106,17 +118,6 @@ class MyServiceViewModel extends ChangeNotifier {
       );
     }
   }
-
-  // Future<void> myJobs() async {
-  //   setLoad(true);
-  //   Future.delayed(const Duration(seconds: 3)).then(
-  //     (value) {
-  //       getMyPosts = getPosts();
-  //       // notifyListeners();
-  //       setLoad(false);
-  //     },
-  //   );
-  // }
 
   // JOBS
   Future<void> getMyPosterServiceList(
@@ -212,6 +213,36 @@ class MyServiceViewModel extends ChangeNotifier {
         Utils.toastMessage('Service delete Successfully!');
         getMyServices(context);
       });
+    }
+  }
+
+  // UPDATE SERVICE
+  Future<void> updateService({
+    required dynamic data,
+    required BuildContext context,
+  }) async {
+    setLoad(true);
+    final loadedData = await serviceRepo.createService(data);
+    // print(loadedData);
+    if (loadedData == null) {
+      setLoad(false);
+    } else if (loadedData != null) {
+      Future.delayed(const Duration(seconds: 1)).then(
+        (value) {
+          // print(value);
+          setLoad(false);
+          // if (kDebugMode) {
+          initailValue(context);
+          serviceImgaes.clear();
+          Provider.of<BottomNavigationViewModel>(context, listen: false)
+              .bottomIndex = 1;
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+          Utils.toastMessage('Service Create Successfully!');
+          // }
+        },
+      );
     }
   }
 

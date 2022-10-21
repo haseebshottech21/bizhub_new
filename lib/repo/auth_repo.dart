@@ -65,6 +65,23 @@ class AuthRepository {
     }
   }
 
+  Future<UserModel> showOtherUser({
+    required String userId,
+  }) async {
+    try {
+      http.Response response = await http.get(
+        Uri.parse('${AppUrl.showUserEndPoint}/$userId'),
+        headers: await AppUrl().headerWithAuth(),
+      );
+      final responseLoaded = jsonDecode(response.body);
+      // print(response);
+      return UserModel.fromJson(responseLoaded['data']);
+    } catch (e) {
+      // print(e.toString());
+      rethrow;
+    }
+  }
+
   Future<dynamic> loginApi(dynamic data) async {
     try {
       http.Response response = await http.post(
@@ -361,5 +378,6 @@ class AuthRepository {
     await prefrence.removeSharedPreferenceValue('image');
     await prefrence.removeSharedPreferenceValue('email');
     await prefrence.removeSharedPreferenceValue('phone');
+    await prefrence.removeSharedPreferenceValue('categories');
   }
 }

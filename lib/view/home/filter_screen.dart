@@ -1,10 +1,8 @@
 import 'package:bizhub_new/components/deafult_button.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/utils/shared_prefrences.dart';
-import 'package:bizhub_new/view_model/all_services_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../view_model/category_view_model.dart';
 
 class FilterScreen extends StatefulWidget {
@@ -23,14 +21,31 @@ class _FilterScreenState extends State<FilterScreen> {
     super.initState();
   }
 
-  getAllData() {
+  Prefrences pref = Prefrences();
+
+  getAllData() async {
     final categories = Provider.of<CategoryViewModel>(context, listen: false);
     categories.getCategoriesList(context);
+    categories.selectedIndexList =
+        await pref.getSharedPreferenceListValue('categories');
   }
 
   RangeValues currentRangeValues = const RangeValues(0, 2000);
 
-  int selectedIndex = 0;
+  // int selectedIndex = 0;
+  // List<String> selectedIndexList = [];
+  // selectCategory(int index, String id) {
+  //   selectedIndexList.add(id);
+  // }
+
+  // unSelectCategory(int index, String id) {
+  //   selectedIndexList.removeWhere((element) => element == id);
+  // }
+
+  // setCategoriesLocally() {
+  //   pref.setSharedPreferenceListValue("categories", selectedIndexList);
+  // }
+
   // List<String> options = [
   //   'Woolha',
   //   'Flutter',
@@ -60,16 +75,16 @@ class _FilterScreenState extends State<FilterScreen> {
             Navigator.of(context).pop();
           },
         ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              // Navigator.of(context).pop();
-              // category.filterCatId = '';
-              context.read<CategoryViewModel>().clearFilter();
-            },
-            child: const Text('Reset'),
-          ),
-        ],
+        // actions: [
+        //   TextButton(
+        //     onPressed: () {
+        //       // Navigator.of(context).pop();
+        //       // category.filterCatId = '';
+        //       // context.read<CategoryViewModel>().clearFilter();
+        //     },
+        //     child: const Text('Reset'),
+        //   ),
+        // ],
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 12.0),
@@ -129,63 +144,67 @@ class _FilterScreenState extends State<FilterScreen> {
               ),
             ),
             const SizedBox(height: 12),
-            // Padding(
-            //   padding: const EdgeInsets.all(15.0),
-            //   child: Column(
-            //     children: <Widget>[
-            //       Container(
-            //         height: 30,
-            //         child: buildChips(),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            Wrap(
-              spacing: 6.0,
-              runSpacing: 6.0,
-              children: List.generate(
-                category.categoryList.length,
-                (index) {
-                  return ChoiceChip(
-                    label: Text(
-                      category.categoryList[index].catTitle.toString(),
-                      style: TextStyle(
-                        color: selectedIndex == index
-                            ? Colors.white
-                            : Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    selected: selectedIndex == index,
-                    backgroundColor: Colors.grey.shade100,
-                    selectedColor: MyTheme.greenColor,
-                    onSelected: (bool selected) {
-                      setState(() {
-                        if (selected) {
-                          selectedIndex = index;
-                          category.setCategoryId(
+            Consumer<CategoryViewModel>(
+              builder: (context, categoryViewModel, _) {
+                return Wrap(
+                  spacing: 6.0,
+                  runSpacing: 6.0,
+                  children: List.generate(
+                    category.categoryList.length,
+                    (index) {
+                      return ChoiceChip(
+                        label: Text(
+                          category.categoryList[index].catTitle.toString(),
+                          style: TextStyle(
+                            // color: selectedIndex == index
+                            color: categoryViewModel.selectedIndexList.contains(
+                              category.categoryList[index].catId.toString(),
+                            )
+                                ? Colors.white
+                                : Colors.black54,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        // selected: selectedIndex == index,
+                        selected: categoryViewModel.selectedIndexList.contains(
+                          category.categoryList[index].catId.toString(),
+                        ),
+                        avatar: categoryViewModel.selectedIndexList.contains(
+                          category.categoryList[index].catId.toString(),
+                        )
+                            ? const Icon(
+                                Icons.check,
+                                color: Colors.white,
+                                size: 16,
+                              )
+                            : null,
+                        backgroundColor: Colors.grey.shade100,
+                        selectedColor: MyTheme.greenColor,
+                        onSelected: (bool selected) {
+                          categoryViewModel.onChangeSelect(
+                            selected,
+                            index,
                             category.categoryList[index].catId.toString(),
                           );
-                        }
-                      });
+                        },
+                      );
                     },
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
             const SizedBox(height: 30),
-            Consumer<AllServicesViewModel>(
-              builder: (context, allServices, _) {
+            Consumer<CategoryViewModel>(
+              builder: (context, categoriesViewModel, _) {
                 return DeafultButton(
-                  // isloading: allServices.loading,
                   title: 'Apply',
-                  onPress: () async {
-                    print('category: ${category.filterCatId}');
-                    print(await Prefrences().getSharedPreferenceValue('catId'));
+                  isloading: categoriesViewModel.loading,
+                  onPress: () {
+                    categoriesViewModel.setAndApplyWithCategory(context);
                   },
                 );
               },
-            )
+            ),
           ],
         ),
       ),

@@ -9,8 +9,10 @@ class ServiceModel {
   String? serviceAmount;
   bool? serviceNegotiable;
   String? serviceStatus;
-  String? latitude;
-  String? longitude;
+  String? address;
+  double? latitude;
+  double? longitude;
+
   List<ServiceImagesModel>? imagesList;
 
   ServiceModel({
@@ -20,6 +22,7 @@ class ServiceModel {
     this.serviceAmount,
     this.serviceNegotiable,
     this.serviceStatus,
+    this.address,
     this.latitude,
     this.longitude,
     this.imagesList,
@@ -32,8 +35,9 @@ class ServiceModel {
         serviceAmount: json['amount'],
         serviceNegotiable: json['is_negotiable'] == '0' ? false : true,
         serviceStatus: json['status'],
-        latitude: json['latitude'],
-        longitude: json['longitude'],
+        address: json['address'],
+        latitude: double.parse(json['latitude'].toString()),
+        longitude: double.parse(json['longitude'].toString()),
         imagesList: json['images'] == null
             ? []
             : (json['images'] as List)
@@ -48,6 +52,7 @@ class ServiceModel {
         'amount': serviceAmount,
         'is_negotiable': serviceNegotiable,
         'status': serviceStatus,
+        'address': address,
         'latitude': latitude,
         'longitude': longitude,
         'images': imagesList,
@@ -61,8 +66,9 @@ class ServiceDetalModel {
   String? serviceDesc;
   String? serviceAmount;
   String? serviceNegotiable;
-  String? latitude;
-  String? longitude;
+  String? address;
+  double? latitude;
+  double? longitude;
   List<ServiceImagesModel>? imagesList;
   UserModel? user;
 
@@ -73,6 +79,7 @@ class ServiceDetalModel {
     this.serviceDesc,
     this.serviceAmount,
     this.serviceNegotiable,
+    this.address,
     this.latitude,
     this.longitude,
     this.imagesList,
@@ -87,8 +94,9 @@ class ServiceDetalModel {
         serviceDesc: json['description'],
         serviceAmount: json['amount'],
         serviceNegotiable: json['is_negotiable'],
-        latitude: json['latitude'],
-        longitude: json['longitude'],
+        address: json['address'],
+        latitude: double.parse(json['latitude'].toString()),
+        longitude: double.parse(json['longitude'].toString()),
         imagesList: json['images'] == null
             ? []
             : (json['images'] as List)
@@ -104,6 +112,7 @@ class ServiceDetalModel {
         'description': serviceDesc,
         'amount': serviceAmount,
         'is_negotiable': serviceNegotiable,
+        'address': address,
         'latitude': latitude,
         'longitude': longitude,
         'images': imagesList,
