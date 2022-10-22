@@ -27,6 +27,7 @@ class AppUrl {
   static var myPosertServiceEndPoint = '$baseUrl/api/my-services';
   static var myWorkerServiceEndPoint = '$baseUrl/api/my-worker-services';
   static var myPosterServiceDetailEndPoint = '$baseUrl/api/service-detail';
+  static var updateMyServiceEndPoint = '$baseUrl/api/service-update';
   static var deleteMyServiceEndPoint = '$baseUrl/api/delete-service';
   static var completeMyServiceEndPoint = '$baseUrl/api/service-complete';
   static var rateAndCompleteServiceEndPoint = '$baseUrl/api/complete-job';

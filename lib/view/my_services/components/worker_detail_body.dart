@@ -85,41 +85,27 @@ class MyWorkerDetailBody extends StatelessWidget {
                       ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 16,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '\$ ${myServiceViewModel.serviceModel!.serviceAmount}',
+                      '\$ ${myServiceViewModel.serviceModel!.serviceAmount.toString()}',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: 6),
                     Text(
                       myServiceViewModel.serviceModel!.serviceTitle.toString(),
                       style: const TextStyle(
-                        fontSize: 14,
+                        fontSize: 20,
                         fontWeight: FontWeight.w400,
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: const [
-                            Icon(Icons.location_pin),
-                            SizedBox(width: 5),
-                            Text('United State'),
-                          ],
-                        ),
-                        const Text('30 JUL 2022')
-                      ],
                     ),
                     const SizedBox(height: 5),
                     const Divider(),
@@ -131,16 +117,18 @@ class MyWorkerDetailBody extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    const SizedBox(height: 5),
+                    const SizedBox(height: 6),
                     Text(
                       myServiceViewModel.serviceModel!.serviceDesc.toString(),
                       style: const TextStyle(
                         fontSize: 14,
-                        color: Colors.grey,
+                        color: Colors.black54,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 5),
+                    const Divider(),
+                    const SizedBox(height: 5),
                     const Text(
                       'Location',
                       style: TextStyle(
@@ -154,62 +142,6 @@ class MyWorkerDetailBody extends StatelessWidget {
                 ),
               )
             ],
-          ),
-        ),
-        Positioned(
-          top: 0,
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.10,
-            width: MediaQuery.of(context).size.width,
-            alignment: Alignment.bottomLeft,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.transparent.withOpacity(0.1),
-                  Colors.transparent.withOpacity(0.2),
-                  Colors.transparent,
-                ],
-                stops: const [
-                  0.1,
-                  0.5,
-                  0.9,
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  width: 40,
-                  height: 50,
-                  margin: const EdgeInsets.symmetric(horizontal: 12),
-                  // decoration: const BoxDecoration(
-                  // color: Colors.white,
-                  // shape: BoxShape.circle,
-                  // ),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child:
-                        const Icon(Icons.arrow_back_ios, color: Colors.white),
-                  ),
-                ),
-                Container(
-                  width: 40,
-                  height: 50,
-                  margin: const EdgeInsets.symmetric(horizontal: 12),
-                  child: InkWell(
-                    onTap: () {
-                      // Navigator.of(context).pop();
-                    },
-                    child: const Icon(Icons.edit, color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
           ),
         ),
       ],

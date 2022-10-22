@@ -4,6 +4,8 @@ import 'package:bizhub_new/model/user_model.dart';
 
 class ServiceModel {
   String? serviceId;
+  String? serviceCatId;
+  String? serviceType;
   String? serviceTitle;
   String? serviceDesc;
   String? serviceAmount;
@@ -17,6 +19,8 @@ class ServiceModel {
 
   ServiceModel({
     this.serviceId,
+    this.serviceCatId,
+    this.serviceType,
     this.serviceTitle,
     this.serviceDesc,
     this.serviceAmount,
@@ -30,6 +34,8 @@ class ServiceModel {
 
   factory ServiceModel.fromJson(Map<String, dynamic> json) => ServiceModel(
         serviceId: json['id'].toString(),
+        serviceCatId: json['category_id'].toString(),
+        serviceType: json['type'],
         serviceTitle: json['title'],
         serviceDesc: json['description'],
         serviceAmount: json['amount'],
@@ -47,6 +53,8 @@ class ServiceModel {
 
   Map<String, dynamic> toJson() => {
         'id': serviceId,
+        'category_id': serviceCatId,
+        'type': serviceType,
         'title': serviceTitle,
         'description': serviceDesc,
         'amount': serviceAmount,

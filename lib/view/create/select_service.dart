@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../utils/routes/routes_name.dart';
 import '../../view_model/bottom_navigation_view_model.dart';
-import '../../widgets/common/app_bar.dart';
+// import '../../widgets/common/app_bar.dart';
 import '../../widgets/common/dialog_box.dart';
 // import '../../widgets/common/dialog_box.dart';
 
@@ -160,7 +160,7 @@ class SelectService extends StatelessWidget {
                           style: TextStyle(
                             color: selectType ? Colors.white : Colors.black,
                             fontSize: 20,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w500,
                             letterSpacing: 1.0,
                           ),
                         ),

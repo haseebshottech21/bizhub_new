@@ -1,4 +1,5 @@
 import 'package:bizhub_new/utils/app_url.dart';
+import 'package:bizhub_new/widgets/common/cached_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -42,16 +43,10 @@ class CategoryItem extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        AppUrl.baseUrl + category.catImage.toString(),
-                      ),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                CachedImageWidget(
+                  height: size.height,
+                  radius: 8,
+                  imgUrl: AppUrl.baseUrl + category.catImage.toString(),
                 ),
                 categoryViewModel.categoryId == category.catId.toString()
                     ? Container(
@@ -91,6 +86,7 @@ class CategoryItem extends StatelessWidget {
                     style: const TextStyle(
                       fontWeight: FontWeight.w500,
                       color: Colors.white,
+                      letterSpacing: 0.2,
                       fontSize: 17,
                     ),
                   ),

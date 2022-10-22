@@ -1,3 +1,4 @@
+import 'package:bizhub_new/view/my_services/worker/edit_worker_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -31,15 +32,99 @@ class _MyWorkDetailState extends State<MyWorkDetail> {
 
   @override
   Widget build(BuildContext context) {
+    // return Scaffold(
+    //   body: Consumer<MyServiceViewModel>(
+    //     builder: (context, serviceViewModel, _) {
+    //       if (serviceViewModel.loading) {
+    //         return const Center(child: CircularProgressIndicator());
+    //       } else {
+    //         return MyWorkerDetailBody(myServiceViewModel: serviceViewModel);
+    //       }
+    //     },
+    //   ),
+    // );
+
+    final myServiceViewModel =
+        Provider.of<MyServiceViewModel>(context, listen: true);
     return Scaffold(
-      body: Consumer<MyServiceViewModel>(
-        builder: (context, serviceViewModel, _) {
-          if (serviceViewModel.loading) {
-            return const Center(child: CircularProgressIndicator());
-          } else {
-            return MyWorkerDetailBody(myServiceViewModel: serviceViewModel);
-          }
-        },
+      body: Stack(
+        children: [
+          Consumer<MyServiceViewModel>(
+            builder: (context, myServiceViewModel, _) {
+              if (myServiceViewModel.loading) {
+                return const Center(child: CircularProgressIndicator());
+              } else {
+                return MyWorkerDetailBody(
+                  myServiceViewModel: myServiceViewModel,
+                );
+              }
+            },
+          ),
+          Positioned(
+            top: 0,
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.10,
+              width: MediaQuery.of(context).size.width,
+              alignment: Alignment.bottomLeft,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.transparent.withOpacity(0.2),
+                    Colors.transparent.withOpacity(0.1),
+                    Colors.transparent,
+                  ],
+                  stops: const [
+                    0.1,
+                    0.5,
+                    0.9,
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: 40,
+                    height: 50,
+                    margin: const EdgeInsets.symmetric(horizontal: 12),
+                    // decoration: const BoxDecoration(
+                    // color: Colors.white,
+                    // shape: BoxShape.circle,
+                    // ),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child:
+                          const Icon(Icons.arrow_back_ios, color: Colors.white),
+                    ),
+                  ),
+                  Container(
+                    width: 40,
+                    height: 50,
+                    margin: const EdgeInsets.symmetric(horizontal: 12),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const EditMyWorkerService(),
+                            settings: RouteSettings(
+                              arguments: myServiceViewModel.serviceModel,
+                            ),
+                          ),
+                        );
+                      },
+                      child: const Icon(Icons.edit, color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

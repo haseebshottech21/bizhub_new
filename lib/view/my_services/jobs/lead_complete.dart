@@ -40,7 +40,7 @@ class _LeadCompleteState extends State<LeadComplete> {
     final size = MediaQuery.of(context).size;
 
     const titleStyle = TextStyle(
-      fontSize: 16,
+      fontSize: 17,
       fontWeight: FontWeight.w500,
       color: Colors.black,
     );
@@ -82,7 +82,7 @@ class _LeadCompleteState extends State<LeadComplete> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _uiTop(size, serviceViewModel),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 24),
                   const Text('Who did the job ?', style: titleStyle),
                   const SizedBox(height: 10),
                   serviceViewModel.serviceCompleteModel!.offersList!.isEmpty
@@ -106,13 +106,6 @@ class _LeadCompleteState extends State<LeadComplete> {
                                 .serviceCompleteModel!.offersList![index].user!;
                             return GestureDetector(
                               onTap: () {
-                                // rateReviewDialog(
-                                //   status: '1',
-                                //   userName:
-                                //       '${userOffers.firstName} ${userOffers.lastName}',
-                                //   context: context,
-                                // );
-
                                 showModalBottomSheet(
                                   backgroundColor: Colors.white,
                                   context: context,
@@ -138,16 +131,6 @@ class _LeadCompleteState extends State<LeadComplete> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                // GestureDetector(
-                                                //   onTap: () {
-                                                //     Navigator.of(context)
-                                                //         .pop();
-                                                //   },
-                                                //   child: const Icon(
-                                                //     Icons.clear,
-                                                //     size: 20,
-                                                //   ),
-                                                // ),
                                                 const Padding(
                                                   padding: EdgeInsets.only(
                                                     top: 12,
@@ -486,31 +469,6 @@ class _LeadCompleteState extends State<LeadComplete> {
             ),
     );
   }
-
-  // Widget _offerItem(
-  //   BuildContext context,
-  //   TextStyle nameStyle,
-  // ) {
-  //   return GestureDetector(
-  //     onTap: () {
-  //       rateReviewDialog(
-  //         status: '1',
-  //         userName: 'John Cary',
-  //         context: context,
-  //       );
-  //     },
-  //     child: ListTile(
-  //       contentPadding: EdgeInsets.zero,
-  //       leading: const CircleAvatar(
-  //         backgroundImage: AssetImage('assets/images/job2.jpg'),
-  //       ),
-  //       title: Text(
-  //         'username',
-  //         style: nameStyle,
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Widget _uiTop(Size size, MyServiceViewModel serviceViewModel) {
     return SizedBox(

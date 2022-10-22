@@ -105,7 +105,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => BottomNavigationViewModel()),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'BizHub',
         debugShowCheckedModeBanner: false,
         theme: MyTheme.myLightTheme,
         initialRoute: RouteName.splash,

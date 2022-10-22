@@ -78,10 +78,10 @@ class RouteGenerator {
       case RouteName.searchLocation:
         return MaterialPageRoute(builder: (context) => const SearchLocation());
       // Messages
-      case RouteName.posterMessages:
-        return MaterialPageRoute(builder: (context) => const PosterMessages());
-      case RouteName.workerMessages:
-        return MaterialPageRoute(builder: (context) => const WorkerMessages());
+      // case RouteName.posterMessages:
+      //   return MaterialPageRoute(builder: (context) => const PosterMessages());
+      // case RouteName.workerMessages:
+      //   return MaterialPageRoute(builder: (context) => const WorkerMessages());
       // MORE
       case RouteName.viewMyProfile:
         return MaterialPageRoute(builder: (context) => const ViewMyProfile());

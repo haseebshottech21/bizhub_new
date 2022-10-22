@@ -1,9 +1,9 @@
 import 'package:bizhub_new/utils/app_url.dart';
 import 'package:bizhub_new/view/account/profile/view_other_profile.dart';
 import 'package:bizhub_new/view/home/components/google_map_screen.dart';
-import 'package:bizhub_new/view/home/components/service_location_map.dart';
+// import 'package:bizhub_new/view/home/components/service_location_map.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../utils/mytheme.dart';
 import '../../../view_model/all_services_view_model.dart';
 import '../../../widgets/common/cached_image.dart';
@@ -95,7 +95,7 @@ class AllServiceDetailBody extends StatelessWidget {
                     ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -106,30 +106,14 @@ class AllServiceDetailBody extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: 6),
                   Text(
                     allServiceViewModel.serviceDetalModel!.serviceTitle
                         .toString(),
                     style: const TextStyle(
-                      fontSize: 14,
+                      fontSize: 20,
                       fontWeight: FontWeight.w400,
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: const [
-                          Icon(Icons.location_pin),
-                          SizedBox(width: 5),
-                          Text('United State'),
-                        ],
-                      ),
-                      const Text('30 JUL 2022')
-                    ],
                   ),
                   const SizedBox(height: 5),
                   const Divider(),
@@ -141,13 +125,13 @@ class AllServiceDetailBody extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 6),
                   Text(
                     allServiceViewModel.serviceDetalModel!.serviceDesc
                         .toString(),
                     style: const TextStyle(
                       fontSize: 14,
-                      color: Colors.grey,
+                      color: Colors.black54,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -161,9 +145,6 @@ class AllServiceDetailBody extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (context) => const ViewOtherProfile(),
                           settings: RouteSettings(
-                            // arguments: {
-                            //   'first_name': user!.firstName,
-                            // },
                             arguments: user,
                           ),
                         ),
@@ -178,8 +159,8 @@ class AllServiceDetailBody extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           CachedImageWidget(
-                            height: 55,
-                            width: 55,
+                            height: 45,
+                            width: 45,
                             radius: 50,
                             imgUrl: user!.image!.isEmpty
                                 ? AppUrl.emptyImage
@@ -191,9 +172,9 @@ class AllServiceDetailBody extends StatelessWidget {
                             children: [
                               Text(
                                 '${user.firstName} ${user.lastName}',
-                                style: const TextStyle(fontSize: 14),
+                                style: const TextStyle(fontSize: 15),
                               ),
-                              const SizedBox(height: 2),
+                              const SizedBox(height: 6),
                               const Text(
                                 'VIEW PROFILE',
                                 style: TextStyle(
@@ -214,7 +195,9 @@ class AllServiceDetailBody extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 5),
+                  const Divider(),
+                  const SizedBox(height: 5),
                   const Text(
                     'Location',
                     style: TextStyle(

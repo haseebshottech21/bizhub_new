@@ -72,7 +72,7 @@ class _ServiceCompleteState extends State<ServiceComplete> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _uiTop(size, serviceViewModel),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 24),
                   const Text('Who did the job ?', style: titleStyle),
                   const SizedBox(height: 10),
                   serviceViewModel.serviceCompleteModel!.offersList!.isEmpty

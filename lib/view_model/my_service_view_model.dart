@@ -67,6 +67,13 @@ class MyServiceViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _updateLoading = false;
+  bool get updateLoading => _updateLoading;
+  setUpdateLoad(bool status) {
+    _updateLoading = status;
+    notifyListeners();
+  }
+
   selectServiceType(bool type) {
     isPoster = type;
     notifyListeners();
@@ -216,31 +223,47 @@ class MyServiceViewModel extends ChangeNotifier {
     }
   }
 
-  // UPDATE SERVICE
-  Future<void> updateService({
+  // UPDATE JOBS
+  Future<void> updateMyPosterService({
     required dynamic data,
     required BuildContext context,
   }) async {
-    setLoad(true);
-    final loadedData = await serviceRepo.createService(data);
+    setUpdateLoad(true);
+    final loadedData = await serviceRepo.updateService(data);
     // print(loadedData);
     if (loadedData == null) {
-      setLoad(false);
+      setUpdateLoad(false);
     } else if (loadedData != null) {
       Future.delayed(const Duration(seconds: 1)).then(
         (value) {
-          // print(value);
-          setLoad(false);
-          // if (kDebugMode) {
-          initailValue(context);
-          serviceImgaes.clear();
-          Provider.of<BottomNavigationViewModel>(context, listen: false)
-              .bottomIndex = 1;
+          setUpdateLoad(false);
           Navigator.of(context).pop();
           Navigator.of(context).pop();
+          Utils.toastMessage('Updated Successfully!');
+          getMyPosterServices(context);
+        },
+      );
+    }
+  }
+
+  // UPDATE SERVICES
+  Future<void> updateMyWorkerService({
+    required dynamic data,
+    required BuildContext context,
+  }) async {
+    setUpdateLoad(true);
+    final loadedData = await serviceRepo.updateService(data);
+    // print(loadedData);
+    if (loadedData == null) {
+      setUpdateLoad(false);
+    } else if (loadedData != null) {
+      Future.delayed(const Duration(seconds: 1)).then(
+        (value) {
+          setUpdateLoad(false);
           Navigator.of(context).pop();
-          Utils.toastMessage('Service Create Successfully!');
-          // }
+          Navigator.of(context).pop();
+          Utils.toastMessage('Updated Successfully!');
+          getMyServices(context);
         },
       );
     }

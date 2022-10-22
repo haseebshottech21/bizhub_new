@@ -50,6 +50,7 @@ class _MyMessagesState extends State<MyMessages> {
         userImage: chat['userImage'] == null
             ? img
             : AppUrl.baseUrl + chat['userImage'],
+        userModel: chat['user'],
       ),
       body: RefreshIndicator(
         onRefresh: () {

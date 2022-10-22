@@ -107,6 +107,7 @@ class _ViewOtherProfileState extends State<ViewOtherProfile> {
                               color: Colors.grey.shade500,
                             ),
                           ),
+                          SizedBox(height: size.height * 0.005),
                           GestureDetector(
                             child: Text(
                               authViewModel.viewUser!.url == null

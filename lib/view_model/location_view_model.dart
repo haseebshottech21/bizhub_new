@@ -76,7 +76,33 @@ class LocationViewModel with ChangeNotifier {
     }
   }
 
+  // Future<void> getLocationFromCoordinates(LatLng coordinate) async {
+  //   List<Placemark> placeMarks = await placemarkFromCoordinates(
+  //     coordinate.latitude,
+  //     coordinate.longitude,
+  //   );
+  //   final address = placeMarks.first;
+  //   setAddress =
+  //       '${address.street}, ${address.subLocality}, ${address.locality}, ${address.administrativeArea}, ${address.postalCode}, ${address.country}';
+  //   setAddress = this.address.replaceAll(', ,', ',');
+
+  //   setLocalCoordinates(
+  //     PlaceDetailModel(placeAddress: getAddress, placeLocation: coordinate),
+  //   );
+  // }
+
   Future<void> getLocationFromCoordinates(LatLng coordinate) async {
+    // bool permission = await _handlePermission();
+    // if (permission) {
+    // final geoPosition = await Geolocator.getCurrentPosition(
+    //   desiredAccuracy: LocationAccuracy.high,
+    // );
+    // latLng = LatLng(geoPosition.latitude, geoPosition.longitude);
+    // // final registrationCompanyProvider =
+    // //     Provider.of<RegisterCompanyViewModel>(context, listen: false);
+
+    // await getLocationFromCoordinates(latLng);
+    // return latLng;
     List<Placemark> placeMarks = await placemarkFromCoordinates(
       coordinate.latitude,
       coordinate.longitude,
@@ -85,10 +111,9 @@ class LocationViewModel with ChangeNotifier {
     setAddress =
         '${address.street}, ${address.subLocality}, ${address.locality}, ${address.administrativeArea}, ${address.postalCode}, ${address.country}';
     setAddress = this.address.replaceAll(', ,', ',');
-
-    setLocalCoordinates(
-      PlaceDetailModel(placeAddress: getAddress, placeLocation: coordinate),
-    );
+    // }
+    // setLocalCoordinates(
+    //     PlaceDetailModel(placeAddress: getAddress, placeLocation: coordinate));
   }
 
   setLocalCoordinates(PlaceDetailModel placeModel) async {

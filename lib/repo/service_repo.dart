@@ -9,6 +9,7 @@ import '../utils/utils.dart';
 class ServiceRepository {
   final prefrence = Prefrences();
 
+  // CREATE
   Future<dynamic> createService(dynamic data) async {
     try {
       http.Response response = await http.post(
@@ -160,6 +161,31 @@ class ServiceRepository {
       Utils.toastMessage(e.toString());
     }
     return [];
+  }
+
+  // UPDATE
+  Future<dynamic> updateService(dynamic data) async {
+    try {
+      http.Response response = await http.post(
+        Uri.parse(AppUrl.updateMyServiceEndPoint),
+        body: data,
+        headers: await AppUrl().headerWithAuth(),
+      );
+
+      final responseLoaded = jsonDecode(response.body);
+
+      print(responseLoaded);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return responseLoaded;
+      } else {
+        Utils.toastMessage(responseLoaded['message']);
+      }
+    } catch (e) {
+      // print(e.toString());
+      Utils.toastMessage(e.toString());
+      // Fluttertoast.showToast(msg: e.toString());
+    }
   }
 
   // DELETE

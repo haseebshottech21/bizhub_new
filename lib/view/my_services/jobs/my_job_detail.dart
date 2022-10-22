@@ -104,19 +104,11 @@ class _MyJobDetailState extends State<MyJobDetail> {
                     margin: const EdgeInsets.symmetric(horizontal: 12),
                     child: InkWell(
                       onTap: () {
-                        // Navigator.pushNamed(
-                        //   context,
-                        //   RouteName.editMyPosterService,
-                        //   // arguments: {"id": 2, "name": "Nokia"},
-                        // );
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => const EditMyPosterService(),
                             settings: RouteSettings(
-                              // arguments: {
-                              //   'first_name': user!.firstName,
-                              // },
                               arguments: myServiceViewModel.serviceModel,
                             ),
                           ),

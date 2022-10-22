@@ -27,7 +27,7 @@ class WorkerServiceItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Container(
         width: size.width,
-        height: size.height * 0.13,
+        height: size.height * 0.12,
         decoration: BoxDecoration(
           color: Colors.white,
           // borderRadius: BorderRadius.only(
@@ -79,7 +79,7 @@ class WorkerServiceItem extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 4.0),
                           child: SizedBox(
-                            height: size.maxHeight * 0.76,
+                            // height: size.maxHeight * 0.74,
                             width: size.maxWidth * 0.18,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(6),
@@ -96,7 +96,7 @@ class WorkerServiceItem extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        width: size.maxWidth * 0.72,
+                        width: size.maxWidth * 0.74,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -107,7 +107,12 @@ class WorkerServiceItem extends StatelessWidget {
                                 SizedBox(
                                   width: size.maxWidth * 0.65,
                                   child: Text(
-                                      myWorkerService.serviceTitle.toString()),
+                                    myWorkerService.serviceTitle.toString(),
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
                                 ),
                                 InkWell(
                                   splashColor: Colors.transparent,
@@ -235,11 +240,11 @@ class WorkerServiceItem extends StatelessWidget {
                                 Container(
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 12,
-                                    vertical: 4,
+                                    vertical: 6,
                                   ),
                                   decoration: BoxDecoration(
                                     color: Colors.blue,
-                                    borderRadius: BorderRadius.circular(6),
+                                    borderRadius: BorderRadius.circular(4),
                                   ),
                                   child: const Text(
                                     'Active',

@@ -1,13 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:bizhub_new/model/service_model.dart';
-import 'package:bizhub_new/utils/app_url.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+
 import '../../../components/deafult_button.dart';
+import '../../../model/service_model.dart';
+import '../../../utils/app_url.dart';
 import '../../../utils/field_validator.dart';
 import '../../../utils/mytheme.dart';
 import '../../../utils/routes/routes_name.dart';
@@ -15,14 +17,14 @@ import '../../../view_model/location_view_model.dart';
 import '../../../view_model/my_service_view_model.dart';
 import '../../../widgets/common/input_textfield.dart';
 
-class EditMyPosterService extends StatefulWidget {
-  const EditMyPosterService({Key? key}) : super(key: key);
+class EditMyWorkerService extends StatefulWidget {
+  const EditMyWorkerService({Key? key}) : super(key: key);
 
   @override
-  State<EditMyPosterService> createState() => _EditMyPosterServiceState();
+  State<EditMyWorkerService> createState() => _EditMyWorkerServiceState();
 }
 
-class _EditMyPosterServiceState extends State<EditMyPosterService> {
+class _EditMyWorkerServiceState extends State<EditMyWorkerService> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
@@ -56,7 +58,7 @@ class _EditMyPosterServiceState extends State<EditMyPosterService> {
         'images': json.encode(myServiceViewModel.serviceImgaes),
       };
       // print(data);
-      myServiceViewModel.updateMyPosterService(data: data, context: context);
+      myServiceViewModel.updateMyWorkerService(data: data, context: context);
     }
   }
 
@@ -112,7 +114,7 @@ class _EditMyPosterServiceState extends State<EditMyPosterService> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Edit My Job',
+          'Edit My Service',
           style: TextStyle(
             color: Theme.of(context).textTheme.bodyText1!.color,
           ),

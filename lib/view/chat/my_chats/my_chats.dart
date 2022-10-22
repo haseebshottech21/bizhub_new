@@ -76,6 +76,7 @@ class _MyChatsState extends State<MyChats> {
                             'userName':
                                 '${myChats.allChatList[index].user!.firstName!} ${myChats.allChatList[index].user!.lastName}',
                             'userImage': myChats.allChatList[index].user!.image,
+                            'user': myChats.allChatList[index].user!,
                           },
                         ),
                       ),

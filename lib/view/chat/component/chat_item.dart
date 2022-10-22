@@ -27,52 +27,7 @@ class ChatWidget extends StatelessWidget {
       padding: const EdgeInsets.only(top: 4),
       child: InkWell(
         onTap: onTap,
-        onLongPress: () {
-          // showModalBottomSheet(
-          //   backgroundColor: Colors.white,
-          //   context: context,
-          //   // isScrollControlled: true,
-          //   shape: const RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.vertical(
-          //       top: Radius.circular(15.0),
-          //     ),
-          //   ),
-          //   builder: (context) {
-          //     // print(object)
-          //     return Container(
-          //       constraints: BoxConstraints(
-          //         maxHeight: MediaQuery.of(context).size.height,
-          //       ),
-          //       child: Column(
-          //         crossAxisAlignment: CrossAxisAlignment.start,
-          //         mainAxisSize: MainAxisSize.min,
-          //         children: <Widget>[
-          //           Padding(
-          //             padding: const EdgeInsets.only(
-          //               top: 8,
-          //               bottom: 15,
-          //               left: 12,
-          //               right: 12,
-          //             ),
-          //             child: Container(
-          //               height: 6,
-          //               width: 70,
-          //               decoration: BoxDecoration(
-          //                 color: Colors.grey[500],
-          //                 borderRadius: BorderRadius.circular(8),
-          //               ),
-          //             ),
-          //           ),
-          //           InkWell(
-          //             onTap: () {},
-          //             child: const Text('Delete Chat'),
-          //           ),
-          //         ],
-          //       ),
-          //     );
-          //   },
-          // );
-        },
+        onLongPress: () {},
         child: Container(
           width: size.width,
           // color: Colors.yellow,
@@ -124,6 +79,8 @@ class ChatWidget extends StatelessWidget {
                     // SizedBox(height: size.height * 0.002),
                     Text(
                       chat.service!.serviceTitle.toString(),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 16,

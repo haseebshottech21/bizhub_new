@@ -84,41 +84,25 @@ class MyJobDetailBody extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 10,
-              vertical: 10,
+              vertical: 16,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '\$ ${myServiceViewModel.serviceModel!.serviceAmount}',
+                  '\$ ${myServiceViewModel.serviceModel!.serviceAmount.toString()}',
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                const SizedBox(height: 2),
+                const SizedBox(height: 6),
                 Text(
                   myServiceViewModel.serviceModel!.serviceTitle.toString(),
                   style: const TextStyle(
-                    fontSize: 14,
+                    fontSize: 20,
                     fontWeight: FontWeight.w400,
                   ),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: const [
-                        Icon(Icons.location_pin),
-                        SizedBox(width: 5),
-                        Text('United State'),
-                      ],
-                    ),
-                    const Text('30 JUL 2022')
-                  ],
                 ),
                 const SizedBox(height: 5),
                 const Divider(),
@@ -130,16 +114,18 @@ class MyJobDetailBody extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 6),
                 Text(
                   myServiceViewModel.serviceModel!.serviceDesc.toString(),
                   style: const TextStyle(
                     fontSize: 14,
-                    color: Colors.grey,
+                    color: Colors.black54,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
+                const Divider(),
+                const SizedBox(height: 5),
                 const Text(
                   'Location',
                   style: TextStyle(

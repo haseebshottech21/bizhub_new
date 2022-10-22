@@ -140,13 +140,13 @@ class MessageItem extends StatelessWidget {
                 // style: theme.textTheme.bodyText2
                 //     ?.copyWith(color: Colors.white),
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: 8),
               Text(
                 // '2 : 55 am',
                 message.createdAt.toString(),
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 11,
+                  fontSize: 10,
                   fontWeight: FontWeight.w300,
                 ),
                 // style: theme.textTheme.bodySmall

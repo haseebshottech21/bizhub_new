@@ -126,6 +126,7 @@ class _ViewMyProfileState extends State<ViewMyProfile> {
                                 color: Colors.grey.shade500,
                               ),
                             ),
+                            SizedBox(height: size.height * 0.005),
                             GestureDetector(
                               child: Text(
                                 url!,
@@ -208,8 +209,8 @@ class _ViewMyProfileState extends State<ViewMyProfile> {
                             child: Row(
                               children: [
                                 const CachedImageWidget(
-                                  height: 45,
-                                  width: 45,
+                                  height: 40,
+                                  width: 40,
                                   radius: 4,
                                   imgUrl:
                                       'https://i.pinimg.com/736x/25/78/61/25786134576ce0344893b33a051160b1.jpg',
@@ -226,19 +227,20 @@ class _ViewMyProfileState extends State<ViewMyProfile> {
                                         'USERNAME',
                                         style: TextStyle(
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 14,
+                                          fontSize: 12,
+                                          letterSpacing: 0.5,
                                         ),
                                       ),
-                                      SizedBox(height: size.height * 0.002),
+                                      SizedBox(height: size.height * 0.006),
                                       Text(
                                         myRatings![i].review.toString(),
                                         style: const TextStyle(
                                           fontWeight: FontWeight.w300,
                                           fontSize: 14,
-                                          color: Colors.grey,
+                                          color: Colors.black87,
                                         ),
                                       ),
-                                      SizedBox(height: size.height * 0.004),
+                                      SizedBox(height: size.height * 0.006),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -260,14 +262,14 @@ class _ViewMyProfileState extends State<ViewMyProfile> {
                                                     ? Icons.star_outline
                                                     : Icons.star,
                                                 color: Colors.amber,
-                                                size: 22,
+                                                size: 18,
                                               ),
                                             ),
                                           ),
                                           const Text(
                                             '11/06/2022',
                                             style: TextStyle(
-                                              fontWeight: FontWeight.w300,
+                                              fontWeight: FontWeight.w400,
                                               fontSize: 12,
                                               color: Colors.black54,
                                             ),

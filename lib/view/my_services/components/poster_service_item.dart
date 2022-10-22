@@ -28,7 +28,7 @@ class JobPostItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Container(
         width: size.width,
-        height: size.height * 0.13,
+        height: size.height * 0.12,
         decoration: BoxDecoration(
           color: Colors.white,
           // borderRadius: BorderRadius.only(
@@ -75,8 +75,8 @@ class JobPostItem extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 4.0),
                           child: SizedBox(
-                            height: size.maxHeight * 0.76,
-                            width: size.maxWidth * 0.20,
+                            // height: size.maxHeight * 0.76,
+                            width: size.maxWidth * 0.18,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(6),
                               child: myPosterService.imagesList!.isEmpty
@@ -92,7 +92,7 @@ class JobPostItem extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        width: size.maxWidth * 0.72,
+                        width: size.maxWidth * 0.74,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -106,6 +106,10 @@ class JobPostItem extends StatelessWidget {
                                     width: size.maxWidth * 0.65,
                                     child: Text(
                                       myPosterService.serviceTitle.toString(),
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -173,7 +177,7 @@ class JobPostItem extends StatelessWidget {
                                                           title:
                                                               'Confirm Completed ?',
                                                           subTitle:
-                                                              'Are you sure your job complete!',
+                                                              'Are you sure this job completed ?',
                                                           onPressed: () {
                                                             Navigator.of(
                                                                     context)
@@ -235,13 +239,13 @@ class JobPostItem extends StatelessWidget {
                                 Container(
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 12,
-                                    vertical: 4,
+                                    vertical: 6,
                                   ),
                                   decoration: BoxDecoration(
                                     color: myPosterService.serviceStatus == '0'
                                         ? Colors.blue
                                         : Colors.green,
-                                    borderRadius: BorderRadius.circular(6),
+                                    borderRadius: BorderRadius.circular(4),
                                   ),
                                   child: Text(
                                     myPosterService.serviceStatus == '0'

@@ -1,9 +1,13 @@
+import 'package:bizhub_new/model/user_model.dart';
 import 'package:flutter/material.dart';
+
+import '../../account/profile/view_other_profile.dart';
 
 messageAppBar({
   required BuildContext context,
   required String userName,
   required String userImage,
+  required UserModel userModel,
 }) {
   return AppBar(
     leading: const BackButton(color: Colors.black),
@@ -12,7 +16,20 @@ messageAppBar({
     centerTitle: false,
     titleSpacing: 0,
     title: ListTile(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ViewOtherProfile(),
+            settings: RouteSettings(
+              // arguments: {
+              //   'first_name': user!.firstName,
+              // },
+              arguments: userModel,
+            ),
+          ),
+        );
+      },
       leading: CircleAvatar(
         backgroundImage: NetworkImage(
           // chat['userImage'] == null ? img : AppUrl.baseUrl + chat['userImage'],

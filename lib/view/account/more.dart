@@ -1,7 +1,7 @@
 import 'package:bizhub_new/language/language_constant.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/widgets/common/dialog_box.dart';
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../utils/app_url.dart';
@@ -326,18 +326,19 @@ class ViewProfile extends StatelessWidget {
                     child: Text(
                       userName,
                       style: const TextStyle(
-                        fontSize: 22,
+                        fontSize: 20,
+                        letterSpacing: 0.5,
                         color: Colors.white,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: 4),
                   Text(
                     translation(context).viewYourProfile,
                     style: TextStyle(
                       color: Colors.grey.shade50,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w400,
                       fontSize: 12.0,
                       letterSpacing: 0.5,
                     ),

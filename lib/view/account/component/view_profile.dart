@@ -40,11 +40,12 @@ class ViewProfile extends StatelessWidget {
               radius: 100,
               imgUrl: userImage,
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             Text(
               userName,
               style: const TextStyle(
                 fontSize: 24,
+                letterSpacing: 0.5,
                 color: Colors.white,
                 fontWeight: FontWeight.w500,
               ),
