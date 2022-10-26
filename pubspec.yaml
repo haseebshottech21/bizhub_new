@@ -46,12 +46,13 @@ dependencies:
   shared_preferences: ^2.0.15
   dio: ^4.0.6
   image_picker: ^0.8.5+3
-  geolocator: ^9.0.2
+  geolocator: ^8.2.1
   geocoding: ^2.0.5
-  google_maps_flutter: ^2.0.11
+  google_maps_flutter: ^2.1.6
   url_launcher: ^6.1.6
   firebase_core: ^1.24.0
   firebase_messaging: ^13.1.0
+  responsive_framework: ^0.2.0
   # firebase_core_platform_interface: ^4.4.0
   # firebase_analytics: ^9.3.8
 

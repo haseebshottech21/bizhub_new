@@ -1,7 +1,7 @@
-import 'package:bizhub_new/view/my_services/worker/services.dart';
+import 'package:bizhub_new/view/posts/my_services/my_services.dart';
 import 'package:flutter/material.dart';
 import '../../utils/mytheme.dart';
-import 'jobs/jobs.dart';
+import 'my_jobs/my_jobs.dart';
 
 class MyPosts extends StatefulWidget {
   const MyPosts({Key? key}) : super(key: key);
@@ -35,6 +35,7 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
                 "My Posts",
                 style: TextStyle(
                   color: Colors.black,
+                  fontSize: 24,
                 ),
               ),
               bottom: TabBar(
@@ -53,13 +54,19 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
                   Tab(
                     child: Text(
                       'Jobs'.toUpperCase(),
-                      style: const TextStyle(color: Colors.black),
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                   Tab(
                     child: Text(
                       'Services'.toUpperCase(),
-                      style: const TextStyle(color: Colors.black),
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 ],

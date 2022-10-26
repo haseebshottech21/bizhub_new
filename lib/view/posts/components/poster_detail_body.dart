@@ -1,4 +1,4 @@
-import 'package:bizhub_new/view/my_services/components/my_google_map.dart';
+import 'package:bizhub_new/view/posts/components/my_google_map.dart';
 import 'package:bizhub_new/view_model/my_service_view_model.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/app_url.dart';

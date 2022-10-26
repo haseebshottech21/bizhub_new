@@ -68,7 +68,8 @@ class _MoreScreenState extends State<MoreScreen> {
                     translation(context).general,
                     style: const TextStyle(
                       // color: Theme.of(context).textTheme.bodyText1!.color,
-                      fontSize: 18,
+                      fontSize: 22,
+                      color: Colors.black87,
                       fontWeight: FontWeight.w400,
                       letterSpacing: 0.5,
                     ),
@@ -162,14 +163,14 @@ class _MoreScreenState extends State<MoreScreen> {
                         Colors.red.withOpacity(0.1),
                       ),
                       padding: MaterialStateProperty.all<EdgeInsets>(
-                        const EdgeInsets.fromLTRB(30.0, 6.0, 30.0, 6.0),
+                        const EdgeInsets.fromLTRB(32.0, 6.0, 32.0, 6.0),
                       ),
                     ),
                     child: Text(
                       translation(context).logout,
                       style: const TextStyle(
                         color: MyTheme.redBorder,
-                        fontSize: 16,
+                        fontSize: 17,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -237,8 +238,8 @@ class _MoreScreenState extends State<MoreScreen> {
         child: Row(
           children: [
             Container(
-              height: 35,
-              width: 35,
+              height: 40,
+              width: 40,
               decoration: BoxDecoration(
                 color: MyTheme.greenColor.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(4),
@@ -246,7 +247,7 @@ class _MoreScreenState extends State<MoreScreen> {
               child: Icon(
                 iconData,
                 color: MyTheme.greenColor,
-                size: 23,
+                size: 24,
               ),
             ),
             const SizedBox(width: 15),
@@ -257,7 +258,7 @@ class _MoreScreenState extends State<MoreScreen> {
                 //     ? Color(0xFF3c7cbc)
                 //     : Theme.of(context).textTheme.bodyText1!.color,
                 // color: Color(0xFF50182c),
-                fontSize: 15,
+                fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -265,7 +266,7 @@ class _MoreScreenState extends State<MoreScreen> {
             Icon(
               Icons.arrow_forward_ios_outlined,
               color: Theme.of(context).iconTheme.color,
-              size: 16,
+              size: 17,
             ),
           ],
         ),
@@ -313,8 +314,8 @@ class ViewProfile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               CachedImageWidget(
-                height: size.height * 0.09,
-                width: size.width * 0.18,
+                height: size.height * 0.10,
+                width: size.width * 0.20,
                 imgUrl: userImage,
               ),
               const SizedBox(width: 12),
@@ -326,20 +327,20 @@ class ViewProfile extends StatelessWidget {
                     child: Text(
                       userName,
                       style: const TextStyle(
-                        fontSize: 20,
+                        fontSize: 22,
                         letterSpacing: 0.5,
                         color: Colors.white,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 2),
                   Text(
                     translation(context).viewYourProfile,
                     style: TextStyle(
                       color: Colors.grey.shade50,
                       fontWeight: FontWeight.w400,
-                      fontSize: 12.0,
+                      fontSize: 14,
                       letterSpacing: 0.5,
                     ),
                   ),

@@ -95,14 +95,14 @@ class AllServiceDetailBody extends StatelessWidget {
                     ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     '\$ ${allServiceViewModel.serviceDetalModel!.serviceAmount.toString()}',
                     style: const TextStyle(
-                      fontSize: 20,
+                      fontSize: 24,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -111,7 +111,7 @@ class AllServiceDetailBody extends StatelessWidget {
                     allServiceViewModel.serviceDetalModel!.serviceTitle
                         .toString(),
                     style: const TextStyle(
-                      fontSize: 20,
+                      fontSize: 22,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -121,7 +121,8 @@ class AllServiceDetailBody extends StatelessWidget {
                   const Text(
                     'Description',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
+                      color: Colors.black87,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -130,7 +131,7 @@ class AllServiceDetailBody extends StatelessWidget {
                     allServiceViewModel.serviceDetalModel!.serviceDesc
                         .toString(),
                     style: const TextStyle(
-                      fontSize: 14,
+                      fontSize: 16,
                       color: Colors.black54,
                       fontWeight: FontWeight.w400,
                     ),
@@ -152,15 +153,15 @@ class AllServiceDetailBody extends StatelessWidget {
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                        vertical: 4,
+                        vertical: 6,
                         horizontal: 2,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           CachedImageWidget(
-                            height: 45,
-                            width: 45,
+                            height: 50,
+                            width: 50,
                             radius: 50,
                             imgUrl: user!.image!.isEmpty
                                 ? AppUrl.emptyImage
@@ -172,15 +173,15 @@ class AllServiceDetailBody extends StatelessWidget {
                             children: [
                               Text(
                                 '${user.firstName} ${user.lastName}',
-                                style: const TextStyle(fontSize: 15),
+                                style: const TextStyle(fontSize: 16),
                               ),
-                              const SizedBox(height: 6),
+                              const SizedBox(height: 2),
                               const Text(
                                 'VIEW PROFILE',
                                 style: TextStyle(
                                   color: MyTheme.greenColor,
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 16.0,
+                                  fontSize: 15,
                                 ),
                               ),
                             ],
@@ -201,7 +202,8 @@ class AllServiceDetailBody extends StatelessWidget {
                   const Text(
                     'Location',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
+                      color: Colors.black87,
                       fontWeight: FontWeight.w500,
                     ),
                   ),

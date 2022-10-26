@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-
+import 'package:flutter/services.dart';
 import '../utils/dummy_data.dart';
 import '../widgets/onboard_widget.dart';
 
@@ -17,9 +16,9 @@ class _OnboardScreenState extends State<OnboardScreen> {
   int currentPage = 0;
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setSystemUIOverlayStyle(
-    //   const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-    // );
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(systemNavigationBarColor: Colors.black),
+    );
     return SafeArea(
       child: SizedBox(
         child: Stack(

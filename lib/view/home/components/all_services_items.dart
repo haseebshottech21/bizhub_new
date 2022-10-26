@@ -15,7 +15,6 @@ class AllServiceIem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Navigator.pushNamed(context, RouteName.postDetail);
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => PostJobDetail(
@@ -23,11 +22,6 @@ class AllServiceIem extends StatelessWidget {
             ),
           ),
         );
-        // Navigator.of(context).push(
-        //   MaterialPageRoute(
-        //     builder: (context) => const GoogleMapScreen(),
-        //   ),
-        // );
       },
       child: Container(
         // color: Colors.black,
@@ -100,7 +94,7 @@ class AllServiceIem extends StatelessWidget {
                               Text(
                                 serviceModel.serviceTitle.toString(),
                                 style: const TextStyle(
-                                  fontSize: 13,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w400,
                                 ),
                                 maxLines: 2,
@@ -110,23 +104,10 @@ class AllServiceIem extends StatelessWidget {
                               Text(
                                 '\$ ${serviceModel.serviceAmount}',
                                 style: const TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-                              // Row(
-                              //   mainAxisAlignment:
-                              //       MainAxisAlignment.spaceBetween,
-                              //   children: [
-                              //     const Text(
-                              //       '30 JUN',
-                              //       style: TextStyle(
-                              //         fontSize: 12,
-                              //         color: Colors.grey,
-                              //       ),
-                              //     ),
-                              //   ],
-                              // )
                             ],
                           ),
                         ),

@@ -49,7 +49,7 @@ class SelectService extends StatelessWidget {
           icon: const Icon(
             Icons.clear,
             color: Colors.black,
-            size: 22.0,
+            size: 24,
           ),
         ),
         centerTitle: true,
@@ -58,7 +58,7 @@ class SelectService extends StatelessWidget {
           style: TextStyle(
             color: Colors.black87,
             fontWeight: FontWeight.w400,
-            fontSize: 17,
+            fontSize: 20,
           ),
         ),
       ),
@@ -67,10 +67,10 @@ class SelectService extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: SizedBox(
-                  height: size.height * 0.10,
+                  height: size.height * 0.09,
                   child: Padding(
                     padding:
-                        const EdgeInsets.symmetric(vertical: 14, horizontal: 6),
+                        const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
                     child: DeafultButton(
                       title: 'Continue',
                       onPress: () {

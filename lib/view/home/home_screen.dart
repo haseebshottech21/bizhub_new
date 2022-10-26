@@ -52,7 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 snap: false,
                 elevation: 0,
                 // centerTitle: true,
-
                 backgroundColor: Colors.white,
                 automaticallyImplyLeading: false,
                 titleTextStyle: const TextStyle(
@@ -113,12 +112,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                           child: Container(
                             width: size.width * 0.80,
-                            height: size.height * 0.05,
+                            height: size.height * 0.055,
                             margin: const EdgeInsets.only(bottom: 5),
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             decoration: BoxDecoration(
                               color: Colors.grey[50],
-                              borderRadius: BorderRadius.circular(4),
+                              borderRadius: BorderRadius.circular(6),
                             ),
                             child: Row(
                               children: const [
@@ -126,12 +125,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   CupertinoIcons.search,
                                   size: 22,
                                 ),
-                                SizedBox(width: 6),
+                                SizedBox(width: 8),
                                 Text(
                                   'Search',
                                   style: TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 15,
+                                    color: Colors.black45,
+                                    fontSize: 18,
                                   ),
                                 )
                               ],

@@ -2,7 +2,7 @@ import 'package:bizhub_new/model/post_model.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../model/chat_model.dart';
-import '../model/message_model.dart';
+// import '../model/message_model.dart';
 import '../model/on_board_model.dart';
 import '../model/type.dart';
 
@@ -16,7 +16,7 @@ List<OnBoardModel> onboardData = [
   OnBoardModel(
     text: 'Start Searching Services',
     description:
-        'Sign up to provide services you know how to render. Make some extra cash. Find leads from people near you that need your services.',
+        'Search for jobs near your current location. New jobs added daily! Post any service you need! No more need to look around or ask friends for recommendations.',
     image: 'assets/images/intro_1_bg.png',
   ),
   OnBoardModel(

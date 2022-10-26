@@ -23,8 +23,8 @@ class ProfileImage extends StatelessWidget {
         return GestureDetector(
           onTap: () => _showSelectPhoto(context),
           child: SizedBox(
-            height: 150,
-            width: 150,
+            height: 160,
+            width: 160,
             child: Stack(
               children: [
                 authViewModel.imageDetail['imagePath'].toString().isEmpty
@@ -46,8 +46,8 @@ class ProfileImage extends StatelessWidget {
                     //   )
                     Center(
                         child: Container(
-                          width: 125,
-                          height: 125,
+                          width: 135,
+                          height: 135,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             image: DecorationImage(
@@ -59,8 +59,8 @@ class ProfileImage extends StatelessWidget {
                       )
                     : Center(
                         child: Container(
-                          width: 125,
-                          height: 125,
+                          width: 135,
+                          height: 135,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             image: DecorationImage(
@@ -81,10 +81,10 @@ class ProfileImage extends StatelessWidget {
                   child: Container(
                     // width: 32,
                     // height: 32,
-                    padding: const EdgeInsets.all(2),
+                    padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
                       color: MyTheme.greenColor,
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(4),
                       // border: Border.all(color: Colors.white, width: 2),
                     ),
                     child: const Center(
@@ -114,9 +114,9 @@ class ProfileImage extends StatelessWidget {
         ),
       ),
       builder: (context) => DraggableScrollableSheet(
-        initialChildSize: 0.22,
+        initialChildSize: 0.20,
         maxChildSize: 0.26,
-        minChildSize: 0.22,
+        minChildSize: 0.20,
         expand: false,
         builder: (context, scrollController) {
           return Consumer<AuthViewModel>(

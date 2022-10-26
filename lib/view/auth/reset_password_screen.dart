@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../components/deafult_button.dart';
 import '../../utils/field_validator.dart';
@@ -10,7 +11,6 @@ import '../../widgets/common/input_textfield.dart';
 
 class ResetPassword extends StatefulWidget {
   const ResetPassword({Key? key}) : super(key: key);
-
 
   @override
   State<ResetPassword> createState() => _ResetPasswordState();
@@ -40,6 +40,9 @@ class _ResetPasswordState extends State<ResetPassword> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(systemNavigationBarColor: Colors.white),
+    );
     return Scaffold(
       backgroundColor: MyTheme.whiteColor,
       resizeToAvoidBottomInset: false,

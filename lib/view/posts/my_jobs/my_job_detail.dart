@@ -1,7 +1,7 @@
 import 'package:bizhub_new/view_model/my_service_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../utils/routes/routes_name.dart';
+// import '../../../utils/routes/routes_name.dart';
 import '../components/poster_detail_body.dart';
 import 'edit_poster_service.dart';
 

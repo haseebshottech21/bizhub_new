@@ -93,12 +93,13 @@ class DeafultIconButton extends StatelessWidget {
           Icon(
             icon,
             color: Colors.white,
+            size: 24,
           ),
           Text(
             title,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: FontWeight.w400,
             ),
           ),

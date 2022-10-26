@@ -1,4 +1,4 @@
-import 'package:bizhub_new/view/my_services/worker/edit_worker_service.dart';
+import 'package:bizhub_new/view/posts/my_services/edit_worker_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

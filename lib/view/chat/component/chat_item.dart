@@ -2,7 +2,6 @@ import 'package:bizhub_new/utils/app_url.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:flutter/material.dart';
 import '../../../model/chat_model.dart';
-// import '../../../utils/routes/routes_name.dart';
 import '../../../widgets/common/cached_image.dart';
 
 class ChatWidget extends StatelessWidget {
@@ -42,8 +41,8 @@ class ChatWidget extends StatelessWidget {
             children: [
               chat.user!.image == null
                   ? Container(
-                      height: 50,
-                      width: 50,
+                      height: 55,
+                      width: 55,
                       decoration: BoxDecoration(
                         color: Colors.grey.shade50,
                         borderRadius: BorderRadius.circular(4),
@@ -55,61 +54,44 @@ class ChatWidget extends StatelessWidget {
                       ),
                     )
                   : CachedImageWidget(
-                      height: 50,
-                      width: 50,
+                      height: 55,
+                      width: 55,
                       radius: 4,
-                      // imgUrl:
-                      //     'https://i.pinimg.com/736x/25/78/61/25786134576ce0344893b33a051160b1.jpg',
                       imgUrl: AppUrl.baseUrl + chat.user!.image.toString(),
                     ),
-              // const SizedBox(width: 10),
               SizedBox(width: size.width * 0.02),
               SizedBox(
-                width: size.width * 0.50,
+                width: size.width * 0.56,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Text(
-                    //   '${chat.user!.firstName!.substring(0, 1)} ${chat.user!.lastName}',
-                    //   style: const TextStyle(
-                    //     fontWeight: FontWeight.w500,
-                    //     fontSize: 14,
-                    //   ),
-                    // ),
-                    // SizedBox(height: size.height * 0.002),
                     Text(
                       chat.service!.serviceTitle.toString(),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontWeight: FontWeight.w500,
-                        fontSize: 16,
+                        fontSize: 18,
                       ),
                     ),
                     SizedBox(height: size.height * 0.002),
                     if (chat.message!.offer == null)
                       Text(
                         chat.message!.message.toString(),
-                        // chat.message!.offer == 'null'
-                        //     ? chat.message!.message.toString()
-                        //     : chat.message!.offer.toString(),
                         maxLines: 1,
                         style: const TextStyle(
                           fontWeight: FontWeight.w400,
-                          fontSize: 14,
+                          fontSize: 16,
                           color: Colors.black54,
                         ),
                       ),
                     if (chat.message!.message == null)
                       Text(
                         'Offer : ${chat.message!.offer}',
-                        // chat.message!.offer == 'null'
-                        //     ? chat.message!.message.toString()
-                        //     : chat.message!.offer.toString(),
                         maxLines: 1,
                         style: const TextStyle(
                           fontWeight: FontWeight.w400,
-                          fontSize: 14,
+                          fontSize: 16,
                           color: Colors.black54,
                         ),
                       ),

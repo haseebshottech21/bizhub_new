@@ -40,7 +40,12 @@ class UploadImages extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
-                    Text('UPLOAD MULTIPLE PHOTOS'),
+                    Text(
+                      'UPLOAD MULTIPLE PHOTOS',
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
                     Icon(
                       Icons.arrow_forward_ios,
                       color: Colors.black,
@@ -64,6 +69,7 @@ class UploadImages extends StatelessWidget {
                     postViewModel.serviceImgaes.isEmpty
                         ? 'No Picture Attached'
                         : '${postViewModel.serviceImgaes.length} Picture Attached',
+                    style: const TextStyle(fontSize: 16),
                   )
                 ],
               ),

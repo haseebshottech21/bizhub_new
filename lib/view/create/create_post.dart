@@ -96,8 +96,6 @@ class _CreatePostState extends State<CreatePost> {
                 .toggleCurrentIndex(0);
             final service =
                 Provider.of<MyServiceViewModel>(context, listen: false);
-            // final category =
-            //     Provider.of<CategoryViewModel>(context, listen: false);
             showDialog(
               context: context,
               builder: (_) => cancelDialog(
@@ -111,9 +109,6 @@ class _CreatePostState extends State<CreatePost> {
                   );
                   service.initailValue(context);
                   service.serviceImgaes.clear();
-                  // post.isPoster = null;
-                  // category.categoryId = '';
-                  // category.categoryName = '';
                 },
               ),
             );
@@ -121,16 +116,16 @@ class _CreatePostState extends State<CreatePost> {
           icon: const Icon(
             Icons.clear,
             color: Colors.black,
-            size: 22.0,
+            size: 24,
           ),
         ),
         centerTitle: true,
         title: const Text(
-          'Select Category',
+          'Create Your Post',
           style: TextStyle(
             color: Colors.black87,
             fontWeight: FontWeight.w400,
-            fontSize: 17,
+            fontSize: 20,
           ),
         ),
       ),
@@ -285,7 +280,7 @@ class LocationPicker extends StatelessWidget {
                       const Text(
                         'Location',
                         style: TextStyle(
-                          fontSize: 15.0,
+                          fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -322,86 +317,3 @@ class LocationPicker extends StatelessWidget {
     );
   }
 }
-
-// class ZipCodePicker extends StatelessWidget {
-//   const ZipCodePicker({
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final size = MediaQuery.of(context).size;
-
-//     return Consumer<LocationViewModel>(
-//       builder: (context, locationViewModel, _) {
-//         // print(locationViewModel.address);
-//         return Container(
-//           width: size.width,
-//           decoration: BoxDecoration(
-//             color: Colors.white,
-//             borderRadius: BorderRadius.circular(4),
-//             border: Border.all(
-//               color: Colors.black,
-//               width: 0.8,
-//             ),
-//           ),
-//           child: InkWell(
-//             onTap: () {
-//               Navigator.of(context).pushNamed(
-//                 RouteName.searchLocation,
-//                 arguments: false,
-//               );
-//             },
-//             child: Padding(
-//               padding: const EdgeInsets.only(
-//                 left: 12,
-//                 bottom: 10,
-//                 top: 10,
-//                 right: 12,
-//               ),
-//               child: Row(
-//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                 children: [
-//                   Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       const Text(
-//                         'Zip Code',
-//                         style: TextStyle(
-//                           fontSize: 15.0,
-//                           fontWeight: FontWeight.w500,
-//                         ),
-//                       ),
-//                       const SizedBox(height: 4),
-//                       SizedBox(
-//                         width: size.width * 0.80,
-//                         child: Text(
-//                           locationViewModel.placeDetailModel.postalCode ==
-//                                   '00000'
-//                               ? 'Postal Code'
-//                               : locationViewModel.placeDetailModel.postalCode,
-//                           style: TextStyle(
-//                             color: Colors.grey.shade700,
-//                             fontSize: 14.0,
-//                             fontWeight: FontWeight.w300,
-//                           ),
-//                           maxLines: 1,
-//                           overflow: TextOverflow.ellipsis,
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                   const Icon(
-//                     Icons.arrow_forward_ios,
-//                     color: Colors.black,
-//                     size: 16,
-//                   )
-//                 ],
-//               ),
-//             ),
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }

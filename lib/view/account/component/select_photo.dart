@@ -20,7 +20,7 @@ class SelectPhoto extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: Colors.grey.shade300,
                 borderRadius: BorderRadius.circular(50),
@@ -28,7 +28,7 @@ class SelectPhoto extends StatelessWidget {
               child: Icon(
                 icon,
                 color: Theme.of(context).iconTheme.color,
-                size: 22,
+                size: 26,
               ),
             ),
             const SizedBox(width: 16),
@@ -39,7 +39,7 @@ class SelectPhoto extends StatelessWidget {
                 Text(
                   textLabel,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

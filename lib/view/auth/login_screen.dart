@@ -3,6 +3,7 @@ import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/view_model/auth_view_model.dart';
 import 'package:bizhub_new/widgets/common/auth_botom.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 // import '../../main.dart';
 import '../../main.dart';
@@ -54,13 +55,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // AuthViewModel authViewModel =
-    //     Provider.of<AuthViewModel>(context, listen: false);
-
-    // final size = MediaQuery.of(context).size;
-    // SystemChrome.setSystemUIOverlayStyle(
-    //   SystemUiOverlayStyle(statusBarColor: Colors.grey.shade50),
-    // );
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(systemNavigationBarColor: Colors.white),
+    );
 
     return Scaffold(
       backgroundColor: MyTheme.whiteColor,
@@ -75,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            horizontal: 12.0,
+            horizontal: 14.0,
             vertical: 50.0,
           ),
           child: Column(

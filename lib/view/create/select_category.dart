@@ -78,7 +78,7 @@ class _SelectCategoryState extends State<SelectCategory> {
           icon: const Icon(
             Icons.clear,
             color: Colors.black,
-            size: 22.0,
+            size: 24,
           ),
         ),
         centerTitle: true,
@@ -87,7 +87,7 @@ class _SelectCategoryState extends State<SelectCategory> {
           style: TextStyle(
             color: Colors.black87,
             fontWeight: FontWeight.w400,
-            fontSize: 17,
+            fontSize: 20,
           ),
         ),
       ),

@@ -27,7 +27,7 @@ class ServicesDetailBottom extends StatelessWidget {
       child: Container(
         // height: size.height * 0.10,
         padding:
-            const EdgeInsets.only(bottom: 25, left: 16, right: 16, top: 10),
+            const EdgeInsets.only(bottom: 16, left: 16, right: 16, top: 10),
         decoration: const BoxDecoration(
           color: Colors.white,
           border: Border(
@@ -47,10 +47,10 @@ class ServicesDetailBottom extends StatelessWidget {
                 icon: chat,
               ),
             ),
-            const SizedBox(width: 15),
+            const SizedBox(width: 12),
             Expanded(
               child: DeafultIconButton(
-                title: 'Make an offer',
+                title: 'Make Offer',
                 onPress: () => makeOffer(context, allServiceViewModel),
                 icon: dollor,
               ),

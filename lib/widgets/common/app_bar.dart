@@ -30,7 +30,7 @@ myAppBar({
       style: const TextStyle(
         color: Colors.black87,
         fontWeight: FontWeight.w400,
-        fontSize: 17,
+        fontSize: 18,
       ),
     ),
   );
@@ -50,7 +50,7 @@ mainAppBar({
       icon: const Icon(
         Icons.arrow_back,
         color: MyTheme.greenColor,
-        size: 22.0,
+        size: 24,
       ),
     ),
     centerTitle: false,
@@ -59,7 +59,7 @@ mainAppBar({
       style: const TextStyle(
         color: Colors.black87,
         fontWeight: FontWeight.w400,
-        fontSize: 17,
+        fontSize: 18,
       ),
     ),
   );
@@ -91,7 +91,7 @@ actionAppBar({
       style: const TextStyle(
         color: Colors.black87,
         fontWeight: FontWeight.w400,
-        fontSize: 17,
+        fontSize: 18,
       ),
     ),
     actions: [

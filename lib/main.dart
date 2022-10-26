@@ -11,10 +11,13 @@ import 'package:bizhub_new/view_model/location_view_model.dart';
 import 'package:bizhub_new/view_model/my_service_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'language/language_constant.dart';
 
 Future main() async {
@@ -22,6 +25,9 @@ Future main() async {
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
   );
+  if (defaultTargetPlatform == TargetPlatform.android) {
+    AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
+  }
   await Firebase.initializeApp();
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   NotificationSettings settings = await messaging.requestPermission(
@@ -105,6 +111,20 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => BottomNavigationViewModel()),
       ],
       child: MaterialApp(
+        builder: ((context, child) => ResponsiveWrapper.builder(
+              // BouncingScrollWrapper.builder(context, child!),
+              ClampingScrollWrapper.builder(context, child!),
+              maxWidth: 1200,
+              minWidth: 450,
+              defaultScale: true,
+              breakpoints: [
+                const ResponsiveBreakpoint.resize(450, name: MOBILE),
+                const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+                const ResponsiveBreakpoint.autoScale(1000, name: TABLET),
+                const ResponsiveBreakpoint.resize(1200, name: DESKTOP),
+                const ResponsiveBreakpoint.autoScale(2460, name: "4K"),
+              ],
+            )),
         title: 'BizHub',
         debugShowCheckedModeBanner: false,
         theme: MyTheme.myLightTheme,

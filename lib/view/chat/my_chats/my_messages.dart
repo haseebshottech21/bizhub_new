@@ -137,8 +137,8 @@ class _MyMessagesState extends State<MyMessages> {
                             right: 8,
                             left: 8,
                             bottom: MediaQuery.of(context).viewInsets.bottom > 0
-                                ? 15
-                                : 20,
+                                ? 12
+                                : 16,
                             top: 8,
                           ),
                           child: Stack(
@@ -159,7 +159,8 @@ class _MyMessagesState extends State<MyMessages> {
                                         Expanded(
                                           child: Container(
                                             margin: const EdgeInsets.only(
-                                                bottom: 5),
+                                              bottom: 5,
+                                            ),
                                             child: TextField(
                                               controller: messageController,
                                               minLines: 1,
@@ -173,8 +174,8 @@ class _MyMessagesState extends State<MyMessages> {
                                                     const EdgeInsets.only(
                                                   right: 16,
                                                   left: 20,
-                                                  bottom: 10,
-                                                  top: 10,
+                                                  bottom: 12,
+                                                  top: 12,
                                                 ),
                                                 hintStyle: TextStyle(
                                                   fontSize: 14,
@@ -187,11 +188,11 @@ class _MyMessagesState extends State<MyMessages> {
                                                 enabledBorder:
                                                     OutlineInputBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(20),
+                                                      BorderRadius.circular(24),
                                                   gapPadding: 0,
                                                   borderSide: BorderSide(
-                                                      color:
-                                                          Colors.grey.shade200),
+                                                    color: Colors.grey.shade200,
+                                                  ),
                                                 ),
                                                 focusedBorder:
                                                     OutlineInputBorder(
@@ -226,13 +227,14 @@ class _MyMessagesState extends State<MyMessages> {
                                           //       )
                                           //     :
                                           IconButton(
-                                        splashRadius: 20,
+                                        splashRadius: 22,
                                         icon: Icon(
                                           Icons.send,
                                           // color: isVisible
                                           //     ? Colors.grey.shade700
                                           //     : Colors.blue,
                                           color: Colors.grey.shade600,
+                                          size: 26,
                                         ),
                                         onPressed: () {
                                           Map data = {

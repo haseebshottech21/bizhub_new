@@ -3,13 +3,13 @@ import 'package:bizhub_new/utils/icons.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/view/account/more.dart';
-// import 'package:bizhub_new/view/chat/chats.dart';
 import 'package:bizhub_new/view/chat/my_chats/my_chats.dart';
 import 'package:bizhub_new/view/home/home_screen.dart';
 import 'package:bizhub_new/view_model/bottom_navigation_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import '../my_services/my_services.dart';
+import '../posts/my_posts.dart';
 
 class NavigatoionBarScreen extends StatefulWidget {
   const NavigatoionBarScreen({Key? key}) : super(key: key);
@@ -24,8 +24,6 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
   var currentTab = const [
     HomeScreen(),
     MyPosts(),
-    // Center(child: Text('Post')),
-    // Chats(),
     MyChats(),
     MoreScreen(),
   ];
@@ -34,6 +32,10 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
   Widget build(BuildContext context) {
     var provider =
         Provider.of<BottomNavigationViewModel>(context, listen: true);
+
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(systemNavigationBarColor: Colors.white),
+    );
 
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -46,7 +48,7 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
             Navigator.pushNamed(context, RouteName.selectService);
           },
           backgroundColor: MyTheme.greenColor,
-          child: const Icon(Icons.add),
+          child: const Icon(Icons.add, size: 30),
         ),
       ),
       // body: currentTab[provider.currentIndex],
@@ -150,7 +152,7 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
               color: index == bottomNavigatorViewModel.currentIndex
                   ? MyTheme.greenColor
                   : Colors.grey,
-              size: index == bottomNavigatorViewModel.currentIndex ? 28 : 26,
+              size: index == bottomNavigatorViewModel.currentIndex ? 30 : 28,
             ),
           ),
           onPressed: () {

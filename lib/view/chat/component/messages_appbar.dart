@@ -1,6 +1,6 @@
 import 'package:bizhub_new/model/user_model.dart';
 import 'package:flutter/material.dart';
-
+import '../../../widgets/common/cached_image.dart';
 import '../../account/profile/view_other_profile.dart';
 
 messageAppBar({
@@ -16,31 +16,28 @@ messageAppBar({
     centerTitle: false,
     titleSpacing: 0,
     title: ListTile(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const ViewOtherProfile(),
-            settings: RouteSettings(
-              // arguments: {
-              //   'first_name': user!.firstName,
-              // },
-              arguments: userModel,
+      leading: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ViewOtherProfile(),
+              settings: RouteSettings(arguments: userModel),
             ),
-          ),
-        );
-      },
-      leading: CircleAvatar(
-        backgroundImage: NetworkImage(
-          // chat['userImage'] == null ? img : AppUrl.baseUrl + chat['userImage'],
-          userImage,
+          );
+        },
+        child: CachedImageWidget(
+          height: 45,
+          width: 45,
+          radius: 50,
+          imgUrl: userImage,
         ),
       ),
       title: Text(
-        // chat['userName'],
         userName,
         style: const TextStyle(
           color: Colors.black,
+          fontSize: 18,
         ),
       ),
     ),

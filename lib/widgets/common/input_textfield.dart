@@ -153,11 +153,11 @@ class LabelTextField extends StatelessWidget {
         Text(
           label,
           style: const TextStyle(
-            fontSize: 14.0,
+            fontSize: 16,
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(height: 1),
+        const SizedBox(height: 2),
         textAreaField == false
             ? TextFormField(
                 style: const TextStyle(color: Colors.black),

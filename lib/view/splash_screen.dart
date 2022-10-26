@@ -2,6 +2,7 @@ import 'dart:async';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:bizhub_new/view/onboard_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../utils/mytheme.dart';
 import '../utils/routes/routes_name.dart';
 import '../utils/shared_prefrences.dart';
@@ -65,6 +66,9 @@ class _SplashScreenState extends State<SplashScreen>
     // SystemChrome.setSystemUIOverlayStyle(
     //   const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
     // );
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(systemNavigationBarColor: Colors.black),
+    );
     return Scaffold(
       backgroundColor: MyTheme.splash,
       body: SizedBox(

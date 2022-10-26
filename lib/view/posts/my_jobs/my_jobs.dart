@@ -1,35 +1,42 @@
+import 'package:bizhub_new/view_model/my_service_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../../view_model/my_service_view_model.dart';
 import '../../../widgets/common/skelton.dart';
-import '../components/worker_service_item.dart';
+import '../components/my_post_item.dart';
+// import '../components/poster_service_item.dart';
 
-class MyWorkerServices extends StatefulWidget {
-  const MyWorkerServices({Key? key}) : super(key: key);
+class JobsPost extends StatefulWidget {
+  const JobsPost({Key? key}) : super(key: key);
 
   @override
-  State<MyWorkerServices> createState() => _MyWorkerServicesState();
+  State<JobsPost> createState() => _JobsPostState();
 }
 
-class _MyWorkerServicesState extends State<MyWorkerServices> {
+class _JobsPostState extends State<JobsPost> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<MyServiceViewModel>(context, listen: false)
-          .getMyWorkerServiceList(context);
+      getMyPostserList();
     });
     super.initState();
   }
 
+  Future<void> getMyPostserList() async {
+    await Provider.of<MyServiceViewModel>(context, listen: false)
+        .getMyPosterServiceList(context);
+  }
+
   @override
   Widget build(BuildContext context) {
+    // final postViewModel = Provider.of<PostViewModel>(context, listen: false);
+    // final postViewModel = context.watch<PostViewModel>();
+
     return Consumer<MyServiceViewModel>(
       builder: (context, postView, _) {
         if (postView.loading) {
           return ListView.separated(
             padding: const EdgeInsets.all(12.0),
-            itemCount: 6,
+            itemCount: 8,
             itemBuilder: (context, index) {
               return const PostItemSkelton();
             },
@@ -37,10 +44,10 @@ class _MyWorkerServicesState extends State<MyWorkerServices> {
               return const SizedBox(height: 16);
             },
           );
-        } else if (postView.workerServiceList.isEmpty) {
+        } else if (postView.posterServiceList.isEmpty) {
           return const Center(
             child: Text(
-              'No Service Available',
+              'No Job Available',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 20.0,
@@ -54,10 +61,10 @@ class _MyWorkerServicesState extends State<MyWorkerServices> {
             // physics: const ClampingScrollPhysics(),
             primary: false,
             padding: const EdgeInsets.all(8.0),
-            itemCount: postView.workerServiceList.length,
+            itemCount: postView.posterServiceList.length,
             itemBuilder: (context, index) {
-              return WorkerServiceItem(
-                myWorkerService: postView.workerServiceList[index],
+              return MyPostItem(
+                serviceModel: postView.posterServiceList[index],
               );
             },
           );

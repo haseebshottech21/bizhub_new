@@ -18,7 +18,7 @@ class ViewProfile extends StatelessWidget {
 
     return Container(
       width: size.width,
-      padding: const EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.only(bottom: 12, top: 12),
       decoration: const BoxDecoration(
         color: MyTheme.greenColor,
         // borderRadius: BorderRadius.only(

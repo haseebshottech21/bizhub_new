@@ -23,7 +23,7 @@ import 'package:bizhub_new/view/onboard_screen.dart';
 import 'package:bizhub_new/view/splash_screen.dart';
 import 'package:flutter/material.dart';
 import '../../view/auth/otp_verification_screen.dart';
-import '../../view/my_services/jobs/edit_poster_service.dart';
+import '../../view/posts/my_jobs/edit_poster_service.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {

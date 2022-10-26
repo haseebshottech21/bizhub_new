@@ -34,7 +34,7 @@ class OnBoardWidget extends StatelessWidget {
                 Navigator.of(context).pushReplacementNamed(RouteName.welcome);
               },
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 6),
                 child: Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
@@ -52,7 +52,7 @@ class OnBoardWidget extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 60),
+            padding: const EdgeInsets.only(bottom: 60, left: 6, right: 6),
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.end,

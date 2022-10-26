@@ -49,7 +49,7 @@ class OfferMessageItem extends StatelessWidget {
                 'MY OFFER',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 17,
+                  fontSize: 20,
                   fontWeight: FontWeight.w400,
                 ),
                 // style: theme.textTheme.bodyText2
@@ -60,7 +60,7 @@ class OfferMessageItem extends StatelessWidget {
                 '\$ ${message.offer}',
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 20,
+                  fontSize: 22,
                   fontWeight: FontWeight.w500,
                 ),
                 // style: theme.textTheme.bodyText2
@@ -72,7 +72,7 @@ class OfferMessageItem extends StatelessWidget {
                 message.createdAt.toString(),
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 11,
+                  fontSize: 12,
                 ),
                 // style: theme.textTheme.bodySmall
                 //     ?.copyWith(color: Colors.grey.shade300),
@@ -134,7 +134,7 @@ class MessageItem extends StatelessWidget {
                 message.message.toString(),
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 14,
+                  fontSize: 16,
                   fontWeight: FontWeight.w400,
                 ),
                 // style: theme.textTheme.bodyText2
@@ -146,7 +146,7 @@ class MessageItem extends StatelessWidget {
                 message.createdAt.toString(),
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 10,
+                  fontSize: 11,
                   fontWeight: FontWeight.w300,
                 ),
                 // style: theme.textTheme.bodySmall

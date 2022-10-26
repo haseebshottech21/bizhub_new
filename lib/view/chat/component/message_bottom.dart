@@ -36,7 +36,7 @@ class MessageBottom extends StatelessWidget {
                         ),
                         Expanded(
                           child: Container(
-                            margin: const EdgeInsets.only(bottom: 5),
+                            margin: const EdgeInsets.only(bottom: 5, top: 5),
                             child: TextField(
                               // controller: textController,
                               minLines: 1,
