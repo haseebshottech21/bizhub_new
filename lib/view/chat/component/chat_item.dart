@@ -74,7 +74,7 @@ class ChatWidget extends StatelessWidget {
                         fontSize: 18,
                       ),
                     ),
-                    SizedBox(height: size.height * 0.002),
+                    SizedBox(height: size.height * 0.003),
                     if (chat.message!.offer == null)
                       Text(
                         chat.message!.message.toString(),

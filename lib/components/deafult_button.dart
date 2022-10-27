@@ -35,7 +35,7 @@ class DeafultButton extends StatelessWidget {
                     children: const [
                       Text(
                         'Please Wait',
-                        style: TextStyle(color: Colors.white, fontSize: 15),
+                        style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                       SizedBox(width: 15),
                       SizedBox(
@@ -53,7 +53,10 @@ class DeafultButton extends StatelessWidget {
                   padding: const EdgeInsets.all(12.0),
                   child: Text(
                     title,
-                    style: const TextStyle(color: Colors.white, fontSize: 18),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
                   ),
                 ),
         ),

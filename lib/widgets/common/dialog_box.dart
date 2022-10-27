@@ -11,12 +11,18 @@ AlertDialog simpleDialog({
     titlePadding: const EdgeInsets.only(top: 16, left: 24, bottom: 6),
     contentPadding:
         const EdgeInsets.only(top: 2, bottom: 12, left: 24, right: 24),
-    title: Text(title),
+    title: Text(
+      title,
+      style: const TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
     content: Text(
       subTitle,
       style: const TextStyle(
         color: Colors.black87,
-        fontSize: 14,
+        fontSize: 18,
         fontWeight: FontWeight.w400,
       ),
     ),
@@ -26,6 +32,7 @@ AlertDialog simpleDialog({
           'Cancel',
           style: TextStyle(
             color: Colors.black,
+            fontSize: 17,
           ),
         ),
         onPressed: () {
@@ -36,7 +43,10 @@ AlertDialog simpleDialog({
         onPressed: () => onPressed(),
         child: const Text(
           'Confirm',
-          style: TextStyle(color: MyTheme.greenColor),
+          style: TextStyle(
+            color: MyTheme.greenColor,
+            fontSize: 17,
+          ),
         ),
       ),
     ],
@@ -56,7 +66,7 @@ AlertDialog cancelDialog({
     title: Text(
       title,
       style: const TextStyle(
-        fontSize: 20,
+        fontSize: 22,
         fontWeight: FontWeight.w500,
       ),
     ),
@@ -64,7 +74,7 @@ AlertDialog cancelDialog({
       subTitle,
       style: const TextStyle(
         color: Colors.black87,
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: FontWeight.w400,
       ),
     ),
@@ -106,15 +116,21 @@ simpleShowDialog({
     barrierDismissible: false, // user must tap button!
     builder: (BuildContext context) {
       return AlertDialog(
-        titlePadding: const EdgeInsets.only(top: 16, left: 24),
+        titlePadding: const EdgeInsets.only(top: 16, left: 24, bottom: 6),
         contentPadding:
             const EdgeInsets.only(top: 2, bottom: 12, left: 24, right: 24),
-        title: Text(title),
+        title: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
         content: Text(
           subTitle,
           style: const TextStyle(
             color: Colors.black87,
-            fontSize: 14,
+            fontSize: 18,
             fontWeight: FontWeight.w400,
           ),
         ),
@@ -124,6 +140,7 @@ simpleShowDialog({
               'Cancel',
               style: TextStyle(
                 color: Colors.black,
+                fontSize: 17,
               ),
             ),
             onPressed: () {
@@ -134,7 +151,8 @@ simpleShowDialog({
             child: const Text(
               'Confirm',
               style: TextStyle(
-                color: Colors.black,
+                color: MyTheme.greenColor,
+                fontSize: 17,
               ),
             ),
             onPressed: () {

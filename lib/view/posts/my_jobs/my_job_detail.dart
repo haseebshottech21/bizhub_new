@@ -104,15 +104,15 @@ class _MyJobDetailState extends State<MyJobDetail> {
                     margin: const EdgeInsets.symmetric(horizontal: 12),
                     child: InkWell(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const EditMyPosterService(),
-                            settings: RouteSettings(
-                              arguments: myServiceViewModel.serviceModel,
-                            ),
-                          ),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => const EditMyPosterService(),
+                        //     settings: RouteSettings(
+                        //       arguments: myServiceViewModel.serviceModel,
+                        //     ),
+                        //   ),
+                        // );
                       },
                       child: const Icon(Icons.edit, color: Colors.white),
                     ),

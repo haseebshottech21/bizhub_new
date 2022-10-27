@@ -42,6 +42,8 @@
 	<string>Need location when in use</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This App requires access to the photo library</string>
+	<key>io.flutter.embedded_views_preview</key>
+	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

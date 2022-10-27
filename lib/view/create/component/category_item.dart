@@ -45,6 +45,7 @@ class CategoryItem extends StatelessWidget {
               children: [
                 CachedImageWidget(
                   height: size.height,
+                  width: size.width,
                   radius: 8,
                   imgUrl: AppUrl.baseUrl + category.catImage.toString(),
                 ),

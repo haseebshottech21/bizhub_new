@@ -55,9 +55,7 @@ class _CreatePostState extends State<CreatePost> {
         return;
       }
       // if (post.serviceImgaes.isNotEmpty) {
-      if (post.serviceBody['images'] != null) {
-        post.serviceBody['images'] = json.encode(post.serviceImgaes);
-      }
+
       post.serviceBody['type'] = post.isPoster! ? '0' : '1';
       post.serviceBody['category_id'] = category.categoryId;
       // post.serviceBody['images'] = json.encode(post.serviceImgaes);
@@ -71,6 +69,9 @@ class _CreatePostState extends State<CreatePost> {
       post.serviceBody['address'] =
           location.placeDetailModel.placeAddress.trim();
       post.serviceBody['is_negotiable'] = post.isPriceNegotiable ? '1' : '0';
+      if (post.serviceBody['images'] != null) {
+        post.serviceBody['images'] = json.encode(post.serviceImgaes);
+      }
 
       post.createPost(post.serviceBody, context);
       // print(post.serviceBody);
@@ -80,7 +81,7 @@ class _CreatePostState extends State<CreatePost> {
 
   @override
   Widget build(BuildContext context) {
-    // final size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
 
     return Scaffold(
       // resizeToAvoidBottomInset: false,
@@ -212,20 +213,35 @@ class _CreatePostState extends State<CreatePost> {
                 },
               ),
               const SizedBox(height: 20),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 14, horizontal: 0),
-                child: Consumer<MyServiceViewModel>(
-                  builder: (context, serviceViewModel, _) {
-                    return DeafultButton(
-                      title: 'POST',
-                      isloading: serviceViewModel.loading,
-                      onPress: () {
-                        validateAndJobPost();
-                      },
-                    );
-                  },
-                ),
+              Consumer<MyServiceViewModel>(
+                builder: (context, serviceViewModel, _) {
+                  // return DeafultButton(
+                  //   title: 'POST',
+                  //   isloading: serviceViewModel.loading,
+                  //   onPress: () {
+                  //     validateAndJobPost();
+                  //   },
+                  // );
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: SizedBox(
+                      height: size.height * 0.09,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 12,
+                          horizontal: 6,
+                        ),
+                        child: DeafultButton(
+                          isloading: serviceViewModel.loading,
+                          title: 'POST',
+                          onPress: () {
+                            validateAndJobPost();
+                          },
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),

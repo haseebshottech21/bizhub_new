@@ -63,6 +63,13 @@ class CategoryViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _btnLoading = false;
+  bool get btnLoading => _btnLoading;
+  setBtnLoad(bool status) {
+    _btnLoading = status;
+    notifyListeners();
+  }
+
   // getCategoriesList() async {
   //   setLoad(true);
   //   post = (await repo.getListPostData());
@@ -116,10 +123,10 @@ class CategoryViewModel extends ChangeNotifier {
   Future<void> setAndApplyWithCategory(
     BuildContext context,
   ) async {
-    setLoad(true);
+    setBtnLoad(true);
     Future.delayed(const Duration(seconds: 2)).then((value) async {
       pref.setSharedPreferenceListValue("categories", selectedIndexList);
-      setLoad(false);
+      setBtnLoad(false);
       Navigator.of(context).pop();
       await Provider.of<AllServicesViewModel>(context, listen: false)
           .getAllServicesList(context);

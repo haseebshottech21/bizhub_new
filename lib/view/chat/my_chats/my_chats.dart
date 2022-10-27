@@ -57,7 +57,7 @@ class _MyChatsState extends State<MyChats> {
           } else {
             return ListView.builder(
               shrinkWrap: true,
-              // physics: const ClampingScrollPhysics(),
+              // physics: const BouncingScrollPhysics(),
               primary: false,
               padding: const EdgeInsets.all(8.0),
               itemCount: myChats.allChatList.length,
@@ -77,6 +77,8 @@ class _MyChatsState extends State<MyChats> {
                                 '${myChats.allChatList[index].user!.firstName!} ${myChats.allChatList[index].user!.lastName}',
                             'userImage': myChats.allChatList[index].user!.image,
                             'user': myChats.allChatList[index].user!,
+                            'notification':
+                                myChats.allChatList[index].user!.notificationId,
                           },
                         ),
                       ),

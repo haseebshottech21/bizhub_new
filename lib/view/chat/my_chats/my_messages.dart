@@ -1,3 +1,4 @@
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,9 +24,22 @@ class _MyMessagesState extends State<MyMessages> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       getMyMessages();
+      // await setupInteracted();
+      // await setUpRequestNotification();
     });
     super.initState();
   }
+
+  // @override
+  // void initState() {
+  //   MyJobDetail.inMyPostScreen = true;
+  //   Future.delayed(Duration.zero).then((value) async {
+  //     await getData();
+  //     await setupInteracted();
+  //     await setUpRequestNotification();
+  //   });
+  //   super.initState();
+  // }
 
   Future<void> getMyMessages() async {
     Map? chat = ModalRoute.of(context)!.settings.arguments as Map;
@@ -34,6 +48,52 @@ class _MyMessagesState extends State<MyMessages> {
       chatId: chat['chat_id'],
     );
   }
+
+  // Future<void> setUpRequestNotification() async {
+  //   FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  //   NotificationSettings settings = await messaging.requestPermission(
+  //     alert: true,
+  //     announcement: false,
+  //     badge: true,
+  //     carPlay: false,
+  //     criticalAlert: false,
+  //     provisional: false,
+  //     sound: true,
+  //   );
+  // }
+
+  // Future<void> setupInteracted() async {
+  //   RemoteMessage? initialMessage =
+  //       await FirebaseMessaging.instance.getInitialMessage();
+
+  //   // FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  //   FirebaseMessaging.onMessage.listen(
+  //     (RemoteMessage message) {
+  //       print('A new message send');
+  //       if (message.data['screen'] == 'send-message') {
+  //         getMyMessages();
+  //       }
+
+  //       if (message.data['screen'] == 'received-message') {
+  //         getMyMessages();
+  //       }
+  //     },
+  //   );
+  // }
+
+  // void _handleMessage(RemoteMessage message) {
+  //   // print(message);
+  //   print('A new message received!');
+  //   if (message.data['screen'] == 'send-message') {
+  //     getMyMessages();
+  //   }
+
+  //   if (message.data['screen'] == 'received-message') {
+  //     getMyMessages();
+  //   }
+
+  // }
 
   @override
   Widget build(BuildContext context) {

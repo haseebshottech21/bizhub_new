@@ -12,7 +12,7 @@ class UserModel {
   String? avgRating;
   String? totalReviews;
   List<UserRatingModel>? ratingList;
-  // String? notificationId;
+  String? notificationId;
 
   UserModel({
     this.userId,
@@ -26,7 +26,7 @@ class UserModel {
     this.avgRating,
     this.totalReviews,
     this.ratingList,
-    // this.notificationId,
+    this.notificationId,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
@@ -45,7 +45,7 @@ class UserModel {
             : (json['rating'] as List)
                 .map((e) => UserRatingModel.fromJson(e))
                 .toList(),
-        // notificationId: json['notification_id'],
+        notificationId: json['device_id'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -60,6 +60,6 @@ class UserModel {
         'rating_avg_rate': avgRating,
         'rating_count': totalReviews,
         'rating': ratingList,
-        // 'notification_id': notificationId,
+        'notification_id': notificationId,
       };
 }

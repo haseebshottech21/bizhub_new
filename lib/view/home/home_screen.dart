@@ -159,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   left: 8,
                   right: 8,
                   bottom: 30,
-                  top: 12,
+                  top: 16,
                 ),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate(
@@ -173,12 +173,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 // print(allServiceViewModel.allServiceList.length);
                                 if (allServiceViewModel
                                     .allServiceList.isEmpty) {
-                                  return const Center(
+                                  return Center(
                                     child: Text(
-                                      'Service Not Found',
-                                      style: TextStyle(
+                                      allServiceViewModel.nearByJobs == false
+                                          ? 'Service Not Found'
+                                          : 'Jobs Not Found',
+                                      style: const TextStyle(
                                         color: Colors.black,
-                                        fontSize: 20.0,
+                                        fontSize: 24.0,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -262,26 +264,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   builder: (context, allServiceViewModel, _) {
                     return Column(
                       children: [
-                        // selectType(
-                        //   size: size,
-                        //   mainAxisAlignment: MainAxisAlignment.start,
-                        //   serviceType: 'POSTER',
-                        //   selectType:
-                        //       (post.isPoster != null && post.isPoster == true)
-                        //           ? true
-                        //           : false,
-                        //   onTap: () => post.selectServiceType(true),
-                        // ),
-                        // selectType(
-                        //   size: size,
-                        //   mainAxisAlignment: MainAxisAlignment.center,
-                        //   serviceType: 'WORKER',
-                        //   selectType:
-                        //       (post.isPoster != null && post.isPoster == false)
-                        //           ? true
-                        //           : false,
-                        //   onTap: () => post.selectServiceType(false),
-                        // ),
                         type(
                           typeText: 'Jobs Near By',
                           typeIcon: CupertinoIcons.money_dollar_circle_fill,
@@ -304,38 +286,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   },
                 )
-                // Padding(
-                //   padding: const EdgeInsets.only(top: 12, bottom: 20),
-                //   child: Consumer<AllServicesViewModel>(
-                //     builder: (context, allServiceViewModel, _) {
-                //       return Column(
-                //         children: List.generate(
-                //           allServiceViewModel.typeList.length,
-                //           (i) {
-                //             return type(
-                //               typeText:
-                //                   allServiceViewModel.typeList[i].typeTitle,
-                //               typeIcon:
-                //                   allServiceViewModel.typeList[i].typeIcon,
-                //               isSelected:
-                //                   allServiceViewModel.typeList[i].typeSelect,
-                //               onTap: () {
-                //                 // setState(() {
-                //                 //   typeList[index].typeSelect =
-                //                 //       !typeList[index].typeSelect;
-                //                 //   print(typeList[index].typeSelect);
-                //                 // });
-                //                 allServiceViewModel.setServiceType(
-                //                   allServiceViewModel.setServiceType(i),
-                //                 );
-                //               },
-                //             );
-                //           },
-                //         ),
-                //       );
-                //     },
-                //   ),
-                // )
               ],
             ),
           ),
@@ -361,14 +311,14 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Icon(
               typeIcon,
-              size: 28,
+              size: 32,
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 16),
             Text(
               typeText,
               style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
               ),
             ),
             const Spacer(),
@@ -377,7 +327,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ? CupertinoIcons.checkmark_alt_circle_fill
                   : CupertinoIcons.circle,
               color: MyTheme.greenColor,
-              size: 24,
+              size: 30,
             ),
           ],
         ),

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:bizhub_new/model/service_model.dart';
-import 'package:bizhub_new/utils/app_url.dart';
+// import 'package:bizhub_new/utils/app_url.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -55,7 +55,7 @@ class _EditMyPosterServiceState extends State<EditMyPosterService> {
             .toString(),
         'images': json.encode(myServiceViewModel.serviceImgaes),
       };
-      // print(data);
+      print(data);
       myServiceViewModel.updateMyPosterService(data: data, context: context);
     }
   }
@@ -70,17 +70,35 @@ class _EditMyPosterServiceState extends State<EditMyPosterService> {
       context: context,
       serviceId: serviceModel.serviceId.toString(),
     );
-    // provider.serviceImgaes =
+    // List<Map<String, dynamic>> imageDetails = [];
+    // if (serviceModel.imagesList != null) {
+    //   for (var image in images) {
+    //     Map<String, dynamic> imageDetail = {};
+    //     imageDetail['extension'] = image.path.split('.').last;
+    //     imageDetail['imagePath'] = image.path;
+    //     imageDetail['image'] =
+    //         base64Encode(await File(image.path).readAsBytes());
+    //     imageDetails.add(imageDetail);
+    //   }
+    // }
+    // print(serviceModel.imagesList as List);
+    // provider.serviceImgaes = serviceModel.imagesList!
+    //     .map((e) => e.image)
+    //     .cast<Map<String, dynamic>>()
+    //     .toList();
     //     serviceModel.imagesList![0].image as List<Map<String, dynamic>>;
     // if (serviceModel.imagesList!.isNotEmpty) {
     //   provider.serviceImgaes = serviceModel.imagesList!.map((e) {
     //     return {
-    //       "id": e.id,
-    //       'image_path': e.image,
-    //       "local": false,
+    //       // "id": e.id,
+    //       'imagePath': e.image,
+    //       // "local": false,
     //     };
     //   }).toList();
     // }
+    // print('image: ${serviceModel.imagesList![0].image}');
+    // provider.serviceImgaes =
+    //     serviceModel.imagesList![0].image as List<Map<String, dynamic>>;
     titleController.text = serviceModel.serviceTitle.toString();
     descController.text = serviceModel.serviceDesc.toString();
     priceController.text =
@@ -151,7 +169,7 @@ class _EditMyPosterServiceState extends State<EditMyPosterService> {
                         // crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 10),
-                          const UploadImages(),
+                          // const UploadImages(),
                           const SizedBox(height: 20),
                           LabelTextField(
                             label: 'Title *',
@@ -309,24 +327,24 @@ class UploadImages extends StatelessWidget {
                             ),
                             borderRadius: BorderRadius.circular(3),
                             image:
-                                postViewModel.serviceImgaes[0]['local'] == false
-                                    ? DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: NetworkImage(
-                                          AppUrl.baseUrl +
-                                              postViewModel.serviceImgaes[0]
-                                                  ['image_path'],
-                                        ),
-                                      )
-                                    : DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: FileImage(
-                                          File(
-                                            postViewModel.serviceImgaes[0]
-                                                ['imagePath'],
-                                          ),
-                                        ),
-                                      ),
+                                // postViewModel.serviceImgaes[0]['local'] == false
+                                //     ? DecorationImage(
+                                //         fit: BoxFit.fill,
+                                //         image: NetworkImage(
+                                //           AppUrl.baseUrl +
+                                //               postViewModel.serviceImgaes[0]
+                                //                   ['image_path'],
+                                //         ),
+                                //       )
+                                //     :
+                                DecorationImage(
+                              fit: BoxFit.fill,
+                              image: FileImage(
+                                File(
+                                  postViewModel.serviceImgaes[0]['imagePath'],
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                         const Positioned(

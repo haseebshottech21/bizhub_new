@@ -111,6 +111,7 @@ class ChatViewModel extends ChangeNotifier {
     required dynamic data,
     required BuildContext context,
     required String chatId,
+    // required String notificationId,
   }) async {
     setMessageLoad(true);
     final loadedData = await chatRepo.sendMessageApi(data);
@@ -129,6 +130,22 @@ class ChatViewModel extends ChangeNotifier {
           final response = await chatRepo.fetchMessagesList(chatId: chatId);
           // if (response.isNotEmpty) {
           messageList = response['messages'] as List<MessageModel>;
+
+          // commentsWebService.sendNotification(
+          //   'Comment',
+          //   '${await Utilities().getSharedPreferenceValue('name')} Commented on your ${isPoster ? 'Post' : 'Service'}',
+          //   deviceId,
+          //   isPoster ? commentKey : userCommentKey,
+          //   serviceId,
+          // );
+          // print(notificationId);
+          // notification.sendNotification(
+          //   notiTitle: 'Message',
+          //   notiBody: 'Send you message',
+          //   notifyToken: notificationId,
+          //   data: 'received-message',
+          //   requestId: chatId,
+          // );
           // oppositeUser = response['user'] as UserModel;
           // }
           // }

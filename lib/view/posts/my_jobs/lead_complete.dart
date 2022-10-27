@@ -40,13 +40,13 @@ class _LeadCompleteState extends State<LeadComplete> {
     final size = MediaQuery.of(context).size;
 
     const titleStyle = TextStyle(
-      fontSize: 17,
+      fontSize: 18,
       fontWeight: FontWeight.w500,
       color: Colors.black,
     );
 
     const nameStyle = TextStyle(
-      fontSize: 14,
+      fontSize: 16,
       fontWeight: FontWeight.w400,
       color: Colors.black87,
     );
@@ -71,6 +71,7 @@ class _LeadCompleteState extends State<LeadComplete> {
           'Mark as Complete',
           style: TextStyle(
             color: Colors.black,
+            fontSize: 22,
           ),
         ),
       ),
@@ -180,14 +181,14 @@ class _LeadCompleteState extends State<LeadComplete> {
                                                       fontWeight:
                                                           FontWeight.w400,
                                                       color: Colors.grey,
-                                                      fontSize: 18,
+                                                      fontSize: 20,
                                                     ),
                                                   ),
                                                   const SizedBox(height: 16),
                                                   userOffers.image == null
                                                       ? Container(
-                                                          width: 50,
-                                                          height: 50,
+                                                          width: 65,
+                                                          height: 65,
                                                           decoration:
                                                               BoxDecoration(
                                                             color: Colors
@@ -204,8 +205,8 @@ class _LeadCompleteState extends State<LeadComplete> {
                                                           ),
                                                         )
                                                       : SizedBox(
-                                                          width: 50,
-                                                          height: 50,
+                                                          width: 65,
+                                                          height: 65,
                                                           child: ClipOval(
                                                             child:
                                                                 Image.network(
@@ -217,19 +218,20 @@ class _LeadCompleteState extends State<LeadComplete> {
                                                             ),
                                                           ),
                                                         ),
-                                                  const SizedBox(height: 12),
+                                                  const SizedBox(height: 16),
                                                   Text(
                                                     '${userOffers.firstName} ${userOffers.lastName}',
                                                     style: const TextStyle(
                                                       fontWeight:
                                                           FontWeight.w400,
-                                                      fontSize: 18,
+                                                      fontSize: 20,
+                                                      letterSpacing: 0.5,
                                                       color: Colors.black87,
                                                     ),
                                                   ),
-                                                  const SizedBox(height: 20),
+                                                  const SizedBox(height: 16),
                                                   const Divider(),
-                                                  const SizedBox(height: 20),
+                                                  const SizedBox(height: 16),
                                                   Consumer<MyServiceViewModel>(
                                                       builder: (context,
                                                           rateService, _) {
@@ -385,7 +387,7 @@ class _LeadCompleteState extends State<LeadComplete> {
                                                                       .serviceCompleteModel!
                                                                       .serviceId
                                                                       .toString(),
-                                                              'complete_by':
+                                                              'rate_to':
                                                                   userOffers
                                                                       .userId
                                                                       .toString(),
@@ -400,7 +402,7 @@ class _LeadCompleteState extends State<LeadComplete> {
                                                             //   textController.clear();
                                                             //   showTheMic();
                                                             // }
-                                                            print(data);
+                                                            // print(data);
                                                             rateViewModel
                                                                 .rateAndCompleteLeads(
                                                               data,
@@ -451,6 +453,7 @@ class _LeadCompleteState extends State<LeadComplete> {
                                         ),
                                       )
                                     : CircleAvatar(
+                                        radius: 26,
                                         backgroundImage: NetworkImage(
                                           AppUrl.baseUrl +
                                               userOffers.image.toString(),
@@ -503,7 +506,7 @@ class _LeadCompleteState extends State<LeadComplete> {
                     serviceViewModel.serviceCompleteModel!.serviceTitle
                         .toString(),
                     style: const TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: FontWeight.w400,
                     ),
                     maxLines: 2,
@@ -514,7 +517,7 @@ class _LeadCompleteState extends State<LeadComplete> {
                 Text(
                   '\$ ${serviceViewModel.serviceCompleteModel!.serviceAmount.toString()}',
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 20,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

@@ -5,7 +5,6 @@ import 'package:bizhub_new/widgets/common/auth_botom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-// import '../../main.dart';
 import '../../main.dart';
 import '../../utils/field_validator.dart';
 import '../../utils/routes/routes_name.dart';
@@ -72,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            horizontal: 14.0,
+            horizontal: 16.0,
             vertical: 50.0,
           ),
           child: Column(
@@ -88,14 +87,17 @@ class _LoginScreenState extends State<LoginScreen> {
               const Text(
                 'WELCOME TO BIZHUB',
                 style: TextStyle(
-                  fontSize: 25,
+                  fontSize: 26,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               const SizedBox(height: 10),
               const Text(
                 'Sign in to continue',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.normal,
+                ),
               ),
               const SizedBox(height: 40),
               Form(
@@ -150,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               'Remember me',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 14.0,
+                                fontSize: 15.0,
                               ),
                             )
                           ],
@@ -168,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               style: TextStyle(
                                 color: MyTheme.greenColor,
                                 fontWeight: FontWeight.w500,
-                                fontSize: 14.0,
+                                fontSize: 15.0,
                               ),
                             ),
                           ),

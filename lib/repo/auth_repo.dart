@@ -12,20 +12,6 @@ import '../utils/utils.dart';
 
 class AuthRepository {
   final prefrence = Prefrences();
-  // final response = await Dio().get(url);
-  // final dio = Dio();
-
-  // Future<dynamic> loginApi(dynamic data) async {
-  //   try {
-  //     dynamic response =
-  //         await _apiServices.getPostApiResponse(AppUrl.loginEndPoint, data);
-  //     // print(response);
-  //     setCrediential(response['data']);
-  //     return response;
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
 
   Future<UserModel?> getUserData() async {
     UserModel? user;
@@ -234,11 +220,13 @@ class AuthRepository {
         headers: await AppUrl().headerWithAuth(),
       );
       final responseLoaded = jsonDecode(response.body);
+      print(responseLoaded);
       if (response.statusCode == 200 || response.statusCode == 201) {
         updateCrediential(responseLoaded['data']);
         return responseLoaded;
       } else {
         Utils.toastMessage(responseLoaded['message']);
+        print(responseLoaded['message']);
       }
     } catch (e) {
       // print(e.toString());

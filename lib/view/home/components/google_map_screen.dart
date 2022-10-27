@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../view_model/all_services_view_model.dart';
 
@@ -32,8 +33,27 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   final Set<Marker> _markers = {};
   final Completer<GoogleMapController> mapController = Completer();
 
+  final GeolocatorPlatform _geoLocatorPlatform = GeolocatorPlatform.instance;
+
+  Future<bool> _handlePermission() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission != LocationPermission.always) {
+      permission = await _geoLocatorPlatform.requestPermission();
+      if (permission == LocationPermission.always ||
+          permission == LocationPermission.whileInUse) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
+
   @override
   void initState() {
+    // _handlePermission();
+
     double latitude = double.parse(
       widget.allServiceViewModel.serviceDetalModel!.latitude.toString(),
     );

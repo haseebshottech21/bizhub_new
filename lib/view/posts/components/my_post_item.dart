@@ -109,11 +109,13 @@ class MyPostItem extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.only(top: 4),
                                     child: SizedBox(
-                                      width: size.maxWidth * 0.65,
+                                      width: size.maxWidth * 0.67,
                                       child: Text(
                                         serviceModel.serviceTitle.toString(),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
-                                          fontSize: 16,
+                                          fontSize: 17,
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
@@ -226,7 +228,7 @@ class MyPostItem extends StatelessWidget {
                                     },
                                     child: const Icon(
                                       CupertinoIcons.ellipsis_vertical,
-                                      size: 15,
+                                      size: 18,
                                     ),
                                   ),
                                 ],

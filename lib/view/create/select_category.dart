@@ -96,14 +96,15 @@ class _SelectCategoryState extends State<SelectCategory> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: SizedBox(
-                  height: size.height * 0.10,
+                  height: size.height * 0.09,
                   child: Padding(
                     padding:
-                        const EdgeInsets.symmetric(vertical: 14, horizontal: 4),
+                        const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
                     child: DeafultButton(
                       title: 'Continue',
                       onPress: () {
                         Navigator.pushNamed(context, RouteName.createPost);
+                        // print(post.isPoster);
                       },
                       // onPress: null,
                     ),

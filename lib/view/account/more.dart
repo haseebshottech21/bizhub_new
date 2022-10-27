@@ -148,8 +148,8 @@ class _MoreScreenState extends State<MoreScreen> {
                     onPressed: () {
                       simpleShowDialog(
                         context: context,
-                        title: 'Confirm Logout',
-                        subTitle: 'You are about to logout',
+                        title: 'Logout',
+                        subTitle: 'Are you sure, do you want to logout ?',
                         press: () {
                           Navigator.of(context).pop();
                           // authViewModel.logout(context);

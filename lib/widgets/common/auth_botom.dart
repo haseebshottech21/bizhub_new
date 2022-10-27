@@ -35,7 +35,7 @@ class AuthBottom extends StatelessWidget {
                 title,
                 style: const TextStyle(
                   color: Colors.black,
-                  fontSize: 14.0,
+                  fontSize: 15.0,
                 ),
               ),
             ),
@@ -48,7 +48,7 @@ class AuthBottom extends StatelessWidget {
                   text,
                   style: const TextStyle(
                     color: MyTheme.greenColor,
-                    fontSize: 15.0,
+                    fontSize: 16.0,
                     fontWeight: FontWeight.w500,
                     letterSpacing: 0.5,
                   ),
