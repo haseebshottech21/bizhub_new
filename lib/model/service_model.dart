@@ -38,7 +38,7 @@ class ServiceModel {
         serviceType: json['type'],
         serviceTitle: json['title'],
         serviceDesc: json['description'],
-        serviceAmount: json['amount'],
+        serviceAmount: json['amount'].toString(),
         serviceNegotiable: json['is_negotiable'] == '0' ? false : true,
         serviceStatus: json['status'],
         address: json['address'],
@@ -100,7 +100,7 @@ class ServiceDetalModel {
         userId: json['user_id'].toString(),
         serviceTitle: json['title'],
         serviceDesc: json['description'],
-        serviceAmount: json['amount'],
+        serviceAmount: json['amount'].toString(),
         serviceNegotiable: json['is_negotiable'],
         address: json['address'],
         latitude: double.parse(json['latitude'].toString()),
@@ -155,7 +155,7 @@ class ServiceCompleteModel {
         userId: json['user_id'].toString(),
         serviceTitle: json['title'],
         serviceDesc: json['description'],
-        serviceAmount: json['amount'],
+        serviceAmount: json['amount'].toString(),
         serviceNegotiable: json['is_negotiable'],
         imagesList: json['images'] == null
             ? []

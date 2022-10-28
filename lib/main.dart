@@ -79,7 +79,7 @@ class _MyAppState extends State<MyApp> {
   void getToken() async {
     await FirebaseMessaging.instance.getToken().then((token) {
       MyApp.notifyToken = token.toString();
-      // print('token: $token');
+      print('token: $token');
     });
     // print('app_token: ' + MyApp.notifyToken);
   }

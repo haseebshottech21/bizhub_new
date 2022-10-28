@@ -1,9 +1,11 @@
-import 'package:bizhub_new/view/posts/my_services/edit_worker_service.dart';
+import 'package:bizhub_new/components/custom_lodaer.dart';
+// import 'package:bizhub_new/view/posts/my_services/edit_worker_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../view_model/my_service_view_model.dart';
 import '../components/worker_detail_body.dart';
+import '../my_jobs/edit_poster_service.dart';
 
 class MyWorkDetail extends StatefulWidget {
   const MyWorkDetail({Key? key, required this.serviceId}) : super(key: key);
@@ -52,7 +54,7 @@ class _MyWorkDetailState extends State<MyWorkDetail> {
           Consumer<MyServiceViewModel>(
             builder: (context, myServiceViewModel, _) {
               if (myServiceViewModel.loading) {
-                return const Center(child: CircularProgressIndicator());
+                return const CustomLoader();
               } else {
                 return MyWorkerDetailBody(
                   myServiceViewModel: myServiceViewModel,
@@ -107,15 +109,15 @@ class _MyWorkDetailState extends State<MyWorkDetail> {
                     margin: const EdgeInsets.symmetric(horizontal: 12),
                     child: InkWell(
                       onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => const EditMyWorkerService(),
-                        //     settings: RouteSettings(
-                        //       arguments: myServiceViewModel.serviceModel,
-                        //     ),
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const EditMyPosterService(),
+                            settings: RouteSettings(
+                              arguments: myServiceViewModel.serviceModel,
+                            ),
+                          ),
+                        );
                       },
                       child: const Icon(Icons.edit, color: Colors.white),
                     ),

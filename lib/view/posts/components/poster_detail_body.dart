@@ -82,17 +82,14 @@ class MyJobDetailBody extends StatelessWidget {
                   ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 16,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   '\$ ${myServiceViewModel.serviceModel!.serviceAmount.toString()}',
                   style: const TextStyle(
-                    fontSize: 20,
+                    fontSize: 24,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -100,7 +97,7 @@ class MyJobDetailBody extends StatelessWidget {
                 Text(
                   myServiceViewModel.serviceModel!.serviceTitle.toString(),
                   style: const TextStyle(
-                    fontSize: 20,
+                    fontSize: 22,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -110,7 +107,7 @@ class MyJobDetailBody extends StatelessWidget {
                 const Text(
                   'Description',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -118,7 +115,7 @@ class MyJobDetailBody extends StatelessWidget {
                 Text(
                   myServiceViewModel.serviceModel!.serviceDesc.toString(),
                   style: const TextStyle(
-                    fontSize: 14,
+                    fontSize: 16,
                     color: Colors.black54,
                     fontWeight: FontWeight.w400,
                   ),
@@ -129,7 +126,7 @@ class MyJobDetailBody extends StatelessWidget {
                 const Text(
                   'Location',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

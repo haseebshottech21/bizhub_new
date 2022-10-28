@@ -1,6 +1,8 @@
-// import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:bizhub_new/components/custom_lodaer.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/app_url.dart';
 import '../../../utils/mytheme.dart';
@@ -22,24 +24,13 @@ class _MyMessagesState extends State<MyMessages> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      getMyMessages();
-      // await setupInteracted();
-      // await setUpRequestNotification();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await setupInteracted();
+      await setUpRequestNotification();
+      await getMyMessages();
     });
     super.initState();
   }
-
-  // @override
-  // void initState() {
-  //   MyJobDetail.inMyPostScreen = true;
-  //   Future.delayed(Duration.zero).then((value) async {
-  //     await getData();
-  //     await setupInteracted();
-  //     await setUpRequestNotification();
-  //   });
-  //   super.initState();
-  // }
 
   Future<void> getMyMessages() async {
     Map? chat = ModalRoute.of(context)!.settings.arguments as Map;
@@ -49,50 +40,44 @@ class _MyMessagesState extends State<MyMessages> {
     );
   }
 
-  // Future<void> setUpRequestNotification() async {
-  //   FirebaseMessaging messaging = FirebaseMessaging.instance;
+  Future<void> setUpRequestNotification() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+  }
 
-  //   NotificationSettings settings = await messaging.requestPermission(
-  //     alert: true,
-  //     announcement: false,
-  //     badge: true,
-  //     carPlay: false,
-  //     criticalAlert: false,
-  //     provisional: false,
-  //     sound: true,
-  //   );
-  // }
+  Future<void> setupInteracted() async {
+    // Map? chatView = ModalRoute.of(context)!.settings.arguments as Map;
 
-  // Future<void> setupInteracted() async {
-  //   RemoteMessage? initialMessage =
-  //       await FirebaseMessaging.instance.getInitialMessage();
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
 
-  //   // FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
-  //   FirebaseMessaging.onMessage.listen(
-  //     (RemoteMessage message) {
-  //       print('A new message send');
-  //       if (message.data['screen'] == 'send-message') {
-  //         getMyMessages();
-  //       }
-
-  //       if (message.data['screen'] == 'received-message') {
-  //         getMyMessages();
-  //       }
-  //     },
-  //   );
-  // }
+    // FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+    FirebaseMessaging.onMessage.listen(
+      (RemoteMessage message) {
+        // print('A new message received');
+        if (message.data['screen'] == 'send-message') {
+          getMyMessages();
+        }
+        // Fluttertoast.showToast(msg: '${chatView['userName']} sent message');
+        Fluttertoast.showToast(msg: 'message received');
+      },
+    );
+  }
 
   // void _handleMessage(RemoteMessage message) {
   //   // print(message);
-  //   print('A new message received!');
+  //   // print('A new message send!');
   //   if (message.data['screen'] == 'send-message') {
   //     getMyMessages();
   //   }
-
-  //   if (message.data['screen'] == 'received-message') {
-  //     getMyMessages();
-  //   }
-
   // }
 
   @override
@@ -127,9 +112,7 @@ class _MyMessagesState extends State<MyMessages> {
                     Consumer<ChatViewModel>(
                       builder: (context, chatViewModel, _) {
                         if (chatViewModel.loading) {
-                          return const Expanded(
-                            child: Center(child: CircularProgressIndicator()),
-                          );
+                          return const Expanded(child: CustomLoader());
                         }
                         return Expanded(
                           child: ListView.builder(
@@ -186,12 +169,11 @@ class _MyMessagesState extends State<MyMessages> {
                         );
                       },
                     ),
-                    //  MessageBottom(),
-
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Card(
                         margin: EdgeInsets.zero,
+                        // color: Colors.amber,
                         child: Padding(
                           padding: EdgeInsets.only(
                             right: 8,
@@ -205,7 +187,7 @@ class _MyMessagesState extends State<MyMessages> {
                             children: [
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Expanded(
                                     child: Row(
@@ -219,7 +201,7 @@ class _MyMessagesState extends State<MyMessages> {
                                         Expanded(
                                           child: Container(
                                             margin: const EdgeInsets.only(
-                                              bottom: 5,
+                                              bottom: 6,
                                             ),
                                             child: TextField(
                                               controller: messageController,
@@ -294,7 +276,7 @@ class _MyMessagesState extends State<MyMessages> {
                                           //     ? Colors.grey.shade700
                                           //     : Colors.blue,
                                           color: Colors.grey.shade600,
-                                          size: 26,
+                                          size: 30,
                                         ),
                                         onPressed: () {
                                           Map data = {
@@ -316,6 +298,8 @@ class _MyMessagesState extends State<MyMessages> {
                                               data: data,
                                               context: context,
                                               chatId: chat['chat_id'],
+                                              notificationId:
+                                                  chat['notification'],
                                             );
                                             messageController.clear();
                                           }
@@ -334,6 +318,14 @@ class _MyMessagesState extends State<MyMessages> {
                 ),
               ],
             ),
+            // Consumer<ChatViewModel>(
+            //   builder: (context, chatViewModel, _) {
+            //     if (chatViewModel.loading) {
+            //       return const Expanded(child: CustomLoader());
+            //     }
+            //     return const SizedBox();
+            //   },
+            // ),
             Consumer<ChatViewModel>(
               builder: (context, chatViewModel, _) {
                 return chatViewModel.messageLoading

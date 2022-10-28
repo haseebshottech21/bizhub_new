@@ -35,15 +35,6 @@ class _PostJobDetailState extends State<PostJobDetail> {
 
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setSystemUIOverlayStyle(
-    //   const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-    // );
-
-    // final size = MediaQuery.of(context).size;
-
-    // final allServiceViewModel = context.watch<AllServicesViewModel>();
-    // final serviceViewModel =
-    //     Provider.of<AllServicesViewModel>(context, listen: true);
     return Scaffold(
       bottomSheet: ServicesDetailBottom(
         messageController: messageController,

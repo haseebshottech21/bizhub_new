@@ -1,3 +1,4 @@
+import 'package:bizhub_new/components/custom_lodaer.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/view/home/components/all_services_items.dart';
@@ -52,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 snap: false,
                 elevation: 0,
                 // centerTitle: true,
+
                 backgroundColor: Colors.white,
                 automaticallyImplyLeading: false,
                 titleTextStyle: const TextStyle(
@@ -59,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontWeight: FontWeight.w400,
                   fontSize: 20,
                 ),
+                centerTitle: false,
                 titleSpacing: 12.0,
                 title: GestureDetector(
                   onTap: () {
@@ -67,6 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Container(
                     width: size.width * 0.26,
                     padding: const EdgeInsets.all(8.0),
+                    alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
                       boxShadow: kElevationToShadow[1],
                       color: MyTheme.greenColor,
@@ -75,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                      // crossAxisAlignment: CrossAxisAlignment.end,
                       children: const [
                         Text(
                           'Find',
@@ -165,9 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   delegate: SliverChildListDelegate(
                     [
                       allServiceViewModel.loading
-                          ? const Center(
-                              child: CircularProgressIndicator(),
-                            )
+                          ? const CustomLoader()
                           : Consumer<AllServicesViewModel>(
                               builder: (context, allServiceViewModel, _) {
                                 // print(allServiceViewModel.allServiceList.length);

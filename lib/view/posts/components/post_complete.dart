@@ -1,29 +1,30 @@
-import 'package:bizhub_new/components/deafult_button.dart';
-import 'package:bizhub_new/model/offers_model.dart';
-import 'package:bizhub_new/utils/app_url.dart';
-import 'package:bizhub_new/utils/mytheme.dart';
-// import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../view_model/my_service_view_model.dart';
-// import '../components/rate_review.dart';
 
-class LeadComplete extends StatefulWidget {
-  const LeadComplete({Key? key}) : super(key: key);
+import '../../../components/deafult_button.dart';
+import '../../../model/offers_model.dart';
+import '../../../utils/app_url.dart';
+import '../../../utils/mytheme.dart';
+import '../../../view_model/my_service_view_model.dart';
+
+class PostComplete extends StatefulWidget {
+  const PostComplete({Key? key}) : super(key: key);
 
   @override
-  State<LeadComplete> createState() => _LeadCompleteState();
+  State<PostComplete> createState() => _PostCompleteState();
 }
 
-class _LeadCompleteState extends State<LeadComplete> {
+class _PostCompleteState extends State<PostComplete> {
   OfferModel? offerModel;
 
-  getLeadCompleteDetail() async {
-    String? serviceId = ModalRoute.of(context)!.settings.arguments as String;
+  getPostCompleteDetail() async {
+    // String? serviceId = ModalRoute.of(context)!.settings.arguments as String;
+    Map? complete = ModalRoute.of(context)!.settings.arguments as Map;
+
     final provider = Provider.of<MyServiceViewModel>(context, listen: false);
     await provider.getJobCompleteDetail(
       context: context,
-      serviceId: serviceId,
+      serviceId: complete['service_id'],
     );
   }
 
@@ -31,14 +32,13 @@ class _LeadCompleteState extends State<LeadComplete> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => getLeadCompleteDetail(),
+      (_) => getPostCompleteDetail(),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    // String? serviceId = ModalRoute.of(context)!.settings.arguments as String;
 
     const titleStyle = TextStyle(
       fontSize: 18,
@@ -56,7 +56,8 @@ class _LeadCompleteState extends State<LeadComplete> {
 
     // String? serviceId = ModalRoute.of(context)!.settings.arguments as String;
     // print(serviceId);
-
+    Map? complete = ModalRoute.of(context)!.settings.arguments as Map;
+    print(complete['lead']);
     final serviceViewModel = context.watch<MyServiceViewModel>();
     // final serviceViewModel =
     //     Provider.of<MyServiceViewModel>(context, listen: false);
@@ -341,72 +342,90 @@ class _LeadCompleteState extends State<LeadComplete> {
                                         ),
                                       ),
                                       const SizedBox(height: 20),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 12),
-                                        child: Consumer<MyServiceViewModel>(
-                                          builder: (context, rateViewModel, _) {
-                                            return DeafultButton(
-                                              isloading:
-                                                  serviceViewModel.loading,
-                                              title: 'DONE',
-                                              onPress:
-                                                  serviceViewModel.rating == 0
-                                                      ? null
-                                                      : () {
-                                                          Map data = {
-                                                            'service_id':
-                                                                serviceViewModel
-                                                                    .serviceCompleteModel!
-                                                                    .serviceId
-                                                                    .toString(),
-                                                            'rate_to':
-                                                                userOffers
-                                                                    .userId
-                                                                    .toString(),
-                                                            'rate':
-                                                                '${serviceViewModel.rating}',
-                                                            'review':
-                                                                serviceViewModel
-                                                                    .review,
-                                                          };
-                                                          // if (textController.text.length > 0) {
-                                                          //   addToMessages(textController.text);
-                                                          //   textController.clear();
-                                                          //   showTheMic();
-                                                          // }
-                                                          // print(data);
-                                                          rateViewModel
-                                                              .rateAndCompleteLeads(
-                                                            data,
-                                                            context,
-                                                          );
-                                                          // if (messageController
-                                                          //     .text
-                                                          //     .isNotEmpty) {
-                                                          //   messageViewModel
-                                                          //       .sendMessage(
-                                                          //     data:
-                                                          //         data,
-                                                          //     context:
-                                                          //         context,
-                                                          //     chatId: chat[
-                                                          //         'chat_id'],
-                                                          //   );
-                                                          //   messageController
-                                                          //       .clear();
-                                                          // }
-                                                        },
-                                              // style: ElevatedButton
-                                              //     .styleFrom(
-                                              //   primary:
-                                              //       MyTheme.greenColor,
-                                              // ),
-                                              // child: const Text('DONE'),
-                                            );
-                                          },
+                                      if (complete['lead'] == true)
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 12,
+                                          ),
+                                          child: Consumer<MyServiceViewModel>(
+                                            builder:
+                                                (context, rateViewModel, _) {
+                                              return DeafultButton(
+                                                isloading:
+                                                    serviceViewModel.loading,
+                                                title: 'DONE',
+                                                onPress:
+                                                    serviceViewModel.rating == 0
+                                                        ? null
+                                                        : () {
+                                                            Map data = {
+                                                              'service_id':
+                                                                  serviceViewModel
+                                                                      .serviceCompleteModel!
+                                                                      .serviceId
+                                                                      .toString(),
+                                                              'rate_to':
+                                                                  userOffers
+                                                                      .userId
+                                                                      .toString(),
+                                                              'rate':
+                                                                  '${serviceViewModel.rating}',
+                                                              'review':
+                                                                  serviceViewModel
+                                                                      .review,
+                                                            };
+                                                            rateViewModel
+                                                                .rateAndCompleteLeads(
+                                                              data,
+                                                              context,
+                                                            );
+                                                          },
+                                              );
+                                            },
+                                          ),
                                         ),
-                                      ),
+                                      if (complete['lead'] == false)
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 12,
+                                          ),
+                                          child: Consumer<MyServiceViewModel>(
+                                            builder:
+                                                (context, rateViewModel, _) {
+                                              return DeafultButton(
+                                                isloading:
+                                                    serviceViewModel.loading,
+                                                title: 'DONE',
+                                                onPress:
+                                                    serviceViewModel.rating == 0
+                                                        ? null
+                                                        : () {
+                                                            Map data = {
+                                                              'service_id':
+                                                                  serviceViewModel
+                                                                      .serviceCompleteModel!
+                                                                      .serviceId
+                                                                      .toString(),
+                                                              'rate_to':
+                                                                  userOffers
+                                                                      .userId
+                                                                      .toString(),
+                                                              'rate':
+                                                                  '${serviceViewModel.rating}',
+                                                              'review':
+                                                                  serviceViewModel
+                                                                      .review,
+                                                            };
+                                                            rateViewModel
+                                                                .rateAndCompleteService(
+                                                              data,
+                                                              context,
+                                                            );
+                                                          },
+                                              );
+                                            },
+                                          ),
+                                        ),
                                       const SizedBox(height: 20),
                                     ],
                                   ),
@@ -541,35 +560,66 @@ class _LeadCompleteState extends State<LeadComplete> {
                                         const SizedBox(height: 16),
                                         const Divider(),
                                         const SizedBox(height: 16),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 12,
-                                          ),
-                                          child: Consumer<MyServiceViewModel>(
-                                            builder:
-                                                (context, rateViewModel, _) {
-                                              return DeafultButton(
-                                                isloading:
-                                                    serviceViewModel.loading,
-                                                title: 'DONE',
-                                                onPress: () {
-                                                  Map data = {
-                                                    'service_id': serviceViewModel
-                                                        .serviceCompleteModel!
-                                                        .serviceId
-                                                        .toString(),
-                                                  };
+                                        if (complete['lead'] == true)
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 12,
+                                            ),
+                                            child: Consumer<MyServiceViewModel>(
+                                              builder:
+                                                  (context, rateViewModel, _) {
+                                                return DeafultButton(
+                                                  isloading:
+                                                      serviceViewModel.loading,
+                                                  title: 'DONE',
+                                                  onPress: () {
+                                                    Map data = {
+                                                      'service_id': serviceViewModel
+                                                          .serviceCompleteModel!
+                                                          .serviceId
+                                                          .toString(),
+                                                    };
 
-                                                  rateViewModel
-                                                      .rateAndCompleteLeads(
-                                                    data,
-                                                    context,
-                                                  );
-                                                },
-                                              );
-                                            },
+                                                    rateViewModel
+                                                        .rateAndCompleteLeads(
+                                                      data,
+                                                      context,
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            ),
                                           ),
-                                        ),
+                                        if (complete['lead'] == false)
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 12,
+                                            ),
+                                            child: Consumer<MyServiceViewModel>(
+                                              builder:
+                                                  (context, rateViewModel, _) {
+                                                return DeafultButton(
+                                                  isloading:
+                                                      serviceViewModel.loading,
+                                                  title: 'DONE',
+                                                  onPress: () {
+                                                    Map data = {
+                                                      'service_id': serviceViewModel
+                                                          .serviceCompleteModel!
+                                                          .serviceId
+                                                          .toString(),
+                                                    };
+
+                                                    rateViewModel
+                                                        .rateAndCompleteService(
+                                                      data,
+                                                      context,
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          ),
                                         const SizedBox(height: 16),
                                       ],
                                     ),
@@ -581,21 +631,19 @@ class _LeadCompleteState extends State<LeadComplete> {
                         },
                       );
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        leading: CircleAvatar(
-                          backgroundColor: Colors.grey.shade100,
-                          child: const Icon(
-                            Icons.person,
-                            color: MyTheme.greenColor,
-                          ),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: CircleAvatar(
+                        radius: 26,
+                        backgroundColor: Colors.grey.shade100,
+                        child: const Icon(
+                          Icons.person,
+                          color: MyTheme.greenColor,
                         ),
-                        title: const Text(
-                          'Someone else',
-                          style: nameStyle,
-                        ),
+                      ),
+                      title: const Text(
+                        'Someone else',
+                        style: nameStyle,
                       ),
                     ),
                   ),
@@ -604,67 +652,67 @@ class _LeadCompleteState extends State<LeadComplete> {
             ),
     );
   }
+}
 
-  Widget _uiTop(Size size, MyServiceViewModel serviceViewModel) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
-      child: SizedBox(
-        height: size.height * 0.11,
-        // padding: const EdgeInsets.fromLTRB(10, 4, 10, 4),
-        // color: Colors.yellow,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: SizedBox(
-                height: size.height,
-                width: size.width * 0.20,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(4.0),
-                  child: Image.network(
-                    AppUrl.baseUrl +
-                        serviceViewModel
-                            .serviceCompleteModel!.imagesList![0].image
-                            .toString(),
-                    fit: BoxFit.cover,
-                  ),
+Widget _uiTop(Size size, MyServiceViewModel serviceViewModel) {
+  return Padding(
+    padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
+    child: SizedBox(
+      height: size.height * 0.11,
+      // padding: const EdgeInsets.fromLTRB(10, 4, 10, 4),
+      // color: Colors.yellow,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: SizedBox(
+              height: size.height,
+              width: size.width * 0.20,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(4.0),
+                child: Image.network(
+                  AppUrl.baseUrl +
+                      serviceViewModel
+                          .serviceCompleteModel!.imagesList![0].image
+                          .toString(),
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: size.width * 0.70,
-                    child: Text(
-                      serviceViewModel.serviceCompleteModel!.serviceTitle
-                          .toString(),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  const Spacer(),
-                  Text(
-                    '\$ ${serviceViewModel.serviceCompleteModel!.serviceAmount.toString()}',
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 2.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: size.width * 0.70,
+                  child: Text(
+                    serviceViewModel.serviceCompleteModel!.serviceTitle
+                        .toString(),
                     style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
                     ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ],
-              ),
-            )
-          ],
-        ),
+                ),
+                const Spacer(),
+                Text(
+                  '\$ ${serviceViewModel.serviceCompleteModel!.serviceAmount.toString()}',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
-    );
-  }
+    ),
+  );
 }

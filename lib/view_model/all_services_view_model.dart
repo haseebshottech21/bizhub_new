@@ -24,6 +24,15 @@ class AllServicesViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // void clearList(TextEditingController value) {
+  //   displayList.clear();
+  //   // displayList = allServiceList
+  //   //     .where((element) =>
+  //   //         element.serviceTitle!.toLowerCase().contains(value.toLowerCase()))
+  //   //     .toList();
+  //   notifyListeners();
+  // }
+
   bool _loading = false;
   bool get loading => _loading;
   setLoad(bool status) {
@@ -41,8 +50,12 @@ class AllServicesViewModel extends ChangeNotifier {
   selectType(
     bool type,
     BuildContext context,
-  ) {
+  ) async {
     nearByJobs = type;
+    // type == true
+    //     ? await prefernce.setSharedPreferenceValue('type', '0')
+    //     : await prefernce.setSharedPreferenceValue('type', '1');
+    // print('type ${await prefernce.getSharedPreferenceListValue('type')}');
     allServiceList.clear();
     setLoad(true);
     Future.delayed(Duration.zero).then(
@@ -50,8 +63,10 @@ class AllServicesViewModel extends ChangeNotifier {
         // getMyPosts = getPosts();
         // if (allServiceList.isEmpty) {
         allServiceList = await serviceRepo.fetchAllServicesList(
-          serviceType: nearByJobs ? '0' : '1',
-        );
+            serviceType: nearByJobs ? '0' : '1'
+            //     ? '${prefernce.setSharedPreferenceValue('type', '0')}'
+            //     : '${prefernce.setSharedPreferenceValue('type', '1')}',
+            );
         // }
         setLoad(false);
       },
@@ -71,7 +86,8 @@ class AllServicesViewModel extends ChangeNotifier {
         // getMyPosts = getPosts();
         if (allServiceList.isEmpty) {
           allServiceList = await serviceRepo.fetchAllServicesList(
-            serviceType: '0',
+            serviceType: nearByJobs ? '0' : '1',
+            // serviceType: await prefernce.getSharedPreferenceValue('type'),
             // categoryId: await Prefrences().getSharedPreferenceValue('catId'),
             // categoryId: categoryId,
           );

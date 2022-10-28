@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../../components/deafult_button.dart';
+import '../../../utils/app_url.dart';
 import '../../../utils/field_validator.dart';
 import '../../../utils/mytheme.dart';
 import '../../../utils/routes/routes_name.dart';
@@ -53,10 +54,15 @@ class _EditMyPosterServiceState extends State<EditMyPosterService> {
             .toString(),
         'longitude': locationViewModel.placeDetailModel.placeLocation.longitude
             .toString(),
-        'images': json.encode(myServiceViewModel.serviceImgaes),
+        if (myServiceViewModel.serviceImgaes.isNotEmpty)
+          'images': json.encode(myServiceViewModel.serviceImgaes),
       };
-      print(data);
-      myServiceViewModel.updateMyPosterService(data: data, context: context);
+      // print(data);
+      if (serviceModel.serviceType == '0') {
+        myServiceViewModel.updateMyPosterService(data: data, context: context);
+      } else {
+        myServiceViewModel.updateMyWorkerService(data: data, context: context);
+      }
     }
   }
 
@@ -87,6 +93,7 @@ class _EditMyPosterServiceState extends State<EditMyPosterService> {
     //     .cast<Map<String, dynamic>>()
     //     .toList();
     //     serviceModel.imagesList![0].image as List<Map<String, dynamic>>;
+    // serviceModel.imagesList
     // if (serviceModel.imagesList!.isNotEmpty) {
     //   provider.serviceImgaes = serviceModel.imagesList!.map((e) {
     //     return {
@@ -99,6 +106,7 @@ class _EditMyPosterServiceState extends State<EditMyPosterService> {
     // print('image: ${serviceModel.imagesList![0].image}');
     // provider.serviceImgaes =
     //     serviceModel.imagesList![0].image as List<Map<String, dynamic>>;
+
     titleController.text = serviceModel.serviceTitle.toString();
     descController.text = serviceModel.serviceDesc.toString();
     priceController.text =
@@ -127,6 +135,9 @@ class _EditMyPosterServiceState extends State<EditMyPosterService> {
 
   @override
   Widget build(BuildContext context) {
+    final serviceModel =
+        ModalRoute.of(context)!.settings.arguments as ServiceModel;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -169,7 +180,7 @@ class _EditMyPosterServiceState extends State<EditMyPosterService> {
                         // crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 10),
-                          // const UploadImages(),
+                          UploadImages(serviceModel: serviceModel),
                           const SizedBox(height: 20),
                           LabelTextField(
                             label: 'Title *',
@@ -240,7 +251,9 @@ class _EditMyPosterServiceState extends State<EditMyPosterService> {
 }
 
 class UploadImages extends StatelessWidget {
+  final ServiceModel serviceModel;
   const UploadImages({
+    required this.serviceModel,
     Key? key,
   }) : super(key: key);
 
@@ -304,7 +317,18 @@ class UploadImages extends StatelessWidget {
                 ],
               ),
             ),
-            postViewModel.serviceImgaes.isEmpty
+
+            // if (serviceModel.imagesList!.isEmpty && provider.serviceImgaes.isEmpty) {
+            //   print('No image added');
+            // } else if (provider.serviceImgaes.isEmpty &&
+            //     serviceModel.imagesList!.isNotEmpty) {
+            //   print(serviceModel.imagesList![0].image.toString());
+            // } else if (provider.serviceImgaes.isNotEmpty &&
+            //     serviceModel.imagesList!.isEmpty) {
+            //   print(provider.serviceImgaes);
+            // }
+            postViewModel.serviceImgaes.isEmpty &&
+                    serviceModel.imagesList!.isEmpty
                 ? const Padding(
                     padding: EdgeInsets.only(top: 12),
                     child: Icon(
@@ -317,36 +341,71 @@ class UploadImages extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 12),
                     child: Stack(
                       children: [
-                        Container(
-                          height: size.height * 0.20,
-                          width: size.width * 0.50,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            border: Border.all(
-                              color: MyTheme.greenColor,
-                            ),
-                            borderRadius: BorderRadius.circular(3),
-                            image:
-                                // postViewModel.serviceImgaes[0]['local'] == false
-                                //     ? DecorationImage(
-                                //         fit: BoxFit.fill,
-                                //         image: NetworkImage(
-                                //           AppUrl.baseUrl +
-                                //               postViewModel.serviceImgaes[0]
-                                //                   ['image_path'],
-                                //         ),
-                                //       )
+                        if (postViewModel.serviceImgaes.isEmpty &&
+                            serviceModel.imagesList!.isNotEmpty)
+                          Container(
+                            height: size.height * 0.20,
+                            width: size.width * 0.50,
+                            decoration: BoxDecoration(
+                                color: Colors.grey[100],
+                                border: Border.all(
+                                  color: MyTheme.greenColor,
+                                ),
+                                borderRadius: BorderRadius.circular(3),
+                                image:
+                                    // postViewModel.serviceImgaes[0]['local'] == false
+                                    //     ?
+                                    DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image: NetworkImage(
+                                    AppUrl.baseUrl +
+                                        serviceModel.imagesList![0].image
+                                            .toString(),
+                                  ),
+                                )
                                 //     :
-                                DecorationImage(
-                              fit: BoxFit.fill,
-                              image: FileImage(
-                                File(
-                                  postViewModel.serviceImgaes[0]['imagePath'],
+                                //     DecorationImage(
+                                //   fit: BoxFit.fill,
+                                //   image: FileImage(
+                                //     File(
+                                //       postViewModel.serviceImgaes[0]['imagePath'],
+                                //     ),
+                                //   ),
+                                // ),
+                                ),
+                          ),
+                        if (postViewModel.serviceImgaes.isNotEmpty ||
+                            serviceModel.imagesList!.isEmpty)
+                          Container(
+                            height: size.height * 0.20,
+                            width: size.width * 0.50,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[100],
+                              border: Border.all(
+                                color: MyTheme.greenColor,
+                              ),
+                              borderRadius: BorderRadius.circular(3),
+                              image:
+                                  // postViewModel.serviceImgaes[0]['local'] == false
+                                  //     ? DecorationImage(
+                                  //         fit: BoxFit.fill,
+                                  //         image: NetworkImage(
+                                  //           AppUrl.baseUrl +
+                                  //               postViewModel.serviceImgaes[0]
+                                  //                   ['image_path'],
+                                  //         ),
+                                  //       )
+                                  //     :
+                                  DecorationImage(
+                                fit: BoxFit.fill,
+                                image: FileImage(
+                                  File(
+                                    postViewModel.serviceImgaes[0]['imagePath'],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
                         const Positioned(
                           top: 5,
                           right: 5,

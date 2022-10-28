@@ -1,3 +1,4 @@
+import 'package:bizhub_new/components/custom_lodaer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../view_model/chat_view_model.dart';
@@ -42,7 +43,7 @@ class _MyChatsState extends State<MyChats> {
         builder: (context, myChats, _) {
           // print(leadsChats.leadChatList.length);
           if (myChats.loading) {
-            return const Center(child: CircularProgressIndicator());
+            return const CustomLoader();
           } else if (myChats.allChatList.isEmpty) {
             return const Center(
               child: Text(

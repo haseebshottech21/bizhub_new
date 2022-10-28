@@ -1,8 +1,9 @@
 import 'package:bizhub_new/utils/app_url.dart';
+import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/view_model/all_services_view_model.dart';
-// import 'package:bizhub_new/widgets/common/input_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'all_service_detail_screen.dart';
 
 class SearchPosts extends StatefulWidget {
   const SearchPosts({Key? key}) : super(key: key);
@@ -14,38 +15,8 @@ class SearchPosts extends StatefulWidget {
 class _SearchPostsState extends State<SearchPosts> {
   final searchController = TextEditingController();
 
-  // @override
-  // void initState() {
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     getAllServices();
-  //   });
-  //   super.initState();
-  // }
-
-  // Future<void> getAllServices() async {
-  //   await Provider.of<AllServicesViewModel>(context, listen: false)
-  //       .getAllServicesList(context);
-  // }
-
   @override
   Widget build(BuildContext context) {
-    // return Scaffold(
-    //   backgroundColor: Colors.grey[50],
-    //   appBar: AppBar(
-    //     automaticallyImplyLeading: false,
-    //     title: Expanded(
-    //       child: InputTextfield(
-    //         hintText: 'Search...',
-    //         controller: searchController,
-    //         icon: Icons.search,
-    //       ),
-    //     ),
-    //   ),
-    // );
-    // final size = MediaQuery.of(context).size;
-
-    // final allService = context
-
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
@@ -71,22 +42,21 @@ class _SearchPostsState extends State<SearchPosts> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 6),
             child: TextField(
-              // controller: widget.controller,
+              // controller: searchController,
               onChanged: (value) =>
                   context.read<AllServicesViewModel>().searchList(value),
-
               style: const TextStyle(color: Colors.black),
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.only(
-                  left: 15,
+                  left: 16,
                   bottom: 12,
                   top: 12,
-                  right: 15,
+                  right: 16,
                 ),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(6),
+                  borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide.none,
                 ),
                 hintText: 'Search',
@@ -97,16 +67,18 @@ class _SearchPostsState extends State<SearchPosts> {
                   padding: EdgeInsets.only(left: 12),
                   child: Icon(
                     Icons.search,
+                    color: MyTheme.greenColor,
                   ),
                 ),
-                prefixText: '  ',
-                suffixIcon: const Padding(
-                  padding: EdgeInsets.only(right: 4),
-                  child: Icon(
-                    Icons.clear,
-                    size: 18,
-                  ),
-                ),
+                prefixText: ' ',
+                // suffixIcon: const Padding(
+                //   padding: EdgeInsets.only(right: 4),
+                //   child: Icon(
+                //     Icons.clear,
+                //     size: 18,
+                //     color: MyTheme.greenColor,
+                //   ),
+                // ),
               ),
             ),
           ),
@@ -128,47 +100,60 @@ class _SearchPostsState extends State<SearchPosts> {
                 return ListView.builder(
                   itemCount: allServiceViewModel.displayList.length,
                   itemBuilder: ((context, index) {
-                    return ListTile(
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 2,
-                      ),
-                      title: Text(
-                        allServiceViewModel.displayList[index].serviceTitle!,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      subtitle: Text(
-                        allServiceViewModel.displayList[index].serviceAmount
-                            .toString(),
-                        style: const TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
-                      // trailing: Text(
-                      //   '${displayList[index].rating!}',
-                      //   style: const TextStyle(
-                      //     color: Colors.amber,
-                      //   ),
-                      // ),
-                      leading: allServiceViewModel
-                              .displayList[index].imagesList!.isNotEmpty
-                          ? Image.network(
-                              AppUrl.baseUrl +
-                                  allServiceViewModel
-                                      .displayList[index].imagesList![0].image
-                                      .toString(),
-                              height: 50,
-                              width: 50,
-                              fit: BoxFit.cover,
-                            )
-                          : Container(
-                              width: 50,
-                              height: 50,
-                              color: Colors.greenAccent,
+                    return InkWell(
+                      onTap: () {
+                        // print(allServiceViewModel.displayList[index].serviceId);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => PostJobDetail(
+                              serviceId: allServiceViewModel
+                                  .displayList[index].serviceId
+                                  .toString(),
                             ),
+                          ),
+                        );
+                      },
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 2,
+                        ),
+                        title: Text(
+                          allServiceViewModel.displayList[index].serviceTitle!,
+                          style: const TextStyle(
+                            color: Colors.black87,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                          ),
+                        ),
+                        subtitle: Text(
+                          '\$ ${allServiceViewModel.displayList[index].serviceAmount.toString()}',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                          ),
+                        ),
+                        leading: allServiceViewModel
+                                .displayList[index].imagesList!.isNotEmpty
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(4),
+                                child: Image.network(
+                                  AppUrl.baseUrl +
+                                      allServiceViewModel.displayList[index]
+                                          .imagesList![0].image
+                                          .toString(),
+                                  height: 50,
+                                  width: 50,
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                            : Container(
+                                width: 50,
+                                height: 50,
+                                color: Colors.greenAccent,
+                              ),
+                      ),
                     );
                   }),
                 );

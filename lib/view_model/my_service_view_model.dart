@@ -183,6 +183,23 @@ class MyServiceViewModel extends ChangeNotifier {
   }
 
   // SERVICES
+  // Future<void> getMyWorkerServiceList(
+  //   BuildContext context,
+  // ) async {
+  //   workerServiceList.clear();
+  //   setLoad(true);
+  //   Future.delayed(const Duration(seconds: 1)).then(
+  //     (value) async {
+  //       // getMyPosts = getPosts();
+  //       if (workerServiceList.isEmpty) {
+  //         workerServiceList = await serviceRepo.fetchMyWorkerServiceList();
+  //       }
+  //       setLoad(false);
+  //     },
+  //   );
+  //   notifyListeners();
+  // }
+
   Future<void> getMyWorkerServiceList(
     BuildContext context,
   ) async {

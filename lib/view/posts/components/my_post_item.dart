@@ -1,3 +1,4 @@
+import 'package:bizhub_new/view/posts/components/post_complete.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,7 +7,7 @@ import '../../../utils/app_url.dart';
 import '../../../utils/mytheme.dart';
 import '../../../view_model/my_service_view_model.dart';
 import '../../../widgets/common/dialog_box.dart';
-import '../my_jobs/lead_complete.dart';
+// import '../my_jobs/lead_complete.dart';
 import '../my_jobs/my_job_detail.dart';
 import '../my_services/my_work_detail.dart';
 import 'bottom_modal_action.dart';
@@ -68,7 +69,7 @@ class MyPostItem extends StatelessWidget {
                     width: size.maxWidth,
                     height: size.maxHeight,
                     padding: const EdgeInsets.only(
-                      top: 10,
+                      top: 8,
                       left: 8,
                       right: 8,
                       bottom: 8,
@@ -194,19 +195,43 @@ class MyPostItem extends StatelessWidget {
                                                               //     context,
                                                               //     RouteName
                                                               //         .myJobComplete);
-                                                              Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                  builder: (ctx) =>
-                                                                      const LeadComplete(),
-                                                                  settings:
-                                                                      RouteSettings(
-                                                                    arguments:
-                                                                        serviceModel
-                                                                            .serviceId,
+                                                              if (myServices) {
+                                                                Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                    builder:
+                                                                        (ctx) =>
+                                                                            const PostComplete(),
+                                                                    settings:
+                                                                        RouteSettings(
+                                                                      arguments: {
+                                                                        'service_id':
+                                                                            serviceModel.serviceId,
+                                                                        'lead':
+                                                                            false,
+                                                                      },
+                                                                    ),
                                                                   ),
-                                                                ),
-                                                              );
+                                                                );
+                                                              } else {
+                                                                Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                    builder:
+                                                                        (ctx) =>
+                                                                            const PostComplete(),
+                                                                    settings:
+                                                                        RouteSettings(
+                                                                      arguments: {
+                                                                        'service_id':
+                                                                            serviceModel.serviceId,
+                                                                        'lead':
+                                                                            true,
+                                                                      },
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              }
                                                             },
                                                           ),
                                                         );
@@ -241,7 +266,7 @@ class MyPostItem extends StatelessWidget {
                                   Text(
                                     '\$ ${serviceModel.serviceAmount}',
                                     style: const TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 20,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),

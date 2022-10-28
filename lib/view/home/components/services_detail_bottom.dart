@@ -27,7 +27,7 @@ class ServicesDetailBottom extends StatelessWidget {
       child: Container(
         // height: size.height * 0.10,
         padding:
-            const EdgeInsets.only(bottom: 16, left: 16, right: 16, top: 10),
+            const EdgeInsets.only(bottom: 24, left: 16, right: 16, top: 10),
         decoration: const BoxDecoration(
           color: Colors.white,
           border: Border(
@@ -78,7 +78,7 @@ class ServicesDetailBottom extends StatelessWidget {
           padding:
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: Container(
-            padding: const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 16.0),
+            padding: const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
@@ -149,7 +149,7 @@ class ServicesDetailBottom extends StatelessWidget {
                     prefixText: ' ',
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -173,12 +173,16 @@ class ServicesDetailBottom extends StatelessWidget {
                             },
                       style: ElevatedButton.styleFrom(
                         primary: MyTheme.greenColor,
+                        padding: const EdgeInsets.all(10.0),
                       ),
-                      child: const Text('Send Message'),
+                      child: const Text(
+                        'Send Message',
+                        style: TextStyle(fontSize: 16),
+                      ),
                     )
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -205,7 +209,7 @@ class ServicesDetailBottom extends StatelessWidget {
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           // child: const MakeOffer(),
           child: Container(
-            padding: const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 16.0),
+            padding: const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 20.0),
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -253,7 +257,7 @@ class ServicesDetailBottom extends StatelessWidget {
                     disabledBorder: InputBorder.none,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -277,11 +281,16 @@ class ServicesDetailBottom extends StatelessWidget {
                             },
                       style: ElevatedButton.styleFrom(
                         primary: MyTheme.greenColor,
+                        padding: const EdgeInsets.all(10.0),
                       ),
-                      child: const Text('Send Offer'),
-                    )
+                      child: const Text(
+                        'Send Offer',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
                   ],
                 ),
+                const SizedBox(height: 20),
               ],
             ),
           ),

@@ -4,6 +4,7 @@ import 'package:bizhub_new/model/user_model.dart';
 import 'package:bizhub_new/repo/chat_repo.dart';
 import 'package:bizhub_new/repo/notification_repo.dart';
 import 'package:flutter/material.dart';
+import '../utils/shared_prefrences.dart';
 
 class ChatViewModel extends ChangeNotifier {
   final chatRepo = ChatRepository();
@@ -13,6 +14,7 @@ class ChatViewModel extends ChangeNotifier {
   List<ChatModel> allChatList = [];
   List<MessageModel> messageList = [];
   UserModel? oppositeUser;
+  final prefrences = Prefrences();
 
   // List<MessageModel> posterMessageList = [];
 
@@ -70,10 +72,8 @@ class ChatViewModel extends ChangeNotifier {
     required String chatId,
   }) async {
     messageList.clear();
-
     setLoad(true);
-
-    Future.delayed(const Duration(seconds: 1)).then(
+    Future.delayed(Duration.zero).then(
       (value) async {
         if (messageList.isEmpty) {
           final response = await chatRepo.fetchMessagesList(chatId: chatId);
@@ -111,7 +111,7 @@ class ChatViewModel extends ChangeNotifier {
     required dynamic data,
     required BuildContext context,
     required String chatId,
-    // required String notificationId,
+    required String notificationId,
   }) async {
     setMessageLoad(true);
     final loadedData = await chatRepo.sendMessageApi(data);
@@ -138,14 +138,15 @@ class ChatViewModel extends ChangeNotifier {
           //   isPoster ? commentKey : userCommentKey,
           //   serviceId,
           // );
-          // print(notificationId);
-          // notification.sendNotification(
-          //   notiTitle: 'Message',
-          //   notiBody: 'Send you message',
-          //   notifyToken: notificationId,
-          //   data: 'received-message',
-          //   requestId: chatId,
-          // );
+
+          notification.sendNotification(
+            notiTitle: 'Message',
+            notiBody:
+                '${await prefrences.getSharedPreferenceValue('firstname')} send you new message',
+            notifyToken: notificationId,
+            data: 'send-message',
+            requestId: chatId,
+          );
           // oppositeUser = response['user'] as UserModel;
           // }
           // }

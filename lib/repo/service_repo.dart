@@ -35,7 +35,6 @@ class ServiceRepository {
   // All Services
   Future<List<ServiceModel>> fetchAllServicesList({
     required String serviceType,
-    // String categoryId = '',
   }) async {
     try {
       var catIds = "";
