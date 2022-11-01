@@ -2,7 +2,7 @@ import 'package:bizhub_new/components/custom_lodaer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/app_url.dart';
 import '../../../utils/mytheme.dart';
@@ -56,8 +56,7 @@ class _MyMessagesState extends State<MyMessages> {
   Future<void> setupInteracted() async {
     // Map? chatView = ModalRoute.of(context)!.settings.arguments as Map;
 
-    RemoteMessage? initialMessage =
-        await FirebaseMessaging.instance.getInitialMessage();
+    await FirebaseMessaging.instance.getInitialMessage();
 
     // FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
     FirebaseMessaging.onMessage.listen(
@@ -67,7 +66,7 @@ class _MyMessagesState extends State<MyMessages> {
           getMyMessages();
         }
         // Fluttertoast.showToast(msg: '${chatView['userName']} sent message');
-        Fluttertoast.showToast(msg: 'message received');
+        // Fluttertoast.showToast(msg: 'message received');
       },
     );
   }
@@ -95,7 +94,7 @@ class _MyMessagesState extends State<MyMessages> {
         userImage: chat['userImage'] == null
             ? img
             : AppUrl.baseUrl + chat['userImage'],
-        userModel: chat['user'],
+        userModel: chat['user']!,
       ),
       body: RefreshIndicator(
         onRefresh: () {
@@ -242,8 +241,8 @@ class _MyMessagesState extends State<MyMessages> {
                                                       BorderRadius.circular(20),
                                                   gapPadding: 0,
                                                   borderSide: BorderSide(
-                                                      color:
-                                                          Colors.grey.shade300),
+                                                    color: Colors.grey.shade300,
+                                                  ),
                                                 ),
                                               ),
                                               onChanged: (value) {

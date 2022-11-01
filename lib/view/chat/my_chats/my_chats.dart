@@ -56,7 +56,10 @@ class _MyChatsState extends State<MyChats> {
               ),
             );
           } else {
-            return ListView.builder(
+            return ListView.separated(
+              separatorBuilder: (context, index) {
+                return const Divider(color: Colors.black38);
+              },
               shrinkWrap: true,
               // physics: const BouncingScrollPhysics(),
               primary: false,

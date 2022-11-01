@@ -25,7 +25,7 @@ class InputTextFormField extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 2.0),
       child: TextFormField(
         controller: controller,
-        style: const TextStyle(color: Colors.black),
+        style: const TextStyle(color: Colors.black, fontSize: 18),
         cursorColor: MyTheme.greenColor,
         validator: (value) => validator(value),
         inputFormatters: inputFormatters,
@@ -35,7 +35,7 @@ class InputTextFormField extends StatelessWidget {
             borderSide: BorderSide.none,
           ),
           hintText: hintText,
-          hintStyle: const TextStyle(color: Colors.black45),
+          hintStyle: const TextStyle(color: Colors.black45, fontSize: 18),
           fillColor: MyTheme.greyColor,
           filled: true,
           prefixIcon: Padding(
@@ -43,6 +43,7 @@ class InputTextFormField extends StatelessWidget {
             child: Icon(
               icon,
               color: MyTheme.greenColor,
+              size: 26,
             ),
           ),
           prefixText: '  ',
@@ -78,7 +79,7 @@ class InputPasswordTextFormField extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 2.0),
       child: TextFormField(
         controller: controller,
-        style: const TextStyle(color: Colors.black),
+        style: const TextStyle(color: Colors.black, fontSize: 18),
         textAlignVertical: TextAlignVertical.center,
         onSaved: (newValue) {
           controller.text = newValue!;
@@ -96,7 +97,7 @@ class InputPasswordTextFormField extends StatelessWidget {
             borderSide: BorderSide.none,
           ),
           hintText: hintText,
-          hintStyle: const TextStyle(color: Colors.black45),
+          hintStyle: const TextStyle(color: Colors.black45, fontSize: 18),
           fillColor: MyTheme.greyColor,
           filled: true,
           prefixIcon: Padding(
@@ -104,6 +105,7 @@ class InputPasswordTextFormField extends StatelessWidget {
             child: Icon(
               fontAwsomeIcon,
               color: MyTheme.greenColor,
+              size: 26,
             ),
           ),
           prefixText: '  ',

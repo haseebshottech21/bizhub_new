@@ -246,9 +246,11 @@ class AuthViewModel extends ChangeNotifier {
       setbtnLoad(false);
     } else if (loadedData != null) {
       Future.delayed(const Duration(seconds: 1)).then(
-        (value) {
+        (value) async {
           setbtnLoad(false);
           Navigator.of(context).pop();
+          setPrefrenceValues();
+          await getUser(context);
           Utils.toastMessage('Successfully Update');
         },
       );

@@ -1,9 +1,11 @@
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/view/account/change_password.dart';
 import 'package:bizhub_new/view/account/contact_us.dart';
+import 'package:bizhub_new/view/account/privacy_policy.dart';
 import 'package:bizhub_new/view/account/profile/edit_my_profile.dart';
 import 'package:bizhub_new/view/account/profile/view_my_profile.dart';
 import 'package:bizhub_new/view/account/select_language.dart';
+import 'package:bizhub_new/view/account/term_and_condition.dart';
 import 'package:bizhub_new/view/auth/forgot_password_screen.dart';
 import 'package:bizhub_new/view/auth/login_screen.dart';
 import 'package:bizhub_new/view/auth/otp_sccess_screen.dart';
@@ -89,10 +91,14 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const EditMyProfile());
       case RouteName.changePassword:
         return MaterialPageRoute(builder: (context) => const ChangePassword());
+      case RouteName.privacyPolicy:
+        return MaterialPageRoute(builder: (context) => const PrivacyPolicy());
+      case RouteName.termAndCondition:
+        return MaterialPageRoute(builder: (context) => const TermAndCondition());
       case RouteName.selectLanguage:
         return MaterialPageRoute(builder: (context) => const SelectLanguage());
-      case RouteName.contactUs:
-        return MaterialPageRoute(builder: (context) => const ContactUs());
+      // case RouteName.contactUs:
+      //   return MaterialPageRoute(builder: (context) => const ContactUs());
       default:
         return errorRoute();
     }

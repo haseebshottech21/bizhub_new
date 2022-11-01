@@ -33,16 +33,16 @@ class ChatWidget extends StatelessWidget {
           padding: const EdgeInsets.only(
             top: 10,
             bottom: 10,
-            left: 8,
-            right: 10,
+            left: 4,
+            right: 6,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               chat.user!.image == null
                   ? Container(
-                      height: 55,
-                      width: 55,
+                      height: 60,
+                      width: 60,
                       decoration: BoxDecoration(
                         color: Colors.grey.shade50,
                         borderRadius: BorderRadius.circular(4),
@@ -54,14 +54,14 @@ class ChatWidget extends StatelessWidget {
                       ),
                     )
                   : CachedImageWidget(
-                      height: 55,
-                      width: 55,
+                      height: 60,
+                      width: 60,
                       radius: 4,
                       imgUrl: AppUrl.baseUrl + chat.user!.image.toString(),
                     ),
               SizedBox(width: size.width * 0.02),
               SizedBox(
-                width: size.width * 0.56,
+                width: size.width * 0.58,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -99,7 +99,6 @@ class ChatWidget extends StatelessWidget {
                 ),
               ),
               // const Spacer(),
-
               // chat.unReadCount! > 0
               //     ? Column(
               //         crossAxisAlignment: CrossAxisAlignment.end,

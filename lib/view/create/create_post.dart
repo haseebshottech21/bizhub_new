@@ -72,7 +72,6 @@ class _CreatePostState extends State<CreatePost> {
       if (post.serviceBody['images'] != null) {
         post.serviceBody['images'] = json.encode(post.serviceImgaes);
       }
-
       post.createPost(post.serviceBody, context);
       // print(post.serviceBody);
       // }

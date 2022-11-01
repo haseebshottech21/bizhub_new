@@ -19,7 +19,7 @@ class AllServiceDetailBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final user = allServiceViewModel.serviceDetalModel!.user;
+    final user = allServiceViewModel.serviceDetalModel!.user!;
 
     // print(allServiceViewModel.serviceDetalModel!.imagesList!);
 
@@ -57,7 +57,7 @@ class AllServiceDetailBody extends StatelessWidget {
                                   image: DecorationImage(
                                     image: NetworkImage(
                                       AppUrl.baseUrl +
-                                          serviceImages.image.toString(),
+                                          serviceImages.image!.toString(),
                                     ),
                                     fit: BoxFit.cover,
                                   ),
@@ -159,15 +159,24 @@ class AllServiceDetailBody extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          CachedImageWidget(
-                            height: 50,
-                            width: 50,
-                            radius: 50,
-                            imgUrl: user!.image!.isEmpty
-                                ? AppUrl.emptyImage
-                                : AppUrl.baseUrl + user.image.toString(),
-                          ),
-                          const SizedBox(width: 12),
+                          user.image == null
+                              ? CircleAvatar(
+                                  radius: 24,
+                                  backgroundColor: Colors.grey.shade100,
+                                  child: const Icon(
+                                    Icons.person,
+                                    color: MyTheme.greenColor,
+                                    size: 30,
+                                  ),
+                                )
+                              : CachedImageWidget(
+                                  height: 50,
+                                  width: 50,
+                                  radius: 50,
+                                  imgUrl:
+                                      AppUrl.baseUrl + user.image.toString(),
+                                ),
+                          const SizedBox(width: 16),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

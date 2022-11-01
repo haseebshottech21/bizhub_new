@@ -7,7 +7,7 @@ messageAppBar({
   required BuildContext context,
   required String userName,
   required String userImage,
-  required UserModel userModel,
+  required UserModel? userModel,
 }) {
   return AppBar(
     leading: const BackButton(color: Colors.black),
@@ -18,11 +18,20 @@ messageAppBar({
     title: ListTile(
       leading: GestureDetector(
         onTap: () {
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => const ViewOtherProfile(),
+          //     settings: RouteSettings(arguments: userModel!),
+          //   ),
+          // );
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const ViewOtherProfile(),
-              settings: RouteSettings(arguments: userModel),
+              settings: RouteSettings(
+                arguments: userModel,
+              ),
             ),
           );
         },

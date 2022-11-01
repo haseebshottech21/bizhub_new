@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:bizhub_new/widgets/common/app_bar.dart';
+import 'package:bizhub_new/widgets/common/empty_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -31,17 +32,6 @@ class _SignupScreenState extends State<SignupScreen> {
   final confirmPasswordController = TextEditingController();
   final textFieldValidator = TextFieldValidators();
   final _formKey = GlobalKey<FormState>();
-
-  //   final emailAddressController = TextEditingController();
-  // final passwordController = TextEditingController();
-  // final _formKey = GlobalKey<FormState>();
-
-  // final textFieldValidator = TextFieldValidators();
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  // }
 
   @override
   void initState() {
@@ -122,40 +112,11 @@ class _SignupScreenState extends State<SignupScreen> {
                                   auth.imageDetail['imagePath']
                                           .toString()
                                           .isEmpty
-                                      ? Center(
-                                          child: Container(
-                                            width: 125,
-                                            height: 125,
-                                            decoration: BoxDecoration(
-                                              color: Colors.grey.shade200,
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                            ),
-                                            child: const Icon(
-                                              Icons.person,
-                                              size: 115,
-                                              color: Colors.black38,
-                                            ),
-                                          ),
-                                        )
-                                      : Center(
-                                          child: Container(
-                                            width: 125,
-                                            height: 125,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              image: DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: FileImage(
-                                                  File(
-                                                    auth.imageDetail[
-                                                            'imagePath']
-                                                        .toString(),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                                      ? const EmptyProfile()
+                                      : UploadedProfile(
+                                          fileImage: FileImage(
+                                            File(auth.imageDetail['imagePath']
+                                                .toString()),
                                           ),
                                         ),
                                   Positioned(

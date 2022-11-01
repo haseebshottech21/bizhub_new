@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
+            horizontal: 14.0,
             vertical: 50.0,
           ),
           child: Column(
@@ -152,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               'Remember me',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 15.0,
+                                fontSize: 16.0,
                               ),
                             )
                           ],
@@ -170,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               style: TextStyle(
                                 color: MyTheme.greenColor,
                                 fontWeight: FontWeight.w500,
-                                fontSize: 15.0,
+                                fontSize: 16.0,
                               ),
                             ),
                           ),

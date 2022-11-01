@@ -2,6 +2,7 @@ import 'package:bizhub_new/utils/shared_prefrences.dart';
 import 'package:flutter/material.dart';
 import '../model/service_model.dart';
 import '../repo/chat_repo.dart';
+import '../repo/notification_repo.dart';
 import '../repo/service_repo.dart';
 import '../utils/utils.dart';
 
@@ -9,6 +10,8 @@ class AllServicesViewModel extends ChangeNotifier {
   final serviceRepo = ServiceRepository();
   final chatRepo = ChatRepository();
   final prefernce = Prefrences();
+  final notification = NotificationRepo();
+
   List<ServiceModel> allServiceList = [];
   ServiceModel? serviceModel;
   ServiceDetalModel? serviceDetalModel;
@@ -125,12 +128,20 @@ class AllServicesViewModel extends ChangeNotifier {
     if (loadedData == null) {
       setLoad(false);
     } else if (loadedData != null) {
-      Future.delayed(const Duration(seconds: 2)).then(
-        (value) {
-          setOfferLoad(false);
+      Future.delayed(Duration.zero).then(
+        (value) async {
           Utils.toastMessage('Offer Send Successfully!');
           Navigator.of(context).pop();
           controller!.clear();
+          // notification.sendNotification(
+          //   notiTitle: 'Offer',
+          //   notiBody:
+          //       '${await prefernce.getSharedPreferenceValue('firstname')} send you Offer',
+          //   notifyToken: notificationId,
+          //   data: 'send-offer',
+          //   requestId: chatId,
+          // );
+          setOfferLoad(false);
         },
       );
     }
@@ -146,14 +157,14 @@ class AllServicesViewModel extends ChangeNotifier {
     final loadedData = await chatRepo.sendOfferApi(data);
     // // print(loadedData);
     if (loadedData == null) {
-      setLoad(false);
+      setOfferLoad(false);
     } else if (loadedData != null) {
-      Future.delayed(const Duration(seconds: 2)).then(
-        (value) {
-          setOfferLoad(false);
+      Future.delayed(Duration.zero).then(
+        (value) async {
           Utils.toastMessage('Message Send Successfully!');
           Navigator.of(context).pop();
           controller!.clear();
+          setOfferLoad(false);
         },
       );
     }

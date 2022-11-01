@@ -29,7 +29,14 @@ class Utils {
   // SNACKBAR
   static void snackBarMessage(String message, BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
+      SnackBar(
+        content: Text(message),
+        behavior: SnackBarBehavior.floating,
+        // action: SnackBarAction(
+        //   label: 'Open',
+        //   onPressed: () => onPress(),
+        // ),
+      ),
     );
   }
 

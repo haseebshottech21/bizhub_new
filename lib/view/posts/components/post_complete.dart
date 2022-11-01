@@ -1,6 +1,6 @@
+import 'package:bizhub_new/components/empty_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../components/deafult_button.dart';
 import '../../../model/offers_model.dart';
 import '../../../utils/app_url.dart';
@@ -16,6 +16,8 @@ class PostComplete extends StatefulWidget {
 
 class _PostCompleteState extends State<PostComplete> {
   OfferModel? offerModel;
+  TextEditingController reviewController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   getPostCompleteDetail() async {
     // String? serviceId = ModalRoute.of(context)!.settings.arguments as String;
@@ -26,6 +28,7 @@ class _PostCompleteState extends State<PostComplete> {
       context: context,
       serviceId: complete['service_id'],
     );
+    provider.rating = 0;
   }
 
   @override
@@ -57,12 +60,13 @@ class _PostCompleteState extends State<PostComplete> {
     // String? serviceId = ModalRoute.of(context)!.settings.arguments as String;
     // print(serviceId);
     Map? complete = ModalRoute.of(context)!.settings.arguments as Map;
-    print(complete['lead']);
+    // print(complete['lead']);
     final serviceViewModel = context.watch<MyServiceViewModel>();
     // final serviceViewModel =
     //     Provider.of<MyServiceViewModel>(context, listen: false);
 
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
         leading: const BackButton(color: Colors.black),
         backgroundColor: Colors.white,
@@ -111,24 +115,23 @@ class _PostCompleteState extends State<PostComplete> {
                       return GestureDetector(
                         onTap: () {
                           showModalBottomSheet(
-                            backgroundColor: Colors.white,
                             context: context,
-                            // isScrollControlled: true,
+                            isScrollControlled: true,
                             shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(15.0),
                               ),
                             ),
-                            builder: (BuildContext context) {
-                              return SafeArea(
-                                child: Container(
-                                  constraints: BoxConstraints(
-                                    maxHeight:
-                                        MediaQuery.of(context).size.height,
-                                  ),
+                            backgroundColor: Colors.white,
+                            builder: (context) => DraggableScrollableSheet(
+                              initialChildSize: 0.75,
+                              maxChildSize: 0.90,
+                              minChildSize: 0.75,
+                              expand: false,
+                              builder: (context, scrollController) {
+                                return SafeArea(
                                   child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
+                                    children: [
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -152,7 +155,8 @@ class _PostCompleteState extends State<PostComplete> {
                                           GestureDetector(
                                             onTap: () {
                                               Navigator.of(context).pop();
-                                              // serviceViewModel.rating = 0;
+                                              serviceViewModel.rating = 0;
+                                              reviewController.clear();
                                             },
                                             child: const Padding(
                                               padding: EdgeInsets.only(
@@ -169,7 +173,8 @@ class _PostCompleteState extends State<PostComplete> {
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: 30),
+                                          horizontal: 30,
+                                        ),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
@@ -185,14 +190,15 @@ class _PostCompleteState extends State<PostComplete> {
                                             const SizedBox(height: 16),
                                             userOffers.image == null
                                                 ? Container(
-                                                    width: 65,
-                                                    height: 65,
+                                                    width: 60,
+                                                    height: 60,
                                                     decoration: BoxDecoration(
                                                       color:
                                                           Colors.grey.shade50,
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              50),
+                                                        50,
+                                                      ),
                                                     ),
                                                     child: const Icon(
                                                       Icons.person,
@@ -200,8 +206,8 @@ class _PostCompleteState extends State<PostComplete> {
                                                     ),
                                                   )
                                                 : SizedBox(
-                                                    width: 65,
-                                                    height: 65,
+                                                    width: 60,
+                                                    height: 60,
                                                     child: ClipOval(
                                                       child: Image.network(
                                                         AppUrl.baseUrl +
@@ -216,132 +222,220 @@ class _PostCompleteState extends State<PostComplete> {
                                               '${userOffers.firstName} ${userOffers.lastName}',
                                               style: const TextStyle(
                                                 fontWeight: FontWeight.w400,
-                                                fontSize: 20,
+                                                fontSize: 18,
                                                 letterSpacing: 0.5,
                                                 color: Colors.black87,
                                               ),
                                             ),
-                                            const SizedBox(height: 16),
+                                            const SizedBox(height: 10),
                                             const Divider(),
-                                            const SizedBox(height: 16),
+                                            const SizedBox(height: 10),
                                             Consumer<MyServiceViewModel>(
-                                                builder:
-                                                    (context, rateService, _) {
-                                              return Column(
-                                                children: [
-                                                  Center(
-                                                    child: Text(
-                                                      rateService.review,
-                                                      style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 22,
-                                                        letterSpacing: 3.0,
+                                              builder:
+                                                  (context, rateService, _) {
+                                                return Column(
+                                                  children: [
+                                                    // Center(
+                                                    //   child: Text(
+                                                    //     rateService.review,
+                                                    //     style: const TextStyle(
+                                                    //       fontWeight:
+                                                    //           FontWeight.w500,
+                                                    //       fontSize: 22,
+                                                    //       letterSpacing: 3.0,
+                                                    //     ),
+                                                    //   ),
+                                                    // ),
+                                                    // const SizedBox(height: 20),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      children: [
+                                                        GestureDetector(
+                                                          // onTap: serviceViewModel
+                                                          //     .totalRating(1),
+                                                          onTap: () {
+                                                            rateService
+                                                                .totalRating(1);
+                                                          },
+                                                          child: Icon(
+                                                            Icons.star,
+                                                            color: rateService
+                                                                        .rating >=
+                                                                    1
+                                                                ? const Color(
+                                                                    0xFFffa534)
+                                                                : Colors.grey
+                                                                    .shade300,
+                                                            size: 50,
+                                                          ),
+                                                        ),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            rateService
+                                                                .totalRating(2);
+                                                          },
+                                                          child: Icon(
+                                                            Icons.star,
+                                                            color: rateService
+                                                                        .rating >=
+                                                                    2
+                                                                ? const Color(
+                                                                    0xFFffa534)
+                                                                : Colors.grey
+                                                                    .shade300,
+                                                            size: 50,
+                                                          ),
+                                                        ),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            rateService
+                                                                .totalRating(3);
+                                                          },
+                                                          child: Icon(
+                                                            Icons.star,
+                                                            color: rateService
+                                                                        .rating >=
+                                                                    3
+                                                                ? const Color(
+                                                                    0xFFffa534)
+                                                                : Colors.grey
+                                                                    .shade300,
+                                                            size: 50,
+                                                          ),
+                                                        ),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            rateService
+                                                                .totalRating(4);
+                                                          },
+                                                          child: Icon(
+                                                            Icons.star,
+                                                            color: rateService
+                                                                        .rating >=
+                                                                    4
+                                                                ? const Color(
+                                                                    0xFFffa534)
+                                                                : Colors.grey
+                                                                    .shade300,
+                                                            size: 50,
+                                                          ),
+                                                        ),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            rateService
+                                                                .totalRating(5);
+                                                          },
+                                                          child: Icon(
+                                                            Icons.star,
+                                                            color: rateService
+                                                                        .rating >=
+                                                                    5
+                                                                ? const Color(
+                                                                    0xFFffa534)
+                                                                : Colors.grey
+                                                                    .shade300,
+                                                            size: 50,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(height: 20),
+                                                    Form(
+                                                      key: _formKey,
+                                                      child: TextFormField(
+                                                        style: const TextStyle(
+                                                            color:
+                                                                Colors.black),
+                                                        cursorColor:
+                                                            MyTheme.greenColor,
+                                                        // keyboardType: TextInputType.multiline,
+                                                        // maxLines: null,
+                                                        controller:
+                                                            reviewController,
+                                                        minLines: 4,
+                                                        textInputAction:
+                                                            TextInputAction
+                                                                .done,
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .multiline,
+                                                        maxLines: null,
+                                                        validator: (value) {
+                                                          if (value!.isEmpty) {
+                                                            return 'Review not be empty';
+                                                          } else if (value
+                                                                  .length <
+                                                              5) {
+                                                            return 'Review must at least 5 characters';
+                                                          }
+                                                          return null;
+                                                        },
+                                                        decoration:
+                                                            InputDecoration(
+                                                          contentPadding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                            left: 15,
+                                                            bottom: 10,
+                                                            top: 10,
+                                                            right: 15,
+                                                          ),
+                                                          // border:
+                                                          //     InputBorder.none,
+                                                          border:
+                                                              OutlineInputBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
+                                                                  // borderSide:
+                                                                  //     const BorderSide(
+                                                                  //   color: Colors.black,
+                                                                  // ),
+                                                                  borderSide:
+                                                                      BorderSide
+                                                                          .none),
+                                                          // focusedBorder:
+                                                          //     OutlineInputBorder(
+                                                          //   borderRadius:
+                                                          //       BorderRadius
+                                                          //           .circular(4),
+                                                          //   borderSide:
+                                                          //       const BorderSide(
+                                                          //     color: MyTheme
+                                                          //         .greenColor,
+                                                          //   ),
+                                                          // ),
+                                                          hintText:
+                                                              'Please write your review',
+                                                          hintStyle:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .black45),
+                                                          fillColor: Colors
+                                                              .grey.shade100,
+                                                          filled: true,
+                                                          // prefixIcon: Padding(
+                                                          //   padding: const EdgeInsets.only(left: 12),
+                                                          //   child: Icon(
+                                                          //     widget.icon,
+                                                          //     color: MyTheme.greenColor,
+                                                          //   ),
+                                                          // ),
+                                                          prefixText: ' ',
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  const SizedBox(height: 20),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    children: [
-                                                      GestureDetector(
-                                                        // onTap: serviceViewModel
-                                                        //     .totalRating(1),
-                                                        onTap: () {
-                                                          rateService
-                                                              .totalRating(1);
-                                                        },
-                                                        child: Icon(
-                                                          Icons.star,
-                                                          color: rateService
-                                                                      .rating >=
-                                                                  1
-                                                              ? const Color(
-                                                                  0xFFffa534)
-                                                              : Colors.grey
-                                                                  .shade400,
-                                                          size: 50,
-                                                        ),
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          rateService
-                                                              .totalRating(2);
-                                                        },
-                                                        child: Icon(
-                                                          Icons.star,
-                                                          color: rateService
-                                                                      .rating >=
-                                                                  2
-                                                              ? const Color(
-                                                                  0xFFffa534)
-                                                              : Colors.grey
-                                                                  .shade400,
-                                                          size: 50,
-                                                        ),
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          rateService
-                                                              .totalRating(3);
-                                                        },
-                                                        child: Icon(
-                                                          Icons.star,
-                                                          color: rateService
-                                                                      .rating >=
-                                                                  3
-                                                              ? const Color(
-                                                                  0xFFffa534)
-                                                              : Colors.grey
-                                                                  .shade400,
-                                                          size: 50,
-                                                        ),
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          rateService
-                                                              .totalRating(4);
-                                                        },
-                                                        child: Icon(
-                                                          Icons.star,
-                                                          color: rateService
-                                                                      .rating >=
-                                                                  4
-                                                              ? const Color(
-                                                                  0xFFffa534)
-                                                              : Colors.grey
-                                                                  .shade400,
-                                                          size: 50,
-                                                        ),
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          rateService
-                                                              .totalRating(5);
-                                                        },
-                                                        child: Icon(
-                                                          Icons.star,
-                                                          color: rateService
-                                                                      .rating >=
-                                                                  5
-                                                              ? const Color(
-                                                                  0xFFffa534)
-                                                              : Colors.grey
-                                                                  .shade400,
-                                                          size: 50,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              );
-                                            }),
+                                                  ],
+                                                );
+                                              },
+                                            ),
                                           ],
                                         ),
                                       ),
-                                      const SizedBox(height: 20),
+                                      const SizedBox(height: 30),
                                       if (complete['lead'] == true)
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
@@ -353,7 +447,7 @@ class _PostCompleteState extends State<PostComplete> {
                                               return DeafultButton(
                                                 isloading:
                                                     serviceViewModel.loading,
-                                                title: 'DONE',
+                                                title: 'SUBMIT',
                                                 onPress:
                                                     serviceViewModel.rating == 0
                                                         ? null
@@ -371,14 +465,20 @@ class _PostCompleteState extends State<PostComplete> {
                                                               'rate':
                                                                   '${serviceViewModel.rating}',
                                                               'review':
-                                                                  serviceViewModel
-                                                                      .review,
+                                                                  reviewController
+                                                                      .text,
                                                             };
-                                                            rateViewModel
-                                                                .rateAndCompleteLeads(
-                                                              data,
-                                                              context,
-                                                            );
+                                                            if (!_formKey
+                                                                .currentState!
+                                                                .validate()) {
+                                                              return;
+                                                            } else {
+                                                              rateViewModel
+                                                                  .rateAndCompleteLeads(
+                                                                data,
+                                                                context,
+                                                              );
+                                                            }
                                                           },
                                               );
                                             },
@@ -395,7 +495,7 @@ class _PostCompleteState extends State<PostComplete> {
                                               return DeafultButton(
                                                 isloading:
                                                     serviceViewModel.loading,
-                                                title: 'DONE',
+                                                title: 'SUBMIT',
                                                 onPress:
                                                     serviceViewModel.rating == 0
                                                         ? null
@@ -413,53 +513,58 @@ class _PostCompleteState extends State<PostComplete> {
                                                               'rate':
                                                                   '${serviceViewModel.rating}',
                                                               'review':
-                                                                  serviceViewModel
-                                                                      .review,
+                                                                  reviewController
+                                                                      .text,
                                                             };
-                                                            rateViewModel
-                                                                .rateAndCompleteService(
-                                                              data,
-                                                              context,
-                                                            );
+
+                                                            if (!_formKey
+                                                                .currentState!
+                                                                .validate()) {
+                                                              return;
+                                                            } else {
+                                                              rateViewModel
+                                                                  .rateAndCompleteService(
+                                                                data,
+                                                                context,
+                                                              );
+                                                            }
                                                           },
                                               );
                                             },
                                           ),
                                         ),
-                                      const SizedBox(height: 20),
                                     ],
                                   ),
-                                ),
-                              );
-                            },
+                                );
+                              },
+                            ),
                           );
                         },
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          leading: userOffers.image == null
-                              ? CircleAvatar(
-                                  backgroundColor: Colors.grey.shade100,
-                                  child: const Icon(
-                                    Icons.person,
-                                    color: MyTheme.greenColor,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 6),
+                          child: ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            leading: userOffers.image == null
+                                ? const EmptyIcon()
+                                : CircleAvatar(
+                                    radius: 26,
+                                    backgroundImage: NetworkImage(
+                                      AppUrl.baseUrl +
+                                          userOffers.image.toString(),
+                                    ),
                                   ),
-                                )
-                              : CircleAvatar(
-                                  radius: 26,
-                                  backgroundImage: NetworkImage(
-                                    AppUrl.baseUrl +
-                                        userOffers.image.toString(),
-                                  ),
-                                ),
-                          title: Text(
-                            '${userOffers.firstName} ${userOffers.lastName}',
-                            style: nameStyle,
+                            title: Text(
+                              '${userOffers.firstName} ${userOffers.lastName}',
+                              style: nameStyle,
+                            ),
                           ),
                         ),
                       );
                     },
                   ),
-                  const SizedBox(height: 10),
+                  // const SizedBox(height: 10),
+                  const Divider(),
+                  const SizedBox(height: 5),
                   GestureDetector(
                     onTap: () {
                       showModalBottomSheet(
@@ -631,17 +736,10 @@ class _PostCompleteState extends State<PostComplete> {
                         },
                       );
                     },
-                    child: ListTile(
+                    child: const ListTile(
                       contentPadding: EdgeInsets.zero,
-                      leading: CircleAvatar(
-                        radius: 26,
-                        backgroundColor: Colors.grey.shade100,
-                        child: const Icon(
-                          Icons.person,
-                          color: MyTheme.greenColor,
-                        ),
-                      ),
-                      title: const Text(
+                      leading: EmptyIcon(),
+                      title: Text(
                         'Someone else',
                         style: nameStyle,
                       ),

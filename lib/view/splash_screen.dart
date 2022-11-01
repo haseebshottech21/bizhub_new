@@ -1,6 +1,6 @@
 import 'dart:async';
 // import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:bizhub_new/view/onboard_screen.dart';
+// import 'package:bizhub_new/view/onboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../utils/mytheme.dart';
@@ -39,14 +39,24 @@ class _SplashScreenState extends State<SplashScreen>
 
   void checkAuthentication() async {
     final token = await prefrences.getSharedPreferenceValue('token');
+    final firstTime =
+        await prefrences.getSharedPreferenceValue('first_time') ?? '0';
     // final image = await prefrences.getSharedPreferenceValue('image');
     // print('token ' + token.toString());
     // print('image ' + image.toString());
     if (token == null || token == '') {
-      Timer(
-        const Duration(milliseconds: 2500),
-        () => Navigator.pushReplacementNamed(context, RouteName.onboard),
-      );
+      if (firstTime == '0') {
+        await prefrences.setSharedPreferenceValue('first_time', '1');
+        Timer(
+          const Duration(milliseconds: 2500),
+          () => Navigator.pushReplacementNamed(context, RouteName.onboard),
+        );
+      } else {
+        Timer(
+          const Duration(milliseconds: 2500),
+          () => Navigator.pushReplacementNamed(context, RouteName.welcome),
+        );
+      }
     } else {
       Timer(
         const Duration(milliseconds: 2500),

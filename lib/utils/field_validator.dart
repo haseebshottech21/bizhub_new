@@ -47,8 +47,8 @@ class TextFieldValidators {
       return 'Please Enter Title';
     } else if (value.length > 60) {
       return 'Title length Should be less than 60';
-    } else if (value.length < 10) {
-      return 'Title must at least 10 characters';
+    } else if (value.length < 4) {
+      return 'Title must at least 4 characters';
     }
 
     return null;

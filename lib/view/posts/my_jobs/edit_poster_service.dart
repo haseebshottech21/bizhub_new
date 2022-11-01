@@ -289,7 +289,7 @@ class UploadImages extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
-                    Text('UPLOAD UP TO 5 PHOTOS'),
+                    Text('UPLOAD MULTIPLE PHOTOS'),
                     Icon(
                       Icons.arrow_forward_ios,
                       color: Colors.black,

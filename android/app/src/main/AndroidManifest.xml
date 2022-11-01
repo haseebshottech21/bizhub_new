@@ -17,7 +17,7 @@
         </intent>
     </queries>
    <application
-        android:label="bizhub_new"
+        android:label="Bizhub"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true"

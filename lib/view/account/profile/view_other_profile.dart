@@ -2,7 +2,7 @@ import 'package:bizhub_new/model/user_model.dart';
 import 'package:bizhub_new/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../utils/app_url.dart';
+// import '../../../utils/app_url.dart';
 import '../../../utils/mytheme.dart';
 import '../component/profile_description.dart';
 import '../component/view_profile.dart';
@@ -40,6 +40,8 @@ class _ViewOtherProfileState extends State<ViewOtherProfile> {
     final UserModel profile =
         ModalRoute.of(context)!.settings.arguments as UserModel;
 
+    // print(profile.image);
+
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
@@ -53,9 +55,7 @@ class _ViewOtherProfileState extends State<ViewOtherProfile> {
           children: [
             ViewProfile(
               userName: '${profile.firstName} ${profile.lastName}',
-              userImage: profile.image!.isEmpty
-                  ? 'https://i.pinimg.com/736x/25/78/61/25786134576ce0344893b33a051160b1.jpg'
-                  : AppUrl.baseUrl + profile.image!,
+              userImage: profile.image,
             ),
             const SizedBox(height: 15),
             Consumer<AuthViewModel>(

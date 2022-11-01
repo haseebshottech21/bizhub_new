@@ -1,3 +1,5 @@
+// import 'package:bizhub_new/components/empty_icon.dart';
+import 'package:bizhub_new/widgets/common/empty_profile.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/mytheme.dart';
 import '../../../widgets/common/cached_image.dart';
@@ -10,7 +12,7 @@ class ViewProfile extends StatelessWidget {
   }) : super(key: key);
 
   final String userName;
-  final String userImage;
+  final String? userImage;
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +36,14 @@ class ViewProfile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CachedImageWidget(
-              height: size.height * 0.20,
-              width: size.width * 0.40,
-              radius: 100,
-              imgUrl: userImage,
-            ),
+            userImage == null
+                ? const EmptyProfile()
+                : CachedImageWidget(
+                    height: size.height * 0.20,
+                    width: size.width * 0.40,
+                    radius: 100,
+                    imgUrl: userImage!,
+                  ),
             const SizedBox(height: 16),
             Text(
               userName,

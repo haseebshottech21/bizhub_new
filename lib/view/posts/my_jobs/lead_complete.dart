@@ -1,670 +1,670 @@
-import 'package:bizhub_new/components/deafult_button.dart';
-import 'package:bizhub_new/model/offers_model.dart';
-import 'package:bizhub_new/utils/app_url.dart';
-import 'package:bizhub_new/utils/mytheme.dart';
+// import 'package:bizhub_new/components/deafult_button.dart';
+// import 'package:bizhub_new/model/offers_model.dart';
+// import 'package:bizhub_new/utils/app_url.dart';
 // import 'package:bizhub_new/utils/mytheme.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../../view_model/my_service_view_model.dart';
-// import '../components/rate_review.dart';
+// // import 'package:bizhub_new/utils/mytheme.dart';
+// import 'package:flutter/material.dart';
+// import 'package:provider/provider.dart';
+// import '../../../view_model/my_service_view_model.dart';
+// // import '../components/rate_review.dart';
 
-class LeadComplete extends StatefulWidget {
-  const LeadComplete({Key? key}) : super(key: key);
+// class LeadComplete extends StatefulWidget {
+//   const LeadComplete({Key? key}) : super(key: key);
 
-  @override
-  State<LeadComplete> createState() => _LeadCompleteState();
-}
+//   @override
+//   State<LeadComplete> createState() => _LeadCompleteState();
+// }
 
-class _LeadCompleteState extends State<LeadComplete> {
-  OfferModel? offerModel;
+// class _LeadCompleteState extends State<LeadComplete> {
+//   OfferModel? offerModel;
 
-  getLeadCompleteDetail() async {
-    String? serviceId = ModalRoute.of(context)!.settings.arguments as String;
-    final provider = Provider.of<MyServiceViewModel>(context, listen: false);
-    await provider.getJobCompleteDetail(
-      context: context,
-      serviceId: serviceId,
-    );
-  }
+//   getLeadCompleteDetail() async {
+//     String? serviceId = ModalRoute.of(context)!.settings.arguments as String;
+//     final provider = Provider.of<MyServiceViewModel>(context, listen: false);
+//     await provider.getJobCompleteDetail(
+//       context: context,
+//       serviceId: serviceId,
+//     );
+//   }
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => getLeadCompleteDetail(),
-    );
-  }
+//   @override
+//   void initState() {
+//     super.initState();
+//     WidgetsBinding.instance.addPostFrameCallback(
+//       (_) => getLeadCompleteDetail(),
+//     );
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    // String? serviceId = ModalRoute.of(context)!.settings.arguments as String;
+//   @override
+//   Widget build(BuildContext context) {
+//     final size = MediaQuery.of(context).size;
+//     // String? serviceId = ModalRoute.of(context)!.settings.arguments as String;
 
-    const titleStyle = TextStyle(
-      fontSize: 18,
-      fontWeight: FontWeight.w500,
-      color: Colors.black,
-    );
+//     const titleStyle = TextStyle(
+//       fontSize: 18,
+//       fontWeight: FontWeight.w500,
+//       color: Colors.black,
+//     );
 
-    const nameStyle = TextStyle(
-      fontSize: 16,
-      fontWeight: FontWeight.w400,
-      color: Colors.black87,
-    );
+//     const nameStyle = TextStyle(
+//       fontSize: 16,
+//       fontWeight: FontWeight.w400,
+//       color: Colors.black87,
+//     );
 
-    // String? serviceId = ModalRoute.of(context).settings.arguments String;
+//     // String? serviceId = ModalRoute.of(context).settings.arguments String;
 
-    // String? serviceId = ModalRoute.of(context)!.settings.arguments as String;
-    // print(serviceId);
+//     // String? serviceId = ModalRoute.of(context)!.settings.arguments as String;
+//     // print(serviceId);
 
-    final serviceViewModel = context.watch<MyServiceViewModel>();
-    // final serviceViewModel =
-    //     Provider.of<MyServiceViewModel>(context, listen: false);
+//     final serviceViewModel = context.watch<MyServiceViewModel>();
+//     // final serviceViewModel =
+//     //     Provider.of<MyServiceViewModel>(context, listen: false);
 
-    return Scaffold(
-      appBar: AppBar(
-        leading: const BackButton(color: Colors.black),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: false,
-        titleSpacing: 0,
-        title: const Text(
-          'Mark as Complete',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 22,
-          ),
-        ),
-      ),
-      body: serviceViewModel.loading
-          ? const Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.fromLTRB(10, 4, 10, 4),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _uiTop(size, serviceViewModel),
-                  const SizedBox(height: 24),
-                  const Text('Who did the job ?', style: titleStyle),
-                  const SizedBox(height: 10),
-                  // serviceViewModel.serviceCompleteModel!.offersList!.isEmpty
-                  //     ? const Padding(
-                  //         padding: EdgeInsets.only(top: 20.0),
-                  //         child: Center(
-                  //           child: Text(
-                  //             'No Offers',
-                  //             style: TextStyle(fontSize: 20),
-                  //           ),
-                  //         ),
-                  //       )
-                  //     :
-                  ListView.builder(
-                    shrinkWrap: true,
-                    primary: false,
-                    itemCount: serviceViewModel
-                        .serviceCompleteModel!.offersList!.length,
-                    itemBuilder: (context, index) {
-                      // index = index + 1;
-                      final userOffers = serviceViewModel
-                          .serviceCompleteModel!.offersList![index].user!;
-                      return GestureDetector(
-                        onTap: () {
-                          showModalBottomSheet(
-                            backgroundColor: Colors.white,
-                            context: context,
-                            // isScrollControlled: true,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(15.0),
-                              ),
-                            ),
-                            builder: (BuildContext context) {
-                              return SafeArea(
-                                child: Container(
-                                  constraints: BoxConstraints(
-                                    maxHeight:
-                                        MediaQuery.of(context).size.height,
-                                  ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Padding(
-                                            padding: EdgeInsets.only(
-                                              top: 12,
-                                              left: 12,
-                                            ),
-                                            child: SizedBox(),
-                                          ),
-                                          Container(
-                                            height: 6,
-                                            width: 70,
-                                            decoration: BoxDecoration(
-                                              color: Colors.grey[400],
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              Navigator.of(context).pop();
-                                              // serviceViewModel.rating = 0;
-                                            },
-                                            child: const Padding(
-                                              padding: EdgeInsets.only(
-                                                top: 12,
-                                                right: 12,
-                                              ),
-                                              child: Icon(
-                                                Icons.clear,
-                                                size: 24,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 30),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            const Text(
-                                              'RATE & REVIEW',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w400,
-                                                color: Colors.grey,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 16),
-                                            userOffers.image == null
-                                                ? Container(
-                                                    width: 65,
-                                                    height: 65,
-                                                    decoration: BoxDecoration(
-                                                      color:
-                                                          Colors.grey.shade50,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              50),
-                                                    ),
-                                                    child: const Icon(
-                                                      Icons.person,
-                                                      color: MyTheme.greenColor,
-                                                    ),
-                                                  )
-                                                : SizedBox(
-                                                    width: 65,
-                                                    height: 65,
-                                                    child: ClipOval(
-                                                      child: Image.network(
-                                                        AppUrl.baseUrl +
-                                                            userOffers.image
-                                                                .toString(),
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    ),
-                                                  ),
-                                            const SizedBox(height: 16),
-                                            Text(
-                                              '${userOffers.firstName} ${userOffers.lastName}',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 20,
-                                                letterSpacing: 0.5,
-                                                color: Colors.black87,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 16),
-                                            const Divider(),
-                                            const SizedBox(height: 16),
-                                            Consumer<MyServiceViewModel>(
-                                                builder:
-                                                    (context, rateService, _) {
-                                              return Column(
-                                                children: [
-                                                  Center(
-                                                    child: Text(
-                                                      rateService.review,
-                                                      style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 22,
-                                                        letterSpacing: 3.0,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(height: 20),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    children: [
-                                                      GestureDetector(
-                                                        // onTap: serviceViewModel
-                                                        //     .totalRating(1),
-                                                        onTap: () {
-                                                          rateService
-                                                              .totalRating(1);
-                                                        },
-                                                        child: Icon(
-                                                          Icons.star,
-                                                          color: rateService
-                                                                      .rating >=
-                                                                  1
-                                                              ? const Color(
-                                                                  0xFFffa534)
-                                                              : Colors.grey
-                                                                  .shade400,
-                                                          size: 50,
-                                                        ),
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          rateService
-                                                              .totalRating(2);
-                                                        },
-                                                        child: Icon(
-                                                          Icons.star,
-                                                          color: rateService
-                                                                      .rating >=
-                                                                  2
-                                                              ? const Color(
-                                                                  0xFFffa534)
-                                                              : Colors.grey
-                                                                  .shade400,
-                                                          size: 50,
-                                                        ),
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          rateService
-                                                              .totalRating(3);
-                                                        },
-                                                        child: Icon(
-                                                          Icons.star,
-                                                          color: rateService
-                                                                      .rating >=
-                                                                  3
-                                                              ? const Color(
-                                                                  0xFFffa534)
-                                                              : Colors.grey
-                                                                  .shade400,
-                                                          size: 50,
-                                                        ),
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          rateService
-                                                              .totalRating(4);
-                                                        },
-                                                        child: Icon(
-                                                          Icons.star,
-                                                          color: rateService
-                                                                      .rating >=
-                                                                  4
-                                                              ? const Color(
-                                                                  0xFFffa534)
-                                                              : Colors.grey
-                                                                  .shade400,
-                                                          size: 50,
-                                                        ),
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          rateService
-                                                              .totalRating(5);
-                                                        },
-                                                        child: Icon(
-                                                          Icons.star,
-                                                          color: rateService
-                                                                      .rating >=
-                                                                  5
-                                                              ? const Color(
-                                                                  0xFFffa534)
-                                                              : Colors.grey
-                                                                  .shade400,
-                                                          size: 50,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              );
-                                            }),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(height: 20),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 12),
-                                        child: Consumer<MyServiceViewModel>(
-                                          builder: (context, rateViewModel, _) {
-                                            return DeafultButton(
-                                              isloading:
-                                                  serviceViewModel.loading,
-                                              title: 'DONE',
-                                              onPress:
-                                                  serviceViewModel.rating == 0
-                                                      ? null
-                                                      : () {
-                                                          Map data = {
-                                                            'service_id':
-                                                                serviceViewModel
-                                                                    .serviceCompleteModel!
-                                                                    .serviceId
-                                                                    .toString(),
-                                                            'rate_to':
-                                                                userOffers
-                                                                    .userId
-                                                                    .toString(),
-                                                            'rate':
-                                                                '${serviceViewModel.rating}',
-                                                            'review':
-                                                                serviceViewModel
-                                                                    .review,
-                                                          };
-                                                          // if (textController.text.length > 0) {
-                                                          //   addToMessages(textController.text);
-                                                          //   textController.clear();
-                                                          //   showTheMic();
-                                                          // }
-                                                          // print(data);
-                                                          rateViewModel
-                                                              .rateAndCompleteLeads(
-                                                            data,
-                                                            context,
-                                                          );
-                                                          // if (messageController
-                                                          //     .text
-                                                          //     .isNotEmpty) {
-                                                          //   messageViewModel
-                                                          //       .sendMessage(
-                                                          //     data:
-                                                          //         data,
-                                                          //     context:
-                                                          //         context,
-                                                          //     chatId: chat[
-                                                          //         'chat_id'],
-                                                          //   );
-                                                          //   messageController
-                                                          //       .clear();
-                                                          // }
-                                                        },
-                                              // style: ElevatedButton
-                                              //     .styleFrom(
-                                              //   primary:
-                                              //       MyTheme.greenColor,
-                                              // ),
-                                              // child: const Text('DONE'),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                      const SizedBox(height: 20),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          leading: userOffers.image == null
-                              ? CircleAvatar(
-                                  backgroundColor: Colors.grey.shade100,
-                                  child: const Icon(
-                                    Icons.person,
-                                    color: MyTheme.greenColor,
-                                  ),
-                                )
-                              : CircleAvatar(
-                                  radius: 26,
-                                  backgroundImage: NetworkImage(
-                                    AppUrl.baseUrl +
-                                        userOffers.image.toString(),
-                                  ),
-                                ),
-                          title: Text(
-                            '${userOffers.firstName} ${userOffers.lastName}',
-                            style: nameStyle,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  GestureDetector(
-                    onTap: () {
-                      showModalBottomSheet(
-                        backgroundColor: Colors.white,
-                        context: context,
-                        // isScrollControlled: true,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(15.0),
-                          ),
-                        ),
-                        builder: (BuildContext context) {
-                          return SafeArea(
-                            child: Container(
-                              constraints: BoxConstraints(
-                                maxHeight: MediaQuery.of(context).size.height,
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Padding(
-                                        padding: EdgeInsets.only(
-                                          top: 12,
-                                          left: 12,
-                                        ),
-                                        child: SizedBox(),
-                                      ),
-                                      Container(
-                                        height: 6,
-                                        width: 70,
-                                        decoration: BoxDecoration(
-                                          color: Colors.grey[400],
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.of(context).pop();
-                                          // serviceViewModel.rating = 0;
-                                        },
-                                        child: const Padding(
-                                          padding: EdgeInsets.only(
-                                            top: 12,
-                                            right: 12,
-                                          ),
-                                          child: Icon(
-                                            Icons.clear,
-                                            size: 24,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 30),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        const Text(
-                                          'RATE & REVIEW',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.grey,
-                                            fontSize: 20,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 16),
-                                        Container(
-                                          width: 65,
-                                          height: 65,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey.shade50,
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                          ),
-                                          child: const Icon(
-                                            Icons.person,
-                                            color: MyTheme.greenColor,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 12),
-                                        const Text(
-                                          'Someone else',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 20,
-                                            letterSpacing: 0.5,
-                                            color: Colors.black87,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 16),
-                                        const Divider(),
-                                        const SizedBox(height: 16),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 12,
-                                          ),
-                                          child: Consumer<MyServiceViewModel>(
-                                            builder:
-                                                (context, rateViewModel, _) {
-                                              return DeafultButton(
-                                                isloading:
-                                                    serviceViewModel.loading,
-                                                title: 'DONE',
-                                                onPress: () {
-                                                  Map data = {
-                                                    'service_id': serviceViewModel
-                                                        .serviceCompleteModel!
-                                                        .serviceId
-                                                        .toString(),
-                                                  };
+//     return Scaffold(
+//       appBar: AppBar(
+//         leading: const BackButton(color: Colors.black),
+//         backgroundColor: Colors.white,
+//         elevation: 0,
+//         centerTitle: false,
+//         titleSpacing: 0,
+//         title: const Text(
+//           'Mark as Complete',
+//           style: TextStyle(
+//             color: Colors.black,
+//             fontSize: 22,
+//           ),
+//         ),
+//       ),
+//       body: serviceViewModel.loading
+//           ? const Center(child: CircularProgressIndicator())
+//           : Padding(
+//               padding: const EdgeInsets.fromLTRB(10, 4, 10, 4),
+//               child: Column(
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: [
+//                   _uiTop(size, serviceViewModel),
+//                   const SizedBox(height: 24),
+//                   const Text('Who did the job ?', style: titleStyle),
+//                   const SizedBox(height: 10),
+//                   // serviceViewModel.serviceCompleteModel!.offersList!.isEmpty
+//                   //     ? const Padding(
+//                   //         padding: EdgeInsets.only(top: 20.0),
+//                   //         child: Center(
+//                   //           child: Text(
+//                   //             'No Offers',
+//                   //             style: TextStyle(fontSize: 20),
+//                   //           ),
+//                   //         ),
+//                   //       )
+//                   //     :
+//                   ListView.builder(
+//                     shrinkWrap: true,
+//                     primary: false,
+//                     itemCount: serviceViewModel
+//                         .serviceCompleteModel!.offersList!.length,
+//                     itemBuilder: (context, index) {
+//                       // index = index + 1;
+//                       final userOffers = serviceViewModel
+//                           .serviceCompleteModel!.offersList![index].user!;
+//                       return GestureDetector(
+//                         onTap: () {
+//                           showModalBottomSheet(
+//                             backgroundColor: Colors.white,
+//                             context: context,
+//                             // isScrollControlled: true,
+//                             shape: const RoundedRectangleBorder(
+//                               borderRadius: BorderRadius.vertical(
+//                                 top: Radius.circular(15.0),
+//                               ),
+//                             ),
+//                             builder: (BuildContext context) {
+//                               return SafeArea(
+//                                 child: Container(
+//                                   constraints: BoxConstraints(
+//                                     maxHeight:
+//                                         MediaQuery.of(context).size.height,
+//                                   ),
+//                                   child: Column(
+//                                     mainAxisSize: MainAxisSize.min,
+//                                     children: <Widget>[
+//                                       Row(
+//                                         mainAxisAlignment:
+//                                             MainAxisAlignment.spaceBetween,
+//                                         children: [
+//                                           const Padding(
+//                                             padding: EdgeInsets.only(
+//                                               top: 12,
+//                                               left: 12,
+//                                             ),
+//                                             child: SizedBox(),
+//                                           ),
+//                                           Container(
+//                                             height: 6,
+//                                             width: 70,
+//                                             decoration: BoxDecoration(
+//                                               color: Colors.grey[400],
+//                                               borderRadius:
+//                                                   BorderRadius.circular(8),
+//                                             ),
+//                                           ),
+//                                           GestureDetector(
+//                                             onTap: () {
+//                                               Navigator.of(context).pop();
+//                                               // serviceViewModel.rating = 0;
+//                                             },
+//                                             child: const Padding(
+//                                               padding: EdgeInsets.only(
+//                                                 top: 12,
+//                                                 right: 12,
+//                                               ),
+//                                               child: Icon(
+//                                                 Icons.clear,
+//                                                 size: 24,
+//                                               ),
+//                                             ),
+//                                           ),
+//                                         ],
+//                                       ),
+//                                       Padding(
+//                                         padding: const EdgeInsets.symmetric(
+//                                             horizontal: 30),
+//                                         child: Column(
+//                                           crossAxisAlignment:
+//                                               CrossAxisAlignment.center,
+//                                           children: [
+//                                             const Text(
+//                                               'RATE & REVIEW',
+//                                               style: TextStyle(
+//                                                 fontWeight: FontWeight.w400,
+//                                                 color: Colors.grey,
+//                                                 fontSize: 20,
+//                                               ),
+//                                             ),
+//                                             const SizedBox(height: 16),
+//                                             userOffers.image == null
+//                                                 ? Container(
+//                                                     width: 65,
+//                                                     height: 65,
+//                                                     decoration: BoxDecoration(
+//                                                       color:
+//                                                           Colors.grey.shade50,
+//                                                       borderRadius:
+//                                                           BorderRadius.circular(
+//                                                               50),
+//                                                     ),
+//                                                     child: const Icon(
+//                                                       Icons.person,
+//                                                       color: MyTheme.greenColor,
+//                                                     ),
+//                                                   )
+//                                                 : SizedBox(
+//                                                     width: 65,
+//                                                     height: 65,
+//                                                     child: ClipOval(
+//                                                       child: Image.network(
+//                                                         AppUrl.baseUrl +
+//                                                             userOffers.image
+//                                                                 .toString(),
+//                                                         fit: BoxFit.cover,
+//                                                       ),
+//                                                     ),
+//                                                   ),
+//                                             const SizedBox(height: 16),
+//                                             Text(
+//                                               '${userOffers.firstName} ${userOffers.lastName}',
+//                                               style: const TextStyle(
+//                                                 fontWeight: FontWeight.w400,
+//                                                 fontSize: 20,
+//                                                 letterSpacing: 0.5,
+//                                                 color: Colors.black87,
+//                                               ),
+//                                             ),
+//                                             const SizedBox(height: 16),
+//                                             const Divider(),
+//                                             const SizedBox(height: 16),
+//                                             Consumer<MyServiceViewModel>(
+//                                                 builder:
+//                                                     (context, rateService, _) {
+//                                               return Column(
+//                                                 children: [
+//                                                   Center(
+//                                                     child: Text(
+//                                                       rateService.review,
+//                                                       style: const TextStyle(
+//                                                         fontWeight:
+//                                                             FontWeight.w500,
+//                                                         fontSize: 22,
+//                                                         letterSpacing: 3.0,
+//                                                       ),
+//                                                     ),
+//                                                   ),
+//                                                   const SizedBox(height: 20),
+//                                                   Row(
+//                                                     mainAxisAlignment:
+//                                                         MainAxisAlignment
+//                                                             .spaceEvenly,
+//                                                     children: [
+//                                                       GestureDetector(
+//                                                         // onTap: serviceViewModel
+//                                                         //     .totalRating(1),
+//                                                         onTap: () {
+//                                                           rateService
+//                                                               .totalRating(1);
+//                                                         },
+//                                                         child: Icon(
+//                                                           Icons.star,
+//                                                           color: rateService
+//                                                                       .rating! >=
+//                                                                   1
+//                                                               ? const Color(
+//                                                                   0xFFffa534)
+//                                                               : Colors.grey
+//                                                                   .shade400,
+//                                                           size: 50,
+//                                                         ),
+//                                                       ),
+//                                                       GestureDetector(
+//                                                         onTap: () {
+//                                                           rateService
+//                                                               .totalRating(2);
+//                                                         },
+//                                                         child: Icon(
+//                                                           Icons.star,
+//                                                           color: rateService
+//                                                                       .rating! >=
+//                                                                   2
+//                                                               ? const Color(
+//                                                                   0xFFffa534)
+//                                                               : Colors.grey
+//                                                                   .shade400,
+//                                                           size: 50,
+//                                                         ),
+//                                                       ),
+//                                                       GestureDetector(
+//                                                         onTap: () {
+//                                                           rateService
+//                                                               .totalRating(3);
+//                                                         },
+//                                                         child: Icon(
+//                                                           Icons.star,
+//                                                           color: rateService
+//                                                                       .rating! >=
+//                                                                   3
+//                                                               ? const Color(
+//                                                                   0xFFffa534)
+//                                                               : Colors.grey
+//                                                                   .shade400,
+//                                                           size: 50,
+//                                                         ),
+//                                                       ),
+//                                                       GestureDetector(
+//                                                         onTap: () {
+//                                                           rateService
+//                                                               .totalRating(4);
+//                                                         },
+//                                                         child: Icon(
+//                                                           Icons.star,
+//                                                           color: rateService
+//                                                                       .rating! >=
+//                                                                   4
+//                                                               ? const Color(
+//                                                                   0xFFffa534)
+//                                                               : Colors.grey
+//                                                                   .shade400,
+//                                                           size: 50,
+//                                                         ),
+//                                                       ),
+//                                                       GestureDetector(
+//                                                         onTap: () {
+//                                                           rateService
+//                                                               .totalRating(5);
+//                                                         },
+//                                                         child: Icon(
+//                                                           Icons.star,
+//                                                           color: rateService
+//                                                                       .rating! >=
+//                                                                   5
+//                                                               ? const Color(
+//                                                                   0xFFffa534)
+//                                                               : Colors.grey
+//                                                                   .shade400,
+//                                                           size: 50,
+//                                                         ),
+//                                                       ),
+//                                                     ],
+//                                                   ),
+//                                                 ],
+//                                               );
+//                                             }),
+//                                           ],
+//                                         ),
+//                                       ),
+//                                       const SizedBox(height: 20),
+//                                       Padding(
+//                                         padding: const EdgeInsets.symmetric(
+//                                             horizontal: 12),
+//                                         child: Consumer<MyServiceViewModel>(
+//                                           builder: (context, rateViewModel, _) {
+//                                             return DeafultButton(
+//                                               isloading:
+//                                                   serviceViewModel.loading,
+//                                               title: 'DONE',
+//                                               onPress:
+//                                                   serviceViewModel.rating == 0
+//                                                       ? null
+//                                                       : () {
+//                                                           Map data = {
+//                                                             'service_id':
+//                                                                 serviceViewModel
+//                                                                     .serviceCompleteModel!
+//                                                                     .serviceId
+//                                                                     .toString(),
+//                                                             'rate_to':
+//                                                                 userOffers
+//                                                                     .userId
+//                                                                     .toString(),
+//                                                             'rate':
+//                                                                 '${serviceViewModel.rating}',
+//                                                             'review':
+//                                                                 serviceViewModel
+//                                                                     .review,
+//                                                           };
+//                                                           // if (textController.text.length > 0) {
+//                                                           //   addToMessages(textController.text);
+//                                                           //   textController.clear();
+//                                                           //   showTheMic();
+//                                                           // }
+//                                                           // print(data);
+//                                                           rateViewModel
+//                                                               .rateAndCompleteLeads(
+//                                                             data,
+//                                                             context,
+//                                                           );
+//                                                           // if (messageController
+//                                                           //     .text
+//                                                           //     .isNotEmpty) {
+//                                                           //   messageViewModel
+//                                                           //       .sendMessage(
+//                                                           //     data:
+//                                                           //         data,
+//                                                           //     context:
+//                                                           //         context,
+//                                                           //     chatId: chat[
+//                                                           //         'chat_id'],
+//                                                           //   );
+//                                                           //   messageController
+//                                                           //       .clear();
+//                                                           // }
+//                                                         },
+//                                               // style: ElevatedButton
+//                                               //     .styleFrom(
+//                                               //   primary:
+//                                               //       MyTheme.greenColor,
+//                                               // ),
+//                                               // child: const Text('DONE'),
+//                                             );
+//                                           },
+//                                         ),
+//                                       ),
+//                                       const SizedBox(height: 20),
+//                                     ],
+//                                   ),
+//                                 ),
+//                               );
+//                             },
+//                           );
+//                         },
+//                         child: ListTile(
+//                           contentPadding: EdgeInsets.zero,
+//                           leading: userOffers.image == null
+//                               ? CircleAvatar(
+//                                   backgroundColor: Colors.grey.shade100,
+//                                   child: const Icon(
+//                                     Icons.person,
+//                                     color: MyTheme.greenColor,
+//                                   ),
+//                                 )
+//                               : CircleAvatar(
+//                                   radius: 26,
+//                                   backgroundImage: NetworkImage(
+//                                     AppUrl.baseUrl +
+//                                         userOffers.image.toString(),
+//                                   ),
+//                                 ),
+//                           title: Text(
+//                             '${userOffers.firstName} ${userOffers.lastName}',
+//                             style: nameStyle,
+//                           ),
+//                         ),
+//                       );
+//                     },
+//                   ),
+//                   const SizedBox(height: 10),
+//                   GestureDetector(
+//                     onTap: () {
+//                       showModalBottomSheet(
+//                         backgroundColor: Colors.white,
+//                         context: context,
+//                         // isScrollControlled: true,
+//                         shape: const RoundedRectangleBorder(
+//                           borderRadius: BorderRadius.vertical(
+//                             top: Radius.circular(15.0),
+//                           ),
+//                         ),
+//                         builder: (BuildContext context) {
+//                           return SafeArea(
+//                             child: Container(
+//                               constraints: BoxConstraints(
+//                                 maxHeight: MediaQuery.of(context).size.height,
+//                               ),
+//                               child: Column(
+//                                 mainAxisSize: MainAxisSize.min,
+//                                 children: <Widget>[
+//                                   Row(
+//                                     mainAxisAlignment:
+//                                         MainAxisAlignment.spaceBetween,
+//                                     children: [
+//                                       const Padding(
+//                                         padding: EdgeInsets.only(
+//                                           top: 12,
+//                                           left: 12,
+//                                         ),
+//                                         child: SizedBox(),
+//                                       ),
+//                                       Container(
+//                                         height: 6,
+//                                         width: 70,
+//                                         decoration: BoxDecoration(
+//                                           color: Colors.grey[400],
+//                                           borderRadius:
+//                                               BorderRadius.circular(8),
+//                                         ),
+//                                       ),
+//                                       GestureDetector(
+//                                         onTap: () {
+//                                           Navigator.of(context).pop();
+//                                           // serviceViewModel.rating = 0;
+//                                         },
+//                                         child: const Padding(
+//                                           padding: EdgeInsets.only(
+//                                             top: 12,
+//                                             right: 12,
+//                                           ),
+//                                           child: Icon(
+//                                             Icons.clear,
+//                                             size: 24,
+//                                           ),
+//                                         ),
+//                                       ),
+//                                     ],
+//                                   ),
+//                                   Padding(
+//                                     padding: const EdgeInsets.symmetric(
+//                                         horizontal: 30),
+//                                     child: Column(
+//                                       crossAxisAlignment:
+//                                           CrossAxisAlignment.center,
+//                                       children: [
+//                                         const Text(
+//                                           'RATE & REVIEW',
+//                                           style: TextStyle(
+//                                             fontWeight: FontWeight.w400,
+//                                             color: Colors.grey,
+//                                             fontSize: 20,
+//                                           ),
+//                                         ),
+//                                         const SizedBox(height: 16),
+//                                         Container(
+//                                           width: 65,
+//                                           height: 65,
+//                                           decoration: BoxDecoration(
+//                                             color: Colors.grey.shade50,
+//                                             borderRadius:
+//                                                 BorderRadius.circular(50),
+//                                           ),
+//                                           child: const Icon(
+//                                             Icons.person,
+//                                             color: MyTheme.greenColor,
+//                                           ),
+//                                         ),
+//                                         const SizedBox(height: 12),
+//                                         const Text(
+//                                           'Someone else',
+//                                           style: TextStyle(
+//                                             fontWeight: FontWeight.w400,
+//                                             fontSize: 20,
+//                                             letterSpacing: 0.5,
+//                                             color: Colors.black87,
+//                                           ),
+//                                         ),
+//                                         const SizedBox(height: 16),
+//                                         const Divider(),
+//                                         const SizedBox(height: 16),
+//                                         Padding(
+//                                           padding: const EdgeInsets.symmetric(
+//                                             horizontal: 12,
+//                                           ),
+//                                           child: Consumer<MyServiceViewModel>(
+//                                             builder:
+//                                                 (context, rateViewModel, _) {
+//                                               return DeafultButton(
+//                                                 isloading:
+//                                                     serviceViewModel.loading,
+//                                                 title: 'DONE',
+//                                                 onPress: () {
+//                                                   Map data = {
+//                                                     'service_id': serviceViewModel
+//                                                         .serviceCompleteModel!
+//                                                         .serviceId
+//                                                         .toString(),
+//                                                   };
 
-                                                  rateViewModel
-                                                      .rateAndCompleteLeads(
-                                                    data,
-                                                    context,
-                                                  );
-                                                },
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                        const SizedBox(height: 16),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        leading: CircleAvatar(
-                          backgroundColor: Colors.grey.shade100,
-                          child: const Icon(
-                            Icons.person,
-                            color: MyTheme.greenColor,
-                          ),
-                        ),
-                        title: const Text(
-                          'Someone else',
-                          style: nameStyle,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-    );
-  }
+//                                                   rateViewModel
+//                                                       .rateAndCompleteLeads(
+//                                                     data,
+//                                                     context,
+//                                                   );
+//                                                 },
+//                                               );
+//                                             },
+//                                           ),
+//                                         ),
+//                                         const SizedBox(height: 16),
+//                                       ],
+//                                     ),
+//                                   )
+//                                 ],
+//                               ),
+//                             ),
+//                           );
+//                         },
+//                       );
+//                     },
+//                     child: Padding(
+//                       padding: const EdgeInsets.symmetric(horizontal: 4),
+//                       child: ListTile(
+//                         contentPadding: EdgeInsets.zero,
+//                         leading: CircleAvatar(
+//                           backgroundColor: Colors.grey.shade100,
+//                           child: const Icon(
+//                             Icons.person,
+//                             color: MyTheme.greenColor,
+//                           ),
+//                         ),
+//                         title: const Text(
+//                           'Someone else',
+//                           style: nameStyle,
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//     );
+//   }
 
-  Widget _uiTop(Size size, MyServiceViewModel serviceViewModel) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
-      child: SizedBox(
-        height: size.height * 0.11,
-        // padding: const EdgeInsets.fromLTRB(10, 4, 10, 4),
-        // color: Colors.yellow,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: SizedBox(
-                height: size.height,
-                width: size.width * 0.20,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(4.0),
-                  child: Image.network(
-                    AppUrl.baseUrl +
-                        serviceViewModel
-                            .serviceCompleteModel!.imagesList![0].image
-                            .toString(),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: size.width * 0.70,
-                    child: Text(
-                      serviceViewModel.serviceCompleteModel!.serviceTitle
-                          .toString(),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  const Spacer(),
-                  Text(
-                    '\$ ${serviceViewModel.serviceCompleteModel!.serviceAmount.toString()}',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
+//   Widget _uiTop(Size size, MyServiceViewModel serviceViewModel) {
+//     return Padding(
+//       padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
+//       child: SizedBox(
+//         height: size.height * 0.11,
+//         // padding: const EdgeInsets.fromLTRB(10, 4, 10, 4),
+//         // color: Colors.yellow,
+//         child: Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//           children: [
+//             Padding(
+//               padding: const EdgeInsets.symmetric(vertical: 4.0),
+//               child: SizedBox(
+//                 height: size.height,
+//                 width: size.width * 0.20,
+//                 child: ClipRRect(
+//                   borderRadius: BorderRadius.circular(4.0),
+//                   child: Image.network(
+//                     AppUrl.baseUrl +
+//                         serviceViewModel
+//                             .serviceCompleteModel!.imagesList![0].image
+//                             .toString(),
+//                     fit: BoxFit.cover,
+//                   ),
+//                 ),
+//               ),
+//             ),
+//             Padding(
+//               padding: const EdgeInsets.symmetric(vertical: 2.0),
+//               child: Column(
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   SizedBox(
+//                     width: size.width * 0.70,
+//                     child: Text(
+//                       serviceViewModel.serviceCompleteModel!.serviceTitle
+//                           .toString(),
+//                       style: const TextStyle(
+//                         fontSize: 18,
+//                         fontWeight: FontWeight.w400,
+//                       ),
+//                       maxLines: 2,
+//                       overflow: TextOverflow.ellipsis,
+//                     ),
+//                   ),
+//                   const Spacer(),
+//                   Text(
+//                     '\$ ${serviceViewModel.serviceCompleteModel!.serviceAmount.toString()}',
+//                     style: const TextStyle(
+//                       fontSize: 20,
+//                       fontWeight: FontWeight.w500,
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             )
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

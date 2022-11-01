@@ -1,3 +1,4 @@
+// import 'package:bizhub_new/components/custom_lodaer.dart';
 import 'package:bizhub_new/utils/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,7 +20,9 @@ class ServicesDetailBottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final allServiceViewModel = context.watch<AllServicesViewModel>();
+    // final allServiceViewModel = context.watch<AllServicesViewModel>();
+    final allServiceViewModel =
+        Provider.of<AllServicesViewModel>(context, listen: false);
     // final offerController = TextEditingController();
     // final messageController = TextEditingController();
 
@@ -153,33 +156,43 @@ class ServicesDetailBottom extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    ElevatedButton(
-                      onPressed: servicesViewModel.loading
-                          ? null
-                          : () {
-                              Map data = {
-                                'receiver_id':
-                                    servicesViewModel.serviceDetalModel!.userId,
-                                'service_id': servicesViewModel
-                                    .serviceDetalModel!.serviceId,
-                                'message': messageController.text.trim(),
-                              };
-                              // print(data);
-                              context.read<AllServicesViewModel>().sendMessage(
-                                    data: data,
-                                    context: context,
-                                    controller: messageController,
-                                  );
-                            },
-                      style: ElevatedButton.styleFrom(
-                        primary: MyTheme.greenColor,
-                        padding: const EdgeInsets.all(10.0),
-                      ),
-                      child: const Text(
-                        'Send Message',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    )
+                    Consumer<AllServicesViewModel>(
+                        builder: (context, provider, _) {
+                      return ElevatedButton(
+                        onPressed: provider.offerLoading
+                            ? null
+                            : () {
+                                Map data = {
+                                  'receiver_id': servicesViewModel
+                                      .serviceDetalModel!.userId,
+                                  'service_id': servicesViewModel
+                                      .serviceDetalModel!.serviceId,
+                                  'message': messageController.text.trim(),
+                                };
+                                // print(data);
+                                provider.sendMessage(
+                                  data: data,
+                                  context: context,
+                                  controller: messageController,
+                                );
+                              },
+                        style: ElevatedButton.styleFrom(
+                          primary: MyTheme.greenColor,
+                          padding: const EdgeInsets.all(10.0),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: const [
+                            Text(
+                              'Send Message',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            SizedBox(width: 12),
+                            Icon(Icons.send, size: 20),
+                          ],
+                        ),
+                      );
+                    })
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -261,32 +274,51 @@ class ServicesDetailBottom extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    ElevatedButton(
-                      onPressed: servicesViewModel.loading
-                          ? null
-                          : () {
-                              Map data = {
-                                'receiver_id':
-                                    servicesViewModel.serviceDetalModel!.userId,
-                                'service_id': servicesViewModel
-                                    .serviceDetalModel!.serviceId,
-                                'offer': offerController.text.trim(),
-                              };
-                              // print(data);
-                              context.read<AllServicesViewModel>().sendOffer(
+                    Consumer<AllServicesViewModel>(
+                      builder: (context, provider, _) {
+                        // if (provider.offerLoading) {
+                        //   return const CustomLoader();
+                        // }
+                        return ElevatedButton(
+                          onPressed: provider.offerLoading
+                              ? null
+                              : () {
+                                  Map data = {
+                                    'receiver_id': servicesViewModel
+                                        .serviceDetalModel!.userId,
+                                    'service_id': servicesViewModel
+                                        .serviceDetalModel!.serviceId,
+                                    'offer': offerController.text.trim(),
+                                  };
+                                  // print(data);
+                                  // context.read<AllServicesViewModel>().sendOffer(
+                                  //       data: data,
+                                  //       context: context,
+                                  //       controller: offerController,
+                                  //     );
+                                  provider.sendOffer(
                                     data: data,
                                     context: context,
                                     controller: offerController,
                                   );
-                            },
-                      style: ElevatedButton.styleFrom(
-                        primary: MyTheme.greenColor,
-                        padding: const EdgeInsets.all(10.0),
-                      ),
-                      child: const Text(
-                        'Send Offer',
-                        style: TextStyle(fontSize: 16),
-                      ),
+                                },
+                          style: ElevatedButton.styleFrom(
+                            primary: MyTheme.greenColor,
+                            padding: const EdgeInsets.all(10.0),
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: const [
+                              Text(
+                                'Send Offer',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              SizedBox(width: 12),
+                              Icon(Icons.send, size: 20),
+                            ],
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
