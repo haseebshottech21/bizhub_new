@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
 import 'package:flutter/material.dart';
-// import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../view_model/all_services_view_model.dart';
 
@@ -124,7 +123,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return SizedBox(
-      height: size.height * 0.18,
+      height: size.height * 0.20,
       // child: GoogleMap(
       //   mapType: MapType.normal,
       //   zoomGesturesEnabled: false,

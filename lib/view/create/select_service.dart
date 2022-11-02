@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../utils/routes/routes_name.dart';
 import '../../view_model/bottom_navigation_view_model.dart';
-// import '../../widgets/common/app_bar.dart';
 import '../../widgets/common/dialog_box.dart';
-// import '../../widgets/common/dialog_box.dart';
 
 class SelectService extends StatelessWidget {
   const SelectService({Key? key}) : super(key: key);
@@ -95,6 +93,7 @@ class SelectService extends StatelessWidget {
               size: size,
               mainAxisAlignment: MainAxisAlignment.start,
               serviceType: 'JOB',
+              serviceImage: 'assets/images/worker.png',
               selectType: (post.isPoster != null && post.isPoster == true)
                   ? true
                   : false,
@@ -104,6 +103,7 @@ class SelectService extends StatelessWidget {
               size: size,
               mainAxisAlignment: MainAxisAlignment.center,
               serviceType: 'SERVICE',
+              serviceImage: 'assets/images/dollar.png',
               selectType: (post.isPoster != null && post.isPoster == false)
                   ? true
                   : false,
@@ -119,6 +119,7 @@ class SelectService extends StatelessWidget {
     required Size size,
     required MainAxisAlignment mainAxisAlignment,
     required String serviceType,
+    required String serviceImage,
     required bool selectType,
     required Function onTap,
   }) {
@@ -130,6 +131,7 @@ class SelectService extends StatelessWidget {
           child: Container(
             width: size.width * 0.45,
             height: size.height * 0.40,
+            padding: const EdgeInsets.only(top: 6, bottom: 6),
             decoration: BoxDecoration(
               color: selectType ? MyTheme.greenColor : Colors.white,
               borderRadius: BorderRadius.circular(6),
@@ -146,20 +148,20 @@ class SelectService extends StatelessWidget {
                         topRight: Radius.circular(6),
                       ),
                       child: Image.asset(
-                        'assets/images/worker.png',
-                        fit: BoxFit.fill,
+                        serviceImage,
+                        fit: BoxFit.cover,
                         height: constraints.maxHeight * 0.80,
                         // width: constraints.maxWidth,
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(12.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Center(
                         child: Text(
                           serviceType,
                           style: TextStyle(
                             color: selectType ? Colors.white : Colors.black,
-                            fontSize: 20,
+                            fontSize: 22,
                             fontWeight: FontWeight.w500,
                             letterSpacing: 1.0,
                           ),

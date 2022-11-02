@@ -1,4 +1,5 @@
 import 'package:bizhub_new/view/posts/components/post_complete.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -88,8 +89,17 @@ class MyPostItem extends StatelessWidget {
                               borderRadius: BorderRadius.circular(6),
                               child: serviceModel.imagesList!.isEmpty
                                   ? Container(color: Colors.grey)
-                                  : Image.network(
-                                      AppUrl.baseUrl +
+                                  : CachedNetworkImage(
+                                      // height: constraints.maxHeight * 0.55,
+                                      // width: double.infinity,
+                                      fadeInDuration:
+                                          const Duration(milliseconds: 300),
+                                      placeholder: (context, url) => const Icon(
+                                        Icons.photo_library,
+                                        color: MyTheme.greenColor,
+                                        size: 30,
+                                      ),
+                                      imageUrl: AppUrl.baseUrl +
                                           serviceModel.imagesList![0].image
                                               .toString(),
                                       fit: BoxFit.cover,

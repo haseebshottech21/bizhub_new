@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class Utils {
   // Change Focus Node
@@ -41,12 +42,12 @@ class Utils {
   }
 
   // DATE FORMAT
-  // String dateFormat(String date) {
-  //   final inputDate = DateFormat('dd-MM-yy').parse(date);
-  //   // print(inputDate);
-  //   // return outputFormat.format(inputDate);
-  //   return DateFormat('d MMM, yyyy').format(inputDate);
-  // }
+  String dateFormat(String date) {
+    var parsedDate = DateTime.parse(date);
+    // final inputDate = DateFormat.parse(date);
+    // return DateFormat('d MMM, yyyy').format(parsedDate);
+    return DateFormat('dd/MMM/yy').format(parsedDate);
+  }
 
   // CROP IMAGE
   // Future<File?> cropImage({required File imageFile}) async {

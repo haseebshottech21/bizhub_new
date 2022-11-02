@@ -103,15 +103,15 @@ class _SearchPostsState extends State<SearchPosts> {
                     return InkWell(
                       onTap: () {
                         // print(allServiceViewModel.displayList[index].serviceId);
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => PostJobDetail(
-                              serviceId: allServiceViewModel
-                                  .displayList[index].serviceId
-                                  .toString(),
-                            ),
-                          ),
-                        );
+                        // Navigator.of(context).push(
+                        //   MaterialPageRoute(
+                        //     builder: (context) => PostJobDetail(
+                        //       serviceId: allServiceViewModel
+                        //           .displayList[index].serviceId
+                        //           .toString(),
+                        //     ),
+                        //   ),
+                        // );
                       },
                       child: ListTile(
                         contentPadding: const EdgeInsets.symmetric(

@@ -1,9 +1,8 @@
 import 'package:bizhub_new/utils/app_url.dart';
 import 'package:bizhub_new/view/account/profile/view_other_profile.dart';
 import 'package:bizhub_new/view/home/components/google_map_screen.dart';
-// import 'package:bizhub_new/view/home/components/service_location_map.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../utils/mytheme.dart';
 import '../../../view_model/all_services_view_model.dart';
 import '../../../widgets/common/cached_image.dart';
@@ -47,21 +46,24 @@ class AllServiceDetailBody extends StatelessWidget {
                           onTap: () => {},
                           child: Stack(
                             children: [
-                              Container(
-                                // margin: const EdgeInsets.only(right: 2.0),
+                              CachedNetworkImage(
                                 height: size.height,
                                 width: size.width,
-                                decoration: BoxDecoration(
-                                  // color: Colors.amber,
-                                  // borderRadius: BorderRadius.circular(8),
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                      AppUrl.baseUrl +
-                                          serviceImages.image!.toString(),
-                                    ),
-                                    fit: BoxFit.cover,
+                                fadeInDuration:
+                                    const Duration(milliseconds: 300),
+                                placeholder: (context, url) => Container(
+                                  // height: size.height * 0.55,
+                                  // width: double.infinity,
+                                  padding: const EdgeInsets.all(50.0),
+                                  color: Colors.white,
+                                  child: Image.asset(
+                                    'assets/images/bizhub3.png',
+                                    fit: BoxFit.contain,
                                   ),
                                 ),
+                                imageUrl: AppUrl.baseUrl +
+                                    serviceImages.image!.toString(),
+                                fit: BoxFit.cover,
                               ),
                               Positioned(
                                 right: 8,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../model/rating_model.dart';
 import '../../../utils/app_url.dart';
+import '../../../utils/utils.dart';
 import '../../../widgets/common/cached_image.dart';
 
 class ProfileDescription extends StatelessWidget {
@@ -190,11 +191,14 @@ class ProfileDescription extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const Text(
-                              '11/06/2022',
-                              style: TextStyle(
+                            Text(
+                              Utils().dateFormat(
+                                ratingAndReviews![i].createAt.toString(),
+                              ),
+                              // '11/06/2022',
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w400,
-                                fontSize: 12,
+                                fontSize: 13,
                                 color: Colors.black54,
                               ),
                             )

@@ -1,6 +1,6 @@
 import 'package:bizhub_new/utils/routes/routes_name.dart';
+import 'package:bizhub_new/view/account/about_us.dart';
 import 'package:bizhub_new/view/account/change_password.dart';
-import 'package:bizhub_new/view/account/contact_us.dart';
 import 'package:bizhub_new/view/account/privacy_policy.dart';
 import 'package:bizhub_new/view/account/profile/edit_my_profile.dart';
 import 'package:bizhub_new/view/account/profile/view_my_profile.dart';
@@ -12,8 +12,6 @@ import 'package:bizhub_new/view/auth/otp_sccess_screen.dart';
 import 'package:bizhub_new/view/auth/reset_password_screen.dart';
 import 'package:bizhub_new/view/auth/signup_screen.dart';
 import 'package:bizhub_new/view/auth/welcome_auth_screen.dart';
-import 'package:bizhub_new/view/chat/poster/poster_messages.dart';
-import 'package:bizhub_new/view/chat/worker/worker_messages.dart';
 import 'package:bizhub_new/view/create/component/serach_location.dart';
 import 'package:bizhub_new/view/create/create_post.dart';
 import 'package:bizhub_new/view/create/select_category.dart';
@@ -91,10 +89,13 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const EditMyProfile());
       case RouteName.changePassword:
         return MaterialPageRoute(builder: (context) => const ChangePassword());
+      case RouteName.aboutUs:
+        return MaterialPageRoute(builder: (context) => const AboutUs());
       case RouteName.privacyPolicy:
         return MaterialPageRoute(builder: (context) => const PrivacyPolicy());
       case RouteName.termAndCondition:
-        return MaterialPageRoute(builder: (context) => const TermAndCondition());
+        return MaterialPageRoute(
+            builder: (context) => const TermAndCondition());
       case RouteName.selectLanguage:
         return MaterialPageRoute(builder: (context) => const SelectLanguage());
       // case RouteName.contactUs:

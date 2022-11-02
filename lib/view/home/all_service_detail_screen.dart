@@ -1,27 +1,31 @@
+import 'package:bizhub_new/components/custom_lodaer.dart';
+import 'package:bizhub_new/model/service_model.dart';
 import 'package:bizhub_new/view/home/components/all_service_detail_body.dart';
 import 'package:bizhub_new/view/home/components/services_detail_bottom.dart';
 import 'package:bizhub_new/view_model/all_services_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class PostJobDetail extends StatefulWidget {
-  const PostJobDetail({Key? key, required this.serviceId}) : super(key: key);
+class AllServiceDetail extends StatefulWidget {
+  const AllServiceDetail({Key? key}) : super(key: key);
 
-  final String serviceId;
+  // final String serviceId;
 
   @override
-  State<PostJobDetail> createState() => _PostJobDetailState();
+  State<AllServiceDetail> createState() => _AllServiceDetailState();
 }
 
-class _PostJobDetailState extends State<PostJobDetail> {
+class _AllServiceDetailState extends State<AllServiceDetail> {
   final offerController = TextEditingController();
   final messageController = TextEditingController();
 
   getAllServiceDetail() async {
     final provider = Provider.of<AllServicesViewModel>(context, listen: false);
+    ServiceModel service =
+        ModalRoute.of(context)!.settings.arguments as ServiceModel;
     await provider.getAllServiceDetail(
       context: context,
-      serviceId: widget.serviceId,
+      serviceId: service.serviceId.toString(),
     );
   }
 
@@ -46,7 +50,7 @@ class _PostJobDetailState extends State<PostJobDetail> {
           Consumer<AllServicesViewModel>(
             builder: (context, allServiceViewModel, _) {
               if (allServiceViewModel.loading) {
-                return const Center(child: CircularProgressIndicator());
+                return const CustomLoader();
               } else {
                 return Stack(
                   children: [

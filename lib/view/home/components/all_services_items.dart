@@ -1,9 +1,8 @@
 import 'package:bizhub_new/utils/app_url.dart';
-// import 'package:bizhub_new/view/home/components/google_map_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../../model/service_model.dart';
 import '../../../utils/mytheme.dart';
-// import '../../../utils/routes/routes_name.dart';
 import '../all_service_detail_screen.dart';
 
 class AllServiceIem extends StatelessWidget {
@@ -15,10 +14,20 @@ class AllServiceIem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(
+        // Navigator.of(context).push(
+        //   MaterialPageRoute(
+        //     builder: (context) => PostJobDetail(
+        //       serviceId: serviceModel.serviceId.toString(),
+        //     ),
+        //   ),
+        // );
+
+        Navigator.push(
+          context,
           MaterialPageRoute(
-            builder: (context) => PostJobDetail(
-              serviceId: serviceModel.serviceId.toString(),
+            builder: (ctx) => const AllServiceDetail(),
+            settings: RouteSettings(
+              arguments: serviceModel,
             ),
           ),
         );
@@ -50,12 +59,33 @@ class AllServiceIem extends StatelessWidget {
                             fit: BoxFit.contain,
                           ),
                         )
-                      : Image.network(
-                          AppUrl.baseUrl +
-                              serviceModel.imagesList![0].image.toString(),
-                          fit: BoxFit.cover,
+                      : CachedNetworkImage(
                           height: constraints.maxHeight * 0.55,
                           width: double.infinity,
+                          fadeInDuration: const Duration(milliseconds: 300),
+                          placeholder: (context, url) => Container(
+                            // height: constraints.maxHeight * 0.55,
+                            // width: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 16,
+                            ),
+                            color: Colors.white,
+                            child: Image.asset(
+                              'assets/images/bizhub3.png',
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                          // errorWidget: (context, url, error) => Container(
+                          //   color: Colors.black12,
+                          //   child: Icon(
+                          //     profileIcon,
+                          //     color: Colors.white,
+                          //   ),
+                          // ),
+                          imageUrl: AppUrl.baseUrl +
+                              serviceModel.imagesList![0].image.toString(),
+                          fit: BoxFit.cover,
                         ),
                 ),
                 ClipRRect(
