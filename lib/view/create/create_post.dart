@@ -34,9 +34,8 @@ class _CreatePostState extends State<CreatePost> {
   @override
   void initState() {
     // Provider.of<LocationViewModel>(context, listen: false)
-    //     .getCurrentLocation(context);
-    Provider.of<LocationViewModel>(context, listen: false)
-        .getStoreLocationIfExist(context);
+    //     .getStoreLocationIfExist(context);
+    Provider.of<LocationViewModel>(context, listen: false).getLatLong();
     super.initState();
   }
 
@@ -50,7 +49,7 @@ class _CreatePostState extends State<CreatePost> {
       // if (post.serviceImgaes.isEmpty) {
       //   Utils.toastMessage('Please add pictures');
       // }
-      if (location.placeDetailModel.placeAddress.isEmpty) {
+      if (location.locationAddress.isEmpty) {
         Utils.toastMessage('Please choose location');
         return;
       }
@@ -62,18 +61,15 @@ class _CreatePostState extends State<CreatePost> {
       post.serviceBody['title'] = titleController.text.trim();
       post.serviceBody['description'] = descController.text.trim();
       post.serviceBody['amount'] = priceController.text.trim();
-      post.serviceBody['longitude'] =
-          location.placeDetailModel.placeLocation.longitude.toString();
-      post.serviceBody['latitude'] =
-          location.placeDetailModel.placeLocation.latitude.toString();
-      post.serviceBody['address'] =
-          location.placeDetailModel.placeAddress.trim();
+      post.serviceBody['longitude'] = location.latLng.longitude.toString();
+      post.serviceBody['latitude'] = location.latLng.latitude.toString();
+      post.serviceBody['address'] = location.locationAddress.trim();
       post.serviceBody['is_negotiable'] = post.isPriceNegotiable ? '1' : '0';
       if (post.serviceBody['images'] != null) {
         post.serviceBody['images'] = json.encode(post.serviceImgaes);
       }
-      post.createPost(post.serviceBody, context);
-      // print(post.serviceBody);
+      // post.createPost(post.serviceBody, context);
+      print(post.serviceBody);
       // }
     }
   }
@@ -231,7 +227,7 @@ class _CreatePostState extends State<CreatePost> {
                           horizontal: 6,
                         ),
                         child: DeafultButton(
-                          isloading: serviceViewModel.loading,
+                          isloading: serviceViewModel.postLoading,
                           title: 'POST',
                           onPress: () {
                             validateAndJobPost();
@@ -258,77 +254,75 @@ class LocationPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final locationViewModel =
+        Provider.of<LocationViewModel>(context, listen: true);
 
-    return Consumer<LocationViewModel>(
-      builder: (context, locationViewModel, _) {
-        // print(locationViewModel.address);
-        return Container(
-          width: size.width,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(4),
-            border: Border.all(
-              color: Colors.black,
-              width: 0.8,
-            ),
+    // return Consumer<LocationViewModel>(
+    //   builder: (context, locationViewModel, _) {
+    //     // print(locationViewModel.address);
+    return Container(
+      width: size.width,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(
+          color: Colors.black,
+          width: 0.8,
+        ),
+      ),
+      child: InkWell(
+        onTap: () {
+          Navigator.of(context).pushNamed(RouteName.searchLocation);
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 12,
+            bottom: 10,
+            top: 10,
+            right: 12,
           ),
-          child: InkWell(
-            onTap: () {
-              Navigator.of(context).pushNamed(
-                RouteName.searchLocation,
-                arguments: false,
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(
-                left: 12,
-                bottom: 10,
-                top: 10,
-                right: 12,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Location',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      SizedBox(
-                        width: size.width * 0.80,
-                        child: Text(
-                          locationViewModel
-                                  .placeDetailModel.placeAddress.isEmpty
-                              ? 'Choose'
-                              : locationViewModel.placeDetailModel.placeAddress,
-                          style: TextStyle(
-                            color: Colors.grey.shade700,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w300,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
+                  const Text(
+                    'Location',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.black,
-                    size: 16,
-                  )
+                  const SizedBox(height: 4),
+                  SizedBox(
+                    width: size.width * 0.80,
+                    child: Text(
+                      locationViewModel.locationAddress.isEmpty
+                          ? 'Choose'
+                          : locationViewModel.locationAddress,
+                      style: TextStyle(
+                        color: Colors.grey.shade700,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w300,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ],
               ),
-            ),
+              const Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.black,
+                size: 16,
+              )
+            ],
           ),
-        );
-      },
+        ),
+      ),
     );
+    //   },
+    // );
   }
 }

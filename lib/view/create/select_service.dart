@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../utils/routes/routes_name.dart';
 import '../../view_model/bottom_navigation_view_model.dart';
+import '../../widgets/common/cached_image.dart';
 import '../../widgets/common/dialog_box.dart';
 
 class SelectService extends StatelessWidget {
@@ -39,7 +40,7 @@ class SelectService extends StatelessWidget {
                     RouteName.home,
                     (route) => false,
                   );
-                  post.isPoster = null;
+                  post.initailValue(context);
                 },
               ),
             );
@@ -86,6 +87,97 @@ class SelectService extends StatelessWidget {
         height: size.height,
         width: size.width,
         padding: const EdgeInsets.only(top: 80, left: 10, right: 10),
+        // child: Column(
+        //   children: [
+        //     Container(
+        //       height: 250,
+        //       width: size.width,
+        //       decoration: BoxDecoration(
+        //         borderRadius: BorderRadius.circular(12),
+        //         color: Colors.grey.shade100,
+        //         boxShadow: kElevationToShadow[4],
+        //         //     categoryViewModel.categoryId == category.catId.toString()
+        //         //         ? kElevationToShadow[2]
+        //         //         : kElevationToShadow[8],
+        //         // border:
+        //         //     categoryViewModel.categoryId == category.catId.toString()
+        //         //         ? Border.all(color: MyTheme.greenColor, width: 4)
+        //         //         : null,
+        //       ),
+        //       child: Stack(
+        //         children: [
+        //           Stack(
+        //             children: [
+        //               CachedImageWidget(
+        //                 height: size.height,
+        //                 width: size.width,
+        //                 radius: 8,
+        //                 imgUrl:
+        //                     'https://mydelivererblog.files.wordpress.com/2017/09/service.jpg',
+        //               ),
+        //               Container(
+        //                 decoration: BoxDecoration(
+        //                   borderRadius: BorderRadius.circular(8),
+        //                   // gradient: LinearGradient(
+        //                   //   begin: Alignment.topRight,
+        //                   //   end: Alignment.bottomLeft,
+        //                   //   stops: const [0.1, 0.9],
+        //                   //   colors: [
+        //                   //     // Colors.black.withOpacity(0.2),
+        //                   //     // Colors.black.withOpacity(0.9),
+        //                   //     MyTheme.greenColor.withOpacity(0.1),
+        //                   //     MyTheme.greenColor.withOpacity(0.4),
+        //                   //   ],
+        //                   // ),
+        //                 ),
+        //               )
+        //             ],
+        //           ),
+        //           Align(
+        //             alignment: Alignment.bottomCenter,
+        //             child: Container(
+        //               height: 40,
+        //               width: size.width,
+        //               decoration: BoxDecoration(
+        //                 color: Colors.grey.shade500.withOpacity(0.6),
+        //                 borderRadius: const BorderRadius.only(
+        //                   bottomLeft: Radius.circular(8),
+        //                   bottomRight: Radius.circular(8),
+        //                 ),
+        //               ),
+        //               child: const Center(
+        //                 child: Text(
+        //                   'Service',
+        //                   style: TextStyle(
+        //                     fontWeight: FontWeight.w500,
+        //                     color: Colors.white,
+        //                     letterSpacing: 0.2,
+        //                     fontSize: 18,
+        //                   ),
+        //                 ),
+        //               ),
+        //             ),
+        //           ),
+        //           // Positioned(
+        //           //   top: 8,
+        //           //   right: 8,
+        //           //   child: Container(
+        //           //     decoration: BoxDecoration(
+        //           //       border: Border.all(color: Colors.white, width: 1.5),
+        //           //       borderRadius: BorderRadius.circular(50),
+        //           //     ),
+        //           //     child: const Icon(
+        //           //       CupertinoIcons.check_mark_circled_solid,
+        //           //       color: Colors.white,
+        //           //       size: 24,
+        //           //     ),
+        //           //   ),
+        //           // )
+        //         ],
+        //       ),
+        //     ),
+        //   ],
+        // ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

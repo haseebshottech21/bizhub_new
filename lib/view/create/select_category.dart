@@ -1,5 +1,6 @@
 // import 'dart:ui';
 // import 'package:bizhub_new/utils/mytheme.dart';
+import 'package:bizhub_new/components/custom_lodaer.dart';
 import 'package:bizhub_new/view_model/category_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -117,9 +118,7 @@ class _SelectCategoryState extends State<SelectCategory> {
       body: Consumer<CategoryViewModel>(
         builder: (context, categoryViewModel, _) {
           if (categoryViewModel.loading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const CustomLoader();
           } else {
             final category = categoryViewModel.categoryList;
             return GridView(

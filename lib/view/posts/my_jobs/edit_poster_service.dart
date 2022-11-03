@@ -49,11 +49,9 @@ class _EditMyPosterServiceState extends State<EditMyPosterService> {
         'description': descController.text.trim(),
         'amount': priceController.text.trim(),
         'is_negotiable': myServiceViewModel.isPriceNegotiable ? '1' : '0',
-        'address': locationViewModel.placeDetailModel.placeAddress.toString(),
-        'latitude': locationViewModel.placeDetailModel.placeLocation.latitude
-            .toString(),
-        'longitude': locationViewModel.placeDetailModel.placeLocation.longitude
-            .toString(),
+        'address': locationViewModel.locationAddress.toString(),
+        'latitude': locationViewModel.latLng.latitude.toString(),
+        'longitude': locationViewModel.latLng.longitude.toString(),
         if (myServiceViewModel.serviceImgaes.isNotEmpty)
           'images': json.encode(myServiceViewModel.serviceImgaes),
       };
@@ -72,57 +70,27 @@ class _EditMyPosterServiceState extends State<EditMyPosterService> {
     final provider = Provider.of<MyServiceViewModel>(context, listen: false);
     final locationViewModel =
         Provider.of<LocationViewModel>(context, listen: false);
+    // LocationViewModel? locationViewModel;
     await provider.getMyPosterServiceDetail(
       context: context,
       serviceId: serviceModel.serviceId.toString(),
     );
-    // List<Map<String, dynamic>> imageDetails = [];
-    // if (serviceModel.imagesList != null) {
-    //   for (var image in images) {
-    //     Map<String, dynamic> imageDetail = {};
-    //     imageDetail['extension'] = image.path.split('.').last;
-    //     imageDetail['imagePath'] = image.path;
-    //     imageDetail['image'] =
-    //         base64Encode(await File(image.path).readAsBytes());
-    //     imageDetails.add(imageDetail);
-    //   }
-    // }
-    // print(serviceModel.imagesList as List);
-    // provider.serviceImgaes = serviceModel.imagesList!
-    //     .map((e) => e.image)
-    //     .cast<Map<String, dynamic>>()
-    //     .toList();
-    //     serviceModel.imagesList![0].image as List<Map<String, dynamic>>;
-    // serviceModel.imagesList
-    // if (serviceModel.imagesList!.isNotEmpty) {
-    //   provider.serviceImgaes = serviceModel.imagesList!.map((e) {
-    //     return {
-    //       // "id": e.id,
-    //       'imagePath': e.image,
-    //       // "local": false,
-    //     };
-    //   }).toList();
-    // }
-    // print('image: ${serviceModel.imagesList![0].image}');
-    // provider.serviceImgaes =
-    //     serviceModel.imagesList![0].image as List<Map<String, dynamic>>;
-
     titleController.text = serviceModel.serviceTitle.toString();
     descController.text = serviceModel.serviceDesc.toString();
     priceController.text =
         double.parse(serviceModel.serviceAmount.toString()).round().toString();
     provider.isPriceNegotiable = serviceModel.serviceNegotiable!;
-    locationViewModel.myCurrentLocation.placeLocation = LatLng(
+    locationViewModel.latLng = LatLng(
       serviceModel.latitude!,
       serviceModel.longitude!,
     );
 
-    await locationViewModel.getLocationFromCoordinates(
-      locationViewModel.myCurrentLocation.placeLocation,
+    await locationViewModel.getAddress(
+      serviceModel.latitude!,
+      serviceModel.longitude!,
     );
 
-    locationViewModel.placeDetailModel.placeAddress =
-        locationViewModel.getAddress;
+    // locationViewModel.mySearchLocation.placeAddress = locationViewModel.getAddress;
   }
 
   @override
@@ -454,76 +422,76 @@ class LocationPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
-    return Consumer<LocationViewModel>(
-      builder: (context, locationViewModel, _) {
-        return Container(
-          width: size.width,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(4),
-            border: Border.all(
-              color: Colors.black,
-              width: 0.8,
-            ),
+    final locationViewModel =
+        Provider.of<LocationViewModel>(context, listen: true);
+    // return Consumer<LocationViewModel>(
+    //   builder: (context, locationViewModel, _) {
+    return Container(
+      width: size.width,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(
+          color: Colors.black,
+          width: 0.8,
+        ),
+      ),
+      child: InkWell(
+        onTap: () {
+          Navigator.of(context).pushNamed(
+            RouteName.searchLocation,
+            arguments: false,
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 12,
+            bottom: 10,
+            top: 10,
+            right: 12,
           ),
-          child: InkWell(
-            onTap: () {
-              Navigator.of(context).pushNamed(
-                RouteName.searchLocation,
-                arguments: false,
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(
-                left: 12,
-                bottom: 10,
-                top: 10,
-                right: 12,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Location',
-                        style: TextStyle(
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      SizedBox(
-                        width: size.width * 0.80,
-                        child: Text(
-                          locationViewModel
-                                  .placeDetailModel.placeAddress.isEmpty
-                              ? 'Choose'
-                              : locationViewModel.placeDetailModel.placeAddress,
-                          style: TextStyle(
-                            color: Colors.grey.shade700,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w300,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
+                  const Text(
+                    'Location',
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.black,
-                    size: 16,
-                  )
+                  const SizedBox(height: 4),
+                  SizedBox(
+                    width: size.width * 0.80,
+                    child: Text(
+                      locationViewModel.locationAddress.isEmpty
+                          ? 'Choose Location'
+                          : locationViewModel.locationAddress,
+                      style: TextStyle(
+                        color: Colors.grey.shade700,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w300,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ],
               ),
-            ),
+              const Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.black,
+                size: 16,
+              )
+            ],
           ),
-        );
-      },
+        ),
+      ),
     );
+    //   },
+    // );
   }
 }

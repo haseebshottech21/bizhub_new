@@ -1,6 +1,6 @@
 import 'package:bizhub_new/model/service_model.dart';
+import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/utils/utils.dart';
-// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../repo/service_repo.dart';
@@ -67,6 +67,13 @@ class MyServiceViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _postloading = false;
+  bool get postLoading => _postloading;
+  postLoad(bool status) {
+    _postloading = status;
+    notifyListeners();
+  }
+
   bool _updateLoading = false;
   bool get updateLoading => _updateLoading;
   setUpdateLoad(bool status) {
@@ -101,24 +108,28 @@ class MyServiceViewModel extends ChangeNotifier {
     dynamic data,
     BuildContext context,
   ) async {
-    setLoad(true);
+    postLoad(true);
     final loadedData = await serviceRepo.createService(data);
     // print(loadedData);
     if (loadedData == null) {
-      setLoad(false);
+      postLoad(false);
     } else if (loadedData != null) {
       Future.delayed(Duration.zero).then(
         (value) {
           // print(value);
-          setLoad(false);
+          postLoad(false);
           // if (kDebugMode) {
+          Provider.of<BottomNavigationViewModel>(context, listen: false)
+              .bottomIndex = 0;
+          // Navigator.of(context).pop();
+          // Navigator.of(context).pop();
+          // Navigator.of(context).pop();
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            RouteName.home,
+            (route) => false,
+          );
           initailValue(context);
           serviceImgaes.clear();
-          Provider.of<BottomNavigationViewModel>(context, listen: false)
-              .bottomIndex = 1;
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
           Utils.toastMessage('Service Create Successfully!');
           // }
         },
@@ -234,8 +245,8 @@ class MyServiceViewModel extends ChangeNotifier {
       Future.delayed(Duration.zero).then((value) {
         Navigator.of(context).pop();
         setLoad(false);
-        Utils.toastMessage('Service delete Successfully!');
         getMyServices(context);
+        Utils.toastMessage('Service delete Successfully!');
       });
     }
   }

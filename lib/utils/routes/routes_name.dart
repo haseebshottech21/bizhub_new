@@ -19,8 +19,10 @@ class RouteName {
   static const String searchPost = '/serach_post';
 
   // Posts
-  static const String myJobDetail = '/my_job_detail';
-  static const String myJobComplete = '/my_job_complete';
+  static const String myPosts = '/my_posts';
+  static const String mainScreen = '/main-screen';
+  // static const String myJobDetail = '/my_job_detail';
+  // static const String myJobComplete = '/my_job_complete';
 
   // Create Job / Service
   static const String selectService = '/select_service_screen';
@@ -42,4 +44,8 @@ class RouteName {
   static const String contactUs = '/contact_us';
   static const String termAndCondition = '/term_and_condition';
   static const String privacyPolicy = '/privacy_policy';
+
+  // Test
+  static const String testLocation = '/test_location';
+  static const String testSearchLocation = '/test_search_location';
 }

@@ -31,7 +31,7 @@ AlertDialog simpleDialog({
         child: const Text(
           'Cancel',
           style: TextStyle(
-            color: Colors.black,
+            color: Colors.black45,
             fontSize: 17,
           ),
         ),

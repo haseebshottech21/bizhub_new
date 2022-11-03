@@ -123,6 +123,14 @@ class _MoreScreenState extends State<MoreScreen> {
                     Navigator.pushNamed(context, RouteName.privacyPolicy);
                   },
                 ),
+                moreItem(
+                  context: context,
+                  text: 'Location',
+                  iconData: Icons.pin_drop,
+                  onTap: () {
+                    Navigator.pushNamed(context, RouteName.testLocation);
+                  },
+                ),
                 // moreItem(
                 //   context: context,
                 //   text: 'Logout',

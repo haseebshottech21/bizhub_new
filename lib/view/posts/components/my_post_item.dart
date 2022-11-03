@@ -8,7 +8,6 @@ import '../../../utils/app_url.dart';
 import '../../../utils/mytheme.dart';
 import '../../../view_model/my_service_view_model.dart';
 import '../../../widgets/common/dialog_box.dart';
-// import '../my_jobs/lead_complete.dart';
 import '../my_jobs/my_job_detail.dart';
 import '../my_services/my_work_detail.dart';
 import 'bottom_modal_action.dart';
@@ -155,29 +154,61 @@ class MyPostItem extends StatelessWidget {
                                                     onTap: () {
                                                       Navigator.of(context)
                                                           .pop();
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (context) =>
-                                                            simpleDialog(
+                                                      if (myServices) {
+                                                        showDialog(
                                                           context: context,
-                                                          title:
-                                                              'Confirm Delete ?',
-                                                          subTitle:
-                                                              'Are you sure you want to delete job ?',
-                                                          onPressed: () {
-                                                            context
-                                                                .read<
-                                                                    MyServiceViewModel>()
-                                                                .deleteMyLead(
-                                                                  serviceId: serviceModel
-                                                                      .serviceId
-                                                                      .toString(),
-                                                                  context:
-                                                                      context,
-                                                                );
-                                                          },
-                                                        ),
-                                                      );
+                                                          builder: (context) =>
+                                                              simpleDialog(
+                                                            context: context,
+                                                            title:
+                                                                'Confirm Delete ?',
+                                                            subTitle:
+                                                                'Are you sure you want to delete service ?',
+                                                            onPressed: () {
+                                                              // Navigator.of(
+                                                              //         context)
+                                                              //     .pop();
+                                                              context
+                                                                  .read<
+                                                                      MyServiceViewModel>()
+                                                                  .deleteMyService(
+                                                                    serviceId: serviceModel
+                                                                        .serviceId
+                                                                        .toString(),
+                                                                    context:
+                                                                        context,
+                                                                  );
+                                                            },
+                                                          ),
+                                                        );
+                                                      } else {
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (context) =>
+                                                              simpleDialog(
+                                                            context: context,
+                                                            title:
+                                                                'Confirm Delete ?',
+                                                            subTitle:
+                                                                'Are you sure you want to delete job ?',
+                                                            onPressed: () {
+                                                              // Navigator.of(
+                                                              //         context)
+                                                              //     .pop();
+                                                              context
+                                                                  .read<
+                                                                      MyServiceViewModel>()
+                                                                  .deleteMyLead(
+                                                                    serviceId: serviceModel
+                                                                        .serviceId
+                                                                        .toString(),
+                                                                    context:
+                                                                        context,
+                                                                  );
+                                                            },
+                                                          ),
+                                                        );
+                                                      }
                                                     },
                                                   ),
                                                   if (serviceModel

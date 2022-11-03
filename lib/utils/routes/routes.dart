@@ -20,7 +20,9 @@ import 'package:bizhub_new/view/home/filter_screen.dart';
 import 'package:bizhub_new/view/home/search_posts.dart';
 import 'package:bizhub_new/view/navigation/bottom_navigation.dart';
 import 'package:bizhub_new/view/onboard_screen.dart';
+import 'package:bizhub_new/view/posts/my_posts.dart';
 import 'package:bizhub_new/view/splash_screen.dart';
+import 'package:bizhub_new/view/test_location.dart';
 import 'package:flutter/material.dart';
 import '../../view/auth/otp_verification_screen.dart';
 import '../../view/posts/my_jobs/edit_poster_service.dart';
@@ -66,6 +68,8 @@ class RouteGenerator {
       //   );
       // case RouteName.myJobComplete:
       //   return MaterialPageRoute(builder: (context) => const JobComplete());
+      case RouteName.myPosts:
+        return MaterialPageRoute(builder: (context) => const MyPosts());
       case RouteName.selectService:
         return MaterialPageRoute(builder: (context) => const SelectService());
       case RouteName.selectCategory:
@@ -76,7 +80,8 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => const EditMyPosterService());
       case RouteName.searchLocation:
-        return MaterialPageRoute(builder: (context) => const SearchLocation());
+        return MaterialPageRoute(
+            builder: (context) => const SearchLocationScreen());
       // Messages
       // case RouteName.posterMessages:
       //   return MaterialPageRoute(builder: (context) => const PosterMessages());
@@ -98,6 +103,11 @@ class RouteGenerator {
             builder: (context) => const TermAndCondition());
       case RouteName.selectLanguage:
         return MaterialPageRoute(builder: (context) => const SelectLanguage());
+      case RouteName.testLocation:
+        return MaterialPageRoute(builder: (context) => const TestLocation());
+      case RouteName.testSearchLocation:
+        return MaterialPageRoute(
+            builder: (context) => const TestSearchLocation());
       // case RouteName.contactUs:
       //   return MaterialPageRoute(builder: (context) => const ContactUs());
       default:

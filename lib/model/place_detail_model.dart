@@ -16,7 +16,6 @@ class PlaceDetailModel {
     // } else {
     //   print("00000");
     // }
-
     return PlaceDetailModel(
       placeAddress: json['formatted_address'],
       placeLocation: LatLng(
@@ -28,10 +27,7 @@ class PlaceDetailModel {
   factory PlaceDetailModel.fromEmptyJson() {
     return PlaceDetailModel(
       placeAddress: '',
-      placeLocation: const LatLng(
-        44.500000,
-        -89.500000,
-      ),
+      placeLocation: const LatLng(0.0, 0.0),
     );
   }
 }
