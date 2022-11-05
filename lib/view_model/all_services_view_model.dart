@@ -1,5 +1,7 @@
 import 'package:bizhub_new/utils/shared_prefrences.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import '../model/service_model.dart';
 import '../repo/chat_repo.dart';
 import '../repo/notification_repo.dart';
@@ -16,6 +18,7 @@ class AllServicesViewModel extends ChangeNotifier {
   ServiceModel? serviceModel;
   ServiceDetalModel? serviceDetalModel;
   bool nearByJobs = true;
+  bool isInternetConnect = true;
 
   List<ServiceModel> displayList = [];
 
@@ -79,9 +82,11 @@ class AllServicesViewModel extends ChangeNotifier {
     // print(isPoster);
   }
 
+  // ALL SERVICES
   Future<void> getAllServicesList(
     BuildContext context,
   ) async {
+    checkInternet();
     allServiceList.clear();
     setLoad(true);
     Future.delayed(const Duration(seconds: 1)).then(
@@ -101,6 +106,33 @@ class AllServicesViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // CHECK INTERNET
+  checkInternet() async {
+    isInternetConnect = await InternetConnectionChecker().hasConnection;
+    notifyListeners();
+  }
+
+  noInternetAndGetServices({
+    required BuildContext context,
+  }) async {
+    if (await InternetConnectionChecker().hasConnection == true) {
+      // getAllServices();
+      getAllServicesList(context);
+      Utils.snackBarMessage(
+        'Internet Conneted',
+        CupertinoIcons.wifi,
+        context,
+      );
+    } else {
+      Utils.snackBarMessage(
+        'No Internet Connection',
+        CupertinoIcons.wifi_slash,
+        context,
+      );
+    }
+  }
+
+  // ALL SERVICE DETAIL
   Future<void> getAllServiceDetail({
     required BuildContext context,
     required String serviceId,

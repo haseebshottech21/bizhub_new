@@ -19,7 +19,7 @@ class MyWorkDetail extends StatefulWidget {
 class _MyWorkDetailState extends State<MyWorkDetail> {
   getMyPosterServiceDetail() async {
     final provider = Provider.of<MyServiceViewModel>(context, listen: false);
-    await provider.getMyPosterServiceDetail(
+    await provider.getMyPostDetail(
       context: context,
       serviceId: widget.serviceId,
     );

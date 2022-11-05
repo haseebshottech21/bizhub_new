@@ -47,7 +47,7 @@ class ServiceRepository {
       );
       // print('${AppUrl.allServiceEndPoint}?type=$serviceType');
       final loadedData = json.decode(response.body);
-      // print(loadedData);
+      print(response.statusCode);
       if (response.statusCode == 200 || response.statusCode == 201) {
         List<ServiceModel> allServicesList = (loadedData['data'] as List)
             .map((e) => ServiceModel.fromJson(e))

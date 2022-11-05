@@ -1,7 +1,9 @@
 import 'package:bizhub_new/model/service_model.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/utils/utils.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:provider/provider.dart';
 import '../repo/service_repo.dart';
 import 'bottom_navigation_view_model.dart';
@@ -16,6 +18,7 @@ class MyServiceViewModel extends ChangeNotifier {
   ServiceCompleteModel? serviceCompleteModel;
   List<Map<String, dynamic>> serviceImgaes = [];
   bool? isPoster;
+  bool isInternetConnect = true;
 
   Map<String, dynamic> serviceBody = {
     'category_id': '',
@@ -141,6 +144,7 @@ class MyServiceViewModel extends ChangeNotifier {
   Future<void> getMyPosterServiceList(
     BuildContext context,
   ) async {
+    checkInternet();
     posterServiceList.clear();
     setLoad(true);
     Future.delayed(const Duration(seconds: 1)).then(
@@ -161,59 +165,31 @@ class MyServiceViewModel extends ChangeNotifier {
     await provider.getMyPosterServiceList(context);
   }
 
-  Future<void> getMyPosterServiceDetail({
+  noInternetAndGetJobs({
     required BuildContext context,
-    required String serviceId,
   }) async {
-    setLoad(true);
-    Future.delayed(const Duration(seconds: 1)).then(
-      (value) async {
-        serviceModel =
-            await serviceRepo.fetchMyPosterService(serviceId: serviceId);
-        setLoad(false);
-      },
-    );
-    notifyListeners();
-  }
-
-  // DELETE JOB
-  Future<void> deleteMyLead({
-    required BuildContext context,
-    required String serviceId,
-  }) async {
-    setLoad(true);
-    final response = await serviceRepo.deleteMyService(serviceId: serviceId);
-    if (response) {
-      Future.delayed(Duration.zero).then((value) {
-        Navigator.of(context).pop();
-        setLoad(false);
-        getMyPosterServices(context);
-        Utils.toastMessage('Job delete Successfully!');
-      });
+    if (await InternetConnectionChecker().hasConnection == true) {
+      // getAllServices();
+      getMyPosterServices(context);
+      Utils.snackBarMessage(
+        'Internet Conneted',
+        CupertinoIcons.wifi,
+        context,
+      );
+    } else {
+      Utils.snackBarMessage(
+        'No Internet Connection',
+        CupertinoIcons.wifi_slash,
+        context,
+      );
     }
   }
 
   // SERVICES
-  // Future<void> getMyWorkerServiceList(
-  //   BuildContext context,
-  // ) async {
-  //   workerServiceList.clear();
-  //   setLoad(true);
-  //   Future.delayed(const Duration(seconds: 1)).then(
-  //     (value) async {
-  //       // getMyPosts = getPosts();
-  //       if (workerServiceList.isEmpty) {
-  //         workerServiceList = await serviceRepo.fetchMyWorkerServiceList();
-  //       }
-  //       setLoad(false);
-  //     },
-  //   );
-  //   notifyListeners();
-  // }
-
   Future<void> getMyWorkerServiceList(
     BuildContext context,
   ) async {
+    checkInternet();
     workerServiceList.clear();
     setLoad(true);
     Future.delayed(const Duration(seconds: 1)).then(
@@ -232,6 +208,65 @@ class MyServiceViewModel extends ChangeNotifier {
     final provider = Provider.of<MyServiceViewModel>(context, listen: false);
     provider.workerServiceList.clear();
     await provider.getMyWorkerServiceList(context);
+  }
+
+  noInternetAndGetServices({
+    required BuildContext context,
+  }) async {
+    if (await InternetConnectionChecker().hasConnection == true) {
+      // getAllServices();
+      getMyServices(context);
+      Utils.snackBarMessage(
+        'Internet Conneted',
+        CupertinoIcons.wifi,
+        context,
+      );
+    } else {
+      Utils.snackBarMessage(
+        'No Internet Connection',
+        CupertinoIcons.wifi_slash,
+        context,
+      );
+    }
+  }
+
+  // CHECK INTERNET
+  checkInternet() async {
+    isInternetConnect = await InternetConnectionChecker().hasConnection;
+    notifyListeners();
+  }
+
+  // POST DETAIL
+  Future<void> getMyPostDetail({
+    required BuildContext context,
+    required String serviceId,
+  }) async {
+    setLoad(true);
+    Future.delayed(Duration.zero).then(
+      (value) async {
+        serviceModel =
+            await serviceRepo.fetchMyPosterService(serviceId: serviceId);
+        setLoad(false);
+      },
+    );
+    notifyListeners();
+  }
+
+  // DELETE POST
+  Future<void> deleteMyPost({
+    required BuildContext context,
+    required String serviceId,
+  }) async {
+    setLoad(true);
+    final response = await serviceRepo.deleteMyService(serviceId: serviceId);
+    if (response) {
+      Future.delayed(Duration.zero).then((value) {
+        Navigator.of(context).pop();
+        setLoad(false);
+        getMyPosterServices(context);
+        Utils.toastMessage('Job delete Successfully!');
+      });
+    }
   }
 
   // DELETE SERVICE

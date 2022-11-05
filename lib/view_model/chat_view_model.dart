@@ -3,20 +3,21 @@ import 'package:bizhub_new/model/message_model.dart';
 import 'package:bizhub_new/model/user_model.dart';
 import 'package:bizhub_new/repo/chat_repo.dart';
 import 'package:bizhub_new/repo/notification_repo.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import '../utils/shared_prefrences.dart';
+import '../utils/utils.dart';
 
 class ChatViewModel extends ChangeNotifier {
   final chatRepo = ChatRepository();
   final notification = NotificationRepo();
-  List<ChatModel> leadChatList = [];
-  List<ChatModel> servicesChatList = [];
+
   List<ChatModel> allChatList = [];
   List<MessageModel> messageList = [];
   UserModel? oppositeUser;
   final prefrences = Prefrences();
-
-  // List<MessageModel> posterMessageList = [];
+  bool isInternetConnect = true;
 
   bool _loading = false;
   bool get loading => _loading;
@@ -33,9 +34,8 @@ class ChatViewModel extends ChangeNotifier {
   }
 
   // My All Chats List
-  Future<void> getMyAllChatList(
-    BuildContext context,
-  ) async {
+  Future<void> getMyAllChatList(BuildContext context) async {
+    checkInternet();
     allChatList.clear();
     setLoad(true);
     Future.delayed(const Duration(seconds: 1)).then(
@@ -49,21 +49,22 @@ class ChatViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Leads Chats List
-  Future<void> getMyLeadChatList(
-    BuildContext context,
-  ) async {
-    leadChatList.clear();
-    setLoad(true);
-    Future.delayed(const Duration(seconds: 1)).then(
-      (value) async {
-        if (leadChatList.isEmpty) {
-          leadChatList = await chatRepo.fetchMyLeadChatsList();
-        }
-        setLoad(false);
-      },
-    );
-    notifyListeners();
+  noInternetAndGetChats({required BuildContext context}) async {
+    if (await InternetConnectionChecker().hasConnection == true) {
+      // getAllServices();
+      getMyAllChatList(context);
+      Utils.snackBarMessage(
+        'Internet Conneted',
+        CupertinoIcons.wifi,
+        context,
+      );
+    } else {
+      Utils.snackBarMessage(
+        'No Internet Connection',
+        CupertinoIcons.wifi_slash,
+        context,
+      );
+    }
   }
 
   // Messages List
@@ -82,27 +83,15 @@ class ChatViewModel extends ChangeNotifier {
             oppositeUser = response['user'] as UserModel;
           }
         }
-
         setLoad(false);
       },
     );
     notifyListeners();
   }
 
-  // Services Chats List
-  Future<void> getMyServiceChatList(
-    BuildContext context,
-  ) async {
-    servicesChatList.clear();
-    setLoad(true);
-    Future.delayed(const Duration(seconds: 1)).then(
-      (value) async {
-        if (servicesChatList.isEmpty) {
-          servicesChatList = await chatRepo.fetchMyServiceChatsList();
-        }
-        setLoad(false);
-      },
-    );
+  // CHECK INTERNET
+  checkInternet() async {
+    isInternetConnect = await InternetConnectionChecker().hasConnection;
     notifyListeners();
   }
 

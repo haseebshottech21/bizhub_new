@@ -88,7 +88,7 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
               child: TabBarView(
                 children: [
                   JobsPost(),
-                  MyWorkerServices(),
+                  ServicePost(),
                 ],
                 // controller: _tabController,
               ),

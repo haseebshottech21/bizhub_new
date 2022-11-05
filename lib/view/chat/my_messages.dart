@@ -4,11 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import '../../../utils/app_url.dart';
-import '../../../utils/mytheme.dart';
-import '../../../view_model/chat_view_model.dart';
-import '../component/messages_appbar.dart';
-import '../component/offer_message_item.dart';
+import '../../utils/app_url.dart';
+import '../../utils/mytheme.dart';
+import '../../view_model/chat_view_model.dart';
+import 'component/messages_appbar.dart';
+import 'component/offer_message_item.dart';
 
 class MyMessages extends StatefulWidget {
   const MyMessages({Key? key}) : super(key: key);

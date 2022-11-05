@@ -87,7 +87,14 @@ class MyPostItem extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(6),
                               child: serviceModel.imagesList!.isEmpty
-                                  ? Container(color: Colors.grey)
+                                  ? Container(
+                                      color: Colors.grey.shade50,
+                                      child: Icon(
+                                        Icons.photo_library,
+                                        color: Colors.grey.shade400,
+                                        size: 40,
+                                      ),
+                                    )
                                   : CachedNetworkImage(
                                       // height: constraints.maxHeight * 0.55,
                                       // width: double.infinity,
@@ -198,7 +205,7 @@ class MyPostItem extends StatelessWidget {
                                                               context
                                                                   .read<
                                                                       MyServiceViewModel>()
-                                                                  .deleteMyLead(
+                                                                  .deleteMyPost(
                                                                     serviceId: serviceModel
                                                                         .serviceId
                                                                         .toString(),

@@ -3,7 +3,7 @@ import 'package:bizhub_new/utils/icons.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/view/account/more.dart';
-import 'package:bizhub_new/view/chat/my_chats/my_chats.dart';
+import 'package:bizhub_new/view/chat/my_chats.dart';
 import 'package:bizhub_new/view/home/home_screen.dart';
 import 'package:bizhub_new/view_model/bottom_navigation_view_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -71,7 +71,7 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
 
         // Worker Module
         if (message.data['screen'] == 'send-message') {
-          Utils.snackBarMessage(message.notification!.body!, context);
+          // Utils.snackBarMessage(message.notification!.body!, context);
         }
 
         // if (message.data['screen'] == workerAcceptOfferdKey) {

@@ -1,7 +1,6 @@
 import 'package:bizhub_new/view_model/my_service_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-// import '../../../utils/routes/routes_name.dart';
 import '../../../components/custom_lodaer.dart';
 import '../components/poster_detail_body.dart';
 import 'edit_poster_service.dart';
@@ -21,7 +20,7 @@ class MyJobDetail extends StatefulWidget {
 class _MyJobDetailState extends State<MyJobDetail> {
   getMyPosterServiceDetail() async {
     final provider = Provider.of<MyServiceViewModel>(context, listen: false);
-    await provider.getMyPosterServiceDetail(
+    await provider.getMyPostDetail(
       context: context,
       serviceId: widget.serviceId,
     );
@@ -41,8 +40,6 @@ class _MyJobDetailState extends State<MyJobDetail> {
 
     final myServiceViewModel =
         Provider.of<MyServiceViewModel>(context, listen: true);
-
-    // final serviceViewModel = context.watch<MyServiceViewModel>();
 
     return Scaffold(
       body: Stack(
@@ -100,24 +97,29 @@ class _MyJobDetailState extends State<MyJobDetail> {
                     ),
                   ),
                   Container(
-                    width: 40,
-                    height: 50,
-                    margin: const EdgeInsets.symmetric(horizontal: 12),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const EditMyPosterService(),
-                            settings: RouteSettings(
-                              arguments: myServiceViewModel.serviceModel,
-                            ),
-                          ),
-                        );
-                      },
-                      child: const Icon(Icons.edit, color: Colors.white),
-                    ),
-                  ),
+                      width: 40,
+                      height: 50,
+                      margin: const EdgeInsets.symmetric(horizontal: 12),
+                      child: myServiceViewModel.serviceModel!.serviceStatus ==
+                              '0'
+                          ? InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const EditMyPosterService(),
+                                    settings: RouteSettings(
+                                      arguments:
+                                          myServiceViewModel.serviceModel,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child:
+                                  const Icon(Icons.edit, color: Colors.white),
+                            )
+                          : const SizedBox()),
                 ],
               ),
             ),

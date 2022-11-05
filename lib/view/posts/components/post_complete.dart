@@ -1,4 +1,6 @@
+import 'package:bizhub_new/components/custom_lodaer.dart';
 import 'package:bizhub_new/components/empty_icon.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../components/deafult_button.dart';
@@ -82,7 +84,7 @@ class _PostCompleteState extends State<PostComplete> {
         ),
       ),
       body: serviceViewModel.loading
-          ? const Center(child: CircularProgressIndicator())
+          ? const CustomLoader()
           : Padding(
               padding: const EdgeInsets.fromLTRB(10, 4, 10, 4),
               child: Column(
@@ -769,13 +771,39 @@ Widget _uiTop(Size size, MyServiceViewModel serviceViewModel) {
               width: size.width * 0.20,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(4.0),
-                child: Image.network(
-                  AppUrl.baseUrl +
-                      serviceViewModel
-                          .serviceCompleteModel!.imagesList![0].image
-                          .toString(),
-                  fit: BoxFit.cover,
-                ),
+                child: serviceViewModel
+                        .serviceCompleteModel!.imagesList!.isEmpty
+                    ? Container(
+                        color: Colors.grey.shade100,
+                        child: Icon(
+                          Icons.photo_library,
+                          color: Colors.grey.shade400,
+                          size: 50,
+                        ),
+                      )
+                    :
+                    // : Image.network(
+                    //     AppUrl.baseUrl +
+                    //         serviceViewModel
+                    //             .serviceCompleteModel!.imagesList![0].image
+                    //             .toString(),
+                    //     fit: BoxFit.cover,
+                    //   ),
+                    CachedNetworkImage(
+                        // height: constraints.maxHeight * 0.55,
+                        // width: double.infinity,
+                        fadeInDuration: const Duration(milliseconds: 300),
+                        placeholder: (context, url) => const Icon(
+                          Icons.photo_library,
+                          color: MyTheme.greenColor,
+                          size: 30,
+                        ),
+                        imageUrl: AppUrl.baseUrl +
+                            serviceViewModel
+                                .serviceCompleteModel!.imagesList![0].image
+                                .toString(),
+                        fit: BoxFit.cover,
+                      ),
               ),
             ),
           ),

@@ -28,11 +28,28 @@ class Utils {
   }
 
   // SNACKBAR
-  static void snackBarMessage(String message, BuildContext context) {
+  static void snackBarMessage(
+    String message,
+    IconData icons,
+    BuildContext context,
+  ) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: Row(
+          children: [
+            Icon(icons, color: Colors.white),
+            const SizedBox(width: 10),
+            Text(
+              message,
+              style: const TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.black87,
         behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(12),
+        elevation: 2,
+        duration: const Duration(milliseconds: 1500),
         // action: SnackBarAction(
         //   label: 'Open',
         //   onPressed: () => onPress(),

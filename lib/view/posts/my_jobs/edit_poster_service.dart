@@ -71,7 +71,7 @@ class _EditMyPosterServiceState extends State<EditMyPosterService> {
     final locationViewModel =
         Provider.of<LocationViewModel>(context, listen: false);
     // LocationViewModel? locationViewModel;
-    await provider.getMyPosterServiceDetail(
+    await provider.getMyPostDetail(
       context: context,
       serviceId: serviceModel.serviceId.toString(),
     );

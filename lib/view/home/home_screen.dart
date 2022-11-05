@@ -1,4 +1,5 @@
 import 'package:bizhub_new/components/custom_lodaer.dart';
+import 'package:bizhub_new/components/no_internet.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/view/home/components/all_services_items.dart';
@@ -168,45 +169,56 @@ class _HomeScreenState extends State<HomeScreen> {
                 sliver: SliverList(
                   delegate: SliverChildListDelegate(
                     [
-                      allServiceViewModel.loading
-                          ? const CustomLoader()
-                          : Consumer<AllServicesViewModel>(
-                              builder: (context, allServiceViewModel, _) {
-                                // print(allServiceViewModel.allServiceList.length);
-                                if (allServiceViewModel
-                                    .allServiceList.isEmpty) {
-                                  return Center(
-                                    child: Text(
-                                      allServiceViewModel.nearByJobs == false
-                                          ? 'Service Not Found'
-                                          : 'Jobs Not Found',
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 24.0,
-                                        fontWeight: FontWeight.w400,
+                      //  if (allServiceViewModel.isInternetConnect) {}
+                      allServiceViewModel.isInternetConnect
+                          ? allServiceViewModel.loading
+                              ? const CustomLoader()
+                              : Consumer<AllServicesViewModel>(
+                                  builder: (context, allServiceViewModel, _) {
+                                    // print(allServiceViewModel.allServiceList.length);
+                                    // if (allServiceViewModel.isInternetConnect) {
+                                    if (allServiceViewModel
+                                        .allServiceList.isEmpty) {
+                                      return Center(
+                                        child: Text(
+                                          allServiceViewModel.nearByJobs ==
+                                                  false
+                                              ? 'Service Not Found'
+                                              : 'Jobs Not Found',
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 24.0,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                    return GridView.builder(
+                                      addAutomaticKeepAlives: true,
+                                      shrinkWrap: true,
+                                      physics: const ScrollPhysics(),
+                                      padding: EdgeInsets.zero,
+                                      itemCount: allServiceViewModel
+                                          .allServiceList.length,
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: isPortrait ? 2 : 3,
+                                        mainAxisSpacing: 8,
+                                        crossAxisSpacing: 8,
                                       ),
-                                    ),
-                                  );
-                                }
-                                return GridView.builder(
-                                  addAutomaticKeepAlives: true,
-                                  shrinkWrap: true,
-                                  physics: const ScrollPhysics(),
-                                  padding: EdgeInsets.zero,
-                                  itemCount:
-                                      allServiceViewModel.allServiceList.length,
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: isPortrait ? 2 : 3,
-                                    mainAxisSpacing: 8,
-                                    crossAxisSpacing: 8,
-                                  ),
-                                  itemBuilder: (context, index) {
-                                    return AllServiceIem(
-                                      serviceModel: allServiceViewModel
-                                          .allServiceList[index],
+                                      itemBuilder: (context, index) {
+                                        return AllServiceIem(
+                                          serviceModel: allServiceViewModel
+                                              .allServiceList[index],
+                                        );
+                                      },
                                     );
                                   },
+                                )
+                          : NoInternetWidget(
+                              onPressed: () async {
+                                allServiceViewModel.noInternetAndGetServices(
+                                  context: context,
                                 );
                               },
                             )
