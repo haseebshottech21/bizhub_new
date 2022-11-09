@@ -26,6 +26,13 @@ class ChatViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _loadingTwo = false;
+  bool get loadingTwo => _loadingTwo;
+  setLoadTwo(bool status) {
+    _loadingTwo = status;
+    notifyListeners();
+  }
+
   bool _messageLoading = false;
   bool get messageLoading => _messageLoading;
   setMessageLoad(bool status) {
@@ -34,11 +41,11 @@ class ChatViewModel extends ChangeNotifier {
   }
 
   // My All Chats List
-  Future<void> getMyAllChatList(BuildContext context) async {
+  Future<void> getMyAllChatList({required BuildContext context}) async {
     checkInternet();
     allChatList.clear();
     setLoad(true);
-    Future.delayed(const Duration(seconds: 1)).then(
+    Future.delayed(Duration.zero).then(
       (value) async {
         if (allChatList.isEmpty) {
           allChatList = await chatRepo.fetchMyAllChatsList();
@@ -49,10 +56,25 @@ class ChatViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> getMyAllChatListSecond({required BuildContext context}) async {
+    checkInternet();
+    // allChatList.clear();
+    setLoadTwo(true);
+    Future.delayed(Duration.zero).then(
+      (value) async {
+        // if (allChatList.isEmpty) {
+        allChatList = await chatRepo.fetchMyAllChatsList();
+        // }
+        setLoadTwo(false);
+      },
+    );
+    notifyListeners();
+  }
+
   noInternetAndGetChats({required BuildContext context}) async {
     if (await InternetConnectionChecker().hasConnection == true) {
       // getAllServices();
-      getMyAllChatList(context);
+      getMyAllChatList(context: context);
       Utils.snackBarMessage(
         'Internet Conneted',
         CupertinoIcons.wifi,
@@ -71,23 +93,46 @@ class ChatViewModel extends ChangeNotifier {
   Future<void> getMessageList({
     required BuildContext context,
     required String chatId,
+    required bool checkMessages,
   }) async {
-    messageList.clear();
-    setLoad(true);
+    if (checkMessages) {
+      messageList.clear();
+    }
+    setLoadTwo(true);
     Future.delayed(Duration.zero).then(
       (value) async {
-        if (messageList.isEmpty) {
-          final response = await chatRepo.fetchMessagesList(chatId: chatId);
-          if (response.isNotEmpty) {
-            messageList = response['messages'] as List<MessageModel>;
-            oppositeUser = response['user'] as UserModel;
-          }
+        final response = await chatRepo.fetchMessagesList(chatId: chatId);
+        if (response.isNotEmpty) {
+          messageList = response['messages'] as List<MessageModel>;
+          oppositeUser = response['user'] as UserModel;
         }
-        setLoad(false);
+        setLoadTwo(false);
       },
     );
     notifyListeners();
   }
+
+  // Future<void> getMessageListSecond({
+  //   required BuildContext context,
+  //   required String chatId,
+  // }) async {
+  //   // checkInternet();
+  //   // allChatList.clear();
+  //   setLoadTwo(true);
+  //   Future.delayed(Duration.zero).then(
+  //     (value) async {
+  //       // if (messageList.isEmpty) {
+  //       final response = await chatRepo.fetchMessagesList(chatId: chatId);
+  //       if (response.isNotEmpty) {
+  //         messageList = response['messages'] as List<MessageModel>;
+  //         oppositeUser = response['user'] as UserModel;
+  //       }
+  //       // }
+  //       setLoadTwo(false);
+  //     },
+  //   );
+  //   notifyListeners();
+  // }
 
   // CHECK INTERNET
   checkInternet() async {
@@ -120,14 +165,6 @@ class ChatViewModel extends ChangeNotifier {
           // if (response.isNotEmpty) {
           messageList = response['messages'] as List<MessageModel>;
 
-          // commentsWebService.sendNotification(
-          //   'Comment',
-          //   '${await Utilities().getSharedPreferenceValue('name')} Commented on your ${isPoster ? 'Post' : 'Service'}',
-          //   deviceId,
-          //   isPoster ? commentKey : userCommentKey,
-          //   serviceId,
-          // );
-
           notification.sendNotification(
             notiTitle: 'Message',
             notiBody:
@@ -136,20 +173,10 @@ class ChatViewModel extends ChangeNotifier {
             data: 'send-message',
             requestId: chatId,
           );
-          // oppositeUser = response['user'] as UserModel;
-          // }
-          // }
-
+          getMyAllChatList(context: context);
           setMessageLoad(false);
         },
       );
-      // Utils.toastMessage('Service delete Successfully!');
-      // });
-
-      // notification.sendNotification(
-      //   notiTitle: 'Message',
-      //   notiBody: '',
-      // );
     }
   }
 }

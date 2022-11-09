@@ -1,6 +1,8 @@
 import 'package:bizhub_new/components/custom_lodaer.dart';
 import 'package:bizhub_new/components/no_internet.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import '../../view_model/chat_view_model.dart';
 import 'component/chat_item.dart';
@@ -14,17 +16,63 @@ class MyChats extends StatefulWidget {
 }
 
 class _MyChatsState extends State<MyChats> {
+  // @override
+  // void initState() {
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     getMyAllChatsList();
+  //   });
+  //   super.initState();
+  // }
+
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      getMyAllChatsList();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await setupInteracted();
+      await setUpRequestNotification();
+      await getMyAllChatsList();
     });
     super.initState();
   }
 
   Future<void> getMyAllChatsList() async {
     await Provider.of<ChatViewModel>(context, listen: false)
-        .getMyAllChatList(context);
+        .getMyAllChatList(context: context);
+  }
+
+  Future<void> getMyAllChatsListTwo() async {
+    await Provider.of<ChatViewModel>(context, listen: false)
+        .getMyAllChatListSecond(context: context);
+  }
+
+  Future<void> setUpRequestNotification() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+  }
+
+  Future<void> setupInteracted() async {
+    // Map? chatView = ModalRoute.of(context)!.settings.arguments as Map;
+
+    await FirebaseMessaging.instance.getInitialMessage();
+
+    // FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+    FirebaseMessaging.onMessage.listen(
+      (RemoteMessage message) {
+        // print('A new message received');
+        if (message.data['screen'] == 'send-message') {
+          getMyAllChatsListTwo();
+        }
+        Fluttertoast.showToast(msg: 'New message received');
+        // Fluttertoast.showToast(msg: 'message received');
+      },
+    );
   }
 
   @override
@@ -45,7 +93,11 @@ class _MyChatsState extends State<MyChats> {
           if (myChats.isInternetConnect) {
             if (myChats.loading) {
               return const CustomLoader();
-            } else if (myChats.allChatList.isEmpty) {
+            }
+            // else if (myChats.loadingTwo) {
+            //   return const Text('Loading....');
+            // }
+            else if (myChats.allChatList.isEmpty) {
               return const Center(
                 child: Text(
                   'No Chat Available',
@@ -86,6 +138,8 @@ class _MyChatsState extends State<MyChats> {
                               'user': myChats.allChatList[index].user!,
                               'notification': myChats
                                   .allChatList[index].user!.notificationId,
+                              'unread':
+                                  myChats.allChatList[index].unreadMessage,
                             },
                           ),
                         ),

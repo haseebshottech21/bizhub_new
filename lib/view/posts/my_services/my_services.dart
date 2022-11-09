@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../view_model/my_service_view_model.dart';
 import '../../../widgets/common/skelton.dart';
-import '../components/my_post_item.dart';
+import '../components/my_post_service_item.dart';
 
 class ServicePost extends StatefulWidget {
   const ServicePost({Key? key}) : super(key: key);
@@ -56,9 +56,8 @@ class _ServicePostState extends State<ServicePost> {
               padding: const EdgeInsets.all(8.0),
               itemCount: postView.workerServiceList.length,
               itemBuilder: (context, index) {
-                return MyPostItem(
+                return MyPostServiceItem(
                   serviceModel: postView.workerServiceList[index],
-                  myServices: true,
                 );
               },
             );

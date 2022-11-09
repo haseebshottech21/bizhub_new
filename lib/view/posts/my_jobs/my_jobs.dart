@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../components/no_internet.dart';
 import '../../../widgets/common/skelton.dart';
-import '../components/my_post_item.dart';
+import '../components/my_post_job_item.dart';
 
 class JobsPost extends StatefulWidget {
   const JobsPost({Key? key}) : super(key: key);
@@ -64,7 +64,7 @@ class _JobsPostState extends State<JobsPost> {
               padding: const EdgeInsets.all(8.0),
               itemCount: postView.posterServiceList.length,
               itemBuilder: (context, index) {
-                return MyPostItem(
+                return MyPostJobItem(
                   serviceModel: postView.posterServiceList[index],
                 );
               },

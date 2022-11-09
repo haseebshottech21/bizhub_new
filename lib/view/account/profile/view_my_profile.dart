@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import '../../../model/rating_model.dart';
 import '../../../utils/mytheme.dart';
 import '../../../view_model/auth_view_model.dart';
+import '../../../widgets/common/cached_image.dart';
+import '../../../widgets/common/empty_profile.dart';
 import '../component/view_profile.dart';
 
 class ViewMyProfile extends StatefulWidget {
@@ -52,7 +54,7 @@ class _ViewMyProfileState extends State<ViewMyProfile> {
   @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthViewModel>();
-    // final size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -76,9 +78,14 @@ class _ViewMyProfileState extends State<ViewMyProfile> {
             ViewProfile(
               userName:
                   '${auth.getPrefrenceValue('firstName')} ${auth.getPrefrenceValue('lastName')}',
-              userImage: auth.getPrefrenceValue('image').isEmpty
-                  ? 'https://i.pinimg.com/736x/25/78/61/25786134576ce0344893b33a051160b1.jpg'
-                  : AppUrl.baseUrl + auth.getPrefrenceValue('image'),
+              image: auth.getPrefrenceValue('image').isEmpty
+                  ? const EmptyProfile()
+                  : CachedImageWidget(
+                      height: size.height * 0.20,
+                      width: size.width * 0.40,
+                      radius: 100,
+                      imgUrl: AppUrl.baseUrl + auth.getPrefrenceValue('image'),
+                    ),
             ),
             const SizedBox(height: 15),
             auth.loading

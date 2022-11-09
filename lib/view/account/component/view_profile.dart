@@ -1,4 +1,5 @@
 // import 'package:bizhub_new/components/empty_icon.dart';
+import 'package:bizhub_new/utils/app_url.dart';
 import 'package:bizhub_new/widgets/common/empty_profile.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/mytheme.dart';
@@ -7,16 +8,18 @@ import '../../../widgets/common/cached_image.dart';
 class ViewProfile extends StatelessWidget {
   const ViewProfile({
     required this.userName,
-    required this.userImage,
+    required this.image,
     Key? key,
   }) : super(key: key);
 
   final String userName;
-  final String? userImage;
+  final Widget image;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
+    // print('img: ' + userImage.toString());
 
     return Container(
       width: size.width,
@@ -36,14 +39,7 @@ class ViewProfile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            userImage == null
-                ? const EmptyProfile()
-                : CachedImageWidget(
-                    height: size.height * 0.20,
-                    width: size.width * 0.40,
-                    radius: 100,
-                    imgUrl: userImage!,
-                  ),
+            image,
             const SizedBox(height: 16),
             Text(
               userName,

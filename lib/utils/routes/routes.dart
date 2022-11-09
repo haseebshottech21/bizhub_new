@@ -25,7 +25,7 @@ import 'package:bizhub_new/view/splash_screen.dart';
 import 'package:bizhub_new/view/test_location.dart';
 import 'package:flutter/material.dart';
 import '../../view/auth/otp_verification_screen.dart';
-import '../../view/posts/my_jobs/edit_poster_service.dart';
+// import '../../view/posts/my_jobs/edit_poster_service.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -76,9 +76,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const SelectCategory());
       case RouteName.createPost:
         return MaterialPageRoute(builder: (context) => const CreatePost());
-      case RouteName.editMyPosterService:
-        return MaterialPageRoute(
-            builder: (context) => const EditMyPosterService());
+      // case RouteName.editMyPosterService:
+      //   return MaterialPageRoute(
+      //       builder: (context) => const EditMyPosterService());
       case RouteName.searchLocation:
         return MaterialPageRoute(
             builder: (context) => const SearchLocationScreen());

@@ -72,6 +72,7 @@ class ChatModel {
   MessageModel? message;
   ServiceModel? service;
   UserModel? user;
+  int? unreadMessage;
 
   ChatModel({
     this.chatId,
@@ -81,6 +82,7 @@ class ChatModel {
     this.message,
     this.service,
     this.user,
+    this.unreadMessage,
   });
 
   factory ChatModel.fromJson(Map<String, dynamic> json) => ChatModel(
@@ -91,6 +93,7 @@ class ChatModel {
         message: MessageModel.fromJson(json['message']),
         service: ServiceModel.fromJson(json['service']),
         user: UserModel.fromJson(json['sender_details']),
+        unreadMessage: json['un_read_messages'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -101,5 +104,6 @@ class ChatModel {
         'message': message,
         'service': service,
         'sender_details': user,
+        'un_read_messages': unreadMessage,
       };
 }

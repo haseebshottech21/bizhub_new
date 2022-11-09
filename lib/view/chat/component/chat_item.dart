@@ -18,15 +18,11 @@ class ChatWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    // print(chat.user!.image);
-
-    // return Container();
-
     return Padding(
       padding: const EdgeInsets.only(top: 4),
       child: InkWell(
         onTap: onTap,
-        onLongPress: () {},
+        // onLongPress: () {},
         child: Container(
           width: size.width,
           // color: Colors.yellow,
@@ -98,45 +94,59 @@ class ChatWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              // const Spacer(),
-              // chat.unReadCount! > 0
-              //     ? Column(
-              //         crossAxisAlignment: CrossAxisAlignment.end,
-              //         children: [
-              //           Text(
-              //             chat.lastMessageAt,
-              //             style: const TextStyle(
-              //               fontSize: 11,
-              //               fontWeight: FontWeight.w400,
-              //               color: Colors.grey,
-              //             ),
-              //           ),
-              //           SizedBox(height: size.height * 0.008),
-              //           Container(
-              //             padding: const EdgeInsets.all(6),
-              //             decoration: const BoxDecoration(
-              //               shape: BoxShape.circle,
-              //               color: Colors.red,
-              //             ),
-              //             child: Center(
-              //               child: Text(
-              //                 chat.unReadCount.toString(),
-              //                 style: const TextStyle(
-              //                   fontWeight: FontWeight.w500,
-              //                   color: Colors.white,
-              //                 ),
-              //               ),
-              //             ),
-              //           ),
-              //         ],
-              //       )
-              //     :
-              Text(
-                chat.message!.createdAt.toString(),
-                style: const TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.grey,
+              SizedBox(
+                // height: 50,
+                width: size.width * 0.18,
+                // color: Colors.green,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      chat.message!.createdAt.toString(),
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: chat.unreadMessage! > 0
+                            ? FontWeight.w500
+                            : FontWeight.w400,
+                        color: chat.unreadMessage! > 0
+                            ? Colors.green
+                            : Colors.grey,
+                      ),
+                    ),
+                    SizedBox(height: size.height * 0.008),
+                    if (chat.unreadMessage! > 0)
+                      CircleAvatar(
+                        radius: 11,
+                        backgroundColor: MyTheme.greenColor,
+                        child: Center(
+                          child: Text(
+                            chat.unreadMessage.toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ),
+                      )
+                    // Container(
+                    //   padding: const EdgeInsets.all(2),
+                    //   decoration: const BoxDecoration(
+                    //     shape: BoxShape.circle,
+                    //     color: MyTheme.greenColor,
+                    //   ),
+                    //   child: Center(
+                    //     child: Text(
+                    //       chat.unreadMessage.toString(),
+                    //       style: const TextStyle(
+                    //         fontWeight: FontWeight.w500,
+                    //         color: Colors.white,
+                    //         fontSize: 13,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
                 ),
               ),
             ],

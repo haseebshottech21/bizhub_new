@@ -8,19 +8,16 @@ import '../../../utils/app_url.dart';
 import '../../../utils/mytheme.dart';
 import '../../../view_model/my_service_view_model.dart';
 import '../../../widgets/common/dialog_box.dart';
-import '../my_jobs/my_job_detail.dart';
-import '../my_services/my_work_detail.dart';
+import '../my_services/my_service_detail.dart';
 import 'bottom_modal_action.dart';
 
-class MyPostItem extends StatelessWidget {
-  const MyPostItem({
+class MyPostServiceItem extends StatelessWidget {
+  const MyPostServiceItem({
     Key? key,
     required this.serviceModel,
-    this.myServices = false,
   }) : super(key: key);
 
   final ServiceModel serviceModel;
-  final bool myServices;
 
   @override
   Widget build(BuildContext context) {
@@ -30,23 +27,23 @@ class MyPostItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: GestureDetector(
         onTap: () {
-          if (myServices) {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => MyWorkDetail(
-                  serviceId: serviceModel.serviceId.toString(),
-                ),
+          // if (myServices) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => MyWorkDetail(
+                serviceId: serviceModel.serviceId.toString(),
               ),
-            );
-          } else {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => MyJobDetail(
-                  serviceId: serviceModel.serviceId.toString(),
-                ),
-              ),
-            );
-          }
+            ),
+          );
+          // } else {
+          //   Navigator.of(context).push(
+          //     MaterialPageRoute(
+          //       builder: (context) => MyJobDetail(
+          //         serviceId: serviceModel.serviceId.toString(),
+          //       ),
+          //     ),
+          //   );
+          // }
         },
         child: Container(
           width: size.width,
@@ -161,61 +158,87 @@ class MyPostItem extends StatelessWidget {
                                                     onTap: () {
                                                       Navigator.of(context)
                                                           .pop();
-                                                      if (myServices) {
-                                                        showDialog(
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (context) =>
+                                                            simpleDialog(
                                                           context: context,
-                                                          builder: (context) =>
-                                                              simpleDialog(
-                                                            context: context,
-                                                            title:
-                                                                'Confirm Delete ?',
-                                                            subTitle:
-                                                                'Are you sure you want to delete service ?',
-                                                            onPressed: () {
-                                                              // Navigator.of(
-                                                              //         context)
-                                                              //     .pop();
-                                                              context
-                                                                  .read<
-                                                                      MyServiceViewModel>()
-                                                                  .deleteMyService(
-                                                                    serviceId: serviceModel
-                                                                        .serviceId
-                                                                        .toString(),
-                                                                    context:
-                                                                        context,
-                                                                  );
-                                                            },
-                                                          ),
-                                                        );
-                                                      } else {
-                                                        showDialog(
-                                                          context: context,
-                                                          builder: (context) =>
-                                                              simpleDialog(
-                                                            context: context,
-                                                            title:
-                                                                'Confirm Delete ?',
-                                                            subTitle:
-                                                                'Are you sure you want to delete job ?',
-                                                            onPressed: () {
-                                                              // Navigator.of(
-                                                              //         context)
-                                                              //     .pop();
-                                                              context
-                                                                  .read<
-                                                                      MyServiceViewModel>()
-                                                                  .deleteMyPost(
-                                                                    serviceId: serviceModel
-                                                                        .serviceId
-                                                                        .toString(),
-                                                                    context:
-                                                                        context,
-                                                                  );
-                                                            },
-                                                          ),
-                                                        );
-                                                      }
+                                                          title:
+                                                              'Confirm Delete ?',
+                                                          subTitle:
+                                                              'Are you sure you want to delete service ?',
+                                                          onPressed: () {
+                                                            // Navigator.of(
+                                                            //         context)
+                                                            //     .pop();
+                                                            context
+                                                                .read<
+                                                                    MyServiceViewModel>()
+                                                                .deleteMyService(
+                                                                  serviceId: serviceModel
+                                                                      .serviceId
+                                                                      .toString(),
+                                                                  context:
+                                                                      context,
+                                                                );
+                                                          },
+                                                        ),
+                                                      );
+                                                      // if (myServices) {
+                                                      //   showDialog(
+                                                      //     context: context,
+                                                      //     builder: (context) =>
+                                                      //         simpleDialog(
+                                                      //       context: context,
+                                                      //       title:
+                                                      //           'Confirm Delete ?',
+                                                      //       subTitle:
+                                                      //           'Are you sure you want to delete service ?',
+                                                      //       onPressed: () {
+                                                      //         // Navigator.of(
+                                                      //         //         context)
+                                                      //         //     .pop();
+                                                      //         context
+                                                      //             .read<
+                                                      //                 MyServiceViewModel>()
+                                                      //             .deleteMyService(
+                                                      //               serviceId: serviceModel
+                                                      //                   .serviceId
+                                                      //                   .toString(),
+                                                      //               context:
+                                                      //                   context,
+                                                      //             );
+                                                      //       },
+                                                      //     ),
+                                                      //   );
+                                                      // } else {
+                                                      //   showDialog(
+                                                      //     context: context,
+                                                      //     builder: (context) =>
+                                                      //         simpleDialog(
+                                                      //       context: context,
+                                                      //       title:
+                                                      //           'Confirm Delete ?',
+                                                      //       subTitle:
+                                                      //           'Are you sure you want to delete job ?',
+                                                      //       onPressed: () {
+                                                      //         // Navigator.of(
+                                                      //         //         context)
+                                                      //         //     .pop();
+                                                      //         context
+                                                      //             .read<
+                                                      //                 MyServiceViewModel>()
+                                                      //             .deleteMyPost(
+                                                      //               serviceId: serviceModel
+                                                      //                   .serviceId
+                                                      //                   .toString(),
+                                                      //               context:
+                                                      //                   context,
+                                                      //             );
+                                                      //       },
+                                                      //     ),
+                                                      //   );
+                                                      // }
                                                     },
                                                   ),
                                                   if (serviceModel
@@ -239,47 +262,64 @@ class MyPostItem extends StatelessWidget {
                                                               Navigator.of(
                                                                       context)
                                                                   .pop();
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder: (ctx) =>
+                                                                      const PostComplete(),
+                                                                  settings:
+                                                                      RouteSettings(
+                                                                    arguments: {
+                                                                      'service_id':
+                                                                          serviceModel
+                                                                              .serviceId,
+                                                                      'lead':
+                                                                          false,
+                                                                    },
+                                                                  ),
+                                                                ),
+                                                              );
                                                               // Navigator.pushNamed(
                                                               //     context,
                                                               //     RouteName
                                                               //         .myJobComplete);
-                                                              if (myServices) {
-                                                                Navigator.push(
-                                                                  context,
-                                                                  MaterialPageRoute(
-                                                                    builder:
-                                                                        (ctx) =>
-                                                                            const PostComplete(),
-                                                                    settings:
-                                                                        RouteSettings(
-                                                                      arguments: {
-                                                                        'service_id':
-                                                                            serviceModel.serviceId,
-                                                                        'lead':
-                                                                            false,
-                                                                      },
-                                                                    ),
-                                                                  ),
-                                                                );
-                                                              } else {
-                                                                Navigator.push(
-                                                                  context,
-                                                                  MaterialPageRoute(
-                                                                    builder:
-                                                                        (ctx) =>
-                                                                            const PostComplete(),
-                                                                    settings:
-                                                                        RouteSettings(
-                                                                      arguments: {
-                                                                        'service_id':
-                                                                            serviceModel.serviceId,
-                                                                        'lead':
-                                                                            true,
-                                                                      },
-                                                                    ),
-                                                                  ),
-                                                                );
-                                                              }
+                                                              // if (myServices) {
+                                                              //   Navigator.push(
+                                                              //     context,
+                                                              //     MaterialPageRoute(
+                                                              //       builder:
+                                                              //           (ctx) =>
+                                                              //               const PostComplete(),
+                                                              //       settings:
+                                                              //           RouteSettings(
+                                                              //         arguments: {
+                                                              //           'service_id':
+                                                              //               serviceModel.serviceId,
+                                                              //           'lead':
+                                                              //               false,
+                                                              //         },
+                                                              //       ),
+                                                              //     ),
+                                                              //   );
+                                                              // } else {
+                                                              //   Navigator.push(
+                                                              //     context,
+                                                              //     MaterialPageRoute(
+                                                              //       builder:
+                                                              //           (ctx) =>
+                                                              //               const PostComplete(),
+                                                              //       settings:
+                                                              //           RouteSettings(
+                                                              //         arguments: {
+                                                              //           'service_id':
+                                                              //               serviceModel.serviceId,
+                                                              //           'lead':
+                                                              //               true,
+                                                              //         },
+                                                              //       ),
+                                                              //     ),
+                                                              //   );
+                                                              // }
                                                             },
                                                           ),
                                                         );

@@ -3,7 +3,10 @@ import 'package:bizhub_new/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import '../../../utils/app_url.dart';
+import '../../../utils/app_url.dart';
 import '../../../utils/mytheme.dart';
+import '../../../widgets/common/cached_image.dart';
+import '../../../widgets/common/empty_profile.dart';
 import '../component/profile_description.dart';
 import '../component/view_profile.dart';
 
@@ -36,7 +39,7 @@ class _ViewOtherProfileState extends State<ViewOtherProfile> {
 
   @override
   Widget build(BuildContext context) {
-    // final size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     final UserModel profile =
         ModalRoute.of(context)!.settings.arguments as UserModel;
 
@@ -55,7 +58,15 @@ class _ViewOtherProfileState extends State<ViewOtherProfile> {
           children: [
             ViewProfile(
               userName: '${profile.firstName} ${profile.lastName}',
-              userImage: profile.image,
+              // userImage: profile.image,
+              image: profile.image == null
+                  ? const EmptyProfile()
+                  : CachedImageWidget(
+                      height: size.height * 0.20,
+                      width: size.width * 0.40,
+                      radius: 100,
+                      imgUrl: AppUrl.baseUrl + profile.image!,
+                    ),
             ),
             const SizedBox(height: 15),
             Consumer<AuthViewModel>(
