@@ -31,35 +31,57 @@ class ServiceRepository {
   }
 
   // All Services
-  Future<List<ServiceModel>> fetchAllServicesList({
+  Future<Map<String, dynamic>> fetchAllServicesList({
     required String serviceType,
+    int? page,
   }) async {
     try {
       var catIds = "";
+      var servicePage = "";
       for (var element
           in (await prefrence.getSharedPreferenceListValue("categories"))) {
         catIds += "cat_ids[]=$element&";
       }
-      // print('${AppUrl.allServiceEndPoint}?type=$serviceType&$catIds');
+      if (page == null) {
+        servicePage = '';
+      } else {
+        servicePage = 'page=$page';
+      }
+
+      print(
+          "${AppUrl.allServiceEndPoint}?$servicePage&type=$serviceType&$catIds'");
       final response = await http.get(
-        Uri.parse('${AppUrl.allServiceEndPoint}?type=$serviceType&$catIds'),
+        Uri.parse(
+            '${AppUrl.allServiceEndPoint}?$servicePage&type=$serviceType&$catIds'),
         headers: await AppUrl().headerWithAuth(),
       );
       // print('${AppUrl.allServiceEndPoint}?type=$serviceType');
       final loadedData = json.decode(response.body);
-      print(response.statusCode);
+      // print(response);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        List<ServiceModel> allServicesList = (loadedData['data'] as List)
-            .map((e) => ServiceModel.fromJson(e))
-            .toList();
-        return allServicesList;
+        List<ServiceModel> allServicesList =
+            (loadedData['data'] as List).map((e) {
+          // print(e);
+          return ServiceModel.fromJson(e);
+        }).toList();
+        // var prev = loadedData['links']['prev'];
+        // var next = loadedData['links']['next'];
+
+        // print(allServicesList.length);
+        // print('prev ' + prev);
+        // print('next ' + next);
+        return {
+          'allService': allServicesList,
+          'prev': loadedData['links']['prev'],
+          'next': loadedData['links']['next'],
+        };
       } else {
         Utils.toastMessage(loadedData['message']);
       }
     } catch (e) {
       Utils.toastMessage(e.toString());
     }
-    return [];
+    return {};
   }
 
   Future<ServiceDetalModel?> fetchAllServiceDetail({

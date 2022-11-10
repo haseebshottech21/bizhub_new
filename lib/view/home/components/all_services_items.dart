@@ -6,9 +6,14 @@ import '../../../utils/mytheme.dart';
 import '../all_service_detail_screen.dart';
 
 class AllServiceIem extends StatelessWidget {
-  const AllServiceIem({Key? key, required this.serviceModel}) : super(key: key);
+  const AllServiceIem({
+    Key? key,
+    required this.serviceModel,
+    // required this.index,
+  }) : super(key: key);
 
   final ServiceModel serviceModel;
+  // final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -131,6 +136,13 @@ class AllServiceIem extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                               ),
                               const Spacer(),
+                              // Text(
+                              //   index.toString(),
+                              //   style: const TextStyle(
+                              //     fontSize: 12,
+                              //     fontWeight: FontWeight.w500,
+                              //   ),
+                              // ),
                               Text(
                                 '\$ ${serviceModel.serviceAmount}',
                                 style: const TextStyle(

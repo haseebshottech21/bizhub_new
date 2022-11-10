@@ -129,7 +129,7 @@ class CategoryViewModel extends ChangeNotifier {
       setBtnLoad(false);
       Navigator.of(context).pop();
       await Provider.of<AllServicesViewModel>(context, listen: false)
-          .getAllServicesList(context);
+          .getAllServicesList(context: context);
     });
     notifyListeners();
   }

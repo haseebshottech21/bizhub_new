@@ -16,29 +16,48 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // ScrollController controller = ScrollController();
+
   @override
   void initState() {
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       getAllServices();
+      // controller.addListener(() {
+      //   if (controller.position.maxScrollExtent == controller.offset) {
+      //     getAllServices();
+      //   }
+      // });
+      final provider =
+          Provider.of<AllServicesViewModel>(context, listen: false);
+      provider.controller = ScrollController()
+        ..addListener(provider.getAllServiceMore);
     });
-    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // controller.dispose();
+    super.dispose();
   }
 
   Future<void> getAllServices() async {
-    await Provider.of<AllServicesViewModel>(context, listen: false)
-        .getAllServicesList(context);
     // await Provider.of<AllServicesViewModel>(context, listen: false)
-    //     .checkAllServices(context);
+    //     .getAllServicesLists(context: context);
+    await Provider.of<AllServicesViewModel>(context, listen: false)
+        .getAllService();
+  }
+
+  Future<void> refresh() async {
+    await Provider.of<AllServicesViewModel>(context, listen: false)
+        .refresh(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setSystemUIOverlayStyle(
-    //   const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-    // );
-
     final size = MediaQuery.of(context).size;
-    final allServiceViewModel = context.watch<AllServicesViewModel>();
+    // final allServiceViewModel = context.watch<AllServicesViewModel>();
+    final allServiceViewModel = Provider.of<AllServicesViewModel>(context);
 
     return OrientationBuilder(
       builder: (context, orientation) {
@@ -53,8 +72,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 pinned: true,
                 snap: false,
                 elevation: 0,
-                // centerTitle: true,
-
                 backgroundColor: Colors.white,
                 automaticallyImplyLeading: false,
                 titleTextStyle: const TextStyle(
@@ -171,14 +188,32 @@ class _HomeScreenState extends State<HomeScreen> {
                     [
                       //  if (allServiceViewModel.isInternetConnect) {}
                       allServiceViewModel.isInternetConnect
-                          ? allServiceViewModel.loading
+                          ? allServiceViewModel.isFirstLoadRunning
                               ? const CustomLoader()
-                              : Consumer<AllServicesViewModel>(
+                              :
+                              // Consumer<AllServicesViewModel>(
+                              // builder: (context, allServiceViewModel, _) {
+                              // print(allServiceViewModel.allServiceList.length);
+                              // if (allServiceViewModel.isInternetConnect) {
+                              // if (allServiceViewModel
+                              //     .allServiceList.isEmpty) {
+                              //   return Center(
+                              //     child: Text(
+                              //       allServiceViewModel.nearByJobs ==
+                              //               false
+                              //           ? 'Service Not Found'
+                              //           : 'Jobs Not Found',
+                              //       style: const TextStyle(
+                              //         color: Colors.black,
+                              //         fontSize: 24.0,
+                              //         fontWeight: FontWeight.w400,
+                              //       ),
+                              //     ),
+                              //   );
+                              // }
+                              Consumer<AllServicesViewModel>(
                                   builder: (context, allServiceViewModel, _) {
-                                    // print(allServiceViewModel.allServiceList.length);
-                                    // if (allServiceViewModel.isInternetConnect) {
-                                    if (allServiceViewModel
-                                        .allServiceList.isEmpty) {
+                                    if (allServiceViewModel.posts.isEmpty) {
                                       return Center(
                                         child: Text(
                                           allServiceViewModel.nearByJobs ==
@@ -192,29 +227,80 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                       );
+                                    } else if (allServiceViewModel
+                                            .isLoadMoreRunning ==
+                                        true) {
+                                      return const Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 10, bottom: 40),
+                                        child: Center(
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                      );
+                                    } else if (allServiceViewModel
+                                            .hasNextPage ==
+                                        false) {
+                                      return Container(
+                                        padding: const EdgeInsets.only(
+                                            top: 30, bottom: 40),
+                                        color: Colors.amber,
+                                        child: const Center(
+                                          child: Text(
+                                              'You have fetched all of the content'),
+                                        ),
+                                      );
                                     }
-                                    return GridView.builder(
-                                      addAutomaticKeepAlives: true,
-                                      shrinkWrap: true,
-                                      physics: const ScrollPhysics(),
-                                      padding: EdgeInsets.zero,
-                                      itemCount: allServiceViewModel
-                                          .allServiceList.length,
-                                      gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: isPortrait ? 2 : 3,
-                                        mainAxisSpacing: 8,
-                                        crossAxisSpacing: 8,
-                                      ),
-                                      itemBuilder: (context, index) {
-                                        return AllServiceIem(
-                                          serviceModel: allServiceViewModel
-                                              .allServiceList[index],
-                                        );
-                                      },
+                                    return Column(
+                                      children: [
+                                        GridView.builder(
+                                          controller:
+                                              allServiceViewModel.controller,
+                                          addAutomaticKeepAlives: true,
+                                          shrinkWrap: true,
+                                          physics: const ScrollPhysics(),
+                                          padding: EdgeInsets.zero,
+                                          itemCount:
+                                              allServiceViewModel.posts.length,
+                                          gridDelegate:
+                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: isPortrait ? 2 : 3,
+                                            mainAxisSpacing: 8,
+                                            crossAxisSpacing: 8,
+                                          ),
+                                          itemBuilder: (context, index) {
+                                            // if (index <
+                                            //     allServiceViewModel
+                                            //         .allServiceList.length) {
+                                            // print(allServiceViewModel.hasmore);
+                                            return AllServiceIem(
+                                              serviceModel: allServiceViewModel
+                                                  .posts[index],
+                                            );
+                                            // }
+
+                                            //else {
+                                            //   print(allServiceViewModel.hasmore);
+                                            //   return Padding(
+                                            //     padding:
+                                            //         const EdgeInsets.symmetric(
+                                            //             vertical: 32.0),
+                                            //     child: Center(
+                                            //       child: allServiceViewModel
+                                            //               .hasmore
+                                            //           ? const CircularProgressIndicator()
+                                            //           : const Text(
+                                            //               'No More Data'),
+                                            //     ),
+                                            //   );
+                                            // }
+                                          },
+                                        ),
+                                      ],
                                     );
                                   },
                                 )
+                          // },
+                          // )
                           : NoInternetWidget(
                               onPressed: () async {
                                 allServiceViewModel.noInternetAndGetServices(
@@ -235,9 +321,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   selectTypeBottom() {
     // List typeList = ['Jobs Near By', 'Service Near By'];
-
     // final post = Provider.of<AllServicesViewModel>(context, listen: true);
-
     return showModalBottomSheet(
       backgroundColor: Colors.white,
       context: context,
