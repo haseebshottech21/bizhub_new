@@ -95,11 +95,14 @@ class CategoryViewModel extends ChangeNotifier {
   bool selected = false;
   List<String> selectedIndexList = [];
 
-  // clearFilter() async {
-  //   filterCatId = '';
-  //   await prefrence.setSharedPreferenceValue('catId', filterCatId);
-  //   notifyListeners();
-  // }
+  clearFilter(BuildContext context) async {
+    selectedIndexList = [];
+    pref.setSharedPreferenceListValue("categories", selectedIndexList);
+    Navigator.of(context).pop();
+    await Provider.of<AllServicesViewModel>(context, listen: false)
+        .getAllService();
+    notifyListeners();
+  }
 
   selectFilterCategory(int index, String id) {
     selectedIndexList.add(id);
@@ -123,13 +126,16 @@ class CategoryViewModel extends ChangeNotifier {
   Future<void> setAndApplyWithCategory(
     BuildContext context,
   ) async {
+    Provider.of<AllServicesViewModel>(context, listen: false).page = 1;
+    Provider.of<AllServicesViewModel>(context, listen: false).hasNextPage =
+        true;
     setBtnLoad(true);
-    Future.delayed(const Duration(seconds: 2)).then((value) async {
+    Future.delayed(Duration.zero).then((value) async {
       pref.setSharedPreferenceListValue("categories", selectedIndexList);
       setBtnLoad(false);
       Navigator.of(context).pop();
       await Provider.of<AllServicesViewModel>(context, listen: false)
-          .getAllServicesList(context: context);
+          .getAllService();
     });
     notifyListeners();
   }

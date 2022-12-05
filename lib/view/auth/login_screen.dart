@@ -42,16 +42,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  // Widget bottom() {
-  //   return AuthBottom(
-  //     title: 'Don\'t have an account?',
-  //     text: 'Sign Up!',
-  //     onTap: () {
-  //       Navigator.of(context).pushNamed(RouteName.signup);
-  //     },
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(

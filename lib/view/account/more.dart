@@ -7,6 +7,7 @@ import '../../utils/app_url.dart';
 import '../../utils/mytheme.dart';
 import '../../view_model/auth_view_model.dart';
 import '../../widgets/common/cached_image.dart';
+import '../../widgets/common/empty_profile.dart';
 
 class MoreScreen extends StatefulWidget {
   const MoreScreen({Key? key}) : super(key: key);
@@ -33,8 +34,6 @@ class _MoreScreenState extends State<MoreScreen> {
   Widget build(BuildContext context) {
     final auth = context.watch<AuthViewModel>();
 
-    // print(authViewModel.user!.firstName.toString());
-
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -56,9 +55,19 @@ class _MoreScreenState extends State<MoreScreen> {
                 ViewProfile(
                   userName:
                       '${auth.getPrefrenceValue('firstName')} ${auth.getPrefrenceValue('lastName')}',
-                  userImage: auth.getPrefrenceValue('image').isEmpty
-                      ? 'https://i.pinimg.com/736x/25/78/61/25786134576ce0344893b33a051160b1.jpg'
-                      : AppUrl.baseUrl + auth.getPrefrenceValue('image'),
+                  image: auth.getPrefrenceValue('image') == null.toString()
+                      ? EmptyProfile(
+                          height: size.height * 0.10,
+                          width: size.width * 0.20,
+                          iconSize: 60,
+                          radius: 100,
+                        )
+                      : CachedImageWidget(
+                          height: size.height * 0.10,
+                          width: size.width * 0.20,
+                          imgUrl:
+                              AppUrl.baseUrl + auth.getPrefrenceValue('image'),
+                        ),
                 ),
                 const SizedBox(height: 15),
                 Padding(
@@ -285,29 +294,21 @@ class _MoreScreenState extends State<MoreScreen> {
 class ViewProfile extends StatelessWidget {
   const ViewProfile({
     required this.userName,
-    required this.userImage,
+    this.image,
     Key? key,
   }) : super(key: key);
 
   final String userName;
-  final String userImage;
+  final Widget? image;
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Container(
       padding: const EdgeInsets.only(
         top: 25,
         bottom: 20,
       ),
-      decoration: const BoxDecoration(
-        color: MyTheme.greenColor,
-        // borderRadius: BorderRadius.only(
-        //   bottomLeft: Radius.circular(6),
-        //   bottomRight: Radius.circular(6),
-        // ),
-      ),
+      color: MyTheme.greenColor,
       child: InkWell(
         onTap: () {
           Navigator.pushNamed(context, RouteName.viewMyProfile);
@@ -320,25 +321,18 @@ class ViewProfile extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              CachedImageWidget(
-                height: size.height * 0.10,
-                width: size.width * 0.20,
-                imgUrl: userImage,
-              ),
+              image!,
               const SizedBox(width: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    width: size.width * 0.70,
-                    child: Text(
-                      userName,
-                      style: const TextStyle(
-                        fontSize: 22,
-                        letterSpacing: 0.5,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                      ),
+                  Text(
+                    userName,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      letterSpacing: 0.5,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                   const SizedBox(height: 2),

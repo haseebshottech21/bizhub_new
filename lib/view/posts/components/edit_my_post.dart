@@ -171,6 +171,7 @@ class _EditMyPostState extends State<EditMyPost> {
                             controller: priceController,
                             validator:
                                 textFieldValidator.budgetRangeErrorGetter,
+                            textInputType: TextInputType.number,
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
                               LengthLimitingTextInputFormatter(6),
@@ -285,16 +286,6 @@ class UploadImages extends StatelessWidget {
                 ],
               ),
             ),
-
-            // if (serviceModel.imagesList!.isEmpty && provider.serviceImgaes.isEmpty) {
-            //   print('No image added');
-            // } else if (provider.serviceImgaes.isEmpty &&
-            //     serviceModel.imagesList!.isNotEmpty) {
-            //   print(serviceModel.imagesList![0].image.toString());
-            // } else if (provider.serviceImgaes.isNotEmpty &&
-            //     serviceModel.imagesList!.isEmpty) {
-            //   print(provider.serviceImgaes);
-            // }
             postViewModel.serviceImgaes.isEmpty &&
                     serviceModel.imagesList!.isEmpty
                 ? const Padding(
@@ -367,8 +358,9 @@ class UploadImages extends StatelessWidget {
                                   DecorationImage(
                                 fit: BoxFit.fill,
                                 image: FileImage(
-                                  File(postViewModel.serviceImgaes[0]
-                                      ['imagePath']),
+                                  File(
+                                    postViewModel.serviceImgaes[0]['imagePath'],
+                                  ),
                                 ),
                               ),
                             ),

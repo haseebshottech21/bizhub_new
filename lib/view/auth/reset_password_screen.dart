@@ -4,9 +4,7 @@ import 'package:provider/provider.dart';
 import '../../components/deafult_button.dart';
 import '../../utils/field_validator.dart';
 import '../../utils/mytheme.dart';
-// import '../../utils/shared_prefrences.dart';
 import '../../view_model/auth_view_model.dart';
-// import '../../widgets/common/app_bar.dart';
 import '../../widgets/common/input_textfield.dart';
 
 class ResetPassword extends StatefulWidget {

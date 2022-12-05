@@ -27,7 +27,7 @@ class AuthRepository {
         user = UserModel.fromJson(responseLoaded['data']);
         return user;
       } else {
-        print("error");
+        // print("error");
       }
     } catch (e) {
       log(e.toString());
@@ -100,7 +100,7 @@ class AuthRepository {
         Utils.toastMessage(responseLoaded['message']);
       }
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
       Utils.toastMessage(e.toString());
       // Fluttertoast.showToast(msg: e.toString());
     }
@@ -220,13 +220,13 @@ class AuthRepository {
         headers: await AppUrl().headerWithAuth(),
       );
       final responseLoaded = jsonDecode(response.body);
-      print(responseLoaded);
+      // print(responseLoaded);
       if (response.statusCode == 200 || response.statusCode == 201) {
         updateCrediential(responseLoaded['data']);
         return responseLoaded;
       } else {
         Utils.toastMessage(responseLoaded['message']);
-        print(responseLoaded['message']);
+        // print(responseLoaded['message']);
       }
     } catch (e) {
       // print(e.toString());

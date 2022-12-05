@@ -69,9 +69,15 @@ class _SignupScreenState extends State<SignupScreen> {
       const SystemUiOverlayStyle(systemNavigationBarColor: Colors.white),
     );
 
+    // final TextStyle textstyle =
+    //     TextStyle(color: Colors.white, fontWeight: FontWeight.bold);
+    // final InputDecoration decoration = InputDecoration(
+    //   border: OutlineInputBorder(),
+    // );
+
     return Scaffold(
-      backgroundColor: MyTheme.whiteColor,
       resizeToAvoidBottomInset: false,
+      backgroundColor: MyTheme.whiteColor,
       appBar: mainAppBar(context: context, appBarTitle: 'Create Account'),
       bottomSheet: AuthBottom(
         title: 'Already have an account?',
@@ -80,179 +86,169 @@ class _SignupScreenState extends State<SignupScreen> {
           Navigator.of(context).pushNamed(RouteName.login);
         },
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: 10.0,
-            right: 10.0,
-            top: 10.0,
-            bottom: 70.0,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Form(
-                key: _formKey,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    children: [
-                      // const ProfileImage(),
-                      Consumer<AuthViewModel>(
-                        builder: (context, auth, _) {
-                          // print(auth.imageDetail['imagePath'].toString());
-                          return GestureDetector(
-                            onTap: () => _showSelectPhoto(context),
-                            // onTap: () {},
-                            child: SizedBox(
-                              height: 150,
-                              width: 150,
-                              child: Stack(
-                                children: [
-                                  auth.imageDetail['imagePath']
-                                          .toString()
-                                          .isEmpty
-                                      ? const EmptyProfile()
-                                      : UploadedProfile(
-                                          fileImage: FileImage(
-                                            File(auth.imageDetail['imagePath']
-                                                .toString()),
-                                          ),
-                                        ),
-                                  Positioned(
-                                    right: 5,
-                                    bottom: 5,
-                                    child: Container(
-                                      // width: 32,
-                                      // height: 32,
-                                      padding: const EdgeInsets.all(2),
-                                      decoration: BoxDecoration(
-                                        color: MyTheme.greenColor,
-                                        borderRadius: BorderRadius.circular(6),
-                                        // border: Border.all(color: Colors.white, width: 2),
-                                      ),
-                                      child: const Center(
-                                        child: Icon(
-                                          Icons.add,
-                                          color: MyTheme.whiteColor,
-                                          size: 25,
-                                        ),
-                                      ),
+      body: Scaffold(
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Consumer<AuthViewModel>(
+                  builder: (context, auth, _) {
+                    // print(auth.imageDetail['imagePath'].toString());
+                    return GestureDetector(
+                      onTap: () => _showSelectPhoto(context),
+                      // onTap: () {},
+                      child: SizedBox(
+                        height: 150,
+                        width: 150,
+                        child: Stack(
+                          children: [
+                            auth.imageDetail['imagePath'].toString().isEmpty
+                                ? const EmptyProfile()
+                                : UploadedProfile(
+                                    fileImage: FileImage(
+                                      File(auth.imageDetail['imagePath']
+                                          .toString()),
                                     ),
                                   ),
-                                ],
+                            Positioned(
+                              right: 5,
+                              bottom: 5,
+                              child: Container(
+                                // width: 32,
+                                // height: 32,
+                                padding: const EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                  color: MyTheme.greenColor,
+                                  borderRadius: BorderRadius.circular(6),
+                                  // border: Border.all(color: Colors.white, width: 2),
+                                ),
+                                child: const Center(
+                                  child: Icon(
+                                    Icons.add,
+                                    color: MyTheme.whiteColor,
+                                    size: 25,
+                                  ),
+                                ),
                               ),
                             ),
-                          );
-                        },
+                          ],
+                        ),
                       ),
-                      const SizedBox(height: 15),
-                      InputTextFormField(
-                        controller: firstNameController,
-                        hintText: 'First Name',
-                        icon: Icons.person,
-                        validator: textFieldValidator.firstNameErrorGetter,
-                      ),
-                      const SizedBox(height: 8),
-                      InputTextFormField(
-                        controller: lastNameController,
-                        hintText: 'Last Name',
-                        icon: Icons.person,
-                        validator: textFieldValidator.lastNameErrorGetter,
-                      ),
-                      const SizedBox(height: 8),
-                      InputTextFormField(
-                        controller: emailAddressController,
-                        hintText: 'Email Address',
-                        icon: Icons.email,
-                        validator: textFieldValidator.emailErrorGetter,
-                      ),
-                      const SizedBox(height: 8),
-                      InputTextFormField(
-                        controller: phoneNumberController,
-                        hintText: 'Phone',
-                        icon: Icons.phone,
-                        validator: textFieldValidator.phoneNumberErrorGetter,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                          LengthLimitingTextInputFormatter(10),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Consumer<AuthViewModel>(
-                        builder: (context, authViewModel, _) {
-                          return Column(
-                            children: [
-                              InputPasswordTextFormField(
-                                controller: passwordController,
-                                hintText: 'Password',
-                                fontAwsomeIcon: Icons.password,
-                                validator:
-                                    textFieldValidator.passwordErrorGetter,
-                                obscureText: authViewModel.passwordHide,
-                                onPress: authViewModel.togglePassword,
-                              ),
-                              const SizedBox(height: 8),
-                              InputPasswordTextFormField(
-                                controller: confirmPasswordController,
-                                hintText: 'Confirm Password',
-                                fontAwsomeIcon: Icons.password,
-                                validator: textFieldValidator
-                                    .confirmPasswordErrorGetter,
-                                password: passwordController,
-                                obscureText: authViewModel.confirmPasswordHide,
-                                onPress: authViewModel.toggleConfirmPassword,
-                              ),
-                            ],
-                          );
-                        },
-                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  child: InputTextFormField(
+                    controller: firstNameController,
+                    hintText: 'First Name',
+                    icon: Icons.person,
+                    validator: textFieldValidator.firstNameErrorGetter,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  child: InputTextFormField(
+                    controller: lastNameController,
+                    hintText: 'Last Name',
+                    icon: Icons.person,
+                    validator: textFieldValidator.lastNameErrorGetter,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  child: InputTextFormField(
+                    controller: phoneNumberController,
+                    hintText: 'Phone',
+                    icon: Icons.phone,
+                    validator: textFieldValidator.phoneNumberErrorGetter,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(10),
                     ],
                   ),
                 ),
-              ),
-              const SizedBox(height: 15),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Consumer<AuthViewModel>(
-                    builder: (context, authViewModel, _) {
-                      return Checkbox(
-                        checkColor: Colors.white,
-                        activeColor: MyTheme.greenColor,
-                        value: authViewModel.isRemember,
-                        onChanged: (bool? value) {
-                          authViewModel.checkRemeber();
+                const SizedBox(height: 8),
+                Consumer<AuthViewModel>(
+                  builder: (context, authViewModel, _) {
+                    return Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        children: [
+                          InputPasswordTextFormField(
+                            controller: passwordController,
+                            hintText: 'Password',
+                            fontAwsomeIcon: Icons.password,
+                            validator: textFieldValidator.passwordErrorGetter,
+                            obscureText: authViewModel.passwordHide,
+                            onPress: authViewModel.togglePassword,
+                          ),
+                          const SizedBox(height: 8),
+                          InputPasswordTextFormField(
+                            controller: confirmPasswordController,
+                            hintText: 'Confirm Password',
+                            fontAwsomeIcon: Icons.password,
+                            validator:
+                                textFieldValidator.confirmPasswordErrorGetter,
+                            password: passwordController,
+                            obscureText: authViewModel.confirmPasswordHide,
+                            onPress: authViewModel.toggleConfirmPassword,
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 15),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Consumer<AuthViewModel>(
+                        builder: (context, authViewModel, _) {
+                          return Checkbox(
+                            checkColor: Colors.white,
+                            activeColor: MyTheme.greenColor,
+                            value: authViewModel.isRemember,
+                            onChanged: (bool? value) {
+                              authViewModel.checkRemeber();
+                            },
+                          );
                         },
-                      );
-                    },
+                      ),
+                      const Text(
+                        'Accept Term & Condition and Privacy Policy',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 13.0,
+                        ),
+                      )
+                    ],
                   ),
-                  const Text(
-                    'Accept Term & Condition and Privacy Policy',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 13.0,
-                    ),
-                  )
-                ],
-              ),
-              const SizedBox(height: 10),
-              Consumer<AuthViewModel>(
-                builder: (context, authViewModel, _) {
-                  return DeafultButton(
-                    title: 'Sign Up',
-                    isloading: authViewModel.loading,
-                    onPress: validateAndSignup,
-                    // onPress: () {
-                    //   validateAndSignup();
-                    //   // print(authViewModel.loading);
-                    //   // authViewModel.signUp(context);
-                    // },
-                  );
-                },
-              ),
-              const SizedBox(height: 30),
-            ],
+                ),
+                const SizedBox(height: 10),
+                Consumer<AuthViewModel>(
+                  builder: (context, authViewModel, _) {
+                    return Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 8),
+                      child: DeafultButton(
+                        title: 'Sign Up',
+                        isloading: authViewModel.loading,
+                        onPress: validateAndSignup,
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 30),
+              ],
+            ),
           ),
         ),
       ),

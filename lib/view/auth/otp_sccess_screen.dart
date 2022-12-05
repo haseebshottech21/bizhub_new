@@ -31,11 +31,6 @@ class _OTPSuccessScreenState extends State<OTPSuccessScreen>
     );
     _animationController.forward();
 
-    // Timer(
-    //   const Duration(milliseconds: 2500),
-    //   () => Navigator.pushNamed(context, RouteName.onboard),
-    // );
-
     super.initState();
   }
 
@@ -47,9 +42,6 @@ class _OTPSuccessScreenState extends State<OTPSuccessScreen>
 
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setSystemUIOverlayStyle(
-    //   const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-    // );
     return Scaffold(
       backgroundColor: MyTheme.whiteColor,
       appBar: mainAppBar(context: context, appBarTitle: 'Account Verified'),
@@ -87,8 +79,6 @@ class _OTPSuccessScreenState extends State<OTPSuccessScreen>
                 DeafultButton(
                   title: 'CONTINUE',
                   onPress: () {
-                    // print(authViewModel.loading);
-                    // authViewModel.login(context);
                     Navigator.pushNamed(context, RouteName.login);
                   },
                 ),

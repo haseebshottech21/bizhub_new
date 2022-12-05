@@ -48,8 +48,8 @@ class ServiceRepository {
         servicePage = 'page=$page';
       }
 
-      print(
-          "${AppUrl.allServiceEndPoint}?$servicePage&type=$serviceType&$catIds'");
+      // print(
+      //     "${AppUrl.allServiceEndPoint}?$servicePage&type=$serviceType&$catIds'");
       final response = await http.get(
         Uri.parse(
             '${AppUrl.allServiceEndPoint}?$servicePage&type=$serviceType&$catIds'),
@@ -57,7 +57,7 @@ class ServiceRepository {
       );
       // print('${AppUrl.allServiceEndPoint}?type=$serviceType');
       final loadedData = json.decode(response.body);
-      // print(response);
+      // print(loadedData);
       if (response.statusCode == 200 || response.statusCode == 201) {
         List<ServiceModel> allServicesList =
             (loadedData['data'] as List).map((e) {
@@ -79,7 +79,7 @@ class ServiceRepository {
         Utils.toastMessage(loadedData['message']);
       }
     } catch (e) {
-      Utils.toastMessage(e.toString());
+      // Utils.toastMessage('hello');
     }
     return {};
   }
@@ -105,7 +105,7 @@ class ServiceRepository {
         Utils.toastMessage(loadedData['message']);
       }
     } catch (e) {
-      Utils.toastMessage(e.toString());
+      // Utils.toastMessage(e.toString());
     }
     return allService;
   }
@@ -128,7 +128,7 @@ class ServiceRepository {
         Utils.toastMessage(loadedData['message']);
       }
     } catch (e) {
-      Utils.toastMessage(e.toString());
+      // Utils.toastMessage(e.toString());
     }
     return [];
   }
@@ -154,7 +154,7 @@ class ServiceRepository {
         Utils.toastMessage(loadedData['message']);
       }
     } catch (e) {
-      Utils.toastMessage(e.toString());
+      // Utils.toastMessage(e.toString());
     }
     return myPosterService;
   }
@@ -177,7 +177,7 @@ class ServiceRepository {
         Utils.toastMessage(loadedData['message']);
       }
     } catch (e) {
-      Utils.toastMessage(e.toString());
+      // Utils.toastMessage(e.toString());
     }
     return [];
   }
@@ -193,7 +193,7 @@ class ServiceRepository {
 
       final responseLoaded = jsonDecode(response.body);
 
-      print(responseLoaded);
+      // print(responseLoaded);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         return responseLoaded;
@@ -202,7 +202,7 @@ class ServiceRepository {
       }
     } catch (e) {
       // print(e.toString());
-      Utils.toastMessage(e.toString());
+      // Utils.toastMessage(e.toString());
       // Fluttertoast.showToast(msg: e.toString());
     }
   }
@@ -226,7 +226,7 @@ class ServiceRepository {
         return false;
       }
     } catch (e) {
-      Utils.toastMessage(e.toString());
+      // Utils.toastMessage(e.toString());
       return false;
     }
   }
@@ -254,7 +254,7 @@ class ServiceRepository {
         Utils.toastMessage(loadedData['message']);
       }
     } catch (e) {
-      Utils.toastMessage(e.toString());
+      // Utils.toastMessage(e.toString());
     }
     return serviceCompleteModel;
   }
@@ -275,7 +275,7 @@ class ServiceRepository {
       }
     } catch (e) {
       // print(e.toString());
-      Utils.toastMessage(e.toString());
+      // Utils.toastMessage(e.toString());
       // Fluttertoast.showToast(msg: e.toString());
     }
   }

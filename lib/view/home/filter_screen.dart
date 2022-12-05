@@ -52,16 +52,17 @@ class _FilterScreenState extends State<FilterScreen> {
             Navigator.of(context).pop();
           },
         ),
-        // actions: [
-        //   TextButton(
-        //     onPressed: () {
-        //       // Navigator.of(context).pop();
-        //       // category.filterCatId = '';
-        //       // context.read<CategoryViewModel>().clearFilter();
-        //     },
-        //     child: const Text('Reset'),
-        //   ),
-        // ],
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: TextButton(
+              onPressed: () {
+                context.read<CategoryViewModel>().clearFilter(context);
+              },
+              child: const Text('Reset', style: TextStyle(fontSize: 17)),
+            ),
+          ),
+        ],
       ),
       body: category.loading
           ? const Center(child: CircularProgressIndicator())
@@ -183,9 +184,12 @@ class _FilterScreenState extends State<FilterScreen> {
                       return DeafultButton(
                         title: 'Apply',
                         isloading: categoriesViewModel.btnLoading,
-                        onPress: () {
-                          categoriesViewModel.setAndApplyWithCategory(context);
-                        },
+                        onPress: categoriesViewModel.selectedIndexList.isEmpty
+                            ? null
+                            : () {
+                                categoriesViewModel
+                                    .setAndApplyWithCategory(context);
+                              },
                       );
                     },
                   ),

@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../view_model/all_services_view_model.dart';
+import '../../view_model/auth_view_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -21,29 +22,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    // Provider.of<AuthViewModel>(context, listen: false).setPrefrenceValues();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       getAllServices();
-      // controller.addListener(() {
-      //   if (controller.position.maxScrollExtent == controller.offset) {
-      //     getAllServices();
-      //   }
-      // });
       final provider =
           Provider.of<AllServicesViewModel>(context, listen: false);
+      provider.page = 1;
+      provider.hasNextPage = true;
+
       provider.controller = ScrollController()
         ..addListener(provider.getAllServiceMore);
     });
   }
 
-  @override
-  void dispose() {
-    // controller.dispose();
-    super.dispose();
-  }
-
   Future<void> getAllServices() async {
-    // await Provider.of<AllServicesViewModel>(context, listen: false)
-    //     .getAllServicesLists(context: context);
     await Provider.of<AllServicesViewModel>(context, listen: false)
         .getAllService();
   }
@@ -56,263 +48,200 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    // final allServiceViewModel = context.watch<AllServicesViewModel>();
-    final allServiceViewModel = Provider.of<AllServicesViewModel>(context);
+    final provider = Provider.of<AllServicesViewModel>(context);
 
     return OrientationBuilder(
       builder: (context, orientation) {
-        final isPortrait = orientation == Orientation.portrait;
+        // final isPortrait = orientation == Orientation.portrait;
         return Scaffold(
           backgroundColor: Colors.grey[50],
-          resizeToAvoidBottomInset: true,
-          body: CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                floating: false,
-                pinned: true,
-                snap: false,
-                elevation: 0,
-                backgroundColor: Colors.white,
-                automaticallyImplyLeading: false,
-                titleTextStyle: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 20,
-                ),
-                centerTitle: false,
-                titleSpacing: 12.0,
-                title: GestureDetector(
-                  onTap: () {
-                    selectTypeBottom();
-                  },
-                  child: Container(
-                    width: size.width * 0.26,
-                    padding: const EdgeInsets.all(8.0),
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                      boxShadow: kElevationToShadow[1],
-                      color: MyTheme.greenColor,
-                      // border: Border.all(color: MyTheme.greenColor),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      // crossAxisAlignment: CrossAxisAlignment.end,
-                      children: const [
-                        Text(
-                          'Find',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            letterSpacing: 1.0,
-                            color: Colors.white,
+          // resizeToAvoidBottomInset: true,,
+          body: RefreshIndicator(
+            onRefresh: refresh,
+            child: CustomScrollView(
+              controller: provider.controller,
+              slivers: [
+                SliverAppBar(
+                  floating: false,
+                  pinned: true,
+                  snap: false,
+                  elevation: 0,
+                  backgroundColor: Colors.white,
+                  automaticallyImplyLeading: false,
+                  titleTextStyle: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20,
+                  ),
+                  centerTitle: false,
+                  titleSpacing: 12.0,
+                  title: GestureDetector(
+                    onTap: () {
+                      selectTypeBottom();
+                    },
+                    child: Container(
+                      width: size.width * 0.26,
+                      padding: const EdgeInsets.all(8.0),
+                      alignment: Alignment.centerLeft,
+                      decoration: BoxDecoration(
+                        boxShadow: kElevationToShadow[1],
+                        color: MyTheme.greenColor,
+                        // border: Border.all(color: MyTheme.greenColor),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // crossAxisAlignment: CrossAxisAlignment.end,
+                        children: const [
+                          Text(
+                            'Find',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 1.0,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        // SizedBox(width: 8),
-                        Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.white,
-                          size: 24,
-                        ),
-                      ],
+                          // SizedBox(width: 8),
+                          Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.white,
+                            size: 24,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  bottom: PreferredSize(
+                    preferredSize: const Size.fromHeight(50.0),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: 4,
+                        left: 12,
+                        right: 12,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, RouteName.searchPost);
+                            },
+                            child: Container(
+                              width: size.width * 0.80,
+                              height: size.height * 0.055,
+                              margin: const EdgeInsets.only(bottom: 5),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[50],
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Row(
+                                children: const [
+                                  Icon(
+                                    CupertinoIcons.search,
+                                    size: 22,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    'Search',
+                                    style: TextStyle(
+                                      color: Colors.black45,
+                                      fontSize: 18,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: size.height * 0.045,
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, RouteName.filter);
+                              },
+                              color: MyTheme.greenColor,
+                              padding: EdgeInsets.zero,
+                              icon: const Icon(
+                                  CupertinoIcons.slider_horizontal_3),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-                bottom: PreferredSize(
-                  preferredSize: const Size.fromHeight(50.0),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: 4,
-                      left: 12,
-                      right: 12,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, RouteName.searchPost);
-                          },
-                          child: Container(
-                            width: size.width * 0.80,
-                            height: size.height * 0.055,
-                            margin: const EdgeInsets.only(bottom: 5),
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[50],
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Row(
-                              children: const [
-                                Icon(
-                                  CupertinoIcons.search,
-                                  size: 22,
-                                ),
-                                SizedBox(width: 8),
-                                Text(
-                                  'Search',
-                                  style: TextStyle(
-                                    color: Colors.black45,
-                                    fontSize: 18,
+                SliverToBoxAdapter(
+                  child: provider.isInternetConnect
+                      ? provider.isFirstLoadRunning
+                          ? const Padding(
+                              padding: EdgeInsets.only(top: 30, bottom: 40),
+                              child: Center(child: CustomLoader()),
+                            )
+                          : provider.allServiceList.isEmpty
+                              ? Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 20, bottom: 40),
+                                    child: Text(
+                                      provider.nearByJobs == false
+                                          ? 'Service Not Found'
+                                          : 'Jobs Not Found',
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 24.0,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
                                   ),
                                 )
-                              ],
-                            ),
-                          ),
+                              : const SizedBox()
+                      : NoInternetWidget(
+                          onPressed: () async {
+                            provider.noInternetAndGetServices(context: context);
+                          },
                         ),
-                        SizedBox(
-                          height: size.height * 0.045,
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, RouteName.filter);
-                            },
-                            color: MyTheme.greenColor,
-                            padding: EdgeInsets.zero,
-                            icon:
-                                const Icon(CupertinoIcons.slider_horizontal_3),
-                          ),
-                        ),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.only(
+                    left: 8,
+                    right: 8,
+                    bottom: 30,
+                    top: 16,
+                  ),
+                  sliver: SliverGrid(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      // childAspectRatio: 0.9,
+                      mainAxisSpacing: 8,
+                      crossAxisSpacing: 8,
+                    ),
+                    delegate: SliverChildBuilderDelegate(
+                      childCount: provider.allServiceList.length,
+                      (context, index) => AllServiceIem(
+                        serviceModel: provider.allServiceList[index],
+                      ),
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 16, bottom: 40),
+                    child: Column(
+                      children: [
+                        if (provider.isLoadMoreRunning == true)
+                          const Center(child: CupertinoActivityIndicator()),
+                        if (provider.hasNextPage == false &&
+                            provider.allServiceList.length > 10)
+                          const Center(child: Text('No More Data')),
                       ],
                     ),
                   ),
                 ),
-              ),
-              SliverPadding(
-                padding: const EdgeInsets.only(
-                  left: 8,
-                  right: 8,
-                  bottom: 30,
-                  top: 16,
-                ),
-                sliver: SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      //  if (allServiceViewModel.isInternetConnect) {}
-                      allServiceViewModel.isInternetConnect
-                          ? allServiceViewModel.isFirstLoadRunning
-                              ? const CustomLoader()
-                              :
-                              // Consumer<AllServicesViewModel>(
-                              // builder: (context, allServiceViewModel, _) {
-                              // print(allServiceViewModel.allServiceList.length);
-                              // if (allServiceViewModel.isInternetConnect) {
-                              // if (allServiceViewModel
-                              //     .allServiceList.isEmpty) {
-                              //   return Center(
-                              //     child: Text(
-                              //       allServiceViewModel.nearByJobs ==
-                              //               false
-                              //           ? 'Service Not Found'
-                              //           : 'Jobs Not Found',
-                              //       style: const TextStyle(
-                              //         color: Colors.black,
-                              //         fontSize: 24.0,
-                              //         fontWeight: FontWeight.w400,
-                              //       ),
-                              //     ),
-                              //   );
-                              // }
-                              Consumer<AllServicesViewModel>(
-                                  builder: (context, allServiceViewModel, _) {
-                                    if (allServiceViewModel.posts.isEmpty) {
-                                      return Center(
-                                        child: Text(
-                                          allServiceViewModel.nearByJobs ==
-                                                  false
-                                              ? 'Service Not Found'
-                                              : 'Jobs Not Found',
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 24.0,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      );
-                                    } else if (allServiceViewModel
-                                            .isLoadMoreRunning ==
-                                        true) {
-                                      return const Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 10, bottom: 40),
-                                        child: Center(
-                                          child: CircularProgressIndicator(),
-                                        ),
-                                      );
-                                    } else if (allServiceViewModel
-                                            .hasNextPage ==
-                                        false) {
-                                      return Container(
-                                        padding: const EdgeInsets.only(
-                                            top: 30, bottom: 40),
-                                        color: Colors.amber,
-                                        child: const Center(
-                                          child: Text(
-                                              'You have fetched all of the content'),
-                                        ),
-                                      );
-                                    }
-                                    return Column(
-                                      children: [
-                                        GridView.builder(
-                                          controller:
-                                              allServiceViewModel.controller,
-                                          addAutomaticKeepAlives: true,
-                                          shrinkWrap: true,
-                                          physics: const ScrollPhysics(),
-                                          padding: EdgeInsets.zero,
-                                          itemCount:
-                                              allServiceViewModel.posts.length,
-                                          gridDelegate:
-                                              SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: isPortrait ? 2 : 3,
-                                            mainAxisSpacing: 8,
-                                            crossAxisSpacing: 8,
-                                          ),
-                                          itemBuilder: (context, index) {
-                                            // if (index <
-                                            //     allServiceViewModel
-                                            //         .allServiceList.length) {
-                                            // print(allServiceViewModel.hasmore);
-                                            return AllServiceIem(
-                                              serviceModel: allServiceViewModel
-                                                  .posts[index],
-                                            );
-                                            // }
-
-                                            //else {
-                                            //   print(allServiceViewModel.hasmore);
-                                            //   return Padding(
-                                            //     padding:
-                                            //         const EdgeInsets.symmetric(
-                                            //             vertical: 32.0),
-                                            //     child: Center(
-                                            //       child: allServiceViewModel
-                                            //               .hasmore
-                                            //           ? const CircularProgressIndicator()
-                                            //           : const Text(
-                                            //               'No More Data'),
-                                            //     ),
-                                            //   );
-                                            // }
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                )
-                          // },
-                          // )
-                          : NoInternetWidget(
-                              onPressed: () async {
-                                allServiceViewModel.noInternetAndGetServices(
-                                  context: context,
-                                );
-                              },
-                            )
-                    ],
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
@@ -320,8 +249,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   selectTypeBottom() {
-    // List typeList = ['Jobs Near By', 'Service Near By'];
-    // final post = Provider.of<AllServicesViewModel>(context, listen: true);
     return showModalBottomSheet(
       backgroundColor: Colors.white,
       context: context,
@@ -390,6 +317,13 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    final provider = Provider.of<AllServicesViewModel>(context, listen: false);
+    provider.controller.dispose();
+    super.dispose();
   }
 
   InkWell type({

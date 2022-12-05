@@ -12,7 +12,6 @@ import '../../utils/mytheme.dart';
 import '../../utils/routes/routes_name.dart';
 import '../../view_model/bottom_navigation_view_model.dart';
 import '../../view_model/location_view_model.dart';
-// import '../../widgets/common/app_bar.dart';
 import '../../widgets/common/dialog_box.dart';
 import '../../widgets/common/input_textfield.dart';
 
@@ -69,7 +68,7 @@ class _CreatePostState extends State<CreatePost> {
         post.serviceBody['images'] = json.encode(post.serviceImgaes);
       }
       post.createPost(post.serviceBody, context);
-      print(post.serviceBody);
+      // print(post.serviceBody);
       // }
     }
   }
@@ -125,24 +124,7 @@ class _CreatePostState extends State<CreatePost> {
           ),
         ),
       ),
-      // bottomSheet: post == true
-      //     ? SafeArea(
-      //         child: SizedBox(
-      //           height: size.height * 0.10,
-      //           child: Padding(
-      //             padding:
-      //                 const EdgeInsets.symmetric(vertical: 14, horizontal: 6),
-      //             child: DeafultButton(
-      //               title: 'POST',
-      //               onPress: () {
-      //                 // print(post.isPoster);
-      //               },
-      //               // onPress: null,
-      //             ),
-      //           ),
-      //         ),
-      //       )
-      //     : const SizedBox(),
+
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(
@@ -182,6 +164,7 @@ class _CreatePostState extends State<CreatePost> {
                         label: 'Price *',
                         controller: priceController,
                         validator: textFieldValidator.budgetRangeErrorGetter,
+                        textInputType: TextInputType.number,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
                           LengthLimitingTextInputFormatter(6),

@@ -10,9 +10,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import '../../utils/utils.dart';
-// import '../../view_model/chat_view_model.dart';
-// import '../chat/my_chats/my_messages.dart';
 import '../posts/my_posts.dart';
 
 class NavigatoionBarScreen extends StatefulWidget {
@@ -35,7 +32,7 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await setupInteracted();
+      // await setupInteracted();
       await setUpRequestNotification();
     });
     super.initState();
@@ -55,292 +52,26 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
     );
   }
 
-  Future<void> setupInteracted() async {
-    RemoteMessage? initialMessage =
-        await FirebaseMessaging.instance.getInitialMessage();
+  // Future<void> setupInteracted() async {
+  //   RemoteMessage? initialMessage =
+  //       await FirebaseMessaging.instance.getInitialMessage();
 
-    // FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
-    FirebaseMessaging.onMessage.listen(
-      (RemoteMessage message) {
-        // final serviceViewModel =
-        //     Provider.of<ServiceViewModel>(context, listen: false);
+  //   // FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  //   FirebaseMessaging.onMessage.listen(
+  //     (RemoteMessage message) {
+  //       // final serviceViewModel =
+  //       //     Provider.of<ServiceViewModel>(context, listen: false);
 
-        // if (message.data['screen'] == 'send-message') {
-        //   getMyMessages();
-        // }
+  //       // if (message.data['screen'] == 'send-message') {
+  //       //   getMyMessages();
+  //       // }
 
-        // Worker Module
-        if (message.data['screen'] == 'send-message') {
-          // Utils.snackBarMessage(message.notification!.body!, context);
-        }
-
-        // if (message.data['screen'] == workerAcceptOfferdKey) {
-        //   Utilities().showSnackBar(message.notification!.body!, context, () {
-        //     Navigator.of(context).pushNamed(
-        //       MyHiredWorkerDetail.routeName,
-        //       arguments: {
-        //         'service_id': message.data['id'],
-        //         'application_id': message.data['application_id']
-        //       },
-        //     );
-        //   });
-        // }
-
-        // if (message.data['screen'] == workerDeclineOfferdKey) {
-        //   Utilities().showSnackBar(message.notification!.body!, context, () {
-        //     Navigator.of(context).pushNamed(
-        //       MyHiredWorkerDetail.routeName,
-        //       arguments: {
-        //         'service_id': message.data['id'],
-        //         'application_id': message.data['application_id']
-        //       },
-        //     );
-        //   });
-        // }
-
-        // if (message.data['screen'] == workerConfirmHiredKey) {
-        //   Utilities().showSnackBar(message.notification!.body!, context, () {
-        //     Navigator.of(context).pushNamed(
-        //       MyWorksDetail.routeName,
-        //       arguments: message.data['id'],
-        //     );
-        //   });
-        // }
-
-        // if (message.data['screen'] == userCommentKey) {
-        //   // Fluttertoast.showToast(msg: message);
-        //   Utilities().showSnackBar(message.notification!.body!, context, () {
-        //     Navigator.of(context).pushNamed(
-        //       MyWorksDetail.routeName,
-        //       arguments: message.data['id'],
-        //     );
-        //   });
-        // }
-
-        // if (message.data['screen'] == workerReplyKey) {
-        //   // Fluttertoast.showToast(msg: message);
-
-        //   Utilities().showSnackBar(message.notification!.body!, context, () {
-        //     Navigator.of(context).pushNamed(
-        //       MyHiredWorkerDetail.routeName,
-        //       arguments: {
-        //         'service_id': message.data['id'],
-        //         'application_id': message.data['application_id']
-        //       },
-        //     );
-        //   });
-        // }
-
-        // if (message.data['screen'] == serviceCompleteKey) {
-        //   // clearLists();
-
-        //   // print(message.data['user_id']);
-        //   // Fluttertoast.showToast(msg: message);
-        //   Utilities().showSnackBar(message.notification!.body!, context, () {
-        //     Navigator.of(context).pushNamed(
-        //       MyWorksDetail.routeName,
-        //       arguments: message.data['id'],
-        //     );
-        //   });
-        // }
-
-        // if (message.data['screen'] == serviceCancelKey) {
-        //   // clearLists();
-
-        //   // print(message.data['user_id']);
-        //   // Fluttertoast.showToast(msg: message);
-        //   Utilities().showSnackBar(message.notification!.body!, context, () {
-        //     Navigator.of(context).pushNamed(
-        //       MyWorksDetail.routeName,
-        //       arguments: message.data['id'],
-        //     );
-        //   });
-        // }
-
-        // // Job Poster Module
-        // if (message.data['screen'] == commentReplyKey) {
-        //   // Fluttertoast.showToast(msg: message);
-
-        //   Utilities().showSnackBar(message.notification!.body!, context, () {
-        //     // Navigator.of(context).pushNamed(
-        //     //   MyServicesDetail.routeName,
-        //     //   arguments: {
-        //     //     'service_id': message.data['id'],
-        //     //     'application_id': message.data['application_id']
-        //     //   },
-        //     // );
-        //   });
-        // }
-
-        // if (message.data['screen'] == commentReplyKey) {
-        //   // if (!MyServicesDetail.inServiceScreen) {
-        //   // Fluttertoast.showToast(msg: message);
-        //   Utilities().showSnackBar(message.notification!.body!, context, () {
-        //     // MyServicesDetail.inServiceScreen = true;
-        //     // serviceViewModel.serviceTabIndex = 0;
-        //     // Navigator.of(context)
-        //     //     .pushNamed(MyServicesDetail.routeName,
-        //     //         arguments: message.data['id'])
-        //     //     .then((value) {
-        //     //   MyServicesDetail.inServiceScreen = false;
-        //     //   serviceViewModel.serviceTabIndex = 0;
-        //     // });
-        //     Utilities().showSnackBar(
-        //       message.notification!.body!,
-        //       context,
-        //       () {
-        //         MyServicesDetail.inServiceScreen = true;
-        //         Navigator.of(context).pushNamed(
-        //           MyServicesDetail.routeName,
-        //           arguments: {
-        //             'service_id': message.data['id'],
-        //             'application_id': message.data['application_id']
-        //           },
-        //         ).then(
-        //           (value) {
-        //             MyServicesDetail.inServiceScreen = false;
-        //           },
-        //         );
-        //       },
-        //     );
-        //   });
-        //   // }
-        // }
-
-        // if (message.data['screen'] == commentKey) {
-        //   // Fluttertoast.showToast(msg: message);
-        //   if (!MyJobDetail.inMyPostScreen) {
-        //     Utilities().showSnackBar(
-        //       message.notification!.body!,
-        //       context,
-        //       () {
-        //         serviceViewModel.serviceTabIndex = 1;
-        //         MyJobDetail.inMyPostScreen = true;
-        //         Navigator.of(context)
-        //             .pushNamed(MyJobDetail.routeName,
-        //                 arguments: message.data['id'])
-        //             .then((value) {
-        //           MyJobDetail.inMyPostScreen = false;
-        //           serviceViewModel.serviceTabIndex = 0;
-        //         });
-        //       },
-        //     );
-        //   }
-        // }
-        // if (message.data['screen'] == jobApplyOfferKey) {
-        //   // clearLists();
-
-        //   Utilities().showSnackBar(message.notification!.body!, context, () {
-        //     MyJobDetail.inMyPostScreen = true;
-        //     Navigator.of(context)
-        //         .pushNamed(MyJobDetail.routeName, arguments: message.data['id'])
-        //         .then((value) {
-        //       MyJobDetail.inMyPostScreen = false;
-        //     });
-        //   });
-        // }
-        // if (message.data['screen'] == jobAcceptedKey) {
-        //   // Fluttertoast.showToast(msg: 'Job accept you hired');
-        //   // clearLists();
-        //   Utilities().showSnackBar(
-        //     message.notification!.body!,
-        //     context,
-        //     () {
-        //       MyServicesDetail.inServiceScreen = true;
-        //       Navigator.of(context).pushNamed(
-        //         MyServicesDetail.routeName,
-        //         arguments: {
-        //           'service_id': message.data['id'],
-        //           'application_id': message.data['application_id']
-        //         },
-        //       ).then(
-        //         (value) {
-        //           MyServicesDetail.inServiceScreen = false;
-        //         },
-        //       );
-        //     },
-        //   );
-        // }
-        // if (message.data['screen'] == jobCancelKey) {
-        //   // Fluttertoast.showToast(msg: message);
-
-        //   // clearLists();
-        //   Utilities().showSnackBar(
-        //     message.notification!.body!,
-        //     context,
-        //     () {
-        //       MyServicesDetail.inServiceScreen = true;
-        //       Navigator.of(context).pushNamed(
-        //         MyServicesDetail.routeName,
-        //         arguments: {
-        //           'service_id': message.data['id'],
-        //           'application_id': message.data['application_id']
-        //         },
-        //       ).then(
-        //         (value) {
-        //           MyServicesDetail.inServiceScreen = false;
-        //         },
-        //       );
-        //     },
-        //   );
-        // }
-        // if (message.data['screen'] == jobCompletedKey) {
-        //   // clearLists();
-
-        //   // print(message.data['user_id']);
-        //   // Fluttertoast.showToast(msg: message);
-        //   Utilities().showSnackBar(
-        //     message.notification!.body!,
-        //     context,
-        //     () {
-        //       // Navigator.of(context).pushNamed(MyServicesDetail.routeName,
-        //       //     arguments: message.data['id']);
-        //     },
-        //   );
-        //   rateReviewDialog(
-        //     applicationId: message.data['id'],
-        //     serviceId: '',
-        //     status: '1',
-        //     userId: message.data['user_id'],
-        //     context: context,
-        //     userName: message.data['user_name'],
-        //     isPoster: true,
-        //   );
-        // }
-      },
-    );
-  }
-
-  // void _handleMessage(RemoteMessage message) {
-  //   // Fluttertoast.showToast(msg: message.data.toString());
-  //   if (message.data['screen'] == commentKey ||
-  //       message.data['screen'] == jobApplyOfferKey) {
-  //     // Fluttertoast.showToast(msg: message);
-  //     Navigator.of(context)
-  //         .pushNamed(MyJobDetail.routeName, arguments: message.data['id']);
-  //   }
-  //   if (message.data['screen'] == commentReplyKey ||
-  //       message.data['screen'] == jobRejectKey ||
-  //       message.data['screen'] == jobAcceptedKey ||
-  //       message.data['screen'] == jobCancelKey ||
-  //       message.data['screen'] == jobCompletedKey) {
-  //     // if (message.data['screen'] == jobCompletedKey) {
-  //     //   rateReviewDialog(
-  //     //     applicationId: message.data['id'],
-  //     //     serviceId: '',
-  //     //     status: '1',
-  //     //     userId: message.data['user_id'],
-  //     //     context: context,
-  //     //     userName: message.data['user_name'],
-  //     //     isPoster: true,
-  //     //   );
-  //     // }
-  //     // Fluttertoast.showToast(msg: message);
-  //     Navigator.of(context).pushNamed(
-  //       MyServicesDetail.routeName,
-  //       arguments: message.data['id'],
-  //     );
-  //   }
+  //       // Worker Module
+  //       if (message.data['screen'] == 'send-message') {
+  //         // Utils.snackBarMessage(message.notification!.body!, context);
+  //       }
+  //     },
+  //   );
   // }
 
   @override

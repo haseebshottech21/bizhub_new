@@ -134,6 +134,7 @@ class LabelTextField extends StatelessWidget {
   final bool isEnabled;
   final bool? textAreaField;
   final int? minLinesTextArea;
+  final TextInputType? textInputType;
   final List<TextInputFormatter>? inputFormatters;
   const LabelTextField({
     required this.label,
@@ -144,6 +145,7 @@ class LabelTextField extends StatelessWidget {
     this.isEnabled = true,
     this.textAreaField = false,
     this.minLinesTextArea = 5,
+    this.textInputType = TextInputType.multiline,
     Key? key,
   }) : super(key: key);
 
@@ -164,7 +166,7 @@ class LabelTextField extends StatelessWidget {
             ? TextFormField(
                 style: const TextStyle(color: Colors.black),
                 cursorColor: MyTheme.greenColor,
-                // keyboardType: TextInputType.multiline,
+                keyboardType: textInputType,
                 // maxLines: null,
                 validator: (value) => validator!(value),
                 inputFormatters: inputFormatters,

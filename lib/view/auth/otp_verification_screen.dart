@@ -63,26 +63,6 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                   ),
                 ),
               ),
-              // Padding(
-              //   padding:
-              //       const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
-              //   child: RichText(
-              //     text: const TextSpan(
-              //       text: "We sent email with a 5-digit verification code to ",
-              //       children: [
-              //         TextSpan(
-              //           text: "abc@mail.com",
-              //           style: TextStyle(
-              //             color: Colors.black87,
-              //             fontWeight: FontWeight.w500,
-              //             fontSize: 16,
-              //           ),
-              //         ),
-              //       ],
-              //       style: TextStyle(color: Colors.black54, fontSize: 15),
-              //     ),
-              //   ),
-              // ),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 6.0),
                 child: Text(

@@ -129,23 +129,6 @@ class ChatWidget extends StatelessWidget {
                           ),
                         ),
                       )
-                    // Container(
-                    //   padding: const EdgeInsets.all(2),
-                    //   decoration: const BoxDecoration(
-                    //     shape: BoxShape.circle,
-                    //     color: MyTheme.greenColor,
-                    //   ),
-                    //   child: Center(
-                    //     child: Text(
-                    //       chat.unreadMessage.toString(),
-                    //       style: const TextStyle(
-                    //         fontWeight: FontWeight.w500,
-                    //         color: Colors.white,
-                    //         fontSize: 13,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
               ),

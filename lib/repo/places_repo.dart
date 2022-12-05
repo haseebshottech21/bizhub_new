@@ -1,10 +1,9 @@
 import 'dart:convert';
 // import 'package:bizhub_new/model/place_auto_complete.dart';
-import 'package:bizhub_new/model/place_auto_complete.dart';
+// import 'package:bizhub_new/model/place_auto_complete.dart';
 import 'package:flutter/foundation.dart';
-
 import '../model/place_detail_model.dart';
-import '../model/place_model.dart';
+// import '../model/place_model.dart';
 import 'package:http/http.dart' as http;
 import '../utils/utils.dart';
 

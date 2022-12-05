@@ -4,22 +4,29 @@ import 'package:bizhub_new/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import '../../../utils/app_url.dart';
 import '../../../utils/mytheme.dart';
 import '../../../utils/utils.dart';
 
 class ProfileImage extends StatelessWidget {
   const ProfileImage({
     Key? key,
-    this.imageUrl,
+    this.userImage,
   }) : super(key: key);
 
-  final String? imageUrl;
+  final String? userImage;
 
   @override
   Widget build(BuildContext context) {
     // final profileViewModel = Provider.of<AuthViewModel>(context, listen: true);
+    // print('data image: ' + userImage.toString());
     return Consumer<AuthViewModel>(
       builder: (context, authViewModel, _) {
+        // print('pathimg: ' + authViewModel.imageDetail['imagePath'].toString());
+        final imagePath = authViewModel.imageDetail['imagePath'].toString();
+        final localImage = authViewModel.imageDetail['local'];
+
+        // print('img path' + imagePath);
         return GestureDetector(
           onTap: () => _showSelectPhoto(context),
           child: SizedBox(
@@ -27,54 +34,52 @@ class ProfileImage extends StatelessWidget {
             width: 160,
             child: Stack(
               children: [
-                authViewModel.imageDetail['imagePath'].toString().isEmpty
-                    ?
-                    // Center(
-                    //     child: Container(
-                    //       width: 125,
-                    //       height: 125,
-                    //       decoration: BoxDecoration(
-                    //         color: Colors.grey.shade200,
-                    //         borderRadius: BorderRadius.circular(5),
-                    //       ),
-                    //       child: const Icon(
-                    //         Icons.person,
-                    //         size: 115,
-                    //         color: Colors.black38,
-                    //       ),
-                    //     ),
-                    //   )
-                    Center(
-                        child: Container(
-                          width: 135,
-                          height: 135,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(imageUrl!),
-                            ),
-                          ),
-                        ),
-                      )
-                    : Center(
-                        child: Container(
-                          width: 135,
-                          height: 135,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: FileImage(
-                                File(
-                                  authViewModel.imageDetail['imagePath']
-                                      .toString(),
-                                ),
-                              ),
+                if (imagePath.isEmpty && userImage == null.toString())
+                  Container(
+                    width: 140,
+                    height: 140,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade100,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: const Icon(
+                      Icons.person,
+                      size: 120,
+                      color: Colors.black54,
+                    ),
+                  ),
+                if (imagePath.isNotEmpty || localImage == true)
+                  Center(
+                    child: Container(
+                      width: 135,
+                      height: 135,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: FileImage(
+                            File(
+                              authViewModel.imageDetail['imagePath'].toString(),
                             ),
                           ),
                         ),
                       ),
+                    ),
+                  ),
+                if (userImage!.isNotEmpty && localImage == false)
+                  Center(
+                    child: Container(
+                      width: 135,
+                      height: 135,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(AppUrl.baseUrl + userImage!),
+                        ),
+                      ),
+                    ),
+                  ),
                 Positioned(
                   right: 5,
                   bottom: 5,

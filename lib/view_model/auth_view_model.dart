@@ -69,10 +69,11 @@ class AuthViewModel extends ChangeNotifier {
     imageDetail['extension'] = '';
   }
 
-  Map<String, String> imageDetail = {
+  Map<String, dynamic> imageDetail = {
     'image': '',
     'imagePath': '',
-    'extension': ''
+    'extension': '',
+    'local': false,
   };
 
   Future setImage({
@@ -88,7 +89,8 @@ class AuthViewModel extends ChangeNotifier {
     imageDetail = {
       'image': base64Image,
       'imagePath': image!.path,
-      'extension': image!.path.split('.').last
+      'extension': image!.path.split('.').last,
+      'local': true,
     };
     notifyListeners();
   }
@@ -104,24 +106,24 @@ class AuthViewModel extends ChangeNotifier {
     'phone': '',
   };
 
-  void setPrefrenceValues() async {
+  Future<void> setPrefrenceValues() async {
     final firstName = await prefrences.getSharedPreferenceValue('firstname');
     final lastName = await prefrences.getSharedPreferenceValue('lastname');
     final image = await prefrences.getSharedPreferenceValue('image');
     final email = await prefrences.getSharedPreferenceValue('email');
     final phone = await prefrences.getSharedPreferenceValue('phone');
     prefrence = {
-      'firstName': firstName,
-      'lastName': lastName,
-      'image': image,
-      'email': email,
-      'phone': phone,
+      'firstName': firstName.toString(),
+      'lastName': lastName.toString(),
+      'image': image.toString(),
+      'email': email.toString(),
+      'phone': phone.toString(),
     };
     // print(prefrence);
     notifyListeners();
   }
 
-  String getPrefrenceValue(String key) {
+  dynamic getPrefrenceValue(dynamic key) {
     return (prefrence[key] ?? '').toString();
   }
 
@@ -129,6 +131,7 @@ class AuthViewModel extends ChangeNotifier {
     BuildContext context,
   ) async {
     user = null;
+    imageDetail['local'] = false;
     setLoad(true);
     user ??= await authRepo.showUser();
     setLoad(false);
@@ -188,7 +191,7 @@ class AuthViewModel extends ChangeNotifier {
     if (loadedData == null) {
       setLoad(false);
     } else if (loadedData != null) {
-      Future.delayed(const Duration(seconds: 1)).then(
+      Future.delayed(Duration.zero).then(
         (value) {
           // print(value);
           setLoad(false);
@@ -277,25 +280,19 @@ class AuthViewModel extends ChangeNotifier {
     required BuildContext context,
   }) async {
     setLoad(true);
-    Map data = {
-      'email': emailAddress,
-    };
+    Map data = {'email': emailAddress};
     if (emailAddress.isNotEmpty) {
       await Prefrences().setSharedPreferenceValue('verifyemail', emailAddress);
     }
     final loadedData = await authRepo.forgotPasswordApi(data);
-    // print(loadedData);
     if (loadedData == null) {
       setLoad(false);
     } else if (loadedData != null) {
       Future.delayed(const Duration(seconds: 1)).then(
         (value) {
-          // print(value);
           setLoad(false);
-          // if (kDebugMode) {
           Navigator.pushNamed(context, RouteName.resetPassword);
           Utils.toastMessage('Send Verification Code!');
-          // }
         },
       );
     }

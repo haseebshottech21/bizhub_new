@@ -2,21 +2,29 @@
 import 'package:flutter/material.dart';
 
 class EmptyProfile extends StatelessWidget {
-  const EmptyProfile({Key? key}) : super(key: key);
+  const EmptyProfile({
+    Key? key,
+    this.height = 130,
+    this.width = 130,
+    this.iconSize = 120,
+    this.radius = 5,
+  }) : super(key: key);
+
+  final double? height, width, iconSize, radius;
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        width: 130,
-        height: 130,
+        width: width,
+        height: height,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(radius!),
         ),
-        child: const Icon(
+        child: Icon(
           Icons.person,
-          size: 120,
+          size: iconSize,
           color: Colors.black54,
         ),
       ),

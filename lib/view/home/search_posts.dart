@@ -3,6 +3,7 @@ import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/view_model/all_services_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'all_service_detail_screen.dart';
 
 class SearchPosts extends StatefulWidget {
@@ -14,6 +15,15 @@ class SearchPosts extends StatefulWidget {
 
 class _SearchPostsState extends State<SearchPosts> {
   final searchController = TextEditingController();
+  FocusNode focusNode = FocusNode();
+
+  @override
+  void initState() {
+    if (searchController.text.isEmpty) {
+      focusNode.requestFocus();
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +58,8 @@ class _SearchPostsState extends State<SearchPosts> {
               onChanged: (value) =>
                   context.read<AllServicesViewModel>().searchList(value),
               style: const TextStyle(color: Colors.black),
+              focusNode: focusNode,
+              cursorColor: MyTheme.greenColor,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.only(
                   left: 16,
@@ -102,16 +114,15 @@ class _SearchPostsState extends State<SearchPosts> {
                   itemBuilder: ((context, index) {
                     return InkWell(
                       onTap: () {
-                        // print(allServiceViewModel.displayList[index].serviceId);
-                        // Navigator.of(context).push(
-                        //   MaterialPageRoute(
-                        //     builder: (context) => PostJobDetail(
-                        //       serviceId: allServiceViewModel
-                        //           .displayList[index].serviceId
-                        //           .toString(),
-                        //     ),
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (ctx) => const AllServiceDetail(),
+                            settings: RouteSettings(
+                              arguments: allServiceViewModel.displayList[index],
+                            ),
+                          ),
+                        );
                       },
                       child: ListTile(
                         contentPadding: const EdgeInsets.symmetric(

@@ -66,7 +66,7 @@ class ProfileDescription extends StatelessWidget {
                   ),
                 ),
                 onTap: () async {
-                  var launchUrl = 'https://${url}';
+                  var launchUrl = 'https://$url';
                   if (await canLaunch(launchUrl)) launch(launchUrl);
                 },
               ),

@@ -1,6 +1,5 @@
 import 'package:bizhub_new/model/user_model.dart';
 import 'package:flutter/material.dart';
-// import '../../../widgets/common/cached_image.dart';
 import '../../account/profile/view_other_profile.dart';
 
 messageAppBar({
@@ -18,13 +17,6 @@ messageAppBar({
     title: ListTile(
       leading: GestureDetector(
         onTap: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => const ViewOtherProfile(),
-          //     settings: RouteSettings(arguments: userModel!),
-          //   ),
-          // );
           Navigator.push(
             context,
             MaterialPageRoute(

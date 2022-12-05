@@ -25,7 +25,8 @@ class _TestLocationState extends State<TestLocation> {
 
   @override
   Widget build(BuildContext context) {
-    final locationViewModel = Provider.of<LocationViewModel>(context, listen: true);
+    final locationViewModel =
+        Provider.of<LocationViewModel>(context, listen: true);
 
     return Scaffold(
       appBar: AppBar(
@@ -55,9 +56,9 @@ class _TestLocationState extends State<TestLocation> {
             ),
             ElevatedButton(
               onPressed: () {
-                print("Latitute : ${locationViewModel.latLng.latitude}");
-                print("Longitude : ${locationViewModel.latLng.longitude}");
-                print("Address : ${locationViewModel.locationAddress}");
+                // print("Latitute : ${locationViewModel.latLng.latitude}");
+                // print("Longitude : ${locationViewModel.latLng.longitude}");
+                // print("Address : ${locationViewModel.locationAddress}");
               },
               child: const Text("My Address Long Lat"),
             ),
@@ -87,7 +88,8 @@ class _TestSearchLocationState extends State<TestSearchLocation> {
 
   @override
   Widget build(BuildContext context) {
-    final locationViewModel = Provider.of<LocationViewModel>(context, listen: true);
+    final locationViewModel =
+        Provider.of<LocationViewModel>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,

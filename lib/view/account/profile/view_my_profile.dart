@@ -78,7 +78,7 @@ class _ViewMyProfileState extends State<ViewMyProfile> {
             ViewProfile(
               userName:
                   '${auth.getPrefrenceValue('firstName')} ${auth.getPrefrenceValue('lastName')}',
-              image: auth.getPrefrenceValue('image').isEmpty
+              image: auth.getPrefrenceValue('image') == null.toString()
                   ? const EmptyProfile()
                   : CachedImageWidget(
                       height: size.height * 0.20,

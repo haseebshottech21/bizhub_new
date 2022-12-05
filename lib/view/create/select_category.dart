@@ -1,5 +1,3 @@
-// import 'dart:ui';
-// import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/components/custom_lodaer.dart';
 import 'package:bizhub_new/view_model/category_view_model.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +7,6 @@ import '../../utils/mytheme.dart';
 import '../../utils/routes/routes_name.dart';
 import '../../view_model/bottom_navigation_view_model.dart';
 import '../../view_model/my_service_view_model.dart';
-// import '../../widgets/common/app_bar.dart';
 import '../../widgets/common/dialog_box.dart';
 import 'component/category_item.dart';
 

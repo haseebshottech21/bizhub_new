@@ -12,7 +12,6 @@ class WelcomeAuthScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // const FullBackground(assetImagePath: 'assets/images/intro_3_bg.png'),
           SizedBox(
             width: size.width,
             height: size.height,
@@ -51,14 +50,6 @@ class WelcomeAuthScreen extends StatelessWidget {
                     Navigator.of(context).pushNamed(RouteName.login);
                   },
                 ),
-                // FormButton(
-                //   text: 'LOGIN',
-                //   color: AppColors.primaryColor,
-                //   size: Size(size.width * 0.75, size.height * 0.065),
-                //   onPressed: () {
-                //     // Navigator.of(context).pushNamed(LoginScreen.routeName);
-                //   },
-                // ),
                 const SizedBox(height: 15.0),
                 DeafultButton(
                   title: 'REGISTER',
@@ -67,14 +58,6 @@ class WelcomeAuthScreen extends StatelessWidget {
                     Navigator.of(context).pushNamed(RouteName.signup);
                   },
                 ),
-                // FormButton(
-                //   text: 'REGISTER',
-                //   color: Colors.white.withOpacity(0.4),
-                //   size: Size(size.width * 0.75, size.height * 0.065),
-                //   onPressed: () {
-                //     // Navigator.of(context).pushNamed(SignUpScreen.routeName);
-                //   },
-                // ),
               ],
             ),
           )

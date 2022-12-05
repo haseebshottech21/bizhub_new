@@ -102,39 +102,6 @@ class MessageBottom extends StatelessWidget {
                       // }
                     },
                   ),
-                  // Row(
-                  //   children: [
-                  //     Visibility(
-                  //       visible: isVisible,
-                  //       child: IconButton(
-                  //         splashRadius: 20,
-                  //         icon: Icon(
-                  //           Icons.mic,
-                  //           color: Colors.grey.shade700,
-                  //         ),
-                  //         onPressed: () {
-                  //           // slideInputController.play();
-                  //         },
-                  //       ),
-                  //     ),
-                  //     IconButton(
-                  //       splashRadius: 20,
-                  //       icon: Icon(
-                  //         Icons.send,
-                  //         color: isVisible
-                  //             ? Colors.grey.shade700
-                  //             : Colors.blue,
-                  //       ),
-                  //       onPressed: () {
-                  //         // if (textController.text.length > 0) {
-                  //         //   addToMessages(textController.text);
-                  //         //   textController.clear();
-                  //         //   showTheMic();
-                  //         // }
-                  //       },
-                  //     ),
-                  //   ],
-                  // ),
                 ],
               ),
             ],

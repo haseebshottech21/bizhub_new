@@ -27,7 +27,6 @@ class MyPostServiceItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: GestureDetector(
         onTap: () {
-          // if (myServices) {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => MyWorkDetail(
@@ -35,15 +34,6 @@ class MyPostServiceItem extends StatelessWidget {
               ),
             ),
           );
-          // } else {
-          //   Navigator.of(context).push(
-          //     MaterialPageRoute(
-          //       builder: (context) => MyJobDetail(
-          //         serviceId: serviceModel.serviceId.toString(),
-          //       ),
-          //     ),
-          //   );
-          // }
         },
         child: Container(
           width: size.width,

@@ -1,9 +1,5 @@
-// import 'package:bizhub_new/components/empty_icon.dart';
-import 'package:bizhub_new/utils/app_url.dart';
-import 'package:bizhub_new/widgets/common/empty_profile.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/mytheme.dart';
-import '../../../widgets/common/cached_image.dart';
 
 class ViewProfile extends StatelessWidget {
   const ViewProfile({

@@ -1,7 +1,9 @@
+import 'package:bizhub_new/components/custom_lodaer.dart';
 import 'package:bizhub_new/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../components/deafult_button.dart';
+// import '../../../utils/app_url.dart';
 import '../../../utils/app_url.dart';
 import '../../../utils/field_validator.dart';
 import '../../../widgets/common/app_bar.dart';
@@ -28,7 +30,12 @@ class _EditMyProfileState extends State<EditMyProfile> {
 
   void getProfileValues() async {
     final auth = Provider.of<AuthViewModel>(context, listen: false);
+
     await auth.getUser(context);
+
+    if (auth.imageDetail['imagePath'].toString().isNotEmpty) {
+      auth.imageDetail['imagePath'] = '';
+    }
     profileImage = auth.user!.image.toString();
     firstNameController.text = auth.user!.firstName.toString();
     lastNameController.text = auth.user!.lastName.toString();
@@ -74,12 +81,14 @@ class _EditMyProfileState extends State<EditMyProfile> {
   Widget build(BuildContext context) {
     final auth = context.watch<AuthViewModel>();
 
+    // print('profile: ' + profileImage);
+
     return Scaffold(
       backgroundColor: Colors.white,
       // resizeToAvoidBottomInset: false,
       appBar: mainAppBar(context: context, appBarTitle: 'Edit Profile'),
       body: auth.loading
-          ? const Center(child: CircularProgressIndicator())
+          ? const CustomLoader()
           : SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -98,7 +107,8 @@ class _EditMyProfileState extends State<EditMyProfile> {
                         child: Column(
                           children: [
                             ProfileImage(
-                              imageUrl: AppUrl.baseUrl + profileImage,
+                              userImage: profileImage,
+                              // userImage: auth.user!.image,
                             ),
                             const SizedBox(height: 20),
                             LabelTextField(

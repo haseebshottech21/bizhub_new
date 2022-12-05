@@ -3,8 +3,8 @@ import 'package:bizhub_new/view_model/my_service_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../components/custom_lodaer.dart';
-import '../components/edit_my_post.dart';
-import '../components/poster_detail_body.dart';
+// import '../components/edit_my_post.dart';
+// import '../components/poster_detail_body.dart';
 
 class MyJobDetail extends StatefulWidget {
   const MyJobDetail({

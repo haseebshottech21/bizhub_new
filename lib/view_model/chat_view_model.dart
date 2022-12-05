@@ -89,6 +89,16 @@ class ChatViewModel extends ChangeNotifier {
     }
   }
 
+  // Future<void> updateChatList({
+  //   required bool messageOuter,
+  //   required BuildContext context,
+  // }) async {
+  //   if (messageOuter) {
+  //     getMyAllChatListSecond(context: context);
+  //   }
+  //   notifyListeners();
+  // }
+
   // Messages List
   Future<void> getMessageList({
     required BuildContext context,
@@ -111,28 +121,6 @@ class ChatViewModel extends ChangeNotifier {
     );
     notifyListeners();
   }
-
-  // Future<void> getMessageListSecond({
-  //   required BuildContext context,
-  //   required String chatId,
-  // }) async {
-  //   // checkInternet();
-  //   // allChatList.clear();
-  //   setLoadTwo(true);
-  //   Future.delayed(Duration.zero).then(
-  //     (value) async {
-  //       // if (messageList.isEmpty) {
-  //       final response = await chatRepo.fetchMessagesList(chatId: chatId);
-  //       if (response.isNotEmpty) {
-  //         messageList = response['messages'] as List<MessageModel>;
-  //         oppositeUser = response['user'] as UserModel;
-  //       }
-  //       // }
-  //       setLoadTwo(false);
-  //     },
-  //   );
-  //   notifyListeners();
-  // }
 
   // CHECK INTERNET
   checkInternet() async {

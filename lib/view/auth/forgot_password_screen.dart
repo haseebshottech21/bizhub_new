@@ -90,8 +90,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     isloading: authViewModel.loading,
                     onPress: () {
                       validateAndVerify();
-                      // print(authViewModel.loading);
-                      // authViewModel.signIn(context);
                     },
                   );
                 },

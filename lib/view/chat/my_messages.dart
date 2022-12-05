@@ -19,8 +19,8 @@ class MyMessages extends StatefulWidget {
 
 class _MyMessagesState extends State<MyMessages> {
   final messageController = TextEditingController();
-  var img =
-      'https://bestprofilepictures.com/wp-content/uploads/2021/04/Cool-Profile-Picture.jpg';
+  // var img =
+  //     'https://bestprofilepictures.com/wp-content/uploads/2021/04/Cool-Profile-Picture.jpg';
 
   @override
   void initState() {
@@ -75,18 +75,18 @@ class _MyMessagesState extends State<MyMessages> {
 
   Future<void> setupInteracted() async {
     // Map? chatView = ModalRoute.of(context)!.settings.arguments as Map;
+    Map? chat = ModalRoute.of(context)!.settings.arguments as Map;
 
     await FirebaseMessaging.instance.getInitialMessage();
 
     // FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
     FirebaseMessaging.onMessage.listen(
       (RemoteMessage message) {
-        // print('A new message received');
-        if (message.data['screen'] == 'send-message') {
-          getNewMessages();
+        if (message.data['id'] == chat['chat_id']) {
+          if (message.data['screen'] == 'send-message') {
+            getNewMessages();
+          }
         }
-        // Fluttertoast.showToast(msg: '${chatView['userName']} sent message');
-        // Fluttertoast.showToast(msg: 'message received');
       },
     );
   }
@@ -103,7 +103,7 @@ class _MyMessagesState extends State<MyMessages> {
   Widget build(BuildContext context) {
     Map? chat = ModalRoute.of(context)!.settings.arguments as Map;
     // final message = context.watch<ChatViewModel>();
-    final chatViewModel = Provider.of<ChatViewModel>(context, listen: true);
+    // final chatViewModel = Provider.of<ChatViewModel>(context, listen: true);
 
     // print(serviceId.toString());
 
@@ -148,58 +148,66 @@ class _MyMessagesState extends State<MyMessages> {
               children: [
                 Column(
                   children: [
-                    // Consumer<ChatViewModel>(
-                    //   builder: (context, chatViewModel, _) {
-                    //     if (chatViewModel.loading) {
-                    //       return const Expanded(child: CustomLoader());
-                    //     }
-                    //     return
-                    Expanded(
-                      child: ListView.builder(
-                        reverse: true,
-                        itemCount: chatViewModel.messageList.length,
-                        itemBuilder: (context, index) {
-                          // print(chatViewModel.messageList[index].message);
-                          if (chatViewModel.messageList[index].isMe == true) {
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                if (chatViewModel.messageList[index].offer ==
-                                    null)
-                                  MessageItem(
-                                    message: chatViewModel.messageList[index],
-                                  ),
-                                if (chatViewModel.messageList[index].message ==
-                                    null)
-                                  OfferMessageItem(
-                                    message: chatViewModel.messageList[index],
-                                  )
-                              ],
-                            );
-                          } else {
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                if (chatViewModel.messageList[index].offer ==
-                                    null)
-                                  MessageItem(
-                                    message: chatViewModel.messageList[index],
-                                    isMe: false,
-                                  ),
-                                if (chatViewModel.messageList[index].message ==
-                                    null)
-                                  OfferMessageItem(
-                                    message: chatViewModel.messageList[index],
-                                    isMe: false,
-                                  )
-                              ],
-                            );
-                          }
-                        },
-                      ),
+                    Consumer<ChatViewModel>(
+                      builder: (context, chatViewModel, _) {
+                        if (chatViewModel.loadingTwo) {
+                          return const Expanded(child: CustomLoader());
+                        }
+                        return Expanded(
+                          child: ListView.builder(
+                            reverse: true,
+                            itemCount: chatViewModel.messageList.length,
+                            itemBuilder: (context, index) {
+                              // print(chatViewModel.messageList[index].message);
+                              if (chatViewModel.messageList[index].isMe ==
+                                  true) {
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    if (chatViewModel
+                                            .messageList[index].offer ==
+                                        null)
+                                      MessageItem(
+                                        message:
+                                            chatViewModel.messageList[index],
+                                      ),
+                                    if (chatViewModel
+                                            .messageList[index].message ==
+                                        null)
+                                      OfferMessageItem(
+                                        message:
+                                            chatViewModel.messageList[index],
+                                      )
+                                  ],
+                                );
+                              } else {
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    if (chatViewModel
+                                            .messageList[index].offer ==
+                                        null)
+                                      MessageItem(
+                                        message:
+                                            chatViewModel.messageList[index],
+                                        isMe: false,
+                                      ),
+                                    if (chatViewModel
+                                            .messageList[index].message ==
+                                        null)
+                                      OfferMessageItem(
+                                        message:
+                                            chatViewModel.messageList[index],
+                                        isMe: false,
+                                      )
+                                  ],
+                                );
+                              }
+                            },
+                          ),
+                        );
+                      },
                     ),
-                    //   },
-                    // ),
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Card(
@@ -290,12 +298,12 @@ class _MyMessagesState extends State<MyMessages> {
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 4),
+                                  const SizedBox(width: 6),
                                   Consumer<ChatViewModel>(
                                     builder: (context, messageViewModel, _) {
                                       return Container(
-                                        width: 50,
-                                        height: 50,
+                                        width: 46,
+                                        height: 46,
                                         // size: Size(50, 50),
                                         margin:
                                             const EdgeInsets.only(bottom: 6),
@@ -305,7 +313,7 @@ class _MyMessagesState extends State<MyMessages> {
                                             child: InkWell(
                                               splashColor:
                                                   Colors.white.withOpacity(0.4),
-                                              onTap: chatViewModel
+                                              onTap: messageViewModel
                                                       .messageLoading
                                                   ? null
                                                   : () {
@@ -365,41 +373,32 @@ class _MyMessagesState extends State<MyMessages> {
             ),
             Consumer<ChatViewModel>(
               builder: (context, chatViewModel, _) {
-                if (chatViewModel.loadingTwo) {
-                  return const Expanded(
-                    child: CustomLoader(
-                      height: 20,
-                      width: 20,
-                      strokeWidth: 2.0,
-                    ),
-                  );
-                } else if (chatViewModel.messageLoading) {
-                  return Container(
-                    color: Colors.grey.shade50.withOpacity(0.1),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(
-                          'Sending... ',
-                          style: TextStyle(
-                            letterSpacing: 1.0,
-                            fontSize: 16,
-                          ),
+                return chatViewModel.messageLoading
+                    ? Container(
+                        color: Colors.grey.shade50.withOpacity(0.1),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text(
+                              'Sending... ',
+                              style: TextStyle(
+                                letterSpacing: 1.0,
+                                fontSize: 16,
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            SizedBox(
+                              height: 16,
+                              width: 16,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.0,
+                                color: MyTheme.greenColor,
+                              ),
+                            )
+                          ],
                         ),
-                        SizedBox(width: 10),
-                        SizedBox(
-                          height: 16,
-                          width: 16,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2.0,
-                            color: MyTheme.greenColor,
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                }
-                return const SizedBox();
+                      )
+                    : const SizedBox();
               },
             ),
           ],

@@ -1,6 +1,5 @@
 import 'package:bizhub_new/utils/shared_prefrences.dart';
 import 'package:flutter/cupertino.dart';
-// import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import '../model/service_model.dart';
 import '../repo/chat_repo.dart';
@@ -15,6 +14,7 @@ class AllServicesViewModel extends ChangeNotifier {
   final notification = NotificationRepo();
 
   List<ServiceModel> allServiceList = [];
+  List<ServiceModel> allServiceMoreList = [];
   ServiceModel? serviceModel;
   ServiceDetalModel? serviceDetalModel;
   bool nearByJobs = true;
@@ -46,12 +46,12 @@ class AllServicesViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool _hasMore = true;
-  bool get hasMore => _hasMore;
-  setHasMore(bool status) {
-    _hasMore = status;
-    notifyListeners();
-  }
+  // bool _hasMore = true;
+  // bool get hasMore => _hasMore;
+  // setHasMore(bool status) {
+  //   _hasMore = status;
+  //   notifyListeners();
+  // }
 
   bool _offerLoading = false;
   bool get offerLoading => _offerLoading;
@@ -65,208 +65,89 @@ class AllServicesViewModel extends ChangeNotifier {
     BuildContext context,
   ) async {
     nearByJobs = type;
-    // type == true
-    //     ? await prefernce.setSharedPreferenceValue('type', '0')
-    //     : await prefernce.setSharedPreferenceValue('type', '1');
-    // print('type ${await prefernce.getSharedPreferenceListValue('type')}');
+    // allServiceList.clear();
+    page = 1;
+    hasNextPage = true;
     allServiceList.clear();
     setLoad(true);
+    // isFirstLoadRunning = true;
     Future.delayed(Duration.zero).then(
       (value) async {
-        // getMyPosts = getPosts();
-        // if (allServiceList.isEmpty) {
-        // allServiceList = await serviceRepo.fetchAllServicesList(
-        //     serviceType: nearByJobs ? '0' : '1'
-        //     //     ? '${prefernce.setSharedPreferenceValue('type', '0')}'
-        //     //     : '${prefernce.setSharedPreferenceValue('type', '1')}',
-        //     );
         final loadedData = await serviceRepo.fetchAllServicesList(
           serviceType: nearByJobs ? '0' : '1',
         );
         allServiceList = loadedData['allService'];
-
-        // }
         setLoad(false);
+        // isFirstLoadRunning = false;
       },
     );
     Navigator.of(context).pop();
     notifyListeners();
-    // print(isPoster);
   }
 
   int page = 1;
 
   bool isFirstLoadRunning = false;
   bool hasNextPage = true;
-
   bool isLoadMoreRunning = false;
 
-  List<ServiceModel> posts = [];
-  late ScrollController controller;
+  // List<ServiceModel> posts = [];
+  ScrollController controller = ScrollController();
 
-  var next;
+  dynamic next;
 
-  Future refresh(BuildContext context) async {
-    // setLoad(false);
-    // // setHasMore(true);
+  Future<void> refresh(BuildContext context) async {
     page = 1;
-    posts.clear();
+    hasNextPage = true;
+    allServiceList.clear();
     notifyListeners();
     getAllService();
   }
 
   Future<void> getAllService() async {
     checkInternet();
-    posts.clear();
+    allServiceList.clear();
     isFirstLoadRunning = true;
 
     final loadedData = await serviceRepo.fetchAllServicesList(
       serviceType: nearByJobs ? '0' : '1',
     );
-    if (posts.isEmpty) {
-      // posts = loadedData['data'];
-      posts = loadedData['allService'];
-      // print(posts);
+    if (allServiceList.isEmpty) {
+      allServiceList = loadedData['allService'];
     }
     isFirstLoadRunning = false;
     notifyListeners();
   }
 
   Future<void> getAllServiceMore() async {
-    // void _loadMore() async {
-    checkInternet();
+    // checkInternet();
     if (next != '' &&
         hasNextPage == true &&
         isFirstLoadRunning == false &&
         isLoadMoreRunning == false &&
         controller.position.extentAfter < 300) {
-      // setState(() {
       isLoadMoreRunning = true; // Display a progress indicator at the bottom
-      // });
 
       page += 1; // Increase _page by 1
 
-      // try {
-      // final res = await http.get(
-      //   Uri.parse("$_baseUrlNew?page=$_page&type=0"),
-      //   headers: await AppUrl().headerWithAuth(),
-      // );
-
+      // Future.delayed(Duration.zero).then((value) async {
       final loadedData = await serviceRepo.fetchAllServicesList(
         serviceType: nearByJobs ? '0' : '1',
         page: page,
       );
 
-      // print("$_baseUrlNew?page=$_page&type=0");
-      // final loadedData = json.decode(res.body);
-
       next = loadedData['next'];
-      final List<ServiceModel> fetchedPosts = loadedData['allService'];
-      // print(next);
-      if (fetchedPosts.isNotEmpty) {
-        // setState(() {
-        posts.addAll(fetchedPosts);
-        // });
+      allServiceMoreList = loadedData['allService'];
+      if (allServiceMoreList.isNotEmpty) {
+        allServiceList.addAll(allServiceMoreList);
       } else {
-        // setState(() {
         hasNextPage = false;
-        // });
       }
-      // } catch (err) {
-      //   if (kDebugMode) {
-      //     print('Something went wrong!');
-      //   }
-      // }
-
-      // setState(() {
       isLoadMoreRunning = false;
       // });
     }
     notifyListeners();
-    // }
   }
-
-  // ALL SERVICES
-  Future<void> getAllServicesList({
-    required BuildContext context,
-  }) async {
-    checkInternet();
-    allServiceList.clear();
-    setLoad(true);
-    Future.delayed(Duration.zero).then(
-      (value) async {
-        // getMyPosts = getPosts();
-        final loadedData = await serviceRepo.fetchAllServicesList(
-          serviceType: nearByJobs ? '0' : '1',
-        );
-
-        Future.delayed(const Duration(seconds: 5)).then((value) {
-          setHasMore(false);
-        });
-        setLoad(false);
-      },
-    );
-    notifyListeners();
-  }
-
-  Future<void> getAllServicesLists({
-    required BuildContext context,
-  }) async {
-    checkInternet();
-    allServiceList.clear();
-    setLoad(true);
-    Future.delayed(Duration.zero).then(
-      (value) async {
-        final loadedData = await serviceRepo.fetchAllServicesList(
-          serviceType: nearByJobs ? '0' : '1',
-        );
-
-        if (allServiceList.isEmpty) {
-          allServiceList = loadedData['allService'];
-        }
-
-        setLoad(false);
-      },
-    );
-    notifyListeners();
-  }
-
-  // Future<void> getAllServiceNewList({
-  //   required BuildContext context,
-  // }) async {
-  //   checkInternet();
-  //   setLoad(true);
-  //   final loadedData = await serviceRepo.fetchAllServicesList(
-  //     serviceType: nearByJobs ? '0' : '1',
-  //     page: page,
-  //   );
-  //   allServiceList = loadedData['allservice'];
-  // }
-
-  // Future fetch() async {
-  //   if (isLoading) return;
-  //   isLoading = true;
-  //   const limit = 25;
-  //   final url = Uri.parse(
-  //       'https://jsonplaceholder.typicode.com/posts?_limit=$limit&_page=$page');
-  //   final response = await http.get(url);
-
-  //   if (response.statusCode == 200) {
-  //     final List newItem = json.decode(response.body);
-  //     setState(() {
-  //       page++;
-  //       isLoading = false;
-  //       if (newItem.length < limit) {
-  //         hasmore = false;
-  //       }
-
-  //       items.addAll(newItem.map<String>((item) {
-  //         final number = item['id'];
-  //         return 'Item $number';
-  //       }).toList());
-  //     });
-  //   }
-  // }
 
   // CHECK INTERNET
   checkInternet() async {
@@ -279,7 +160,7 @@ class AllServicesViewModel extends ChangeNotifier {
   }) async {
     if (await InternetConnectionChecker().hasConnection == true) {
       // getAllServices();
-      getAllServicesList(context: context);
+      getAllService();
       Utils.snackBarMessage(
         'Internet Conneted',
         CupertinoIcons.wifi,

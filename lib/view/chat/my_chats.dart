@@ -2,7 +2,7 @@ import 'package:bizhub_new/components/custom_lodaer.dart';
 import 'package:bizhub_new/components/no_internet.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import '../../view_model/chat_view_model.dart';
 import 'component/chat_item.dart';
@@ -16,14 +16,6 @@ class MyChats extends StatefulWidget {
 }
 
 class _MyChatsState extends State<MyChats> {
-  // @override
-  // void initState() {
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     getMyAllChatsList();
-  //   });
-  //   super.initState();
-  // }
-
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -63,16 +55,16 @@ class _MyChatsState extends State<MyChats> {
     await FirebaseMessaging.instance.getInitialMessage();
 
     // FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
-    FirebaseMessaging.onMessage.listen(
-      (RemoteMessage message) {
-        // print('A new message received');
-        if (message.data['screen'] == 'send-message') {
-          getMyAllChatsListTwo();
-        }
-        Fluttertoast.showToast(msg: 'New message received');
-        // Fluttertoast.showToast(msg: 'message received');
-      },
-    );
+    // FirebaseMessaging.onMessage.listen(
+    //   (RemoteMessage message) {
+    //     // print('A new message received');
+    //     if (message.data['screen'] == 'send-message') {
+    //       getMyAllChatsListTwo();
+    //     }
+    //     Fluttertoast.showToast(msg: 'New message received');
+    //     // Fluttertoast.showToast(msg: 'message received');
+    //   },
+    // );
   }
 
   @override
