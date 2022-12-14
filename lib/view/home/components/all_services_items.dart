@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../../model/service_model.dart';
 import '../../../utils/mytheme.dart';
+import '../../../utils/utils.dart';
 import '../all_service_detail_screen.dart';
 
 class AllServiceIem extends StatelessWidget {
@@ -17,6 +18,8 @@ class AllServiceIem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final phoneDevice = Utils.getDeviceType() == 'phone';
+
     return InkWell(
       onTap: () {
         // Navigator.of(context).push(
@@ -128,9 +131,10 @@ class AllServiceIem extends StatelessWidget {
                             children: [
                               Text(
                                 serviceModel.serviceTitle.toString(),
-                                style: const TextStyle(
-                                  fontSize: 16,
+                                style: TextStyle(
+                                  fontSize: phoneDevice ? 16 : 15,
                                   fontWeight: FontWeight.w400,
+                                  height: 1.4,
                                 ),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
@@ -145,8 +149,8 @@ class AllServiceIem extends StatelessWidget {
                               // ),
                               Text(
                                 '\$ ${serviceModel.serviceAmount}',
-                                style: const TextStyle(
-                                  fontSize: 18,
+                                style: TextStyle(
+                                  fontSize: phoneDevice ? 18 : 17,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),

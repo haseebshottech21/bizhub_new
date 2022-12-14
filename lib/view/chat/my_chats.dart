@@ -2,7 +2,6 @@ import 'package:bizhub_new/components/custom_lodaer.dart';
 import 'package:bizhub_new/components/no_internet.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import '../../view_model/chat_view_model.dart';
 import 'component/chat_item.dart';
@@ -32,8 +31,9 @@ class _MyChatsState extends State<MyChats> {
   }
 
   Future<void> getMyAllChatsListTwo() async {
-    await Provider.of<ChatViewModel>(context, listen: false)
-        .getMyAllChatListSecond(context: context);
+    final chatProvider = Provider.of<ChatViewModel>(context, listen: false);
+
+    await chatProvider.getMyAllChatListSecond(context: context);
   }
 
   Future<void> setUpRequestNotification() async {
@@ -49,22 +49,19 @@ class _MyChatsState extends State<MyChats> {
     );
   }
 
-  Future<void> setupInteracted() async {
-    // Map? chatView = ModalRoute.of(context)!.settings.arguments as Map;
+  bool inner = false;
 
+  Future<void> setupInteracted() async {
     await FirebaseMessaging.instance.getInitialMessage();
 
     // FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
-    // FirebaseMessaging.onMessage.listen(
-    //   (RemoteMessage message) {
-    //     // print('A new message received');
-    //     if (message.data['screen'] == 'send-message') {
-    //       getMyAllChatsListTwo();
-    //     }
-    //     Fluttertoast.showToast(msg: 'New message received');
-    //     // Fluttertoast.showToast(msg: 'message received');
-    //   },
-    // );
+    FirebaseMessaging.onMessage.listen(
+      (RemoteMessage message) {
+        if (message.data['screen_two'] == 'rec-message') {
+          getMyAllChatsListTwo();
+        }
+      },
+    );
   }
 
   @override
@@ -83,7 +80,7 @@ class _MyChatsState extends State<MyChats> {
         builder: (context, myChats, _) {
           // print(leadsChats.leadChatList.length);
           if (myChats.isInternetConnect) {
-            if (myChats.loading) {
+            if (myChats.chatloading) {
               return const CustomLoader();
             }
             // else if (myChats.loadingTwo) {

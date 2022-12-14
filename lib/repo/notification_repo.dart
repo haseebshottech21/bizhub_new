@@ -5,7 +5,8 @@ class NotificationRepo {
   Future<void> sendNotification({
     required String notiTitle,
     required String notiBody,
-    required String data,
+    required String dataOne,
+    required String dataTwo,
     required String requestId,
     required String notifyToken,
   }) async {
@@ -36,7 +37,8 @@ class NotificationRepo {
           'priority': 'high',
           'data': <String, dynamic>{
             'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-            'screen': data,
+            'screen_one': dataOne,
+            'screen_two': dataTwo,
             'id': requestId,
             'status': 'done'
           },

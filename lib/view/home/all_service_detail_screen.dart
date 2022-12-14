@@ -9,8 +9,6 @@ import 'package:provider/provider.dart';
 class AllServiceDetail extends StatefulWidget {
   const AllServiceDetail({Key? key}) : super(key: key);
 
-  // final String serviceId;
-
   @override
   State<AllServiceDetail> createState() => _AllServiceDetailState();
 }

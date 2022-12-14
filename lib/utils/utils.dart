@@ -18,6 +18,12 @@ class Utils {
   //   FocusScope.of(context).requestFocus(nextNode);
   // }
 
+  // Device Type
+  static String getDeviceType() {
+    final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+    return data.size.shortestSide < 550 ? 'phone' : 'tablet';
+  }
+
   // TOAST
   static toastMessage(String message) {
     Fluttertoast.showToast(

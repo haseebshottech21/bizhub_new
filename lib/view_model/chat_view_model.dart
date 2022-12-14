@@ -19,10 +19,10 @@ class ChatViewModel extends ChangeNotifier {
   final prefrences = Prefrences();
   bool isInternetConnect = true;
 
-  bool _loading = false;
-  bool get loading => _loading;
-  setLoad(bool status) {
-    _loading = status;
+  bool _chatloading = false;
+  bool get chatloading => _chatloading;
+  setChatLoad(bool status) {
+    _chatloading = status;
     notifyListeners();
   }
 
@@ -40,17 +40,24 @@ class ChatViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _messagListLoading = false;
+  bool get messagListLoading => _messagListLoading;
+  setMessageListLoad(bool status) {
+    _messagListLoading = status;
+    notifyListeners();
+  }
+
   // My All Chats List
   Future<void> getMyAllChatList({required BuildContext context}) async {
     checkInternet();
     allChatList.clear();
-    setLoad(true);
+    setChatLoad(true);
     Future.delayed(Duration.zero).then(
       (value) async {
         if (allChatList.isEmpty) {
           allChatList = await chatRepo.fetchMyAllChatsList();
         }
-        setLoad(false);
+        setChatLoad(false);
       },
     );
     notifyListeners();
@@ -108,7 +115,7 @@ class ChatViewModel extends ChangeNotifier {
     if (checkMessages) {
       messageList.clear();
     }
-    setLoadTwo(true);
+    setMessageListLoad(true);
     Future.delayed(Duration.zero).then(
       (value) async {
         final response = await chatRepo.fetchMessagesList(chatId: chatId);
@@ -116,6 +123,30 @@ class ChatViewModel extends ChangeNotifier {
           messageList = response['messages'] as List<MessageModel>;
           oppositeUser = response['user'] as UserModel;
         }
+        setMessageListLoad(false);
+      },
+    );
+    notifyListeners();
+  }
+
+  Future<void> getMessageListSecond({
+    required BuildContext context,
+    required String chatId,
+    required bool checkMessages,
+  }) async {
+    checkInternet();
+    // allChatList.clear();
+    setLoadTwo(true);
+    Future.delayed(Duration.zero).then(
+      (value) async {
+        // if (allChatList.isEmpty) {
+        final response = await chatRepo.fetchMessagesList(chatId: chatId);
+        if (response.isNotEmpty) {
+          messageList = response['messages'] as List<MessageModel>;
+          oppositeUser = response['user'] as UserModel;
+        }
+        // allChatList = await chatRepo.fetchMessagesList(chatId: chatId);
+        // }
         setLoadTwo(false);
       },
     );
@@ -153,14 +184,25 @@ class ChatViewModel extends ChangeNotifier {
           // if (response.isNotEmpty) {
           messageList = response['messages'] as List<MessageModel>;
 
-          notification.sendNotification(
+          await notification.sendNotification(
             notiTitle: 'Message',
             notiBody:
                 '${await prefrences.getSharedPreferenceValue('firstname')} send you new message',
             notifyToken: notificationId,
-            data: 'send-message',
+            dataOne: 'send-message',
+            dataTwo: 'rec-message',
             requestId: chatId,
           );
+
+          // await notification.sendNotification(
+          //   notiTitle: 'Message',
+          //   notiBody:
+          //       '${await prefrences.getSharedPreferenceValue('firstname')} send you new message',
+          //   notifyToken: notificationId,
+          //   data: 'outer-message',
+          //   requestId: chatId,
+          // );
+
           getMyAllChatList(context: context);
           setMessageLoad(false);
         },

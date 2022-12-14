@@ -2,6 +2,7 @@ import 'package:bizhub_new/utils/app_url.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:flutter/material.dart';
 import '../../../model/chat_model.dart';
+import '../../../utils/utils.dart';
 import '../../../widgets/common/cached_image.dart';
 
 class ChatWidget extends StatelessWidget {
@@ -17,6 +18,7 @@ class ChatWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final phoneDevice = Utils.getDeviceType() == 'phone';
 
     return Padding(
       padding: const EdgeInsets.only(top: 4),
@@ -57,7 +59,7 @@ class ChatWidget extends StatelessWidget {
                     ),
               SizedBox(width: size.width * 0.02),
               SizedBox(
-                width: size.width * 0.58,
+                width: phoneDevice ? size.width * 0.58 : size.width * 0.62,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

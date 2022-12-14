@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../../model/service_model.dart';
 import '../../../utils/app_url.dart';
 import '../../../utils/mytheme.dart';
+import '../../../utils/utils.dart';
 import '../../../view_model/my_service_view_model.dart';
 import '../../../widgets/common/dialog_box.dart';
 import '../my_jobs/my_job_detail.dart';
@@ -24,20 +25,13 @@ class MyPostJobItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final phoneDevice = Utils.getDeviceType() == 'phone';
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
+      padding:
+          EdgeInsets.symmetric(vertical: 6, horizontal: phoneDevice ? 0 : 4),
       child: GestureDetector(
         onTap: () {
-          // if (myServices) {
-          //   Navigator.of(context).push(
-          //     MaterialPageRoute(
-          //       builder: (context) => MyWorkDetail(
-          //         serviceId: serviceModel.serviceId.toString(),
-          //       ),
-          //     ),
-          //   );
-          // } else {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => MyJobDetail(
@@ -45,7 +39,6 @@ class MyPostJobItem extends StatelessWidget {
               ),
             ),
           );
-          // }
         },
         child: Container(
           width: size.width,
@@ -78,11 +71,14 @@ class MyPostJobItem extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        // Image
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 6.0),
                           child: SizedBox(
                             height: size.maxHeight,
-                            width: size.maxWidth * 0.18,
+                            width: phoneDevice
+                                ? size.maxWidth * 0.18
+                                : size.maxWidth * 0.14,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(6),
                               child: serviceModel.imagesList!.isEmpty
@@ -112,8 +108,11 @@ class MyPostJobItem extends StatelessWidget {
                             ),
                           ),
                         ),
+                        // Title, Price, Status
                         SizedBox(
-                          width: size.maxWidth * 0.74,
+                          width: phoneDevice
+                              ? size.maxWidth * 0.74
+                              : size.maxWidth * 0.80,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -160,34 +159,7 @@ class MyPostJobItem extends StatelessWidget {
                                                     onTap: () {
                                                       Navigator.of(context)
                                                           .pop();
-                                                      // if (myServices) {
-                                                      //   showDialog(
-                                                      //     context: context,
-                                                      //     builder: (context) =>
-                                                      //         simpleDialog(
-                                                      //       context: context,
-                                                      //       title:
-                                                      //           'Confirm Delete ?',
-                                                      //       subTitle:
-                                                      //           'Are you sure you want to delete service ?',
-                                                      //       onPressed: () {
-                                                      //         // Navigator.of(
-                                                      //         //         context)
-                                                      //         //     .pop();
-                                                      //         context
-                                                      //             .read<
-                                                      //                 MyServiceViewModel>()
-                                                      //             .deleteMyService(
-                                                      //               serviceId: serviceModel
-                                                      //                   .serviceId
-                                                      //                   .toString(),
-                                                      //               context:
-                                                      //                   context,
-                                                      //             );
-                                                      //       },
-                                                      //     ),
-                                                      //   );
-                                                      // } else {
+
                                                       showDialog(
                                                         context: context,
                                                         builder: (context) =>
@@ -240,29 +212,6 @@ class MyPostJobItem extends StatelessWidget {
                                                                     Navigator.of(
                                                                             context)
                                                                         .pop();
-                                                                    // Navigator.pushNamed(
-                                                                    //     context,
-                                                                    //     RouteName
-                                                                    //         .myJobComplete);
-                                                                    // if (myServices) {
-                                                                    //   Navigator.push(
-                                                                    //     context,
-                                                                    //     MaterialPageRoute(
-                                                                    //       builder:
-                                                                    //           (ctx) =>
-                                                                    //               const PostComplete(),
-                                                                    //       settings:
-                                                                    //           RouteSettings(
-                                                                    //         arguments: {
-                                                                    //           'service_id':
-                                                                    //               serviceModel.serviceId,
-                                                                    //           'lead':
-                                                                    //               false,
-                                                                    //         },
-                                                                    //       ),
-                                                                    //     ),
-                                                                    //   );
-                                                                    // } else {
                                                                     Navigator
                                                                         .push(
                                                                       context,
@@ -303,7 +252,7 @@ class MyPostJobItem extends StatelessWidget {
                                     },
                                     child: const Icon(
                                       CupertinoIcons.ellipsis_vertical,
-                                      size: 18,
+                                      size: 20,
                                     ),
                                   ),
                                 ],
@@ -321,8 +270,8 @@ class MyPostJobItem extends StatelessWidget {
                                     ),
                                   ),
                                   Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 10,
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: phoneDevice ? 10 : 12,
                                       vertical: 4,
                                     ),
                                     decoration: BoxDecoration(

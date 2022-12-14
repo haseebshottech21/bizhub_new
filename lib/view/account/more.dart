@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../utils/app_url.dart';
 import '../../utils/mytheme.dart';
+import '../../utils/utils.dart';
 import '../../view_model/auth_view_model.dart';
 import '../../widgets/common/cached_image.dart';
 import '../../widgets/common/empty_profile.dart';
@@ -34,7 +35,14 @@ class _MoreScreenState extends State<MoreScreen> {
   Widget build(BuildContext context) {
     final auth = context.watch<AuthViewModel>();
 
-    final size = MediaQuery.of(context).size;
+    // final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+
+    // final size = MediaQuery.of(context).size;
+
+    double deviceWidth = MediaQuery.of(context).size.width;
+    final phoneDevice = Utils.getDeviceType() == 'phone';
+
+    // print(deviceWidth);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -43,7 +51,7 @@ class _MoreScreenState extends State<MoreScreen> {
         preferredSize: const Size.fromHeight(0),
         child: Container(
           color: MyTheme.greenColor,
-          width: size.width,
+          width: deviceWidth,
         ),
       ),
       body: Stack(
@@ -57,14 +65,18 @@ class _MoreScreenState extends State<MoreScreen> {
                       '${auth.getPrefrenceValue('firstName')} ${auth.getPrefrenceValue('lastName')}',
                   image: auth.getPrefrenceValue('image') == null.toString()
                       ? EmptyProfile(
-                          height: size.height * 0.10,
-                          width: size.width * 0.20,
-                          iconSize: 60,
+                          height: 80,
+                          width: phoneDevice
+                              ? deviceWidth / 5.5
+                              : deviceWidth / 7.5,
+                          iconSize: 55,
                           radius: 100,
                         )
                       : CachedImageWidget(
-                          height: size.height * 0.10,
-                          width: size.width * 0.20,
+                          height: 80,
+                          width: phoneDevice
+                              ? deviceWidth / 5.5
+                              : deviceWidth / 7.5,
                           imgUrl:
                               AppUrl.baseUrl + auth.getPrefrenceValue('image'),
                         ),

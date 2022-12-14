@@ -55,6 +55,7 @@ dependencies:
   firebase_messaging: ^13.1.0
   responsive_framework: ^0.2.0
   webview_flutter: ^3.0.4
+  flutter_native_splash: ^2.2.16
   # firebase_core_platform_interface: ^4.4.0
   # firebase_analytics: ^9.3.8
 
@@ -69,6 +70,12 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+    
+
+
+flutter_native_splash:
+  color: "#000000"
+
 
 
   # flutter_icons:

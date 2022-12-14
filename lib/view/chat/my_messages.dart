@@ -19,8 +19,6 @@ class MyMessages extends StatefulWidget {
 
 class _MyMessagesState extends State<MyMessages> {
   final messageController = TextEditingController();
-  // var img =
-  //     'https://bestprofilepictures.com/wp-content/uploads/2021/04/Cool-Profile-Picture.jpg';
 
   @override
   void initState() {
@@ -35,6 +33,7 @@ class _MyMessagesState extends State<MyMessages> {
   Future<void> getMyMessages() async {
     Map? chat = ModalRoute.of(context)!.settings.arguments as Map;
     final chatProvider = Provider.of<ChatViewModel>(context, listen: false);
+
     if (chat['unread'] > 0) {
       await chatProvider.getMyAllChatList(context: context);
       await chatProvider.getMessageList(
@@ -53,7 +52,8 @@ class _MyMessagesState extends State<MyMessages> {
   Future<void> getNewMessages() async {
     Map? chat = ModalRoute.of(context)!.settings.arguments as Map;
     final chatProvider = Provider.of<ChatViewModel>(context, listen: false);
-    await chatProvider.getMessageList(
+    // await chatProvider.getMyAllChatList(context: context);
+    await chatProvider.getMessageListSecond(
       context: context,
       chatId: chat['chat_id'],
       checkMessages: false,
@@ -82,11 +82,12 @@ class _MyMessagesState extends State<MyMessages> {
     // FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
     FirebaseMessaging.onMessage.listen(
       (RemoteMessage message) {
-        if (message.data['id'] == chat['chat_id']) {
-          if (message.data['screen'] == 'send-message') {
-            getNewMessages();
-          }
+        // if (message.data['id'] == chat['chat_id']) {
+        if (message.data['screen_one'] == 'send-message' &&
+            message.data['id'] == chat['chat_id']) {
+          getNewMessages();
         }
+        // }
       },
     );
   }
@@ -102,9 +103,11 @@ class _MyMessagesState extends State<MyMessages> {
   @override
   Widget build(BuildContext context) {
     Map? chat = ModalRoute.of(context)!.settings.arguments as Map;
+
+    // print(chat['chat_id']);
+    // print(chat['notifyChatId']);
     // final message = context.watch<ChatViewModel>();
     // final chatViewModel = Provider.of<ChatViewModel>(context, listen: true);
-
     // print(serviceId.toString());
 
     return Scaffold(
@@ -150,7 +153,7 @@ class _MyMessagesState extends State<MyMessages> {
                   children: [
                     Consumer<ChatViewModel>(
                       builder: (context, chatViewModel, _) {
-                        if (chatViewModel.loadingTwo) {
+                        if (chatViewModel.messagListLoading) {
                           return const Expanded(child: CustomLoader());
                         }
                         return Expanded(

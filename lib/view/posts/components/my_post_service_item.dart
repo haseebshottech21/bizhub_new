@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../../model/service_model.dart';
 import '../../../utils/app_url.dart';
 import '../../../utils/mytheme.dart';
+import '../../../utils/utils.dart';
 import '../../../view_model/my_service_view_model.dart';
 import '../../../widgets/common/dialog_box.dart';
 import '../my_services/my_service_detail.dart';
@@ -22,9 +23,11 @@ class MyPostServiceItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final phoneDevice = Utils.getDeviceType() == 'phone';
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
+      padding:
+          EdgeInsets.symmetric(vertical: 6, horizontal: phoneDevice ? 0 : 4),
       child: GestureDetector(
         onTap: () {
           Navigator.of(context).push(
@@ -66,11 +69,49 @@ class MyPostServiceItem extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(vertical: 6.0),
+                        //   child: SizedBox(
+                        //     height: size.maxHeight,
+                        //     width: phoneDevice
+                        //         ? size.maxWidth * 0.18
+                        //         : size.maxWidth * 0.08,
+                        //     child: ClipRRect(
+                        //       borderRadius: BorderRadius.circular(6),
+                        //       child: serviceModel.imagesList!.isEmpty
+                        //           ? Container(
+                        //               color: Colors.grey.shade50,
+                        //               child: Icon(
+                        //                 Icons.photo_library,
+                        //                 color: Colors.grey.shade400,
+                        //                 size: 40,
+                        //               ),
+                        //             )
+                        //           : CachedNetworkImage(
+                        //               // height: constraints.maxHeight * 0.55,
+                        //               // width: double.infinity,
+                        //               fadeInDuration:
+                        //                   const Duration(milliseconds: 300),
+                        //               placeholder: (context, url) => const Icon(
+                        //                 Icons.photo_library,
+                        //                 color: MyTheme.greenColor,
+                        //                 size: 30,
+                        //               ),
+                        //               imageUrl: AppUrl.baseUrl +
+                        //                   serviceModel.imagesList![0].image
+                        //                       .toString(),
+                        //               fit: BoxFit.cover,
+                        //             ),
+                        //     ),
+                        //   ),
+                        // ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 6.0),
                           child: SizedBox(
                             height: size.maxHeight,
-                            width: size.maxWidth * 0.18,
+                            width: phoneDevice
+                                ? size.maxWidth * 0.18
+                                : size.maxWidth * 0.14,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(6),
                               child: serviceModel.imagesList!.isEmpty
@@ -101,7 +142,9 @@ class MyPostServiceItem extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                          width: size.maxWidth * 0.74,
+                          width: phoneDevice
+                              ? size.maxWidth * 0.74
+                              : size.maxWidth * 0.80,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -349,8 +392,8 @@ class MyPostServiceItem extends StatelessWidget {
                                     ),
                                   ),
                                   Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 10,
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: phoneDevice ? 10 : 12,
                                       vertical: 4,
                                     ),
                                     decoration: BoxDecoration(

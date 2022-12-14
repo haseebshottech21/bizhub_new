@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:569333853926:android:d7f367bbdbe57664d35527",
+        "mobilesdk_app_id": "1:569333853926:android:fbb11df145dd45e5d35527",
         "android_client_info": {
-          "package_name": "com.example.bizhub"
+          "package_name": "com.bizhub.bizhubAndroid"
         }
       },
       "oauth_client": [
@@ -29,6 +29,49 @@
             {
               "client_id": "569333853926-6dpnifcdmlnhrlkv9q6m7i1kul2nldcj.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "569333853926-37jvggnj0p819mplftf84canqlm8dnib.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bizhub.bizhubiOS"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:569333853926:android:d7f367bbdbe57664d35527",
+        "android_client_info": {
+          "package_name": "com.bizhub.bizhubAndroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "569333853926-6dpnifcdmlnhrlkv9q6m7i1kul2nldcj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo-czhn1ajCiMufjPido5tTwyDCRpw62Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "569333853926-6dpnifcdmlnhrlkv9q6m7i1kul2nldcj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "569333853926-37jvggnj0p819mplftf84canqlm8dnib.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bizhub.bizhubiOS"
+              }
             }
           ]
         }

@@ -2,12 +2,15 @@ import 'package:bizhub_new/components/deafult_button.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:flutter/material.dart';
 
+import '../../utils/utils.dart';
+
 class WelcomeAuthScreen extends StatelessWidget {
   const WelcomeAuthScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final phoneDevice = Utils.getDeviceType() == 'phone';
 
     return Scaffold(
       body: Stack(
@@ -17,7 +20,7 @@ class WelcomeAuthScreen extends StatelessWidget {
             height: size.height,
             child: Image.asset(
               'assets/images/intro_3_bg.png',
-              fit: BoxFit.cover,
+              fit: phoneDevice ? BoxFit.cover : BoxFit.fill,
             ),
           ),
           Padding(

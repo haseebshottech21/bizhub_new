@@ -1,9 +1,7 @@
-// import 'package:bizhub_new/components/custom_lodaer.dart';
 import 'package:bizhub_new/utils/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-
 import '../../../components/deafult_button.dart';
 import '../../../utils/mytheme.dart';
 import '../../../view_model/all_services_view_model.dart';
@@ -23,8 +21,6 @@ class ServicesDetailBottom extends StatelessWidget {
     // final allServiceViewModel = context.watch<AllServicesViewModel>();
     final allServiceViewModel =
         Provider.of<AllServicesViewModel>(context, listen: false);
-    // final offerController = TextEditingController();
-    // final messageController = TextEditingController();
 
     return SafeArea(
       child: Container(
@@ -69,63 +65,51 @@ class ServicesDetailBottom extends StatelessWidget {
     AllServicesViewModel servicesViewModel,
   ) {
     showModalBottomSheet(
-      backgroundColor: Colors.white,
       context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(15.0),
-        ),
-      ),
-      builder: (context) => SingleChildScrollView(
-        child: Container(
+      builder: (BuildContext context) {
+        return Container(
           padding:
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 4,
-                    bottom: 20,
-                    left: 12,
-                    right: 12,
-                  ),
-                  child: Center(
-                    child: Container(
-                      height: 4,
-                      width: 60,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[500],
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 50.0),
+            child: Wrap(
+              spacing: 40.0,
+              children: <Widget>[
+                Center(
+                  child: Container(
+                    height: 4,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[500],
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
                 ),
-                const Text(
-                  'Enter Your Message',
-                  style: TextStyle(fontSize: 20),
+                const SizedBox(height: 16),
+                const Center(
+                  child: Text(
+                    'Enter Your Message',
+                    style: TextStyle(fontSize: 20),
+                  ),
                 ),
                 const SizedBox(height: 8),
                 TextField(
                   controller: messageController,
                   style: const TextStyle(color: Colors.black),
-                  cursorColor: MyTheme.greenColor,
+                  // textAlignVertical: TextAlignVertical.center,
+                  // textAlign: TextAlign.center,
                   autofocus: true,
+
+                  cursorColor: MyTheme.greenColor,
                   // keyboardType: TextInputType.multiline,
-                  // maxLines: null,
-                  minLines: 1,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
+
+                  showCursor: false,
+                  // inputFormatters: [
+                  //   FilteringTextInputFormatter.digitsOnly,
+                  //   LengthLimitingTextInputFormatter(7),
+                  // ],
                   decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.only(
-                      left: 15,
-                      bottom: 10,
-                      top: 10,
-                      right: 15,
-                    ),
+                    hintText: 'Send your message',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4),
                       borderSide: const BorderSide(
@@ -138,69 +122,57 @@ class ServicesDetailBottom extends StatelessWidget {
                         color: MyTheme.greenColor,
                       ),
                     ),
-                    hintText: 'Send your message',
-                    // hintStyle: const TextStyle(color: Colors.black45),
-                    fillColor: Colors.white,
-                    filled: true,
-                    // prefixIcon: Padding(
-                    //   padding: const EdgeInsets.only(left: 12),
-                    //   child: Icon(
-                    //     widget.icon,
-                    //     color: MyTheme.greenColor,
-                    //   ),
-                    // ),
-                    prefixText: ' ',
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Consumer<AllServicesViewModel>(
-                        builder: (context, provider, _) {
-                      return ElevatedButton(
-                        onPressed: provider.offerLoading
-                            ? null
-                            : () {
-                                Map data = {
-                                  'receiver_id': servicesViewModel
-                                      .serviceDetalModel!.userId,
-                                  'service_id': servicesViewModel
-                                      .serviceDetalModel!.serviceId,
-                                  'message': messageController.text.trim(),
-                                };
-                                // print(data);
-                                provider.sendMessage(
-                                  data: data,
-                                  context: context,
-                                  controller: messageController,
-                                );
-                              },
-                        style: ElevatedButton.styleFrom(
-                          primary: MyTheme.greenColor,
-                          padding: const EdgeInsets.all(10.0),
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: const [
-                            Text(
-                              'Send Message',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            SizedBox(width: 12),
-                            Icon(Icons.send, size: 20),
-                          ],
-                        ),
-                      );
-                    })
+                      builder: (context, provider, _) {
+                        return ElevatedButton(
+                          onPressed: provider.offerLoading
+                              ? null
+                              : () {
+                                  Map data = {
+                                    'receiver_id': servicesViewModel
+                                        .serviceDetalModel!.userId,
+                                    'service_id': servicesViewModel
+                                        .serviceDetalModel!.serviceId,
+                                    'message': messageController.text.trim(),
+                                  };
+                                  // print(data);
+                                  provider.sendMessage(
+                                    data: data,
+                                    context: context,
+                                    controller: messageController,
+                                  );
+                                },
+                          style: ElevatedButton.styleFrom(
+                            primary: MyTheme.greenColor,
+                            padding: const EdgeInsets.all(10.0),
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: const [
+                              Text(
+                                'Send Message',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              SizedBox(width: 12),
+                              Icon(Icons.send, size: 20),
+                            ],
+                          ),
+                        );
+                      },
+                    )
                   ],
                 ),
-                const SizedBox(height: 20),
               ],
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -225,6 +197,7 @@ class ServicesDetailBottom extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 20.0),
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.start,
+
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(

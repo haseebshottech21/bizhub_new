@@ -119,34 +119,34 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                       },
                     ),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 20),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Consumer<AuthViewModel>(
-                              builder: (context, authViewModel, _) {
-                                return Checkbox(
-                                  checkColor: Colors.white,
-                                  activeColor: MyTheme.greenColor,
-                                  value: authViewModel.isRemember,
-                                  onChanged: (bool? value) {
-                                    authViewModel.checkRemeber();
-                                  },
-                                );
-                              },
-                            ),
-                            const Text(
-                              'Remember me',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16.0,
-                              ),
-                            )
-                          ],
-                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.start,
+                        //   children: [
+                        //     Consumer<AuthViewModel>(
+                        //       builder: (context, authViewModel, _) {
+                        //         return Checkbox(
+                        //           checkColor: Colors.white,
+                        //           activeColor: MyTheme.greenColor,
+                        //           value: authViewModel.isRemember,
+                        //           onChanged: (bool? value) {
+                        //             authViewModel.checkRemeber();
+                        //           },
+                        //         );
+                        //       },
+                        //     ),
+                        //     const Text(
+                        //       'Remember me',
+                        //       style: TextStyle(
+                        //         color: Colors.black,
+                        //         fontSize: 16.0,
+                        //       ),
+                        //     )
+                        //   ],
+                        // ),
                         InkWell(
                           onTap: () {
                             Navigator.of(context).pushNamed(
@@ -167,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 20),
                     Consumer<AuthViewModel>(
                       builder: (context, authViewModel, _) {
                         return DeafultButton(

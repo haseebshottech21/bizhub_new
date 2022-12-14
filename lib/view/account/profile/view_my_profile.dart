@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../model/rating_model.dart';
 import '../../../utils/mytheme.dart';
+import '../../../utils/utils.dart';
 import '../../../view_model/auth_view_model.dart';
 import '../../../widgets/common/cached_image.dart';
 import '../../../widgets/common/empty_profile.dart';
@@ -55,6 +56,7 @@ class _ViewMyProfileState extends State<ViewMyProfile> {
   Widget build(BuildContext context) {
     final auth = context.watch<AuthViewModel>();
     final size = MediaQuery.of(context).size;
+    final phoneDevice = Utils.getDeviceType() == 'phone';
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -81,9 +83,11 @@ class _ViewMyProfileState extends State<ViewMyProfile> {
               image: auth.getPrefrenceValue('image') == null.toString()
                   ? const EmptyProfile()
                   : CachedImageWidget(
-                      height: size.height * 0.20,
-                      width: size.width * 0.40,
-                      radius: 100,
+                      height:
+                          phoneDevice ? size.height * 0.20 : size.height * 0.20,
+                      width:
+                          phoneDevice ? size.width * 0.40 : size.height * 0.20,
+                      radius: 150,
                       imgUrl: AppUrl.baseUrl + auth.getPrefrenceValue('image'),
                     ),
             ),

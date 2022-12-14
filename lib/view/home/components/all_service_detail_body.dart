@@ -32,6 +32,7 @@ class AllServiceDetailBody extends StatelessWidget {
               height: size.height * 0.28,
               child: allServiceViewModel.serviceDetalModel!.imagesList!.isEmpty
                   ? Container(
+                      width: size.width,
                       color: Colors.black,
                       child: Image.asset('assets/images/bizhub_logo.png'),
                     )
@@ -53,9 +54,9 @@ class AllServiceDetailBody extends StatelessWidget {
                                     const Duration(milliseconds: 300),
                                 placeholder: (context, url) => Container(
                                   // height: size.height * 0.55,
-                                  // width: double.infinity,
+                                  // width: size.width,
                                   padding: const EdgeInsets.all(50.0),
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   child: Image.asset(
                                     'assets/images/bizhub3.png',
                                     fit: BoxFit.contain,
@@ -63,7 +64,7 @@ class AllServiceDetailBody extends StatelessWidget {
                                 ),
                                 imageUrl: AppUrl.baseUrl +
                                     serviceImages.image!.toString(),
-                                fit: BoxFit.cover,
+                                fit: BoxFit.contain,
                               ),
                               Positioned(
                                 right: 8,

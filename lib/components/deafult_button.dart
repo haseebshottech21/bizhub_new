@@ -1,4 +1,5 @@
 import 'package:bizhub_new/utils/mytheme.dart';
+import 'package:bizhub_new/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class DeafultButton extends StatelessWidget {
@@ -91,13 +92,14 @@ class DeafultIconButton extends StatelessWidget {
         ),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             icon,
             color: Colors.white,
             size: 24,
           ),
+          SizedBox(width: Utils.getDeviceType() == 'phone' ? 15 : 25),
           Text(
             title,
             style: const TextStyle(

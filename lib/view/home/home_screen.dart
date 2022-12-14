@@ -6,8 +6,9 @@ import 'package:bizhub_new/view/home/components/all_services_items.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../utils/utils.dart';
 import '../../view_model/all_services_view_model.dart';
-import '../../view_model/auth_view_model.dart';
+// import '../../view_model/auth_view_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -18,6 +19,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   // ScrollController controller = ScrollController();
+
+  final phoneDevice = Utils.getDeviceType() == 'phone';
 
   @override
   void initState() {
@@ -204,19 +207,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                 ),
                 SliverPadding(
-                  padding: const EdgeInsets.only(
-                    left: 8,
-                    right: 8,
+                  padding: EdgeInsets.only(
+                    left: phoneDevice ? 8 : 12,
+                    right: phoneDevice ? 8 : 12,
                     bottom: 30,
                     top: 16,
                   ),
                   sliver: SliverGrid(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: phoneDevice ? 2 : 3,
                       // childAspectRatio: 0.9,
-                      mainAxisSpacing: 8,
-                      crossAxisSpacing: 8,
+                      mainAxisSpacing: phoneDevice ? 8 : 12,
+                      crossAxisSpacing: phoneDevice ? 8 : 12,
                     ),
                     delegate: SliverChildBuilderDelegate(
                       childCount: provider.allServiceList.length,

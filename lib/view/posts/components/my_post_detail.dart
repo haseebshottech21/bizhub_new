@@ -1,3 +1,4 @@
+// import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/app_url.dart';
 import '../../../view_model/my_service_view_model.dart';
@@ -144,8 +145,9 @@ class MyPostDetail extends StatelessWidget {
           Positioned(
             top: 0,
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.10,
+              height: MediaQuery.of(context).size.height * 0.09,
               width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
               alignment: Alignment.bottomLeft,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -166,48 +168,87 @@ class MyPostDetail extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    width: 40,
-                    height: 50,
-                    margin: const EdgeInsets.symmetric(horizontal: 12),
-                    // decoration: const BoxDecoration(
-                    // color: Colors.white,
-                    // shape: BoxShape.circle,
-                    // ),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child:
-                          const Icon(Icons.arrow_back_ios, color: Colors.white),
-                    ),
+                  _actionButton(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: Icons.arrow_back_ios,
                   ),
-                  Container(
-                    width: 40,
-                    height: 50,
-                    margin: const EdgeInsets.symmetric(horizontal: 12),
-                    child: myServiceViewModel.serviceModel!.serviceStatus == '0'
-                        ? InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const EditMyPost(),
-                                  settings: RouteSettings(
-                                    arguments: myServiceViewModel.serviceModel,
-                                  ),
+                  // Container(
+                  //   width: 50,
+                  //   height: 50,
+                  //   margin: const EdgeInsets.symmetric(horizontal: 12),
+                  //   child: InkWell(
+                  //     onTap: () {
+                  //       Navigator.of(context).pop();
+                  //     },
+                  //     child: const Icon(
+                  //       Icons.arrow_back_ios,
+                  //       color: MyTheme.greenColor,
+                  //     ),
+                  //   ),
+                  // ),
+
+                  // Container(
+                  //   width: 40,
+                  //   height: 50,
+                  //   margin: const EdgeInsets.symmetric(horizontal: 12),
+                  //   child: myServiceViewModel.serviceModel!.serviceStatus == '0'
+                  //       ? InkWell(
+                  //           onTap: () {
+                  //             Navigator.push(
+                  //               context,
+                  //               MaterialPageRoute(
+                  //                 builder: (context) => const EditMyPost(),
+                  //                 settings: RouteSettings(
+                  //                   arguments: myServiceViewModel.serviceModel,
+                  //                 ),
+                  //               ),
+                  //             );
+                  //           },
+                  //           child: const Icon(
+                  //             Icons.edit,
+                  //             color: MyTheme.greenColor,
+                  //           ),
+                  //         )
+                  //       : const SizedBox(),
+                  // ),
+                  myServiceViewModel.serviceModel!.serviceStatus == '0'
+                      ? _actionButton(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const EditMyPost(),
+                                settings: RouteSettings(
+                                  arguments: myServiceViewModel.serviceModel,
                                 ),
-                              );
-                            },
-                            child: const Icon(Icons.edit, color: Colors.white),
-                          )
-                        : const SizedBox(),
-                  ),
+                              ),
+                            );
+                          },
+                          icon: Icons.edit,
+                        )
+                      : const SizedBox()
                 ],
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _actionButton({
+    required VoidCallback onTap,
+    required IconData icon,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(50),
+      child: CircleAvatar(
+        radius: 22,
+        backgroundColor: Colors.white.withAlpha(30),
+        child: Center(child: Icon(icon, color: Colors.white, size: 22)),
       ),
     );
   }
