@@ -7,5 +7,6 @@
     "aboutUs" : "About Us",
     "termAndCondition" : "Term & Condition",
     "privacyPolicy" : "Privacy Policy",
+    "deleteAccount" : "Delete Account",
     "logout" : "Logout" 
 }

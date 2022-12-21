@@ -44,6 +44,8 @@ class RouteName {
   static const String contactUs = '/contact_us';
   static const String termAndCondition = '/term_and_condition';
   static const String privacyPolicy = '/privacy_policy';
+  static const String deleteAccount = '/delete_account';
+  static const String confirmDelete = '/confirm_delete';
 
   // Test
   static const String testLocation = '/test_location';

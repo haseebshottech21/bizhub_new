@@ -144,6 +144,14 @@ class _MoreScreenState extends State<MoreScreen> {
                     Navigator.pushNamed(context, RouteName.privacyPolicy);
                   },
                 ),
+                moreItem(
+                  context: context,
+                  text: translation(context).deleteAccount,
+                  iconData: Icons.delete,
+                  onTap: () {
+                    Navigator.pushNamed(context, RouteName.deleteAccount);
+                  },
+                ),
                 // moreItem(
                 //   context: context,
                 //   text: 'Location',

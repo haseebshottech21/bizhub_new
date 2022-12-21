@@ -7,11 +7,13 @@ class DeafultButton extends StatelessWidget {
   final VoidCallback? onPress;
   final bool isloading;
   final Color color;
+  final double borderRadius;
   const DeafultButton({
     required this.title,
     required this.onPress,
     this.isloading = false,
     this.color = MyTheme.greenColor,
+    this.borderRadius = 2,
     Key? key,
   }) : super(key: key);
 
@@ -24,7 +26,7 @@ class DeafultButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
           shape: BeveledRectangleBorder(
-            borderRadius: BorderRadius.circular(2),
+            borderRadius: BorderRadius.circular(borderRadius),
           ),
         ),
         child: Center(

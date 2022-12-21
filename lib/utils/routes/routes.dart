@@ -1,6 +1,8 @@
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/view/account/about_us.dart';
 import 'package:bizhub_new/view/account/change_password.dart';
+import 'package:bizhub_new/view/account/delete/confirm_deletion.dart';
+import 'package:bizhub_new/view/account/delete/select_delete_reason.dart';
 import 'package:bizhub_new/view/account/privacy_policy.dart';
 import 'package:bizhub_new/view/account/profile/edit_my_profile.dart';
 import 'package:bizhub_new/view/account/profile/view_my_profile.dart';
@@ -96,18 +98,23 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const ChangePassword());
       case RouteName.aboutUs:
         return MaterialPageRoute(builder: (context) => const AboutUs());
-      case RouteName.privacyPolicy:
-        return MaterialPageRoute(builder: (context) => const PrivacyPolicy());
       case RouteName.termAndCondition:
         return MaterialPageRoute(
             builder: (context) => const TermAndCondition());
-      case RouteName.selectLanguage:
-        return MaterialPageRoute(builder: (context) => const SelectLanguage());
-      case RouteName.testLocation:
-        return MaterialPageRoute(builder: (context) => const TestLocation());
-      case RouteName.testSearchLocation:
+      case RouteName.privacyPolicy:
+        return MaterialPageRoute(builder: (context) => const PrivacyPolicy());
+      case RouteName.deleteAccount:
         return MaterialPageRoute(
-            builder: (context) => const TestSearchLocation());
+            builder: (context) => const SelectDeleteReason());
+      case RouteName.confirmDelete:
+        return MaterialPageRoute(builder: (context) => const ConfirmDeletion());
+      // case RouteName.selectLanguage:
+      //   return MaterialPageRoute(builder: (context) => const SelectLanguage());
+      // case RouteName.testLocation:
+      //   return MaterialPageRoute(builder: (context) => const TestLocation());
+      // case RouteName.testSearchLocation:
+      //   return MaterialPageRoute(
+      //       builder: (context) => const TestSearchLocation());
       // case RouteName.contactUs:
       //   return MaterialPageRoute(builder: (context) => const ContactUs());
       default:

@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:bizhub_new/widgets/common/app_bar.dart';
 import 'package:bizhub_new/widgets/common/empty_profile.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../components/deafult_button.dart';
 import '../../main.dart';
 import '../../utils/field_validator.dart';
@@ -90,169 +92,222 @@ class _SignupScreenState extends State<SignupScreen> {
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(8.0),
           child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Consumer<AuthViewModel>(
-                  builder: (context, auth, _) {
-                    // print(auth.imageDetail['imagePath'].toString());
-                    return GestureDetector(
-                      onTap: () => _showSelectPhoto(context),
-                      // onTap: () {},
-                      child: SizedBox(
-                        height: 150,
-                        width: 150,
-                        child: Stack(
-                          children: [
-                            auth.imageDetail['imagePath'].toString().isEmpty
-                                ? const EmptyProfile()
-                                : UploadedProfile(
-                                    fileImage: FileImage(
-                                      File(auth.imageDetail['imagePath']
-                                          .toString()),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Consumer<AuthViewModel>(
+                    builder: (context, auth, _) {
+                      // print(auth.imageDetail['imagePath'].toString());
+                      return GestureDetector(
+                        onTap: () => _showSelectPhoto(context),
+                        // onTap: () {},
+                        child: SizedBox(
+                          height: 150,
+                          width: 150,
+                          child: Stack(
+                            children: [
+                              auth.imageDetail['imagePath'].toString().isEmpty
+                                  ? const EmptyProfile()
+                                  : UploadedProfile(
+                                      fileImage: FileImage(
+                                        File(auth.imageDetail['imagePath']
+                                            .toString()),
+                                      ),
                                     ),
+                              Positioned(
+                                right: 5,
+                                bottom: 5,
+                                child: Container(
+                                  // width: 32,
+                                  // height: 32,
+                                  padding: const EdgeInsets.all(2),
+                                  decoration: BoxDecoration(
+                                    color: MyTheme.greenColor,
+                                    borderRadius: BorderRadius.circular(6),
+                                    // border: Border.all(color: Colors.white, width: 2),
                                   ),
-                            Positioned(
-                              right: 5,
-                              bottom: 5,
-                              child: Container(
-                                // width: 32,
-                                // height: 32,
-                                padding: const EdgeInsets.all(2),
-                                decoration: BoxDecoration(
-                                  color: MyTheme.greenColor,
-                                  borderRadius: BorderRadius.circular(6),
-                                  // border: Border.all(color: Colors.white, width: 2),
-                                ),
-                                child: const Center(
-                                  child: Icon(
-                                    Icons.add,
-                                    color: MyTheme.whiteColor,
-                                    size: 25,
+                                  child: const Center(
+                                    child: Icon(
+                                      Icons.add,
+                                      color: MyTheme.whiteColor,
+                                      size: 25,
+                                    ),
                                   ),
                                 ),
                               ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    child: InputTextFormField(
+                      controller: firstNameController,
+                      hintText: 'First Name',
+                      icon: Icons.person,
+                      validator: textFieldValidator.firstNameErrorGetter,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    child: InputTextFormField(
+                      controller: lastNameController,
+                      hintText: 'Last Name',
+                      icon: Icons.person,
+                      validator: textFieldValidator.lastNameErrorGetter,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    child: InputTextFormField(
+                      controller: emailAddressController,
+                      hintText: 'Email Address',
+                      icon: Icons.email,
+                      validator: textFieldValidator.emailErrorGetter,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    child: InputTextFormField(
+                      controller: phoneNumberController,
+                      hintText: 'Phone',
+                      icon: Icons.phone,
+                      validator: textFieldValidator.phoneNumberErrorGetter,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(10),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Consumer<AuthViewModel>(
+                    builder: (context, authViewModel, _) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          children: [
+                            InputPasswordTextFormField(
+                              controller: passwordController,
+                              hintText: 'Password',
+                              fontAwsomeIcon: Icons.password,
+                              validator: textFieldValidator.passwordErrorGetter,
+                              obscureText: authViewModel.passwordHide,
+                              onPress: authViewModel.togglePassword,
+                            ),
+                            const SizedBox(height: 8),
+                            InputPasswordTextFormField(
+                              controller: confirmPasswordController,
+                              hintText: 'Confirm Password',
+                              fontAwsomeIcon: Icons.password,
+                              validator:
+                                  textFieldValidator.confirmPasswordErrorGetter,
+                              password: passwordController,
+                              obscureText: authViewModel.confirmPasswordHide,
+                              onPress: authViewModel.toggleConfirmPassword,
                             ),
                           ],
                         ),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 16),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  child: InputTextFormField(
-                    controller: firstNameController,
-                    hintText: 'First Name',
-                    icon: Icons.person,
-                    validator: textFieldValidator.firstNameErrorGetter,
+                      );
+                    },
                   ),
-                ),
-                const SizedBox(height: 8),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  child: InputTextFormField(
-                    controller: lastNameController,
-                    hintText: 'Last Name',
-                    icon: Icons.person,
-                    validator: textFieldValidator.lastNameErrorGetter,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  child: InputTextFormField(
-                    controller: phoneNumberController,
-                    hintText: 'Phone',
-                    icon: Icons.phone,
-                    validator: textFieldValidator.phoneNumberErrorGetter,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      LengthLimitingTextInputFormatter(10),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Consumer<AuthViewModel>(
-                  builder: (context, authViewModel, _) {
-                    return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        children: [
-                          InputPasswordTextFormField(
-                            controller: passwordController,
-                            hintText: 'Password',
-                            fontAwsomeIcon: Icons.password,
-                            validator: textFieldValidator.passwordErrorGetter,
-                            obscureText: authViewModel.passwordHide,
-                            onPress: authViewModel.togglePassword,
-                          ),
-                          const SizedBox(height: 8),
-                          InputPasswordTextFormField(
-                            controller: confirmPasswordController,
-                            hintText: 'Confirm Password',
-                            fontAwsomeIcon: Icons.password,
-                            validator:
-                                textFieldValidator.confirmPasswordErrorGetter,
-                            password: passwordController,
-                            obscureText: authViewModel.confirmPasswordHide,
-                            onPress: authViewModel.toggleConfirmPassword,
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 15),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Consumer<AuthViewModel>(
-                        builder: (context, authViewModel, _) {
-                          return Checkbox(
-                            checkColor: Colors.white,
-                            activeColor: MyTheme.greenColor,
-                            value: authViewModel.isRemember,
-                            onChanged: (bool? value) {
-                              authViewModel.checkRemeber();
-                            },
-                          );
-                        },
-                      ),
-                      const Text(
-                        'Accept Term & Condition and Privacy Policy',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 13.0,
+                  const SizedBox(height: 15),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Consumer<AuthViewModel>(
+                          builder: (context, authViewModel, _) {
+                            return Checkbox(
+                              checkColor: Colors.white,
+                              activeColor: MyTheme.greenColor,
+                              value: authViewModel.isRemember,
+                              onChanged: (bool? value) {
+                                authViewModel.checkRemeber();
+                              },
+                            );
+                          },
                         ),
-                      )
-                    ],
+                        // const Text(
+                        //   'Accept Term & Condition and Privacy Policy',
+                        //   style: TextStyle(
+                        //     color: Colors.black,
+                        //     fontSize: 13.0,
+                        //   ),
+                        // )
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              const TextSpan(
+                                text: "Accept ",
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              TextSpan(
+                                style:
+                                    const TextStyle(color: MyTheme.greenColor),
+                                text: "Term & Condition",
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () async {
+                                    _launchUrl(
+                                        'https://app.websitepolicies.com/policies/view/5r6t2xx1');
+                                  },
+                              ),
+                              const TextSpan(
+                                text: " & ",
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              TextSpan(
+                                style:
+                                    const TextStyle(color: MyTheme.greenColor),
+                                text: "Privacy Policy",
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () async {
+                                    _launchUrl(
+                                        'https://app.websitepolicies.com/policies/view/r06kud3i');
+                                  },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                Consumer<AuthViewModel>(
-                  builder: (context, authViewModel, _) {
-                    return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 8),
-                      child: DeafultButton(
-                        title: 'Sign Up',
-                        isloading: authViewModel.loading,
-                        onPress: validateAndSignup,
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 30),
-              ],
+                  const SizedBox(height: 10),
+                  Consumer<AuthViewModel>(
+                    builder: (context, authViewModel, _) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 8),
+                        child: DeafultButton(
+                          title: 'Sign Up',
+                          isloading: authViewModel.loading,
+                          onPress: validateAndSignup,
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 60),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _launchUrl(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
