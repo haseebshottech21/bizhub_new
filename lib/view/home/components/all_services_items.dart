@@ -1,35 +1,41 @@
 import 'package:bizhub_new/utils/app_url.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+// import 'package:provider/provider.dart';
 import '../../../model/service_model.dart';
 import '../../../utils/mytheme.dart';
 import '../../../utils/utils.dart';
+// import '../../../view_model/bottom_navigation_view_model.dart';
+// import '../../auth/without_auth_screen.dart';
 import '../all_service_detail_screen.dart';
 
 class AllServiceIem extends StatelessWidget {
   const AllServiceIem({
     Key? key,
     required this.serviceModel,
-    // required this.index,
   }) : super(key: key);
 
   final ServiceModel serviceModel;
-  // final int index;
 
   @override
   Widget build(BuildContext context) {
     final phoneDevice = Utils.getDeviceType() == 'phone';
+    // final bottomProvider =
+    //     Provider.of<BottomNavigationViewModel>(context, listen: true);
 
     return InkWell(
       onTap: () {
-        // Navigator.of(context).push(
-        //   MaterialPageRoute(
-        //     builder: (context) => PostJobDetail(
-        //       serviceId: serviceModel.serviceId.toString(),
+        // if (bottomProvider.token == null || bottomProvider.token == '') {
+        //   Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (ctx) => const WithoutAuthScreen(),
+        //       settings: const RouteSettings(
+        //         arguments: false,
+        //       ),
         //     ),
-        //   ),
-        // );
-
+        //   );
+        // } else {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -39,6 +45,7 @@ class AllServiceIem extends StatelessWidget {
             ),
           ),
         );
+        // }
       },
       child: Container(
         // color: Colors.black,

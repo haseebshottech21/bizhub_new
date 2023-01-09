@@ -1,12 +1,13 @@
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/view/account/about_us.dart';
 import 'package:bizhub_new/view/account/change_password.dart';
-import 'package:bizhub_new/view/account/delete/confirm_deletion.dart';
-import 'package:bizhub_new/view/account/delete/select_delete_reason.dart';
+import 'package:bizhub_new/view/account/settings/account_settings.dart';
+import 'package:bizhub_new/view/account/settings/delete/confirm_deletion.dart';
+import 'package:bizhub_new/view/account/settings/delete/select_delete_reason.dart';
 import 'package:bizhub_new/view/account/privacy_policy.dart';
 import 'package:bizhub_new/view/account/profile/edit_my_profile.dart';
 import 'package:bizhub_new/view/account/profile/view_my_profile.dart';
-import 'package:bizhub_new/view/account/select_language.dart';
+// import 'package:bizhub_new/view/account/select_language.dart';
 import 'package:bizhub_new/view/account/term_and_condition.dart';
 import 'package:bizhub_new/view/auth/forgot_password_screen.dart';
 import 'package:bizhub_new/view/auth/login_screen.dart';
@@ -18,13 +19,14 @@ import 'package:bizhub_new/view/create/component/serach_location.dart';
 import 'package:bizhub_new/view/create/create_post.dart';
 import 'package:bizhub_new/view/create/select_category.dart';
 import 'package:bizhub_new/view/create/select_service.dart';
+import 'package:bizhub_new/view/auth/without_auth_screen.dart';
 import 'package:bizhub_new/view/home/filter_screen.dart';
 import 'package:bizhub_new/view/home/search_posts.dart';
 import 'package:bizhub_new/view/navigation/bottom_navigation.dart';
 import 'package:bizhub_new/view/onboard_screen.dart';
 import 'package:bizhub_new/view/posts/my_posts.dart';
 import 'package:bizhub_new/view/splash_screen.dart';
-import 'package:bizhub_new/view/test_location.dart';
+// import 'package:bizhub_new/view/test_location.dart';
 import 'package:flutter/material.dart';
 import '../../view/auth/otp_verification_screen.dart';
 // import '../../view/posts/my_jobs/edit_poster_service.dart';
@@ -37,9 +39,12 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const SplashScreen());
       case RouteName.onboard:
         return MaterialPageRoute(builder: (context) => const OnboardScreen());
-      case RouteName.welcome:
+      case RouteName.authNotLogin:
         return MaterialPageRoute(
-            builder: (context) => const WelcomeAuthScreen());
+            builder: (context) => const WithoutAuthScreen());
+      // case RouteName.welcome:
+      //   return MaterialPageRoute(
+      //       builder: (context) => const WelcomeAuthScreen());
       case RouteName.login:
         return MaterialPageRoute(builder: (context) => const LoginScreen());
       case RouteName.signup:
@@ -96,6 +101,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const EditMyProfile());
       case RouteName.changePassword:
         return MaterialPageRoute(builder: (context) => const ChangePassword());
+      case RouteName.accountSetting:
+        return MaterialPageRoute(builder: (context) => const AccountSettings());
       case RouteName.aboutUs:
         return MaterialPageRoute(builder: (context) => const AboutUs());
       case RouteName.termAndCondition:

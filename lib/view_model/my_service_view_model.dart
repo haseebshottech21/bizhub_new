@@ -1,16 +1,23 @@
+import 'dart:async';
+
 import 'package:bizhub_new/model/service_model.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 // import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:provider/provider.dart';
 import '../repo/service_repo.dart';
+import '../utils/shared_prefrences.dart';
+import '../view/auth/without_auth_screen.dart';
 import 'bottom_navigation_view_model.dart';
 import 'category_view_model.dart';
 
 class MyServiceViewModel extends ChangeNotifier {
   final serviceRepo = ServiceRepository();
+  final prefrences = Prefrences();
+
   List<ServiceModel> posterServiceList = [];
   List<ServiceModel> workerServiceList = [];
   // List<OfferModel> offersList = [];
@@ -140,10 +147,28 @@ class MyServiceViewModel extends ChangeNotifier {
     }
   }
 
+  // checkAuthCreatePost(BuildContext context) async {
+  //   final token = await prefrences.getSharedPreferenceValue('token');
+  //   if (token == null || token == '') {
+  //     Timer(
+  //       Duration.zero,
+  //       () => Navigator.push(
+  //         context,
+  //         MaterialPageRoute(
+  //           builder: (ctx) => const AuthNotLogin(),
+  //           settings: const RouteSettings(arguments: false),
+  //         ),
+  //       ),
+  //     );
+  //   } else {
+  //     Navigator.of(context).pushNamed(RouteName.selectService);
+  //   }
+  // }
+
   // JOBS
-  Future<void> getMyPosterServiceList(
-    BuildContext context,
-  ) async {
+  Future<void> getMyPosterServiceList({
+    required BuildContext context,
+  }) async {
     checkInternet();
     posterServiceList.clear();
     setLoad(true);
@@ -162,7 +187,7 @@ class MyServiceViewModel extends ChangeNotifier {
   Future getMyPosterServices(BuildContext context) async {
     final provider = Provider.of<MyServiceViewModel>(context, listen: false);
     provider.posterServiceList.clear();
-    await provider.getMyPosterServiceList(context);
+    await provider.getMyPosterServiceList(context: context);
   }
 
   noInternetAndGetJobs({
@@ -172,15 +197,15 @@ class MyServiceViewModel extends ChangeNotifier {
       // getAllServices();
       getMyPosterServices(context);
       Utils.snackBarMessage(
-        'Internet Conneted',
-        CupertinoIcons.wifi,
-        context,
+        message: 'Internet Conneted',
+        icons: CupertinoIcons.wifi,
+        context: context,
       );
     } else {
       Utils.snackBarMessage(
-        'No Internet Connection',
-        CupertinoIcons.wifi_slash,
-        context,
+        message: 'Internet Conneted',
+        icons: CupertinoIcons.wifi_slash,
+        context: context,
       );
     }
   }
@@ -217,15 +242,15 @@ class MyServiceViewModel extends ChangeNotifier {
       // getAllServices();
       getMyServices(context);
       Utils.snackBarMessage(
-        'Internet Conneted',
-        CupertinoIcons.wifi,
-        context,
+        message: 'Internet Conneted',
+        icons: CupertinoIcons.wifi,
+        context: context,
       );
     } else {
       Utils.snackBarMessage(
-        'No Internet Connection',
-        CupertinoIcons.wifi_slash,
-        context,
+        message: 'Internet Conneted',
+        icons: CupertinoIcons.wifi_slash,
+        context: context,
       );
     }
   }
@@ -394,7 +419,7 @@ class MyServiceViewModel extends ChangeNotifier {
           Navigator.of(context).pop();
           Utils.toastMessage('Rating Submit Successfully!');
           Future.delayed(const Duration(seconds: 2)).then((value) async {
-            await getMyPosterServiceList(context);
+            await getMyPosterServiceList(context: context);
           });
           Navigator.of(context).pop();
           // }

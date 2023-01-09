@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../components/deafult_button.dart';
-import '../../../utils/mytheme.dart';
-import '../../../utils/routes/routes_name.dart';
+import '../../../../components/deafult_button.dart';
+import '../../../../utils/mytheme.dart';
+import '../../../../utils/routes/routes_name.dart';
 // import '../../../widgets/common/app_bar.dart';
 
 class SelectDeleteReason extends StatefulWidget {
@@ -18,9 +18,9 @@ class _SelectDeleteReasonState extends State<SelectDeleteReason> {
   @override
   void initState() {
     super.initState();
-    reasonData.add(RadioModel(false, 'Something was wrong'));
-    reasonData.add(RadioModel(false, 'I\m not getting any invites'));
-    reasonData.add(RadioModel(false, 'I have privacy concern'));
+    reasonData.add(RadioModel(false, 'Did not find services'));
+    reasonData.add(RadioModel(false, 'Don’t have use for the app'));
+    reasonData.add(RadioModel(false, 'I don’t understand how to use app'));
     reasonData.add(RadioModel(false, 'Other'));
   }
 

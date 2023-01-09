@@ -1,14 +1,20 @@
+import 'dart:async';
+
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:flutter/material.dart';
 import '../components/deafult_button.dart';
+import '../view/auth/without_auth_screen.dart';
+import '../view/splash_screen.dart';
 
 class OnBoardWidget extends StatelessWidget {
   final String title, desc, backimg;
+  final void Function()? onPressed;
   const OnBoardWidget({
     required this.title,
     required this.desc,
     // required this.desc2,
     required this.backimg,
+    required this.onPressed,
     Key? key,
   }) : super(key: key);
 
@@ -31,7 +37,8 @@ class OnBoardWidget extends StatelessWidget {
             alignment: Alignment.topRight,
             child: TextButton(
               onPressed: () {
-                Navigator.of(context).pushReplacementNamed(RouteName.welcome);
+                // Navigator.of(context).pushReplacementNamed(RouteName.welcome);
+                Navigator.of(context).pushReplacementNamed(RouteName.home);
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 6),
@@ -94,10 +101,30 @@ class OnBoardWidget extends StatelessWidget {
                 // ),
                 DeafultButton(
                   title: 'GET STARTED',
-                  onPress: () {
-                    Navigator.of(context)
-                        .pushReplacementNamed(RouteName.welcome);
-                  },
+                  onPress: onPressed,
+                  // onPress: () {
+                  //   // Navigator.of(context)
+                  //   //     .pushReplacementNamed(RouteName.welcome);
+                  //   if (SplashScreen.token == null ||
+                  //       SplashScreen.token == '') {
+                  //     Timer(
+                  //       Duration.zero,
+                  //       () => Navigator.pushReplacementNamed(
+                  //               context, RouteName.home)
+                  //           .then(
+                  //         (value) => Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //             builder: (ctx) => const WithoutAuthScreen(),
+                  //             settings: const RouteSettings(
+                  //               arguments: true,
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     );
+                  //   }
+                  // },
                 ),
                 // Padding(
                 //   padding: const EdgeInsets.symmetric(horizontal: 10),

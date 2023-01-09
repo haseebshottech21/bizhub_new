@@ -30,7 +30,8 @@
 	<true/>
 	<key>NSAllowsLocalNetworking</key>
 	<true/>
-
+	<key>NSCameraUsageDescription</key>
+	<string>To capture profile photo please grant camera access</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Always and when in use!</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -39,8 +40,6 @@
 	<string>Older devices need location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Need location when in use</string>
-	<key>NSCameraUsageDescription</key>
-	<string>To capture profile photo please grant camera access</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This App requires access to the photo library</string>
 	<key>UIBackgroundModes</key>

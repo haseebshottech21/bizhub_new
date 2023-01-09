@@ -6,6 +6,8 @@ import 'package:bizhub_new/view_model/all_services_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../view_model/bottom_navigation_view_model.dart';
+
 class AllServiceDetail extends StatefulWidget {
   const AllServiceDetail({Key? key}) : super(key: key);
 
@@ -21,7 +23,7 @@ class _AllServiceDetailState extends State<AllServiceDetail> {
     final provider = Provider.of<AllServicesViewModel>(context, listen: false);
     ServiceModel service =
         ModalRoute.of(context)!.settings.arguments as ServiceModel;
-    await provider.getAllServiceDetail(
+    await provider.getAllServiceDetailWithCheckAuth(
       context: context,
       serviceId: service.serviceId.toString(),
     );
@@ -37,6 +39,8 @@ class _AllServiceDetailState extends State<AllServiceDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final bottomProvider = Provider.of<BottomNavigationViewModel>(context);
+
     return Scaffold(
       bottomSheet: ServicesDetailBottom(
         messageController: messageController,
@@ -54,6 +58,7 @@ class _AllServiceDetailState extends State<AllServiceDetail> {
                   children: [
                     AllServiceDetailBody(
                       allServiceViewModel: allServiceViewModel,
+                      bottomNavigationViewModel: bottomProvider,
                     ),
                     if (allServiceViewModel.offerLoading)
                       const Center(

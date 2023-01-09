@@ -13,6 +13,7 @@ class AppUrl {
   static var resetPasswordEndPoint = '$baseUrl/api/reset-password';
   static var updateUserEndPoint = '$baseUrl/api/update-user';
   static var updatePasswordEndPoint = '$baseUrl/api/change-password';
+  static var deleteUserEndPoint = '$baseUrl/api/delete-user';
   static var logoutEndPoint = '$baseUrl/api/logout';
 
   //  Categories
@@ -21,6 +22,10 @@ class AppUrl {
   // User
   static var showUserEndPoint = '$baseUrl/api/show-user';
 
+  // Without Auth
+  static var withoutAuthAllServiceEndPoint = '$baseUrl/api/all-services';
+  static var withoutAuthAllServiceDetailEndPoint =
+      '$baseUrl/api/service-detail-without-auth';
   // Service
   static var createServiceEndPoint = '$baseUrl/api/add-service';
   static var allServiceEndPoint = '$baseUrl/api/service';

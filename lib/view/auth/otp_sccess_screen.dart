@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import '../../components/deafult_button.dart';
 import '../../utils/mytheme.dart';
 import '../../utils/routes/routes_name.dart';
-import '../../widgets/common/app_bar.dart';
+// import '../../widgets/common/app_bar.dart';
 
 class OTPSuccessScreen extends StatefulWidget {
   const OTPSuccessScreen({Key? key}) : super(key: key);
-
 
   @override
   State<OTPSuccessScreen> createState() => _OTPSuccessScreenState();
@@ -44,7 +43,7 @@ class _OTPSuccessScreenState extends State<OTPSuccessScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyTheme.whiteColor,
-      appBar: mainAppBar(context: context, appBarTitle: 'Account Verified'),
+      // appBar: mainAppBar(context: context, appBarTitle: 'Account Verified'),
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,

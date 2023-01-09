@@ -16,8 +16,14 @@ class AuthViewModel extends ChangeNotifier {
   File? image;
   UserModel? user;
   UserModel? viewUser;
+  String? token;
 
   // bool isLoading = false;
+
+  checkToken() async {
+    token = await prefrences.getSharedPreferenceValue('token');
+    print('TOKEN: $token');
+  }
 
   bool passwordHide = true;
   bool confirmPasswordHide = true;
@@ -201,6 +207,8 @@ class AuthViewModel extends ChangeNotifier {
           //   RouteName.home,
           //   (route) => false,
           // );
+          Provider.of<BottomNavigationViewModel>(context, listen: false)
+              .bottomIndex = 0;
           Navigator.of(context).pushNamedAndRemoveUntil(
             RouteName.home,
             (route) => false,
@@ -381,6 +389,33 @@ class AuthViewModel extends ChangeNotifier {
     }
   }
 
+  Future<void> deleteAccount({
+    required dynamic data,
+    required BuildContext context,
+  }) async {
+    setLoad(true);
+    final loadedData = await authRepo.deleteUserApi(data);
+    print(loadedData);
+    if (loadedData == null) {
+      setLoad(false);
+    } else if (loadedData != null) {
+      Future.delayed(const Duration(seconds: 1)).then((value) {
+        setLoad(false);
+        Navigator.pop(context, true);
+        Utils.toastMessage('Delete Account Success');
+        // Future.delayed(const Duration(seconds: 5)).then((value) {
+        Provider.of<BottomNavigationViewModel>(context, listen: false)
+            .bottomIndex = 0;
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          RouteName.login,
+          (route) => false,
+        );
+        Utils.toastMessage('Logged Out');
+        // });
+      });
+    }
+  }
+
   Future<void> logout(
     BuildContext context,
   ) async {
@@ -399,7 +434,7 @@ class AuthViewModel extends ChangeNotifier {
             .bottomIndex = 0;
         // Navigator.pushNamed(context, RouteName.login);
         Navigator.of(context).pushNamedAndRemoveUntil(
-          RouteName.login,
+          RouteName.home,
           (route) => false,
         );
         // print('Successfully Login');

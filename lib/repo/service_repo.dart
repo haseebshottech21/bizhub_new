@@ -3,7 +3,6 @@ import 'package:bizhub_new/model/service_model.dart';
 import '../utils/app_url.dart';
 import '../utils/shared_prefrences.dart';
 import 'package:http/http.dart' as http;
-
 import '../utils/utils.dart';
 
 class ServiceRepository {
@@ -38,6 +37,7 @@ class ServiceRepository {
     try {
       var catIds = "";
       var servicePage = "";
+
       for (var element
           in (await prefrence.getSharedPreferenceListValue("categories"))) {
         catIds += "cat_ids[]=$element&";
@@ -48,28 +48,21 @@ class ServiceRepository {
         servicePage = 'page=$page';
       }
 
-      // print(
-      //     "${AppUrl.allServiceEndPoint}?$servicePage&type=$serviceType&$catIds'");
       final response = await http.get(
         Uri.parse(
             '${AppUrl.allServiceEndPoint}?$servicePage&type=$serviceType&$catIds'),
         headers: await AppUrl().headerWithAuth(),
       );
+
       // print('${AppUrl.allServiceEndPoint}?type=$serviceType');
       final loadedData = json.decode(response.body);
       // print(loadedData);
-      if (response.statusCode == 200 || response.statusCode == 201) {
+      if (response.statusCode == 200) {
         List<ServiceModel> allServicesList =
             (loadedData['data'] as List).map((e) {
           // print(e);
           return ServiceModel.fromJson(e);
         }).toList();
-        // var prev = loadedData['links']['prev'];
-        // var next = loadedData['links']['next'];
-
-        // print(allServicesList.length);
-        // print('prev ' + prev);
-        // print('next ' + next);
         return {
           'allService': allServicesList,
           'prev': loadedData['links']['prev'],
@@ -82,6 +75,92 @@ class ServiceRepository {
       // Utils.toastMessage('hello');
     }
     return {};
+  }
+
+  Future<Map<String, dynamic>> fetchAllServicesWithoutAuthList({
+    required String serviceType,
+    int? page,
+  }) async {
+    try {
+      // var catIds = "";
+      // var servicePage = "";
+
+      // for (var element
+      //     in (await prefrence.getSharedPreferenceListValue("categories"))) {
+      //   catIds += "cat_ids[]=$element&";
+      // }
+      // if (page == null) {
+      //   servicePage = '';
+      // } else {
+      //   servicePage = 'page=$page';
+      // }
+
+      var catIds = "";
+      var servicePage = "";
+
+      for (var element
+          in (await prefrence.getSharedPreferenceListValue("categories"))) {
+        catIds += "cat_ids[]=$element&";
+      }
+      if (page == null) {
+        servicePage = '';
+      } else {
+        servicePage = 'page=$page';
+      }
+
+      final response = await http.get(
+        Uri.parse(
+            '${AppUrl.withoutAuthAllServiceEndPoint}?$servicePage&type=$serviceType&$catIds'),
+        headers: AppUrl.header,
+      );
+
+      // print('${AppUrl.allServiceEndPoint}?type=$serviceType');
+      final loadedData = json.decode(response.body);
+      // print(loadedData);
+      if (response.statusCode == 200) {
+        List<ServiceModel> allServicesList =
+            (loadedData['data'] as List).map((e) {
+          // print(e);
+          return ServiceModel.fromJson(e);
+        }).toList();
+        return {
+          'allService': allServicesList,
+          'prev': loadedData['links']['prev'],
+          'next': loadedData['links']['next'],
+        };
+      } else {
+        Utils.toastMessage(loadedData['message']);
+      }
+    } catch (e) {
+      // Utils.toastMessage('hello');
+    }
+    return {};
+  }
+
+  Future<ServiceDetalModel?> fetchAllServiceDetailWithoutAuth({
+    required String serviceId,
+  }) async {
+    ServiceDetalModel? allService;
+    try {
+      final response = await http.get(
+        Uri.parse('${AppUrl.withoutAuthAllServiceDetailEndPoint}/$serviceId'),
+        headers: AppUrl.header,
+      );
+      // print(response.body);
+      final loadedData = json.decode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // ServiceModel myPosterService =
+        //     loadedData['data'].map((e) => ServiceModel.fromJson(e)).toList();
+        allService = ServiceDetalModel.fromJson(loadedData['data']);
+        // print(myPosterService);
+        return allService;
+      } else {
+        Utils.toastMessage(loadedData['message']);
+      }
+    } catch (e) {
+      // Utils.toastMessage(e.toString());
+    }
+    return allService;
   }
 
   Future<ServiceDetalModel?> fetchAllServiceDetail({
@@ -125,7 +204,7 @@ class ServiceRepository {
             .toList();
         return myPosterServiceList;
       } else {
-        Utils.toastMessage(loadedData['message']);
+        // Utils.toastMessage(loadedData['message']);
       }
     } catch (e) {
       // Utils.toastMessage(e.toString());

@@ -1,7 +1,7 @@
+import 'dart:async';
 import 'package:animate_do/animate_do.dart';
 import 'package:bizhub_new/utils/icons.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
-import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/view/account/more.dart';
 import 'package:bizhub_new/view/chat/my_chats.dart';
 import 'package:bizhub_new/view/home/home_screen.dart';
@@ -10,6 +10,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import '../auth/without_auth_screen.dart';
 import '../posts/my_posts.dart';
 
 class NavigatoionBarScreen extends StatefulWidget {
@@ -22,21 +23,28 @@ class NavigatoionBarScreen extends StatefulWidget {
 class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
   PageController myPage = PageController(initialPage: 0);
 
-  var currentTab = const [
+  checkToken() async {
+    final bottom = context.read<BottomNavigationViewModel>();
+    await bottom.checkToken();
+  }
+
+  @override
+  void initState() {
+    checkToken();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await setUpRequestNotification();
+    });
+    super.initState();
+  }
+
+  List<Widget> currentTab = const [
     HomeScreen(),
     MyPosts(),
     MyChats(),
     MoreScreen(),
   ];
 
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // await setupInteracted();
-      await setUpRequestNotification();
-    });
-    super.initState();
-  }
+  int initailPage = 0;
 
   Future<void> setUpRequestNotification() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -76,12 +84,14 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var provider =
+    final bottomProvider =
         Provider.of<BottomNavigationViewModel>(context, listen: true);
 
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(systemNavigationBarColor: Colors.white),
     );
+
+    // print(bottomProvider.bottomIndex);
 
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -91,7 +101,7 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
           elevation: 2.0,
           // label: const Text('Add a task'),
           onPressed: () {
-            Navigator.pushNamed(context, RouteName.selectService);
+            bottomProvider.cerateNewPost(context);
           },
           backgroundColor: MyTheme.greenColor,
           child: const Icon(Icons.add, size: 30),
@@ -102,6 +112,11 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
         controller: myPage,
         onPageChanged: (int int) {
           // print('Page Changes to index $int');
+          // setState(() {
+          //   initailPage = int;
+          // });
+
+          // print('Initial Page $initailPage');
         },
         physics:
             const NeverScrollableScrollPhysics(), // Comment this if you need to use Swipe.
@@ -126,7 +141,8 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
                 // activeIcon: dashboadSolid,
                 index: 0,
                 isActive: true,
-                bottomNavigatorViewModel: provider,
+                bottomNavigatorViewModel: bottomProvider,
+                // token: bottomProvider.token,
               ),
               buildNavBarItem(
                 context: context,
@@ -134,7 +150,8 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
                 // activeIcon: Icons.post_add,
                 index: 1,
                 isActive: false,
-                bottomNavigatorViewModel: provider,
+                bottomNavigatorViewModel: bottomProvider,
+                // token: bottomProvider.token,
               ),
               const SizedBox(width: 20),
               buildNavBarItem(
@@ -143,7 +160,8 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
                 // activeIcon: Icons.inbox,
                 index: 2,
                 isActive: false,
-                bottomNavigatorViewModel: provider,
+                bottomNavigatorViewModel: bottomProvider,
+                // token: bottomProvider.token,
               ),
               buildNavBarItem(
                 context: context,
@@ -151,7 +169,8 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
                 // activeIcon: profileSolid,
                 index: 3,
                 isActive: false,
-                bottomNavigatorViewModel: provider,
+                bottomNavigatorViewModel: bottomProvider,
+                // token: bottomProvider.token,
               ),
             ],
           ),
@@ -167,15 +186,38 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
     required bool isActive,
     required BottomNavigationViewModel bottomNavigatorViewModel,
     required BuildContext context,
+    // String? token,
   }) {
     return InkWell(
-      onTap: () {
-        // setState(() {
-        //   currentIndex = index;
-        // });
-        bottomNavigatorViewModel.toggleCurrentIndex(index);
-        myPage.jumpToPage(index);
-      },
+      onTap: bottomNavigatorViewModel.token == null ||
+              bottomNavigatorViewModel.token == ''
+          ? () {
+              // print('null token');
+              // if (token == null || token == '') {
+              if (index == 1 || index == 2) {
+                Timer(
+                  Duration.zero,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (ctx) => const WithoutAuthScreen(),
+                      settings: const RouteSettings(
+                        arguments: true,
+                      ),
+                    ),
+                  ),
+                );
+              } else if (bottomNavigatorViewModel.currentIndex == 0 ||
+                  bottomNavigatorViewModel.currentIndex == 3) {
+                myPage.jumpToPage(index);
+                bottomNavigatorViewModel.toggleCurrentIndex(index);
+              }
+            }
+          : () {
+              // print('not null token');
+              myPage.jumpToPage(index);
+              bottomNavigatorViewModel.toggleCurrentIndex(index);
+            },
       child: Container(
         height: 50,
         width: MediaQuery.of(context).size.width * 0.13,
@@ -190,22 +232,44 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
               : null,
         ),
         child: IconButton(
-          icon: FadeInDown(
-            from: index == bottomNavigatorViewModel.currentIndex ? 5 : 0,
-            duration: const Duration(milliseconds: 500),
-            child: Icon(
-              icon,
-              color: index == bottomNavigatorViewModel.currentIndex
-                  ? MyTheme.greenColor
-                  : Colors.grey,
-              size: index == bottomNavigatorViewModel.currentIndex ? 30 : 28,
+            icon: FadeInDown(
+              from: index == bottomNavigatorViewModel.currentIndex ? 5 : 0,
+              duration: const Duration(milliseconds: 500),
+              child: Icon(
+                icon,
+                color: index == bottomNavigatorViewModel.currentIndex
+                    ? MyTheme.greenColor
+                    : Colors.grey,
+                size: index == bottomNavigatorViewModel.currentIndex ? 30 : 28,
+              ),
             ),
-          ),
-          onPressed: () {
-            bottomNavigatorViewModel.toggleCurrentIndex(index);
-            myPage.jumpToPage(index);
-          },
-        ),
+            onPressed: bottomNavigatorViewModel.token == null ||
+                    bottomNavigatorViewModel.token == ''
+                ? () {
+                    if (index == 1 || index == 2) {
+                      Timer(
+                        Duration.zero,
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (ctx) => const WithoutAuthScreen(),
+                            settings: const RouteSettings(
+                              arguments: true,
+                            ),
+                          ),
+                        ),
+                      );
+                    } else if (bottomNavigatorViewModel.currentIndex == 0 ||
+                        bottomNavigatorViewModel.currentIndex == 3) {
+                      myPage.jumpToPage(index);
+                      bottomNavigatorViewModel.toggleCurrentIndex(index);
+                    }
+                  }
+                : () {
+                    // print('not null token');
+                    myPage.jumpToPage(index);
+                    bottomNavigatorViewModel.toggleCurrentIndex(index);
+                  }),
       ),
     );
   }

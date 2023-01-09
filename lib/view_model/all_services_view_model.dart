@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:bizhub_new/utils/shared_prefrences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -15,12 +16,12 @@ class AllServicesViewModel extends ChangeNotifier {
 
   List<ServiceModel> allServiceList = [];
   List<ServiceModel> allServiceMoreList = [];
+  List<ServiceModel> displayList = [];
   ServiceModel? serviceModel;
   ServiceDetalModel? serviceDetalModel;
   bool nearByJobs = true;
   bool isInternetConnect = true;
-
-  List<ServiceModel> displayList = [];
+  String? token;
 
   void searchList(String value) {
     displayList = allServiceList
@@ -101,7 +102,38 @@ class AllServicesViewModel extends ChangeNotifier {
     hasNextPage = true;
     allServiceList.clear();
     notifyListeners();
-    getAllService();
+    // getAllService();
+
+    token = await prefernce.getSharedPreferenceValue('token');
+    if (token == null || token == '') {
+      getAllServiceWithoutAuth();
+    } else {
+      getAllService();
+    }
+  }
+
+  Future<void> checkAuth(BuildContext context) async {
+    token = await prefernce.getSharedPreferenceValue('token');
+    if (token == null || token == '') {
+      getAllServiceWithoutAuth();
+    } else {
+      getAllService();
+    }
+  }
+
+  Future<void> getAllServiceWithoutAuth() async {
+    checkInternet();
+    allServiceList.clear();
+    isFirstLoadRunning = true;
+
+    final loadedData = await serviceRepo.fetchAllServicesWithoutAuthList(
+      serviceType: nearByJobs ? '0' : '1',
+    );
+    if (allServiceList.isEmpty) {
+      allServiceList = loadedData['allService'];
+    }
+    isFirstLoadRunning = false;
+    notifyListeners();
   }
 
   Future<void> getAllService() async {
@@ -131,10 +163,20 @@ class AllServicesViewModel extends ChangeNotifier {
       page += 1; // Increase _page by 1
 
       // Future.delayed(Duration.zero).then((value) async {
-      final loadedData = await serviceRepo.fetchAllServicesList(
-        serviceType: nearByJobs ? '0' : '1',
-        page: page,
-      );
+      Map<String, dynamic> loadedData = {};
+
+      token = await prefernce.getSharedPreferenceValue('token');
+      if (token == null || token == '') {
+        loadedData = await serviceRepo.fetchAllServicesWithoutAuthList(
+          serviceType: nearByJobs ? '0' : '1',
+          page: page,
+        );
+      } else {
+        loadedData = await serviceRepo.fetchAllServicesList(
+          serviceType: nearByJobs ? '0' : '1',
+          page: page,
+        );
+      }
 
       next = loadedData['next'];
       allServiceMoreList = loadedData['allService'];
@@ -159,23 +201,59 @@ class AllServicesViewModel extends ChangeNotifier {
     required BuildContext context,
   }) async {
     if (await InternetConnectionChecker().hasConnection == true) {
+      token = await prefernce.getSharedPreferenceValue('token');
       // getAllServices();
-      getAllService();
+      // getAllService();
+
+      if (token == null || token == '') {
+        getAllServiceWithoutAuth();
+      } else {
+        getAllService();
+      }
       Utils.snackBarMessage(
-        'Internet Conneted',
-        CupertinoIcons.wifi,
-        context,
+        message: 'Internet Conneted',
+        icons: CupertinoIcons.wifi,
+        context: context,
       );
     } else {
       Utils.snackBarMessage(
-        'No Internet Connection',
-        CupertinoIcons.wifi_slash,
-        context,
+        message: 'No Internet Conneted',
+        icons: CupertinoIcons.wifi_slash,
+        context: context,
       );
     }
   }
 
+  // ALL SERVICE DETAIL WITH CHECK AUTH
+  Future<void> getAllServiceDetailWithCheckAuth({
+    required BuildContext context,
+    required String serviceId,
+  }) async {
+    token = await prefernce.getSharedPreferenceValue('token');
+    if (token == null || token == '') {
+      getAllServiceDetailWithoutAuth(context: context, serviceId: serviceId);
+    } else {
+      getAllServiceDetail(context: context, serviceId: serviceId);
+    }
+  }
+
   // ALL SERVICE DETAIL
+  Future<void> getAllServiceDetailWithoutAuth({
+    required BuildContext context,
+    required String serviceId,
+  }) async {
+    setLoad(true);
+    Future.delayed(const Duration(seconds: 1)).then(
+      (value) async {
+        serviceDetalModel = await serviceRepo.fetchAllServiceDetailWithoutAuth(
+          serviceId: serviceId,
+        );
+        setLoad(false);
+      },
+    );
+    notifyListeners();
+  }
+
   Future<void> getAllServiceDetail({
     required BuildContext context,
     required String serviceId,

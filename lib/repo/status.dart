@@ -17,3 +17,4 @@ class Failure {
     required this.errorResponse,
   });
 }
+       

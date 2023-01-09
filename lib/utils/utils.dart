@@ -34,11 +34,11 @@ class Utils {
   }
 
   // SNACKBAR
-  static void snackBarMessage(
-    String message,
-    IconData icons,
-    BuildContext context,
-  ) {
+  static void snackBarMessage({
+    required String message,
+    required IconData icons,
+    required BuildContext context,
+  }) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Row(

@@ -23,10 +23,10 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final textFieldValidator = TextFieldValidators();
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  // }
 
   validateAndLogin() {
     if (!_formKey.currentState!.validate()) {

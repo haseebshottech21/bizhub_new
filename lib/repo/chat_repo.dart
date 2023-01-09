@@ -21,7 +21,7 @@ class ChatRepository {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return responseLoaded;
       } else {
-        Utils.toastMessage(responseLoaded['message']);
+        // Utils.toastMessage(responseLoaded['message']);
       }
     } catch (e) {
       // print(e.toString());

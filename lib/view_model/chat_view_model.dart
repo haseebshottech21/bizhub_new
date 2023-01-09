@@ -82,16 +82,17 @@ class ChatViewModel extends ChangeNotifier {
     if (await InternetConnectionChecker().hasConnection == true) {
       // getAllServices();
       getMyAllChatList(context: context);
+
       Utils.snackBarMessage(
-        'Internet Conneted',
-        CupertinoIcons.wifi,
-        context,
+        message: 'Internet Conneted',
+        icons: CupertinoIcons.wifi,
+        context: context,
       );
     } else {
       Utils.snackBarMessage(
-        'No Internet Connection',
-        CupertinoIcons.wifi_slash,
-        context,
+        message: 'Internet Conneted',
+        icons: CupertinoIcons.wifi_slash,
+        context: context,
       );
     }
   }

@@ -1,14 +1,14 @@
 import 'dart:async';
-// import 'package:firebase_messaging/firebase_messaging.dart';
-// import 'package:bizhub_new/view/onboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../utils/mytheme.dart';
 import '../utils/routes/routes_name.dart';
 import '../utils/shared_prefrences.dart';
+import 'auth/without_auth_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
+  static String? token;
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -33,34 +33,53 @@ class _SplashScreenState extends State<SplashScreen>
     );
     _animationController.forward();
 
-    checkAuthentication();
     super.initState();
+    checkAuthentication();
   }
 
   void checkAuthentication() async {
-    final token = await prefrences.getSharedPreferenceValue('token');
+    SplashScreen.token = await prefrences.getSharedPreferenceValue('token');
+    // print('MY TOKEN: ${SplashScreen.token}');
     final firstTime =
         await prefrences.getSharedPreferenceValue('first_time') ?? '0';
-    // final image = await prefrences.getSharedPreferenceValue('image');
+    // // final image = await prefrences.getSharedPreferenceValue('image');
     // print('token ' + token.toString());
-    // print('image ' + image.toString());
-    if (token == null || token == '') {
+    // // print('image ' + image.toString());
+    if (SplashScreen.token == null || SplashScreen.token == '') {
       if (firstTime == '0') {
         await prefrences.setSharedPreferenceValue('first_time', '1');
+        // Timer(
+        //   const Duration(milliseconds: 2500),
+        //   () => Navigator.pushReplacementNamed(context, RouteName.onboard),
+        // );
+
         Timer(
           const Duration(milliseconds: 2500),
-          () => Navigator.pushReplacementNamed(context, RouteName.onboard),
+          () => Navigator.of(context)
+              .pushNamedAndRemoveUntil(RouteName.onboard, (route) => false),
         );
       } else {
+        // print('object 2');
         Timer(
           const Duration(milliseconds: 2500),
-          () => Navigator.pushReplacementNamed(context, RouteName.welcome),
+          () => Navigator.of(context).pushReplacementNamed(RouteName.home).then(
+                (value) => Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (ctx) => const WithoutAuthScreen(),
+                    settings: const RouteSettings(
+                      arguments: false,
+                    ),
+                  ),
+                  (route) => false,
+                ),
+              ),
         );
       }
     } else {
       Timer(
         const Duration(milliseconds: 2500),
-        () => Navigator.pushReplacementNamed(context, RouteName.home),
+        () => Navigator.of(context)
+            .pushNamedAndRemoveUntil(RouteName.home, (route) => false),
       );
     }
   }
@@ -73,9 +92,6 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setSystemUIOverlayStyle(
-    //   const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-    // );
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(systemNavigationBarColor: Colors.black),
     );

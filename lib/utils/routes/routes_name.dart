@@ -2,6 +2,7 @@ class RouteName {
   static const String splash = '/splash_screen';
   static const String onboard = '/onboard_screen';
   static const String loading = '/loading_screen';
+  static const String authNotLogin = '/auth_not_login';
 
   // Authentication
   static const String welcome = '/welcome_screen';
@@ -39,6 +40,7 @@ class RouteName {
   static const String viewMyProfile = '/my_profile';
   static const String editMyProfile = '/edit_my_profile';
   static const String changePassword = '/change_password';
+  static const String accountSetting = '/account_settings';
   static const String selectLanguage = '/select_language';
   static const String aboutUs = '/about_us';
   static const String contactUs = '/contact_us';

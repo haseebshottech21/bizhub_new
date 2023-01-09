@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../utils/dummy_data.dart';
 import '../widgets/onboard_widget.dart';
+import 'auth/without_auth_screen.dart';
 
 class OnboardScreen extends StatefulWidget {
   const OnboardScreen({Key? key}) : super(key: key);
@@ -13,7 +15,24 @@ class OnboardScreen extends StatefulWidget {
 }
 
 class _OnboardScreenState extends State<OnboardScreen> {
+  // final prefrences = Prefrences();
   int currentPage = 0;
+
+  void checkAuth() async {
+    Timer(
+      Duration.zero,
+      () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (ctx) => const WithoutAuthScreen(),
+          settings: const RouteSettings(
+            arguments: false,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
@@ -34,6 +53,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
                 backimg: onboardData[index].image,
                 title: onboardData[index].text,
                 desc: onboardData[index].description,
+                onPressed: checkAuth,
                 // desc2: onboardData[index].subDes,
               ),
             ),

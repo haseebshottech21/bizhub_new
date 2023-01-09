@@ -115,3 +115,74 @@ class DeafultIconButton extends StatelessWidget {
     );
   }
 }
+
+class DefaultOutlineButton extends StatelessWidget {
+  final String title;
+  final VoidCallback? onPress;
+  final Color btnTextColor, backgroundColor, borderColor;
+  final double borderRadius;
+  final bool btnIcon;
+  const DefaultOutlineButton({
+    required this.title,
+    required this.onPress,
+    this.btnTextColor = Colors.black,
+    this.borderColor = Colors.black54,
+    this.backgroundColor = Colors.white,
+    this.borderRadius = 2,
+    this.btnIcon = false,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: ElevatedButton(
+        onPressed: onPress,
+        style: ElevatedButton.styleFrom(
+          elevation: 0,
+          shadowColor: Colors.white,
+          backgroundColor: backgroundColor,
+          shape: BeveledRectangleBorder(
+            side: BorderSide(
+              width: 0.5,
+              color: borderColor,
+            ),
+            borderRadius: BorderRadius.circular(borderRadius),
+          ),
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 12),
+            child: btnIcon == true
+                ? Row(
+                    children: [
+                      const Icon(
+                        Icons.email_outlined,
+                        color: Colors.black,
+                      ),
+                      const SizedBox(width: 16),
+                      Text(
+                        title,
+                        style: TextStyle(
+                          color: btnTextColor,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 17,
+                        ),
+                      ),
+                    ],
+                  )
+                : Text(
+                    title,
+                    style: TextStyle(
+                      color: btnTextColor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 17,
+                    ),
+                  ),
+          ),
+        ),
+      ),
+    );
+  }
+}

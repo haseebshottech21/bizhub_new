@@ -1,8 +1,10 @@
 import 'package:bizhub_new/language/language_constant.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
-import 'package:bizhub_new/widgets/common/dialog_box.dart';
+import 'package:bizhub_new/view/auth/without_auth_screen.dart';
+// import 'package:bizhub_new/widgets/common/dialog_box.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../components/deafult_button.dart';
 import '../../utils/app_url.dart';
 import '../../utils/mytheme.dart';
 import '../../utils/utils.dart';
@@ -18,17 +20,25 @@ class MoreScreen extends StatefulWidget {
 }
 
 class _MoreScreenState extends State<MoreScreen> {
-  getData() {
+  // final prefrences = Prefrences();
+  // var token;
+
+  getData() async {
     final auth = context.read<AuthViewModel>();
     auth.setPrefrenceValues();
+    auth.checkToken();
+    // token = await prefrences.getSharedPreferenceValue('token');
   }
+
+  // final provider = Provider.of<ChatViewModel>(context, listen: false);
+  // await provider.checkAuth(context);
 
   @override
   void initState() {
-    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       getData();
     });
+    super.initState();
   }
 
   @override
@@ -42,218 +52,155 @@ class _MoreScreenState extends State<MoreScreen> {
     double deviceWidth = MediaQuery.of(context).size.width;
     final phoneDevice = Utils.getDeviceType() == 'phone';
 
-    // print(deviceWidth);
+    // print('Token : $token');
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: false,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(0),
-        child: Container(
-          color: MyTheme.greenColor,
-          width: deviceWidth,
-        ),
-      ),
-      body: Stack(
-        children: [
-          SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ViewProfile(
-                  userName:
-                      '${auth.getPrefrenceValue('firstName')} ${auth.getPrefrenceValue('lastName')}',
-                  image: auth.getPrefrenceValue('image') == null.toString()
-                      ? EmptyProfile(
-                          height: 80,
-                          width: phoneDevice
-                              ? deviceWidth / 5.5
-                              : deviceWidth / 7.5,
-                          iconSize: 55,
-                          radius: 100,
-                        )
-                      : CachedImageWidget(
-                          height: 80,
-                          width: phoneDevice
-                              ? deviceWidth / 5.5
-                              : deviceWidth / 7.5,
-                          imgUrl:
-                              AppUrl.baseUrl + auth.getPrefrenceValue('image'),
-                        ),
-                ),
-                const SizedBox(height: 15),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Text(
-                    translation(context).general,
-                    style: const TextStyle(
-                      // color: Theme.of(context).textTheme.bodyText1!.color,
-                      fontSize: 22,
-                      color: Colors.black87,
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15),
-                moreItem(
-                  context: context,
-                  text: translation(context).changePassword,
-                  iconData: Icons.lock,
-                  onTap: () {
-                    Navigator.pushNamed(context, RouteName.changePassword);
-                  },
-                ),
-                // moreItem(
-                //   context: context,
-                //   text: translation(context).selectLanguage,
-                //   iconData: CupertinoIcons.globe,
-                //   onTap: () {
-                //     Navigator.pushNamed(context, RouteName.selectLanguage);
-                //   },
-                // ),
-                moreItem(
-                  context: context,
-                  text: translation(context).aboutUs,
-                  iconData: Icons.perm_device_info,
-                  onTap: () {
-                    Navigator.pushNamed(context, RouteName.aboutUs);
-                  },
-                ),
-                // moreItem(
-                //   context: context,
-                //   text: 'Contact Us',
-                //   iconData: Icons.phone,
-                //   onTap: () {
-                //     Navigator.pushNamed(context, RouteName.contactUs);
-                //   },
-                // ),
-                moreItem(
-                  context: context,
-                  text: translation(context).termAndCondition,
-                  iconData: Icons.bookmark_add_rounded,
-                  onTap: () {
-                    Navigator.pushNamed(context, RouteName.termAndCondition);
-                  },
-                ),
-                moreItem(
-                  context: context,
-                  text: translation(context).privacyPolicy,
-                  iconData: Icons.privacy_tip,
-                  onTap: () {
-                    Navigator.pushNamed(context, RouteName.privacyPolicy);
-                  },
-                ),
-                moreItem(
-                  context: context,
-                  text: translation(context).deleteAccount,
-                  iconData: Icons.delete,
-                  onTap: () {
-                    Navigator.pushNamed(context, RouteName.deleteAccount);
-                  },
-                ),
-                // moreItem(
-                //   context: context,
-                //   text: 'Location',
-                //   iconData: Icons.pin_drop,
-                //   onTap: () {
-                //     Navigator.pushNamed(context, RouteName.testLocation);
-                //   },
-                // ),
-                // moreItem(
-                //   context: context,
-                //   text: 'Logout',
-                //   iconData: dashboadOutline,
-                //   onTap: () {
-                //     simpleDialog(
-                //       context: context,
-                //       title: 'Confirm Logout',
-                //       subTitle: 'You are about to logout',
-                //       onPressed: () {
-                //         Navigator.of(context).pop();
-                //         // authViewModel.logout(context);
-
-                //         context.read<AuthViewModel>().logout(context);
-                //       },
-                //     );
-                //   },
-                // ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16.0, 12.0, 14.0, 14.0),
-                  child: TextButton(
-                    onPressed: () {
-                      simpleShowDialog(
-                        context: context,
-                        title: 'Logout',
-                        subTitle: 'Are you sure, do you want to logout ?',
-                        press: () {
-                          Navigator.of(context).pop();
-                          // authViewModel.logout(context);
-
-                          context.read<AuthViewModel>().logout(context);
-                        },
-                      );
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                        Colors.red.withOpacity(0.1),
-                      ),
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                        const EdgeInsets.fromLTRB(32.0, 6.0, 32.0, 6.0),
-                      ),
-                    ),
-                    child: Text(
-                      translation(context).logout,
-                      style: const TextStyle(
-                        color: MyTheme.redBorder,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+    return auth.token == null || auth.token == ''
+        ? const WithoutAuthMore()
+        : Scaffold(
+            backgroundColor: Colors.white,
+            resizeToAvoidBottomInset: false,
+            appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(0),
+              child: Container(
+                color: MyTheme.greenColor,
+                width: deviceWidth,
+              ),
             ),
-          ),
-          auth.loading
-              ? Center(
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 65,
-                    width: MediaQuery.of(context).size.width * 0.42,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(4),
-                      boxShadow: kElevationToShadow[6],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(
-                            backgroundColor: Colors.grey[200],
-                            valueColor: const AlwaysStoppedAnimation(
-                                MyTheme.greenColor),
-                            strokeWidth: 2.5,
+            body: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ViewProfile(
+                    userName:
+                        '${auth.getPrefrenceValue('firstName')} ${auth.getPrefrenceValue('lastName')}',
+                    image: auth.getPrefrenceValue('image') == null.toString()
+                        ? EmptyProfile(
+                            height: 80,
+                            width: phoneDevice
+                                ? deviceWidth / 5.5
+                                : deviceWidth / 7.5,
+                            iconSize: 55,
+                            radius: 100,
+                          )
+                        : CachedImageWidget(
+                            height: 80,
+                            width: phoneDevice
+                                ? deviceWidth / 5.5
+                                : deviceWidth / 7.5,
+                            imgUrl: AppUrl.baseUrl +
+                                auth.getPrefrenceValue('image'),
                           ),
-                        ),
-                        const SizedBox(width: 15),
-                        const Text(
-                          "Please Wait...",
-                          style: TextStyle(
-                            color: Colors.black87,
-                          ),
-                        ),
-                      ],
+                  ),
+                  const SizedBox(height: 15),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Text(
+                      translation(context).general,
+                      style: const TextStyle(
+                        // color: Theme.of(context).textTheme.bodyText1!.color,
+                        fontSize: 22,
+                        color: Colors.black87,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 0.5,
+                      ),
                     ),
                   ),
-                )
-              : const SizedBox()
-        ],
-      ),
-    );
+                  const SizedBox(height: 8),
+                  moreItem(
+                    context: context,
+                    text: translation(context).changePassword,
+                    iconData: Icons.lock,
+                    onTap: () {
+                      Navigator.pushNamed(context, RouteName.changePassword);
+                    },
+                  ),
+                  moreItem(
+                    context: context,
+                    text: translation(context).settings,
+                    iconData: Icons.settings,
+                    onTap: () {
+                      Navigator.pushNamed(context, RouteName.accountSetting);
+                    },
+                  ),
+
+                  // moreItem(
+                  //   context: context,
+                  //   text: translation(context).selectLanguage,
+                  //   iconData: CupertinoIcons.globe,
+                  //   onTap: () {
+                  //     Navigator.pushNamed(context, RouteName.selectLanguage);
+                  //   },
+                  // ),
+                  moreItem(
+                    context: context,
+                    text: translation(context).aboutUs,
+                    iconData: Icons.perm_device_info,
+                    onTap: () {
+                      Navigator.pushNamed(context, RouteName.aboutUs);
+                    },
+                  ),
+                  // moreItem(
+                  //   context: context,
+                  //   text: 'Contact Us',
+                  //   iconData: Icons.phone,
+                  //   onTap: () {
+                  //     Navigator.pushNamed(context, RouteName.contactUs);
+                  //   },
+                  // ),
+                  moreItem(
+                    context: context,
+                    text: translation(context).termAndCondition,
+                    iconData: Icons.bookmark_add_rounded,
+                    onTap: () {
+                      Navigator.pushNamed(context, RouteName.termAndCondition);
+                    },
+                  ),
+                  moreItem(
+                    context: context,
+                    text: translation(context).privacyPolicy,
+                    iconData: Icons.privacy_tip,
+                    onTap: () {
+                      Navigator.pushNamed(context, RouteName.privacyPolicy);
+                    },
+                  ),
+                  // moreItem(
+                  //   context: context,
+                  //   text: translation(context).deleteAccount,
+                  //   iconData: Icons.delete,
+                  //   onTap: () {
+                  //     Navigator.pushNamed(context, RouteName.deleteAccount);
+                  //   },
+                  // ),
+                  // moreItem(
+                  //   context: context,
+                  //   text: 'Location',
+                  //   iconData: Icons.pin_drop,
+                  //   onTap: () {
+                  //     Navigator.pushNamed(context, RouteName.testLocation);
+                  //   },
+                  // ),
+                  // moreItem(
+                  //   context: context,
+                  //   text: 'Logout',
+                  //   iconData: dashboadOutline,
+                  //   onTap: () {
+                  //     simpleDialog(
+                  //       context: context,
+                  //       title: 'Confirm Logout',
+                  //       subTitle: 'You are about to logout',
+                  //       onPressed: () {
+                  //         Navigator.of(context).pop();
+                  //         // authViewModel.logout(context);
+
+                  //         context.read<AuthViewModel>().logout(context);
+                  //       },
+                  //     );
+                  //   },
+                  // ),
+                ],
+              ),
+            ),
+          );
   }
 
   Widget moreItem({
@@ -369,6 +316,112 @@ class ViewProfile extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class WithoutAuthMore extends StatelessWidget {
+  const WithoutAuthMore({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(0),
+        child: Container(
+          color: MyTheme.greenColor,
+          width: deviceWidth,
+        ),
+      ),
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.only(
+                top: 25,
+                bottom: 20,
+              ),
+              color: MyTheme.greenColor,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 4,
+                  horizontal: 12,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 80,
+                      width: 80,
+                      child: Image.asset(
+                        'assets/images/empty_profile.png',
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Log in',
+                          style: TextStyle(
+                            fontSize: 24,
+                            letterSpacing: 0.5,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (ctx) => const WithoutAuthScreen(),
+                                settings: const RouteSettings(arguments: true),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'Log in to your account',
+                            style: TextStyle(
+                              color: Colors.grey.shade50,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 15),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12.0, 16.0, 12.0, 14.0),
+              child: DeafultButton(
+                title: 'Login or Register',
+                onPress: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (ctx) => const WithoutAuthScreen(),
+                      settings: const RouteSettings(arguments: true),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

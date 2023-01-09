@@ -23,7 +23,7 @@ class _JobsPostState extends State<JobsPost> {
 
   Future<void> getMyPostserList() async {
     await Provider.of<MyServiceViewModel>(context, listen: false)
-        .getMyPosterServiceList(context);
+        .getMyPosterServiceList(context: context);
   }
 
   @override

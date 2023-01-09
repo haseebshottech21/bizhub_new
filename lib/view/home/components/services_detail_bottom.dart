@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import '../../../components/deafult_button.dart';
 import '../../../utils/mytheme.dart';
 import '../../../view_model/all_services_view_model.dart';
+import '../../../view_model/bottom_navigation_view_model.dart';
+import '../../auth/without_auth_screen.dart';
 
 class ServicesDetailBottom extends StatelessWidget {
   const ServicesDetailBottom({
@@ -21,6 +23,7 @@ class ServicesDetailBottom extends StatelessWidget {
     // final allServiceViewModel = context.watch<AllServicesViewModel>();
     final allServiceViewModel =
         Provider.of<AllServicesViewModel>(context, listen: false);
+    final bottomProvider = Provider.of<BottomNavigationViewModel>(context);
 
     return SafeArea(
       child: Container(
@@ -42,7 +45,18 @@ class ServicesDetailBottom extends StatelessWidget {
             Expanded(
               child: DeafultIconButton(
                 title: 'Message',
-                onPress: () => sendMessage(context, allServiceViewModel),
+                onPress:
+                    bottomProvider.token == null || bottomProvider.token == ''
+                        ? () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (ctx) => const WithoutAuthScreen(),
+                                settings: const RouteSettings(
+                                  arguments: true,
+                                ),
+                              ),
+                            )
+                        : () => sendMessage(context, allServiceViewModel),
                 icon: chat,
               ),
             ),
@@ -50,7 +64,18 @@ class ServicesDetailBottom extends StatelessWidget {
             Expanded(
               child: DeafultIconButton(
                 title: 'Make Offer',
-                onPress: () => makeOffer(context, allServiceViewModel),
+                onPress:
+                    bottomProvider.token == null || bottomProvider.token == ''
+                        ? () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (ctx) => const WithoutAuthScreen(),
+                                settings: const RouteSettings(
+                                  arguments: true,
+                                ),
+                              ),
+                            )
+                        : () => makeOffer(context, allServiceViewModel),
                 icon: dollor,
               ),
             ),

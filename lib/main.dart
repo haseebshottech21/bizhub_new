@@ -22,7 +22,6 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'language/language_constant.dart';
 
 Future main() async {
-  
   // WidgetsFlutterBinding.ensureInitialized();
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);

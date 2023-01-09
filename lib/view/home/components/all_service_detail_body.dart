@@ -5,15 +5,18 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/mytheme.dart';
 import '../../../view_model/all_services_view_model.dart';
+import '../../../view_model/bottom_navigation_view_model.dart';
 import '../../../widgets/common/cached_image.dart';
 
 class AllServiceDetailBody extends StatelessWidget {
   const AllServiceDetailBody({
     Key? key,
     required this.allServiceViewModel,
+    required this.bottomNavigationViewModel,
   }) : super(key: key);
 
   final AllServicesViewModel allServiceViewModel;
+  final BottomNavigationViewModel bottomNavigationViewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -143,17 +146,20 @@ class AllServiceDetailBody extends StatelessWidget {
                   const Divider(),
                   const SizedBox(height: 5),
                   GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ViewOtherProfile(),
-                          settings: RouteSettings(
-                            arguments: user,
-                          ),
-                        ),
-                      );
-                    },
+                    onTap: bottomNavigationViewModel.token == null ||
+                            bottomNavigationViewModel.token == ''
+                        ? null
+                        : () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ViewOtherProfile(),
+                                settings: RouteSettings(
+                                  arguments: user,
+                                ),
+                              ),
+                            );
+                          },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                         vertical: 6,
