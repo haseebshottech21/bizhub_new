@@ -4,6 +4,7 @@ import 'package:bizhub_new/widgets/common/empty_profile.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -43,10 +44,111 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   validateAndSignup() {
+    final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
     if (!_formKey.currentState!.validate()) {
       return;
+    } else if (!authViewModel.isCheckTCAndPP) {
+      // Fluttertoast.showToast(msg: 'Please Accept Term&Conditon');
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            titlePadding: const EdgeInsets.only(top: 16, left: 24, bottom: 6),
+            contentPadding:
+                const EdgeInsets.only(top: 2, bottom: 12, left: 24, right: 24),
+            title: Column(
+              children: const [
+                Icon(
+                  Icons.check_circle_outline,
+                  size: 60,
+                  color: Colors.green,
+                ),
+                SizedBox(height: 6),
+                Text(
+                  'ACCEPT TERMS',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 1.3,
+                  ),
+                ),
+              ],
+            ),
+            content: RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                children: [
+                  const TextSpan(
+                    text: "By creating an account, Please Accept ",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                    ),
+                  ),
+                  TextSpan(
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.underline,
+                    ),
+                    text: "Term & Conditions",
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () async {
+                        _launchUrl(
+                            'https://app.websitepolicies.com/policies/view/5r6t2xx1');
+                      },
+                  ),
+                  const TextSpan(
+                    text: " and ",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                    ),
+                  ),
+                  TextSpan(
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.underline,
+                    ),
+                    text: "Privacy Policy",
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () async {
+                        _launchUrl(
+                            'https://app.websitepolicies.com/policies/view/r06kud3i');
+                      },
+                  ),
+                ],
+              ),
+            ),
+            actionsPadding:
+                const EdgeInsets.only(top: 6, bottom: 16, right: 12),
+            actions: <Widget>[
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: MyTheme.greenColor,
+                  // padding: const EdgeInsets.symmetric(horizontal: 16),
+                ),
+                child: const Text(
+                  ' OK ',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+
+      return;
     } else {
-      final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
       Map data = {
         if (authViewModel.imageDetail['imagePath'].toString().isNotEmpty)
           "image": authViewModel.imageDetail['image'].toString(),
@@ -230,9 +332,9 @@ class _SignupScreenState extends State<SignupScreen> {
                             return Checkbox(
                               checkColor: Colors.white,
                               activeColor: MyTheme.greenColor,
-                              value: authViewModel.isRemember,
+                              value: authViewModel.isCheckTCAndPP,
                               onChanged: (bool? value) {
-                                authViewModel.checkRemeber();
+                                authViewModel.toggleTCAndPP();
                               },
                             );
                           },
@@ -252,8 +354,10 @@ class _SignupScreenState extends State<SignupScreen> {
                                 style: TextStyle(color: Colors.black),
                               ),
                               TextSpan(
-                                style:
-                                    const TextStyle(color: MyTheme.greenColor),
+                                style: const TextStyle(
+                                  color: MyTheme.greenColor,
+                                  decoration: TextDecoration.underline,
+                                ),
                                 text: "Term & Condition",
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () async {
@@ -262,12 +366,14 @@ class _SignupScreenState extends State<SignupScreen> {
                                   },
                               ),
                               const TextSpan(
-                                text: " & ",
+                                text: " and ",
                                 style: TextStyle(color: Colors.black),
                               ),
                               TextSpan(
-                                style:
-                                    const TextStyle(color: MyTheme.greenColor),
+                                style: const TextStyle(
+                                  color: MyTheme.greenColor,
+                                  decoration: TextDecoration.underline,
+                                ),
                                 text: "Privacy Policy",
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () async {

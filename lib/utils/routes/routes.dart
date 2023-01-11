@@ -14,7 +14,7 @@ import 'package:bizhub_new/view/auth/login_screen.dart';
 import 'package:bizhub_new/view/auth/otp_sccess_screen.dart';
 import 'package:bizhub_new/view/auth/reset_password_screen.dart';
 import 'package:bizhub_new/view/auth/signup_screen.dart';
-import 'package:bizhub_new/view/auth/welcome_auth_screen.dart';
+// import 'package:bizhub_new/view/auth/welcome_auth_screen.dart';
 import 'package:bizhub_new/view/create/component/serach_location.dart';
 import 'package:bizhub_new/view/create/create_post.dart';
 import 'package:bizhub_new/view/create/select_category.dart';

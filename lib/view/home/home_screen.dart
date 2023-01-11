@@ -1,4 +1,4 @@
-import 'package:bizhub_new/components/custom_lodaer.dart';
+import 'package:bizhub_new/components/custom_loader.dart';
 import 'package:bizhub_new/components/no_internet.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
@@ -64,161 +64,144 @@ class _HomeScreenState extends State<HomeScreen> {
             child: CustomScrollView(
               controller: provider.controller,
               slivers: [
-                bottomProvider.token == null || bottomProvider.token == ''
-                    ? SliverAppBar(
-                        floating: false,
-                        pinned: true,
-                        snap: false,
-                        elevation: 0,
-                        backgroundColor: Colors.white,
-                        centerTitle: true,
-                        title:
-                            Image.asset('assets/images/bizhub_logo_black.png'),
-                        actions: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              right: 12,
-                              top: 8,
-                              bottom: 8,
+                SliverAppBar(
+                  floating: false,
+                  pinned: true,
+                  snap: false,
+                  elevation: 0,
+                  backgroundColor: Colors.white,
+                  automaticallyImplyLeading: false,
+                  titleTextStyle: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20,
+                  ),
+                  centerTitle: false,
+                  titleSpacing: 12.0,
+                  title: GestureDetector(
+                    onTap: () {
+                      selectTypeBottom();
+                    },
+                    child: Container(
+                      width: size.width * 0.26,
+                      padding: const EdgeInsets.all(8.0),
+                      alignment: Alignment.centerLeft,
+                      decoration: BoxDecoration(
+                        boxShadow: kElevationToShadow[1],
+                        color: MyTheme.greenColor,
+                        // border: Border.all(color: MyTheme.greenColor),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // crossAxisAlignment: CrossAxisAlignment.end,
+                        children: const [
+                          Text(
+                            'Find',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 1.0,
+                              color: Colors.white,
                             ),
-                            child: TextButton(
-                              // style: ElevatedButton.styleFrom(
-                              //   backgroundColor: MyTheme.greenColor,
-                              // ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (ctx) => const WithoutAuthScreen(),
-                                    settings: const RouteSettings(
-                                      arguments: true,
-                                    ),
+                          ),
+                          // SizedBox(width: 8),
+                          Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.white,
+                            size: 24,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  actions: [
+                    bottomProvider.token == null || bottomProvider.token == ''
+                        ? TextButton(
+                            // style: ElevatedButton.styleFrom(
+                            //   backgroundColor: MyTheme.greenColor,
+                            // ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (ctx) => const WithoutAuthScreen(),
+                                  settings: const RouteSettings(
+                                    arguments: true,
                                   ),
-                                );
-                              },
-                              child: const Text(
-                                'JOIN',
-                                style: TextStyle(
-                                  color: MyTheme.greenColor,
-                                  fontSize: 18,
                                 ),
+                              );
+                            },
+                            child: const Text(
+                              'JOIN',
+                              style: TextStyle(
+                                color: MyTheme.greenColor,
+                                fontSize: 16,
                               ),
                             ),
                           )
-                        ],
-                      )
-                    : SliverAppBar(
-                        floating: false,
-                        pinned: true,
-                        snap: false,
-                        elevation: 0,
-                        backgroundColor: Colors.white,
-                        automaticallyImplyLeading: false,
-                        titleTextStyle: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 20,
-                        ),
-                        centerTitle: false,
-                        titleSpacing: 12.0,
-                        title: GestureDetector(
-                          onTap: () {
-                            selectTypeBottom();
-                          },
-                          child: Container(
-                            width: size.width * 0.26,
-                            padding: const EdgeInsets.all(8.0),
-                            alignment: Alignment.centerLeft,
-                            decoration: BoxDecoration(
-                              boxShadow: kElevationToShadow[1],
-                              color: MyTheme.greenColor,
-                              // border: Border.all(color: MyTheme.greenColor),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              // crossAxisAlignment: CrossAxisAlignment.end,
-                              children: const [
-                                Text(
-                                  'Find',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    letterSpacing: 1.0,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                // SizedBox(width: 8),
-                                Icon(
-                                  Icons.arrow_drop_down,
-                                  color: Colors.white,
-                                  size: 24,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        bottom: PreferredSize(
-                          preferredSize: const Size.fromHeight(50.0),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              bottom: 4,
-                              left: 12,
-                              right: 12,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                        context, RouteName.searchPost);
-                                  },
-                                  child: Container(
-                                    width: size.width * 0.80,
-                                    height: size.height * 0.055,
-                                    margin: const EdgeInsets.only(bottom: 5),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[50],
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
-                                    child: Row(
-                                      children: const [
-                                        Icon(
-                                          CupertinoIcons.search,
-                                          size: 22,
-                                        ),
-                                        SizedBox(width: 8),
-                                        Text(
-                                          'Search',
-                                          style: TextStyle(
-                                            color: Colors.black45,
-                                            fontSize: 18,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.045,
-                                  child: IconButton(
-                                    onPressed: () {
-                                      Navigator.pushNamed(
-                                          context, RouteName.filter);
-                                    },
-                                    color: MyTheme.greenColor,
-                                    padding: EdgeInsets.zero,
-                                    icon: const Icon(
-                                        CupertinoIcons.slider_horizontal_3),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        : const SizedBox()
+                  ],
+                  bottom: PreferredSize(
+                    preferredSize: const Size.fromHeight(50.0),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: 4,
+                        left: 12,
+                        right: 12,
                       ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, RouteName.searchPost);
+                            },
+                            child: Container(
+                              width: size.width * 0.80,
+                              height: size.height * 0.055,
+                              margin: const EdgeInsets.only(bottom: 5),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[50],
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Row(
+                                children: const [
+                                  Icon(
+                                    CupertinoIcons.search,
+                                    size: 22,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    'Search',
+                                    style: TextStyle(
+                                      color: Colors.black45,
+                                      fontSize: 18,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: size.height * 0.045,
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, RouteName.filter);
+                              },
+                              color: MyTheme.greenColor,
+                              padding: EdgeInsets.zero,
+                              icon: const Icon(
+                                  CupertinoIcons.slider_horizontal_3),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
                 SliverToBoxAdapter(
                   child: provider.isInternetConnect
                       ? provider.isFirstLoadRunning

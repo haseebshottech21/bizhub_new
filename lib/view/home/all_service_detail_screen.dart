@@ -1,4 +1,4 @@
-import 'package:bizhub_new/components/custom_lodaer.dart';
+import 'package:bizhub_new/components/custom_loader.dart';
 import 'package:bizhub_new/model/service_model.dart';
 import 'package:bizhub_new/view/home/components/all_service_detail_body.dart';
 import 'package:bizhub_new/view/home/components/services_detail_bottom.dart';

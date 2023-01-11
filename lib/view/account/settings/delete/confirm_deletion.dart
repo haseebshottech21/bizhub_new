@@ -37,7 +37,6 @@ class _ConfirmDeletionState extends State<ConfirmDeletion> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      // appBar: mainAppBar(context: context, appBarTitle: 'Delete Profile'),
       appBar: AppBar(
         backgroundColor: MyTheme.greenColor,
         title: const Text(

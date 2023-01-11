@@ -94,7 +94,7 @@ class WithoutAuthScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 DefaultOutlineButton(
-                  title: 'Login your Account',
+                  title: 'LOGIN',
                   btnIcon: true,
                   onPress: () {
                     Navigator.of(context).pushNamed(RouteName.login);
@@ -102,7 +102,7 @@ class WithoutAuthScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 DefaultOutlineButton(
-                  title: 'Create your Account',
+                  title: 'CREATE ACCOUNT',
                   btnIcon: true,
                   onPress: () {
                     Navigator.of(context).pushNamed(RouteName.signup);

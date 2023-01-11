@@ -2,7 +2,7 @@ import 'package:bizhub_new/view/posts/components/my_post_detail.dart';
 import 'package:bizhub_new/view_model/my_service_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../components/custom_lodaer.dart';
+import '../../../components/custom_loader.dart';
 
 class MyJobDetail extends StatefulWidget {
   const MyJobDetail({

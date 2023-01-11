@@ -33,15 +33,15 @@
 	<key>NSCameraUsageDescription</key>
 	<string>To capture profile photo please grant camera access</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Always and when in use!</string>
+	<string>This App required location to find services and posts near you</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Can I have location always?</string>
+	<string>This App required location to find services and posts near you</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Older devices need location.</string>
+	<string>This App required location to find services and posts near you</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Need location when in use</string>
+	<string>This App required location to find services and posts near you</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This App requires access to the photo library</string>
+	<string>This App need access to your photo library so that you can select a profile picture and select pictures for your posts</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

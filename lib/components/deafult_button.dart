@@ -153,21 +153,18 @@ class DefaultOutlineButton extends StatelessWidget {
         ),
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 12),
+            padding: const EdgeInsets.symmetric(vertical: 12),
             child: btnIcon == true
                 ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(
-                        Icons.email_outlined,
-                        color: Colors.black,
-                      ),
-                      const SizedBox(width: 16),
                       Text(
                         title,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           color: btnTextColor,
                           fontWeight: FontWeight.w500,
-                          fontSize: 17,
+                          fontSize: 18,
                         ),
                       ),
                     ],

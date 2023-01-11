@@ -1,4 +1,4 @@
-import 'package:bizhub_new/components/custom_lodaer.dart';
+import 'package:bizhub_new/components/custom_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../view_model/my_service_view_model.dart';

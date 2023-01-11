@@ -1,10 +1,8 @@
-import 'dart:async';
-
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:flutter/material.dart';
 import '../components/deafult_button.dart';
-import '../view/auth/without_auth_screen.dart';
-import '../view/splash_screen.dart';
+// import '../view/auth/without_auth_screen.dart';
+// import '../view/splash_screen.dart';
 
 class OnBoardWidget extends StatelessWidget {
   final String title, desc, backimg;

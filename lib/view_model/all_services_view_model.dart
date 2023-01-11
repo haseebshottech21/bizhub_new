@@ -70,13 +70,20 @@ class AllServicesViewModel extends ChangeNotifier {
     page = 1;
     hasNextPage = true;
     allServiceList.clear();
+
     setLoad(true);
+
     // isFirstLoadRunning = true;
     Future.delayed(Duration.zero).then(
       (value) async {
-        final loadedData = await serviceRepo.fetchAllServicesList(
-          serviceType: nearByJobs ? '0' : '1',
-        );
+        token = await prefernce.getSharedPreferenceValue('token');
+        final loadedData = token == null || token == ''
+            ? await serviceRepo.fetchAllServicesWithoutAuthList(
+                serviceType: nearByJobs ? '0' : '1',
+              )
+            : await serviceRepo.fetchAllServicesList(
+                serviceType: nearByJobs ? '0' : '1',
+              );
         allServiceList = loadedData['allService'];
         setLoad(false);
         // isFirstLoadRunning = false;

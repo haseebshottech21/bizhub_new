@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import '../../components/custom_lodaer.dart';
+import '../../components/custom_loader.dart';
 
 class PrivacyPolicy extends StatefulWidget {
   const PrivacyPolicy({Key? key}) : super(key: key);

@@ -2,8 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../utils/dummy_data.dart';
+import '../utils/routes/routes_name.dart';
 import '../widgets/onboard_widget.dart';
-import 'auth/without_auth_screen.dart';
+// import 'auth/without_auth_screen.dart';
 
 class OnboardScreen extends StatefulWidget {
   const OnboardScreen({Key? key}) : super(key: key);
@@ -19,17 +20,22 @@ class _OnboardScreenState extends State<OnboardScreen> {
   int currentPage = 0;
 
   void checkAuth() async {
+    // Timer(
+    //   Duration.zero,
+    //   () => Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (ctx) => const WithoutAuthScreen(),
+    //       settings: const RouteSettings(
+    //         arguments: false,
+    //       ),
+    //     ),
+    //   ),
+    // );
     Timer(
       Duration.zero,
-      () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (ctx) => const WithoutAuthScreen(),
-          settings: const RouteSettings(
-            arguments: false,
-          ),
-        ),
-      ),
+      () => Navigator.of(context)
+          .pushNamedAndRemoveUntil(RouteName.home, (route) => false),
     );
   }
 

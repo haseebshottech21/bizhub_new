@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../../../components/deafult_button.dart';
 import '../../../../utils/mytheme.dart';
 import '../../../../utils/routes/routes_name.dart';
-// import '../../../widgets/common/app_bar.dart';
 
 class SelectDeleteReason extends StatefulWidget {
   const SelectDeleteReason({Key? key}) : super(key: key);
@@ -27,11 +26,8 @@ class _SelectDeleteReasonState extends State<SelectDeleteReason> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    // print(reasonData);
     return Scaffold(
-      // backgroundColor: MyTheme.whiteColor,
       resizeToAvoidBottomInset: false,
-      // appBar: mainAppBar(context: context, appBarTitle: 'Delete Profile'),
       appBar: AppBar(
         backgroundColor: MyTheme.greenColor,
         title: const Text(

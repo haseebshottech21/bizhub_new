@@ -44,22 +44,6 @@ class NoInternetWidget extends StatelessWidget {
             ),
             fixedSize: Size(size.width * 0.40, 45),
           ),
-          // onPressed: () async {
-          //   if (await InternetConnectionChecker().hasConnection == true) {
-          //     getAllServices();
-          //     Utils.snackBarMessage(
-          //       'Internet Conneted',
-          //       CupertinoIcons.wifi,
-          //       context,
-          //     );
-          //   } else {
-          //     Utils.snackBarMessage(
-          //       'No Internet Connection',
-          //       CupertinoIcons.wifi_slash,
-          //       context,
-          //     );
-          //   }
-          // },
           onPressed: onPressed,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,

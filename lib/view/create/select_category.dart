@@ -1,4 +1,4 @@
-import 'package:bizhub_new/components/custom_lodaer.dart';
+import 'package:bizhub_new/components/custom_loader.dart';
 import 'package:bizhub_new/view_model/category_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +28,7 @@ class _SelectCategoryState extends State<SelectCategory> {
 
   getAllData() {
     final categories = Provider.of<CategoryViewModel>(context, listen: false);
-    categories.getCategoriesList(context);
+    categories.getCategoriesList();
   }
 
   @override

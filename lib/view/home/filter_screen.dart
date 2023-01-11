@@ -25,7 +25,8 @@ class _FilterScreenState extends State<FilterScreen> {
 
   getAllData() async {
     final categories = Provider.of<CategoryViewModel>(context, listen: false);
-    categories.getCategoriesList(context);
+    await categories.checkAuth();
+
     categories.selectedIndexList =
         await pref.getSharedPreferenceListValue('categories');
   }

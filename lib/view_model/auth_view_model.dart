@@ -37,6 +37,12 @@ class AuthViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool isCheckTCAndPP = false;
+  toggleTCAndPP() {
+    isCheckTCAndPP = !isCheckTCAndPP;
+    notifyListeners();
+  }
+
   bool isRemember = false;
   checkRemeber() {
     isRemember = !isRemember;
@@ -73,6 +79,7 @@ class AuthViewModel extends ChangeNotifier {
   initialSignupValues() {
     imageDetail['imagePath'] = '';
     imageDetail['extension'] = '';
+    isCheckTCAndPP = false;
   }
 
   Map<String, dynamic> imageDetail = {

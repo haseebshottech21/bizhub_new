@@ -26,6 +26,9 @@ class AppUrl {
   static var withoutAuthAllServiceEndPoint = '$baseUrl/api/all-services';
   static var withoutAuthAllServiceDetailEndPoint =
       '$baseUrl/api/service-detail-without-auth';
+  static var withoutAuthShowCategoriesEndPoint =
+      '$baseUrl/api/categories-without-auth';
+
   // Service
   static var createServiceEndPoint = '$baseUrl/api/add-service';
   static var allServiceEndPoint = '$baseUrl/api/service';

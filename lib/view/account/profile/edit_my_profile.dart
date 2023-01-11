@@ -1,10 +1,8 @@
-import 'package:bizhub_new/components/custom_lodaer.dart';
+import 'package:bizhub_new/components/custom_loader.dart';
 import 'package:bizhub_new/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../components/deafult_button.dart';
-// import '../../../utils/app_url.dart';
-import '../../../utils/app_url.dart';
 import '../../../utils/field_validator.dart';
 import '../../../widgets/common/app_bar.dart';
 import '../../../widgets/common/input_textfield.dart';

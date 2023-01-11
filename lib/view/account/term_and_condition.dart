@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:bizhub_new/components/custom_lodaer.dart';
+import 'package:bizhub_new/components/custom_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../utils/mytheme.dart';

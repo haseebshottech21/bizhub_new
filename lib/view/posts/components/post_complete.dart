@@ -1,4 +1,4 @@
-import 'package:bizhub_new/components/custom_lodaer.dart';
+import 'package:bizhub_new/components/custom_loader.dart';
 // import 'package:bizhub_new/components/empty_icon.dart';
 import 'package:bizhub_new/view/posts/components/post_offers.dart';
 import 'package:bizhub_new/view/posts/components/rate_bottom_sheet.dart';

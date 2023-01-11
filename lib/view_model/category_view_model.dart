@@ -11,6 +11,7 @@ class CategoryViewModel extends ChangeNotifier {
   final prefrence = Prefrences();
   List<CategoryModel> categoryList = [];
   Prefrences pref = Prefrences();
+  String? token;
 
   String categoryId = '';
   String categoryName = '';
@@ -79,12 +80,28 @@ class CategoryViewModel extends ChangeNotifier {
   //   // print(post.length);
   // }
 
-  Future<void> getCategoriesList(
-    BuildContext context,
-  ) async {
+  Future<void> checkAuth() async {
+    token = await prefrence.getSharedPreferenceValue('token');
+    if (token == null || token == '') {
+      getCategoriesListWithoutAuth();
+    } else {
+      getCategoriesList();
+    }
+  }
+
+  Future<void> getCategoriesList() async {
     setLoad(true);
     if (categoryList.isEmpty) {
       categoryList = await catRepo.fetchAllCategories();
+    }
+    setLoad(false);
+    notifyListeners();
+  }
+
+  Future<void> getCategoriesListWithoutAuth() async {
+    setLoad(true);
+    if (categoryList.isEmpty) {
+      categoryList = await catRepo.fetchAllCategoriesWithouAuth();
     }
     setLoad(false);
     notifyListeners();
@@ -96,11 +113,20 @@ class CategoryViewModel extends ChangeNotifier {
   List<String> selectedIndexList = [];
 
   clearFilter(BuildContext context) async {
+    token = await prefrence.getSharedPreferenceValue('token');
     selectedIndexList = [];
     pref.setSharedPreferenceListValue("categories", selectedIndexList);
-    Navigator.of(context).pop();
-    await Provider.of<AllServicesViewModel>(context, listen: false)
-        .getAllService();
+    Future.delayed(Duration.zero).then((value) async {
+      Navigator.of(context).pop();
+      if (token == null || token == '') {
+        await Provider.of<AllServicesViewModel>(context, listen: false)
+            .getAllServiceWithoutAuth();
+      } else {
+        await Provider.of<AllServicesViewModel>(context, listen: false)
+            .getAllService();
+      }
+    });
+
     notifyListeners();
   }
 
@@ -130,12 +156,22 @@ class CategoryViewModel extends ChangeNotifier {
     Provider.of<AllServicesViewModel>(context, listen: false).hasNextPage =
         true;
     setBtnLoad(true);
+    token = await prefrence.getSharedPreferenceValue('token');
     Future.delayed(Duration.zero).then((value) async {
       pref.setSharedPreferenceListValue("categories", selectedIndexList);
       setBtnLoad(false);
       Navigator.of(context).pop();
-      await Provider.of<AllServicesViewModel>(context, listen: false)
-          .getAllService();
+      // final serviceProvider =
+      //     Provider.of<AllServicesViewModel>(context, listen: false);
+      if (token == null || token == '') {
+        // getCategoriesListWithoutAuth();
+        await Provider.of<AllServicesViewModel>(context, listen: false)
+            .getAllServiceWithoutAuth();
+      } else {
+        // getCategoriesList();
+        await Provider.of<AllServicesViewModel>(context, listen: false)
+            .getAllService();
+      }
     });
     notifyListeners();
   }

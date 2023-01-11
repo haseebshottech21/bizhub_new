@@ -1,7 +1,6 @@
 import 'package:bizhub_new/language/language_constant.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/view/auth/without_auth_screen.dart';
-// import 'package:bizhub_new/widgets/common/dialog_box.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../components/deafult_button.dart';
@@ -406,6 +405,31 @@ class WithoutAuthMore extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 15),
+            moreItem(
+              context: context,
+              text: translation(context).aboutUs,
+              iconData: Icons.perm_device_info,
+              onTap: () {
+                Navigator.pushNamed(context, RouteName.aboutUs);
+              },
+            ),
+            moreItem(
+              context: context,
+              text: translation(context).termAndCondition,
+              iconData: Icons.bookmark_add_rounded,
+              onTap: () {
+                Navigator.pushNamed(context, RouteName.termAndCondition);
+              },
+            ),
+            moreItem(
+              context: context,
+              text: translation(context).privacyPolicy,
+              iconData: Icons.privacy_tip,
+              onTap: () {
+                Navigator.pushNamed(context, RouteName.privacyPolicy);
+              },
+            ),
+            const SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.fromLTRB(12.0, 16.0, 12.0, 14.0),
               child: DeafultButton(
@@ -420,6 +444,60 @@ class WithoutAuthMore extends StatelessWidget {
                   );
                 },
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget moreItem({
+    required BuildContext context,
+    required String text,
+    required IconData iconData,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: 14,
+          bottom: 14,
+          left: 16,
+          right: 16,
+        ),
+        child: Row(
+          children: [
+            Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                color: MyTheme.greenColor.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Icon(
+                iconData,
+                color: MyTheme.greenColor,
+                size: 24,
+              ),
+            ),
+            const SizedBox(width: 15),
+            Text(
+              text,
+              style: const TextStyle(
+                // color: profile[index]['title'] == 'Logout'
+                //     ? Color(0xFF3c7cbc)
+                //     : Theme.of(context).textTheme.bodyText1!.color,
+                // color: Color(0xFF50182c),
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const Spacer(),
+            Icon(
+              Icons.arrow_forward_ios_outlined,
+              color: Theme.of(context).iconTheme.color,
+              size: 17,
             ),
           ],
         ),

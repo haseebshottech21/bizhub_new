@@ -30,8 +30,26 @@ class CategoryRepository {
     }
     return [];
   }
+
+  Future<List<CategoryModel>> fetchAllCategoriesWithouAuth() async {
+    try {
+      final response = await http.get(
+        Uri.parse(AppUrl.withoutAuthShowCategoriesEndPoint),
+        headers: AppUrl.header,
+      );
+      // print(response.body);
+      final loadedData = json.decode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        List<CategoryModel> categoryList = (loadedData['data'] as List)
+            .map((e) => CategoryModel.fromJson(e))
+            .toList();
+        return categoryList;
+      } else {
+        Utils.toastMessage(loadedData['message']);
+      }
+    } catch (e) {
+      Utils.toastMessage(e.toString());
+    }
+    return [];
+  }
 }
-
-
-
-
