@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../components/deafult_button.dart';
+import '../../language/language_constant.dart';
 import '../../utils/field_validator.dart';
 import '../../utils/mytheme.dart';
 import '../../view_model/auth_view_model.dart';
@@ -40,7 +41,10 @@ class _ChangePasswordState extends State<ChangePassword> {
     return Scaffold(
       backgroundColor: MyTheme.whiteColor,
       resizeToAvoidBottomInset: false,
-      appBar: mainAppBar(context: context, appBarTitle: 'Change Password'),
+      appBar: mainAppBar(
+        context: context,
+        appBarTitle: translation(context).changePassword,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 10.0),
@@ -54,9 +58,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Update Password',
-                        style: TextStyle(
+                      Text(
+                        translation(context).updatePassword,
+                        style: const TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.w500,
                         ),
@@ -68,7 +72,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                             children: [
                               InputPasswordTextFormField(
                                 controller: newPasswordController,
-                                hintText: 'New Password',
+                                hintText: translation(context).newPasswordField,
                                 fontAwsomeIcon: Icons.password,
                                 validator:
                                     textFieldValidator.passwordErrorGetter,
@@ -78,7 +82,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                               const SizedBox(height: 8),
                               InputPasswordTextFormField(
                                 controller: confirmPasswordController,
-                                hintText: 'Confirm New Password',
+                                hintText:
+                                    translation(context).confirmPasswordField,
                                 fontAwsomeIcon: Icons.password,
                                 validator: textFieldValidator
                                     .confirmPasswordErrorGetter,
@@ -98,12 +103,10 @@ class _ChangePasswordState extends State<ChangePassword> {
               Consumer<AuthViewModel>(
                 builder: (context, authViewModel, _) {
                   return DeafultButton(
-                    title: 'Update Password',
+                    title: translation(context).updatePassword,
                     isloading: authViewModel.loading,
                     onPress: () {
                       validateAndUpdate();
-                      // print(authViewModel.loading);
-                      // authViewModel.signUp(context);
                     },
                   );
                 },

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:bizhub_new/utils/app_url.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:flutter/material.dart';
@@ -106,7 +107,7 @@ class ChatWidget extends StatelessWidget {
                     Text(
                       chat.message!.createdAt.toString(),
                       style: TextStyle(
-                        fontSize: 10,
+                        fontSize: Platform.isIOS ? 9 : 10,
                         fontWeight: chat.unreadMessage! > 0
                             ? FontWeight.w500
                             : FontWeight.w400,

@@ -1,6 +1,8 @@
 import 'package:bizhub_new/language/language_constant.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/view/auth/without_auth_screen.dart';
+import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../components/deafult_button.dart';
@@ -121,15 +123,14 @@ class _MoreScreenState extends State<MoreScreen> {
                       Navigator.pushNamed(context, RouteName.accountSetting);
                     },
                   ),
-
-                  // moreItem(
-                  //   context: context,
-                  //   text: translation(context).selectLanguage,
-                  //   iconData: CupertinoIcons.globe,
-                  //   onTap: () {
-                  //     Navigator.pushNamed(context, RouteName.selectLanguage);
-                  //   },
-                  // ),
+                  moreItem(
+                    context: context,
+                    text: translation(context).selectLanguage,
+                    iconData: CupertinoIcons.globe,
+                    onTap: () {
+                      Navigator.pushNamed(context, RouteName.selectLanguage);
+                    },
+                  ),
                   moreItem(
                     context: context,
                     text: translation(context).aboutUs,

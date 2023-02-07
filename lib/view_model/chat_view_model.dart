@@ -4,10 +4,12 @@ import 'package:bizhub_new/model/user_model.dart';
 import 'package:bizhub_new/repo/chat_repo.dart';
 import 'package:bizhub_new/repo/notification_repo.dart';
 import 'package:flutter/cupertino.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 // import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import '../utils/shared_prefrences.dart';
 import '../utils/utils.dart';
+// import '../view/chat/my_messages.dart';
 
 class ChatViewModel extends ChangeNotifier {
   final chatRepo = ChatRepository();
@@ -71,6 +73,12 @@ class ChatViewModel extends ChangeNotifier {
       (value) async {
         // if (allChatList.isEmpty) {
         allChatList = await chatRepo.fetchMyAllChatsList();
+
+        // getMessageListSecond(
+        //   context: context,
+        //   chatId: chatId,
+        //   checkMessages: false,
+        // );
         // }
         setLoadTwo(false);
       },
@@ -160,6 +168,13 @@ class ChatViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool onMessagesScreen = true;
+
+  onMessageScreen(bool onMessageOrChat) {
+    onMessagesScreen = onMessageOrChat;
+    notifyListeners();
+  }
+
   // Send Message
   Future<void> sendMessage({
     required dynamic data,
@@ -175,9 +190,6 @@ class ChatViewModel extends ChangeNotifier {
     } else if (loadedData != null) {
       Future.delayed(Duration.zero).then(
         (value) async {
-          // Navigator.of(context).pop();
-          // setMessageLoad(false);
-          // getMessageList(context: context, chatId: chatId);
           // Future.delayed(const Duration(seconds: 1)).then(
           //   (value) async {
           // if (messageList.isEmpty) {
@@ -185,29 +197,69 @@ class ChatViewModel extends ChangeNotifier {
           // if (response.isNotEmpty) {
           messageList = response['messages'] as List<MessageModel>;
 
+          // await NotificationRepo.sendNotification(title, token);
           await notification.sendNotification(
-            notiTitle: 'Message',
-            notiBody:
-                '${await prefrences.getSharedPreferenceValue('firstname')} send you new message',
-            notifyToken: notificationId,
-            dataOne: 'send-message',
-            dataTwo: 'rec-message',
             requestId: chatId,
+            title:
+                '${await prefrences.getSharedPreferenceValue('firstname')} ${await prefrences.getSharedPreferenceValue('lastname')}',
+            body: data['message'],
+            token: notificationId,
           );
 
+          // if (notificationId != '') {
           // await notification.sendNotification(
-          //   notiTitle: 'Message',
-          //   notiBody:
-          //       '${await prefrences.getSharedPreferenceValue('firstname')} send you new message',
+          //   title:
+          //       '${await prefrences.getSharedPreferenceValue('firstname')} ${await prefrences.getSharedPreferenceValue('lastname')}',
+          //   body: data['message'],
+          //   dataOne: 'send-message',
+          //   dataTwo: 'rec-message',
           //   notifyToken: notificationId,
-          //   data: 'outer-message',
           //   requestId: chatId,
           // );
+          // }
 
           getMyAllChatList(context: context);
+          // _showNotificationWithSound(notificationId);
           setMessageLoad(false);
         },
       );
     }
   }
+
+  // final FlutterLocalNotificationsPlugin localNotificationsPlugin =
+  //     FlutterLocalNotificationsPlugin();
+
+  // Future _showNotificationWithSound(String notificationId) async {
+  //   AndroidNotificationDetails androidDetails =
+  //       const AndroidNotificationDetails(
+  //     'notification-bizhub', 'Bizhub Notifications',
+  //     // channelDescription: 'your channel description',
+  //     // sound: 'slow_spring_board',
+  //     importance: Importance.max,
+  //     priority: Priority.max,
+  //   );
+  //   // var iOSPlatformChannelSpecifics =
+  //   //     new IOSNotificationDetails(sound: "slow_spring_board.aiff");
+  //   // final initializationSettingsDarwin =
+  //   //     DarwinInitializationSettings(defaultPresentSound: true);
+
+  //   DarwinNotificationDetails iosDetails = const DarwinNotificationDetails(
+  //     presentAlert: true,
+  //     presentBadge: true,
+  //     presentSound: true,
+  //   );
+  //   NotificationDetails notiDetails = NotificationDetails(
+  //     android: androidDetails,
+  //     iOS: iosDetails,
+  //   );
+
+  //   await localNotificationsPlugin.show(
+  //     0,
+  //     'Sample Notification',
+  //     'This is a notification',
+  //     notiDetails,
+  //     // payload: 'Custom_Sound',
+  //   );
+  //   // print('object');
+  // }
 }

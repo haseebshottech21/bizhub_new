@@ -1,5 +1,6 @@
 import 'package:bizhub_new/components/deafult_button.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
+import 'package:bizhub_new/view/home/home_screen.dart';
 import 'package:bizhub_new/view_model/auth_view_model.dart';
 import 'package:bizhub_new/widgets/common/auth_botom.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Map data = {
         "email": emailAddressController.text,
         "password": passwordController.text,
-        'device_id': MyApp.notifyToken,
+        'device_id': HomeScreen.notifyToken,
       };
       authViewModel.login(data, context);
     }
@@ -47,6 +48,8 @@ class _LoginScreenState extends State<LoginScreen> {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(systemNavigationBarColor: Colors.white),
     );
+
+    print('app_token on login: ${MyApp.notifyToken}');
 
     return Scaffold(
       backgroundColor: MyTheme.whiteColor,

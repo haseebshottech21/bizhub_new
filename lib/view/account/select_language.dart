@@ -2,6 +2,7 @@ import 'package:bizhub_new/language/language_constant.dart';
 import 'package:bizhub_new/main.dart';
 import 'package:bizhub_new/language/languages.dart';
 import 'package:flutter/material.dart';
+import '../../widgets/common/app_bar.dart';
 
 class SelectLanguage extends StatelessWidget {
   const SelectLanguage({Key? key}) : super(key: key);
@@ -9,20 +10,37 @@ class SelectLanguage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(translation(context).helloWorld),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: DropdownButton(
+      backgroundColor: Colors.white,
+      appBar: mainAppBar(
+        context: context,
+        appBarTitle: translation(context).selectLanguage,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                translation(context).selectLanguage,
+                style: const TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              // Text(translation(context).helloWorld),
+              const SizedBox(height: 20),
+              DropdownButton(
+                underline: const SizedBox(),
+                isExpanded: true,
                 icon: const Icon(
-                  Icons.language,
+                  Icons.arrow_drop_down,
                   color: Colors.black,
+                ),
+                hint: Text(
+                  translation(context).language,
+                  style: const TextStyle(fontSize: 16),
                 ),
                 onChanged: (Language? language) async {
                   if (language != null) {
@@ -33,11 +51,16 @@ class SelectLanguage extends StatelessWidget {
                 items: Language.languageList()
                     .map<DropdownMenuItem<Language>>(
                       (e) => DropdownMenuItem<Language>(
+                        alignment: Alignment.center,
                         value: e,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text(e.flag),
+                            Text(
+                              e.flag,
+                              style: const TextStyle(fontSize: 26),
+                            ),
+                            const SizedBox(width: 20),
                             Text(
                               e.name,
                               style: const TextStyle(color: Colors.black),
@@ -48,8 +71,8 @@ class SelectLanguage extends StatelessWidget {
                     )
                     .toList(),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

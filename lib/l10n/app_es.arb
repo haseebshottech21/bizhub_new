@@ -1,12 +1,18 @@
 {
     "helloWorld": "¡Hola Mundo!",
-    "viewYourProfile" : "VIEW YOUR PROFILE",
+    "viewYourProfile" : "VER TU PERFIL",
     "general" : "General",
     "changePassword" : "Cambiar la contraseña",
-    "settings" : "Settings",
-    "selectLanguage" : "Select Language",
-    "aboutUs" : "About Us",
-    "termAndCondition" : "Term & Condition",
-    "privacyPolicy" : "Privacy Policy",
-    "logout" : "Logout"
+    "updatePassword" : "Actualiza contraseña",
+    "newPasswordField" : "Nueva contraseña",
+    "confirmPasswordField" : "Confirmar nueva contraseña",
+    "settings" : "Ajustes",
+    "deleteAccount" : "Borrar cuenta",
+    "language" : "🇪🇸  España",
+    "selectLanguage" : "Seleccione el idioma",
+    "aboutUs" : "Sobre nosotras",
+    "aboutUsDescription" : "¡BizHub es el mercado laboral moderno de hoy! Fuimos creados no solo para hacer su vida más fácil, simplemente publicando lo que necesita hacer y permitiendo que las personas se acerquen a usted. Estamos aquí para conectarlo con la ayuda que necesita con una simple publicación gratuita. ¡Un lugar como nunca antes creado! Una plataforma de trabajo donde puedes encontrar trabajos o servicios desde profesionales hasta nuevos emprendedores. Haz crecer tu comunidad, ayuda a quienes te rodean, construye tu marca mientras obtienes ingresos adicionales. Somos BizHub y estamos aquí para ayudar.",
+    "termAndCondition" : "Término y condición",
+    "privacyPolicy" : "política de privacidad",
+    "logout" : "Cerrar sesión"
 }

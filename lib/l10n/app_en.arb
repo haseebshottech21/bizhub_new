@@ -3,11 +3,16 @@
     "viewYourProfile" : "VIEW YOUR PROFILE",
     "general" : "General",
     "changePassword" : "Change Password",
+    "updatePassword" : "Update Password",
+    "newPasswordField" : "New Password",
+    "confirmPasswordField" : "Confirm New Password",
     "settings" : "Settings",
+    "deleteAccount" : "Delete Account",
+    "language" : "🇺🇸  English",
     "selectLanguage" : "Select Language",
     "aboutUs" : "About Us",
+    "aboutUsDescription" : "BizHub is todays modern job Market! We were created to not only make your life easier, by just posting what you need done and allowing people to come to you.  We are here to connect you to the help you need with a simple free post . A  place like never created before! A work platform where you  can find jobs or services from professionals to new entrepreneurs. Grow your community, help those around you, build your brand while  earning extra income . We are BizHub and we are here to help.",
     "termAndCondition" : "Term & Condition",
     "privacyPolicy" : "Privacy Policy",
-    "deleteAccount" : "Delete Account",
-    "logout" : "Logout" 
+    "logout" : "Logout"
 }

@@ -241,6 +241,7 @@ class AuthRepository {
       final responseData = jsonDecode(response.body);
       if (response.statusCode == 200) {
         await removeCrediential();
+        // await FirebaseMessaging.instance.deleteToken();
         return responseData;
       } else {
         Utils.toastMessage(responseData['message']);
@@ -267,7 +268,9 @@ class AuthRepository {
     );
     if (loadedData['user']['image'] != null) {
       await prefrence.setSharedPreferenceValue(
-          'image', loadedData['user']['image']);
+        'image',
+        loadedData['user']['image'],
+      );
     }
     await prefrence.setSharedPreferenceValue(
       'email',
@@ -288,11 +291,18 @@ class AuthRepository {
 
   Future<void> updateCrediential(dynamic loadedData) async {
     await prefrence.setSharedPreferenceValue(
-        'firstname', loadedData['first_name']);
+      'firstname',
+      loadedData['first_name'],
+    );
     await prefrence.setSharedPreferenceValue(
-        'lastname', loadedData['last_name']);
+      'lastname',
+      loadedData['last_name'],
+    );
     if (loadedData['image'] != null) {
-      await prefrence.setSharedPreferenceValue('image', loadedData['image']);
+      await prefrence.setSharedPreferenceValue(
+        'image',
+        loadedData['image'],
+      );
     }
     await prefrence.setSharedPreferenceValue('email', loadedData['email']);
     await prefrence.setSharedPreferenceValue('phone', loadedData['phone']);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../components/deafult_button.dart';
+import '../../../language/language_constant.dart';
 import '../../../utils/mytheme.dart';
 import '../../../utils/routes/routes_name.dart';
 import '../../../view_model/auth_view_model.dart';
@@ -16,9 +17,9 @@ class AccountSettings extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: MyTheme.greenColor,
-        title: const Text(
-          'Setting',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          translation(context).settings,
+          style: const TextStyle(color: Colors.white),
         ),
       ),
       body: Stack(
@@ -29,7 +30,7 @@ class AccountSettings extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 DefaultOutlineButton(
-                  title: 'Logout',
+                  title: translation(context).logout,
                   btnTextColor: MyTheme.redBorder,
                   borderColor: MyTheme.redBorder,
                   onPress: () {

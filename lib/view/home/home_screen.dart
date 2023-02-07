@@ -3,9 +3,12 @@ import 'package:bizhub_new/components/no_internet.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/view/home/components/all_services_items.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../services/local_notification.dart';
+// import '../../utils/local_notification.dart';
 import '../../utils/utils.dart';
 import '../../view_model/all_services_view_model.dart';
 import '../../view_model/bottom_navigation_view_model.dart';
@@ -13,6 +16,7 @@ import '../auth/without_auth_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+  static String? notifyToken;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -21,14 +25,64 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final phoneDevice = Utils.getDeviceType() == 'phone';
 
+  // void getToken() async {
+  //   await FirebaseMessaging.instance.getToken().then((token) {
+  //     MyApp.notifyToken = token.toString();
+  //     // print('token: $token');
+  //   });
+  //   print('app_token: ${MyApp.notifyToken}');
+  // }
+
+  storeNotificationToken() async {
+    await FirebaseMessaging.instance.getToken().then((value) {
+      setState(() {
+        HomeScreen.notifyToken = value.toString();
+        print('app_token: ${HomeScreen.notifyToken}');
+      });
+    });
+  }
+
+  // Future<void> setUpRequestNotification() async {
+  //   FirebaseMessaging messaging = FirebaseMessaging.instance;
+  //   NotificationSettings settings = await messaging.requestPermission(
+  //     alert: true,
+  //     announcement: false,
+  //     badge: true,
+  //     carPlay: false,
+  //     criticalAlert: false,
+  //     provisional: false,
+  //     sound: true,
+  //   );
+
+  //   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+  //     print('User granted permission');
+  //   } else if (settings.authorizationStatus ==
+  //       AuthorizationStatus.provisional) {
+  //     print('User granted provisional permission');
+  //   } else {
+  //     print('User declined or has not accept permission');
+  //   }
+  // }
+
   @override
   void initState() {
     super.initState();
+    // LocalNotificationService.requestPermissions();
+    NotificationService().initNotification();
+    // setUpRequestNotification();
+    // await LocalNotifiaction().requestPermissions();
     // Provider.of<AuthViewModel>(context, listen: false).setPrefrenceValues();
+
+    // FirebaseMessaging.onMessage.listen((event) {
+    //   print('FCM received message');
+    //   LocalNotificationService.display(event);
+    // });
+    storeNotificationToken();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       checkAuthServices();
       final provider =
           Provider.of<AllServicesViewModel>(context, listen: false);
+
       provider.page = 1;
       provider.hasNextPage = true;
 

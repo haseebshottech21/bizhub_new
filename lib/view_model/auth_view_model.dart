@@ -1,6 +1,7 @@
 // import 'package:bizhub_new/model/user_model.dart';
 import 'dart:convert';
 import 'dart:io';
+// import 'package:bizhub_new/repo/notification_repo.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/utils/shared_prefrences.dart';
 import 'package:flutter/material.dart';
@@ -136,6 +137,18 @@ class AuthViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  String sendOTPEmail = '';
+
+  Future<void> setSendOTPEmail(String otpEmail) async {
+    await prefrences.setSharedPreferenceValue('otpemail', otpEmail);
+    notifyListeners();
+  }
+
+  Future<void> getOTPEmail() async {
+    sendOTPEmail = await prefrences.getSharedPreferenceValue('otpemail');
+    notifyListeners();
+  }
+
   dynamic getPrefrenceValue(dynamic key) {
     return (prefrence[key] ?? '').toString();
   }
@@ -230,6 +243,7 @@ class AuthViewModel extends ChangeNotifier {
 
   Future<void> signUp(
     dynamic data,
+    String otpEmail,
     BuildContext context,
   ) async {
     setLoad(true);
@@ -244,6 +258,7 @@ class AuthViewModel extends ChangeNotifier {
           setLoad(false);
           // if (kDebugMode) {
           // clearFields();
+          setSendOTPEmail(otpEmail);
           Navigator.pushNamed(context, RouteName.otp);
           // print('Successfully Login');
           Utils.toastMessage('Register Successfully!');
@@ -444,6 +459,7 @@ class AuthViewModel extends ChangeNotifier {
           RouteName.home,
           (route) => false,
         );
+        // NotificationRepo().deleteFcmToken();
         // print('Successfully Login');
         Utils.toastMessage('Logged Out');
       });

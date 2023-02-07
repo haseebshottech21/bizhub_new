@@ -8,7 +8,7 @@ import 'auth/without_auth_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
-  static String? token;
+  static String? token, deviceId;
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -35,6 +35,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     super.initState();
     checkAuthentication();
+    // checkDeviceIdToken();
   }
 
   void checkAuthentication() async {
@@ -83,6 +84,17 @@ class _SplashScreenState extends State<SplashScreen>
       );
     }
   }
+
+  // void checkDeviceIdToken() async {
+  //   if (SplashScreen.token == null || SplashScreen.token == '') {
+  //     SplashScreen.deviceId = null;
+  //   } else {
+  //     await FirebaseMessaging.instance.getToken().then((token) {
+  //       SplashScreen.deviceId = token.toString();
+  //       print('device token: ${SplashScreen.deviceId}');
+  //     });
+  //   }
+  // }
 
   @override
   void dispose() {

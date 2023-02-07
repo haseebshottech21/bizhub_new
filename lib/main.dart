@@ -1,3 +1,5 @@
+// import 'package:bizhub_new/services/local_notification.dart';
+// import 'package:bizhub_new/utils/local_notification.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/utils/routes/routes.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
@@ -32,7 +34,18 @@ Future main() async {
   if (defaultTargetPlatform == TargetPlatform.android) {
     AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
   }
+  // await NotificationService().init();
+  // await dotenv.load(fileName: ENVSettings.fileName);
   await Firebase.initializeApp();
+  await FirebaseMessaging.instance.getInitialMessage();
+
+  // final RemoteMessage? _message =
+  //     await FirebaseService.firebaseMessaging.getInitialMessage();
+  // runApp(const MyApp(message: _message));
+  // LocalNotificationService.initialize();
+
+  // await LocalNotifiaction().initialize();
+  // LocalNotificationService.initialize();
   // FirebaseMessaging messaging = FirebaseMessaging.instance;
   // NotificationSettings settings = await messaging.requestPermission(
   //   alert: true,
@@ -59,7 +72,7 @@ Future main() async {
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
-  static String notifyToken = '';
+  static String? notifyToken;
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -76,16 +89,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
+    // getToken();
     super.initState();
-    getToken();
-  }
-
-  void getToken() async {
-    await FirebaseMessaging.instance.getToken().then((token) {
-      MyApp.notifyToken = token.toString();
-      // print('token: $token');
-    });
-    // print('app_token: ' + MyApp.notifyToken);
   }
 
   Locale? _locale;
@@ -113,6 +118,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => ChatViewModel()),
         ChangeNotifierProvider(create: (_) => LocationViewModel()),
         ChangeNotifierProvider(create: (_) => BottomNavigationViewModel()),
+        ChangeNotifierProvider(create: (_) => BottomController()),
       ],
       child: MaterialApp(
         builder: ((context, child) => ResponsiveWrapper.builder(
@@ -132,6 +138,9 @@ class _MyAppState extends State<MyApp> {
         title: 'BizHub',
         debugShowCheckedModeBanner: false,
         theme: MyTheme.myLightTheme,
+        // theme: ThemeData(
+        //   primarySwatch: Colors.blue,
+        // ),
         initialRoute: RouteName.splash,
         onGenerateRoute: RouteGenerator.generateRoute,
         home: const SplashScreen(),

@@ -22,7 +22,7 @@ class OfferMessageItem extends StatelessWidget {
           margin: const EdgeInsets.only(
             right: 8,
             left: 8,
-            bottom: 8,
+            bottom: 4,
           ),
           decoration: BoxDecoration(
             borderRadius: isMe == false
@@ -105,8 +105,8 @@ class MessageItem extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
           margin: const EdgeInsets.only(
             right: 8,
-            bottom: 8,
             left: 8,
+            bottom: 4,
           ),
           decoration: BoxDecoration(
             borderRadius: isMe == false

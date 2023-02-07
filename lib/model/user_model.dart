@@ -45,7 +45,8 @@ class UserModel {
             : (json['rating'] as List)
                 .map((e) => UserRatingModel.fromJson(e))
                 .toList(),
-        notificationId: json['device_id'],
+        notificationId:
+            json['device_id'] == null ? '' : json['device_id'].toString(),
       );
 
   Map<String, dynamic> toJson() => {

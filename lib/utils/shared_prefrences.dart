@@ -11,15 +11,16 @@ class Prefrences {
     preferences.setString(key, value);
   }
 
-  // Future<dynamic> getSharedPreferenceBoolValue(String key) async {
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   return preferences.getBool(key);
-  // }
+  Future<dynamic> getSharedPreferenceBoolValue(String key) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getBool(key);
+  }
 
-  // Future<void> setSharedPreferenceBoolValue(String key, bool value) async {
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   preferences.setBool(key, value);
-  // }
+  Future<void> setSharedPreferenceBoolValue(String key, bool value) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setBool(key, value);
+  }
+
   Future<void> setSharedPreferenceListValue(
     String key,
     List<String> value,

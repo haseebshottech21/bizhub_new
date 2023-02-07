@@ -163,7 +163,8 @@ class _SignupScreenState extends State<SignupScreen> {
         "device_id": MyApp.notifyToken,
       };
       // print(data);
-      authViewModel.signUp(data, context);
+      // authViewModel.sendOTPEmail = emailAddressController.text.trim();
+      authViewModel.signUp(data, emailAddressController.text.trim(), context);
     }
   }
 

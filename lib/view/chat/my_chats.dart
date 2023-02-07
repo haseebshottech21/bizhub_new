@@ -1,8 +1,12 @@
 import 'package:bizhub_new/components/custom_loader.dart';
 import 'package:bizhub_new/components/no_internet.dart';
+import 'package:bizhub_new/utils/routes/routes_name.dart';
+// import 'package:bizhub_new/utils/local_notification.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../services/local_notification.dart';
+import '../../view_model/bottom_navigation_view_model.dart';
 import '../../view_model/chat_view_model.dart';
 import 'component/chat_item.dart';
 import 'my_messages.dart';
@@ -15,53 +19,72 @@ class MyChats extends StatefulWidget {
 }
 
 class _MyChatsState extends State<MyChats> {
+  // LocalNotifiaction localNotifiaction = LocalNotifiaction();
+
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await setupInteracted();
-      await setUpRequestNotification();
-      await getMyAllChatsList();
-    });
     super.initState();
+    // LocalNotificationService.initialize();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await getMyAllChatsList();
+      await setupInteracted();
+    });
   }
 
   Future<void> getMyAllChatsList() async {
-    await Provider.of<ChatViewModel>(context, listen: false)
-        .getMyAllChatList(context: context);
-  }
-
-  Future<void> getMyAllChatsListTwo() async {
     final chatProvider = Provider.of<ChatViewModel>(context, listen: false);
-
-    await chatProvider.getMyAllChatListSecond(context: context);
+    await chatProvider.getMyAllChatList(context: context);
+    chatProvider.onMessagesScreen = true;
+    print('INNER:  ${chatProvider.onMessagesScreen}');
   }
 
-  Future<void> setUpRequestNotification() async {
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
-    await messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
+  Future<void> getNewMessages() async {
+    Map? chat = ModalRoute.of(context)!.settings.arguments as Map;
+    final chatProvider = Provider.of<ChatViewModel>(context, listen: false);
+    await chatProvider.getMessageListSecond(
+      context: context,
+      chatId: chat['chat_id'],
+      checkMessages: false,
     );
   }
 
-  bool inner = false;
+  String? notifTitle, notifBody;
 
   Future<void> setupInteracted() async {
-    await FirebaseMessaging.instance.getInitialMessage();
+    final chatProvider = Provider.of<ChatViewModel>(context, listen: false);
+    // final bottomProvider =
+    //     Provider.of<BottomNavigationViewModel>(context, listen: false);
 
-    // FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
-    FirebaseMessaging.onMessage.listen(
-      (RemoteMessage message) {
-        if (message.data['screen_two'] == 'rec-message') {
-          getMyAllChatsListTwo();
-        }
-      },
-    );
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+    // FirebaseMessaging.onMessageOpenedApp.listen(
+    //   (event) async {
+    //     await chatProvider.getMyAllChatListSecond(context: context);
+    //     bottomProvider.toggleToChatIndex();
+    //     // Navigator.push(
+    //     //     context, MaterialPageRoute(builder: (context) => MyChats()));
+    //   },
+    // );
+
+    FirebaseMessaging.onMessage.listen((event) async {
+      print('FCM received message');
+      await chatProvider.getMyAllChatListSecond(context: context);
+      if (chatProvider.onMessagesScreen) {
+        // LocalNotificationService.display(event);
+        NotificationService().showNotification(
+          title: event.notification!.title,
+          body: event.notification!.body,
+        );
+      }
+    });
+  }
+
+  Future<void> _firebaseMessagingBackgroundHandler(
+      RemoteMessage message) async {
+    // If you're going to use other Firebase services in the background, such as Firestore,
+    // make sure you call `initializeApp` before using other Firebase services.
+    // await Firebase.initializeApp();
+    print("Handling a background message: ${message.messageId}");
   }
 
   @override
@@ -82,11 +105,7 @@ class _MyChatsState extends State<MyChats> {
           if (myChats.isInternetConnect) {
             if (myChats.chatloading) {
               return const CustomLoader();
-            }
-            // else if (myChats.loadingTwo) {
-            //   return const Text('Loading....');
-            // }
-            else if (myChats.allChatList.isEmpty) {
+            } else if (myChats.allChatList.isEmpty) {
               return const Center(
                 child: Text(
                   'No Chat Available',
@@ -129,6 +148,7 @@ class _MyChatsState extends State<MyChats> {
                                   .allChatList[index].user!.notificationId,
                               'unread':
                                   myChats.allChatList[index].unreadMessage,
+                              'inner': myChats.onMessagesScreen,
                             },
                           ),
                         ),

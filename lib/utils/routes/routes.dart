@@ -28,6 +28,7 @@ import 'package:bizhub_new/view/posts/my_posts.dart';
 import 'package:bizhub_new/view/splash_screen.dart';
 // import 'package:bizhub_new/view/test_location.dart';
 import 'package:flutter/material.dart';
+import '../../view/account/select_language.dart';
 import '../../view/auth/otp_verification_screen.dart';
 // import '../../view/posts/my_jobs/edit_poster_service.dart';
 
@@ -115,8 +116,8 @@ class RouteGenerator {
             builder: (context) => const SelectDeleteReason());
       case RouteName.confirmDelete:
         return MaterialPageRoute(builder: (context) => const ConfirmDeletion());
-      // case RouteName.selectLanguage:
-      //   return MaterialPageRoute(builder: (context) => const SelectLanguage());
+      case RouteName.selectLanguage:
+        return MaterialPageRoute(builder: (context) => const SelectLanguage());
       // case RouteName.testLocation:
       //   return MaterialPageRoute(builder: (context) => const TestLocation());
       // case RouteName.testSearchLocation:

@@ -7,9 +7,17 @@ messageAppBar({
   required String userName,
   required Widget userImage,
   required UserModel? userModel,
+  required Function() backPressed,
 }) {
   return AppBar(
-    leading: const BackButton(color: Colors.black),
+    leading: IconButton(
+      padding: EdgeInsets.zero,
+      onPressed: backPressed,
+      icon: const Icon(
+        Icons.arrow_back,
+        color: Colors.black,
+      ),
+    ),
     backgroundColor: Colors.white,
     elevation: 0,
     centerTitle: false,

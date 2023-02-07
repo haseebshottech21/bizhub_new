@@ -2,7 +2,6 @@ import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
-
 import '../../components/deafult_button.dart';
 import '../../view_model/auth_view_model.dart';
 import '../../widgets/common/app_bar.dart';
@@ -29,6 +28,19 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
         otpCode: otpController.text.trim(),
       );
     }
+  }
+
+  getOTPEmail() {
+    final auth = context.read<AuthViewModel>();
+    auth.getOTPEmail();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      getOTPEmail();
+    });
   }
 
   @override
@@ -62,11 +74,17 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 6.0),
-                child: Text(
-                  "We sent email with a 4-digit verification code to example@gmail.com",
-                  style: TextStyle(color: Colors.black54, fontSize: 14),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15.0, vertical: 6.0),
+                child: Consumer<AuthViewModel>(
+                  builder: (context, auth, _) {
+                    return Text(
+                      "We sent email with a 4-digit verification code to ${auth.sendOTPEmail}",
+                      style:
+                          const TextStyle(color: Colors.black54, fontSize: 14),
+                    );
+                  },
                 ),
               ),
               const SizedBox(height: 20),
