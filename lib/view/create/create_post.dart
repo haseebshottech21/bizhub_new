@@ -34,7 +34,7 @@ class _CreatePostState extends State<CreatePost> {
   void initState() {
     // Provider.of<LocationViewModel>(context, listen: false)
     //     .getStoreLocationIfExist(context);
-    Provider.of<LocationViewModel>(context, listen: false).getLatLong();
+    Provider.of<LocationViewModel>(context, listen: false).getLatLong(context);
     super.initState();
   }
 

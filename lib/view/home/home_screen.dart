@@ -7,11 +7,12 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../language/language_constant.dart';
 import '../../services/local_notification.dart';
-// import '../../utils/local_notification.dart';
 import '../../utils/utils.dart';
 import '../../view_model/all_services_view_model.dart';
 import '../../view_model/bottom_navigation_view_model.dart';
+import '../../view_model/location_view_model.dart';
 import '../auth/without_auth_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -105,6 +106,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final provider = Provider.of<AllServicesViewModel>(context);
+    final locationViewModel =
+        Provider.of<LocationViewModel>(context, listen: true);
     final bottomProvider = Provider.of<BottomNavigationViewModel>(context);
 
     return OrientationBuilder(
@@ -137,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       selectTypeBottom();
                     },
                     child: Container(
-                      width: size.width * 0.26,
+                      width: size.width * 0.30,
                       padding: const EdgeInsets.all(8.0),
                       alignment: Alignment.centerLeft,
                       decoration: BoxDecoration(
@@ -149,17 +152,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         // crossAxisAlignment: CrossAxisAlignment.end,
-                        children: const [
+                        children: [
                           Text(
-                            'Find',
-                            style: TextStyle(
+                            translation(context).findText,
+                            style: const TextStyle(
                               fontWeight: FontWeight.w400,
-                              letterSpacing: 1.0,
+                              letterSpacing: 0.5,
                               color: Colors.white,
                             ),
                           ),
                           // SizedBox(width: 8),
-                          Icon(
+                          const Icon(
                             Icons.arrow_drop_down,
                             color: Colors.white,
                             size: 24,
@@ -170,86 +173,137 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   actions: [
                     bottomProvider.token == null || bottomProvider.token == ''
-                        ? TextButton(
-                            // style: ElevatedButton.styleFrom(
-                            //   backgroundColor: MyTheme.greenColor,
-                            // ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (ctx) => const WithoutAuthScreen(),
-                                  settings: const RouteSettings(
-                                    arguments: true,
+                        ? Padding(
+                            padding: const EdgeInsets.only(right: 4),
+                            child: TextButton(
+                              // style: ElevatedButton.styleFrom(
+                              //   backgroundColor: MyTheme.greenColor,
+                              // ),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (ctx) => const WithoutAuthScreen(),
+                                    settings: const RouteSettings(
+                                      arguments: true,
+                                    ),
                                   ),
+                                );
+                              },
+                              child: Text(
+                                translation(context).joinText,
+                                style: const TextStyle(
+                                  color: MyTheme.greenColor,
+                                  fontSize: 16,
                                 ),
-                              );
-                            },
-                            child: const Text(
-                              'JOIN',
-                              style: TextStyle(
-                                color: MyTheme.greenColor,
-                                fontSize: 16,
                               ),
                             ),
                           )
                         : const SizedBox()
                   ],
                   bottom: PreferredSize(
-                    preferredSize: const Size.fromHeight(50.0),
+                    preferredSize: const Size.fromHeight(100.0),
                     child: Padding(
                       padding: const EdgeInsets.only(
                         bottom: 4,
                         left: 12,
                         right: 12,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          GestureDetector(
+                          InkWell(
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, RouteName.searchPost);
+                                  context, RouteName.otherAddress);
                             },
-                            child: Container(
-                              width: size.width * 0.80,
-                              height: size.height * 0.055,
-                              margin: const EdgeInsets.only(bottom: 5),
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[50],
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: Row(
-                                children: const [
-                                  Icon(
-                                    CupertinoIcons.search,
-                                    size: 22,
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    'Search',
-                                    style: TextStyle(
-                                      color: Colors.black45,
-                                      fontSize: 18,
+                            child: Row(
+                              children: [
+                                const Icon(Icons.location_pin, size: 20),
+                                const SizedBox(width: 6),
+                                // Text(
+                                //   locationViewModel.mylocationAddress.isEmpty
+                                //       ? 'Choose'
+                                //       : locationViewModel.mylocationAddress,
+                                //   style: const TextStyle(
+                                //     fontSize: 17,
+                                //     fontWeight: FontWeight.w500,
+                                //   ),
+                                // ),
+                                Expanded(
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Text(
+                                      locationViewModel.mylocationAddress ==
+                                              null
+                                          ? 'Choose'
+                                          : locationViewModel
+                                              .mylocationAddress!,
+                                      style: const TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
-                                  )
-                                ],
-                              ),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                // const Icon(CupertinoIcons.chevron_down,
+                                //     size: 17),
+                              ],
                             ),
                           ),
-                          SizedBox(
-                            height: size.height * 0.045,
-                            child: IconButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, RouteName.filter);
-                              },
-                              color: MyTheme.greenColor,
-                              padding: EdgeInsets.zero,
-                              icon: const Icon(
-                                  CupertinoIcons.slider_horizontal_3),
-                            ),
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, RouteName.searchPost);
+                                },
+                                child: Container(
+                                  // color: Colors.green,
+                                  width: size.width * 0.80,
+                                  height: size.height * 0.055,
+                                  margin: const EdgeInsets.only(bottom: 5),
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[50],
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      const Icon(
+                                        CupertinoIcons.search,
+                                        size: 22,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        translation(context).searchText,
+                                        style: const TextStyle(
+                                          color: Colors.black45,
+                                          fontSize: 18,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: size.height * 0.045,
+                                child: IconButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, RouteName.filter);
+                                  },
+                                  color: MyTheme.greenColor,
+                                  padding: EdgeInsets.zero,
+                                  icon: const Icon(
+                                      CupertinoIcons.slider_horizontal_3),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -270,8 +324,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                         top: 20, bottom: 40),
                                     child: Text(
                                       provider.nearByJobs == false
-                                          ? 'Service Not Found'
-                                          : 'Jobs Not Found',
+                                          ? translation(context)
+                                              .servicesNotFoundText
+                                          : translation(context)
+                                              .jobsNotFoundText,
                                       style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 24.0,
@@ -318,7 +374,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           const Center(child: CupertinoActivityIndicator()),
                         if (provider.hasNextPage == false &&
                             provider.allServiceList.length > 10)
-                          const Center(child: Text('No More Data')),
+                          Center(
+                            child: Text(translation(context).noMoreDataText),
+                          ),
                       ],
                     ),
                   ),
@@ -373,7 +431,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     return Column(
                       children: [
                         type(
-                          typeText: 'Jobs Near By',
+                          typeText: translation(context).jobsNearByText,
                           typeIcon: CupertinoIcons.money_dollar_circle_fill,
                           isSelected: allServiceViewModel.nearByJobs == true
                               ? true
@@ -382,7 +440,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               allServiceViewModel.selectType(true, context),
                         ),
                         type(
-                          typeText: 'Services Near By',
+                          typeText: translation(context).servicesNearByText,
                           typeIcon: CupertinoIcons.briefcase_fill,
                           isSelected: allServiceViewModel.nearByJobs == false
                               ? true

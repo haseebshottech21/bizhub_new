@@ -41,6 +41,28 @@ class AuthRepository {
     }
   }
 
+  Future<dynamic> reportOtherUser(dynamic data) async {
+    try {
+      http.Response response = await http.post(
+        Uri.parse(AppUrl.reportUserEndPoint),
+        body: data,
+        headers: await AppUrl().headerWithAuth(),
+      );
+
+      final responseLoaded = jsonDecode(response.body);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return responseLoaded;
+      } else {
+        // Utils.toastMessage(responseLoaded['message']);
+      }
+    } catch (e) {
+      // print(e.toString());
+      Utils.toastMessage(e.toString());
+      // Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
   Future<dynamic> loginApi(dynamic data) async {
     try {
       http.Response response = await http.post(

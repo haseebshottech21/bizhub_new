@@ -93,7 +93,7 @@ class SelectService extends StatelessWidget {
             // serviceItem(context),
             ServiceTypeItem(
               serviceTypeText: 'JOB',
-              serviceTypeImage: 'assets/images/service_one.jpg',
+              serviceTypeImage: 'assets/images/service_one.png',
               // selectType: true,
               // onTap: (){},
               selectType: (post.isPoster != null && post.isPoster == true)
@@ -103,7 +103,7 @@ class SelectService extends StatelessWidget {
             ),
             ServiceTypeItem(
               serviceTypeText: 'SERVICE',
-              serviceTypeImage: 'assets/images/service_two.jpg',
+              serviceTypeImage: 'assets/images/service_two.png',
               selectType: (post.isPoster != null && post.isPoster == false)
                   ? true
                   : false,
@@ -143,7 +143,7 @@ class ServiceTypeItem extends StatelessWidget {
             Center(
               child: Container(
                 height: size.height,
-                width: size.width * 0.42,
+                width: size.width * 0.40,
                 alignment: Alignment.bottomCenter,
                 padding: const EdgeInsets.symmetric(vertical: 6),
                 decoration: BoxDecoration(
@@ -175,7 +175,7 @@ class ServiceTypeItem extends StatelessWidget {
                 children: [
                   Container(
                     height: size.height * 0.26,
-                    // width: size.width,
+                    width: size.width,
                     decoration: BoxDecoration(
                       // boxShadow: kElevationToShadow[8],
                       boxShadow: selectType
@@ -187,7 +187,7 @@ class ServiceTypeItem extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4),
                       child: Image.asset(
                         serviceTypeImage,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.contain,
                       ),
                     ),
                   ),

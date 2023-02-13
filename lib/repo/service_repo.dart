@@ -286,6 +286,30 @@ class ServiceRepository {
     }
   }
 
+  // BUMP UP
+  Future<bool> bumpUpMyService({
+    required String serviceId,
+  }) async {
+    // ServiceModel? myPosterService;
+    try {
+      final response = await http.get(
+        Uri.parse('${AppUrl.bumpUpMyServiceEndPoint}/$serviceId'),
+        headers: await AppUrl().headerWithAuth(),
+      );
+      // print(response.body);
+      final loadedData = json.decode(response.body);
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        Utils.toastMessage(loadedData['message']);
+        return false;
+      }
+    } catch (e) {
+      // Utils.toastMessage(e.toString());
+      return false;
+    }
+  }
+
   // DELETE
   Future<bool> deleteMyService({
     required String serviceId,

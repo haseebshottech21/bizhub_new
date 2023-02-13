@@ -4,6 +4,7 @@ import 'package:bizhub_new/view_model/all_services_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../language/language_constant.dart';
 import 'all_service_detail_screen.dart';
 
 class SearchPosts extends StatefulWidget {
@@ -33,9 +34,9 @@ class _SearchPostsState extends State<SearchPosts> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        title: const Text(
-          'Search Service',
-          style: TextStyle(
+        title: Text(
+          translation(context).searchServiceText,
+          style: const TextStyle(
             color: Colors.black,
             fontSize: 20,
             fontWeight: FontWeight.w400,
@@ -71,7 +72,7 @@ class _SearchPostsState extends State<SearchPosts> {
                   borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide.none,
                 ),
-                hintText: 'Search',
+                hintText: translation(context).searchText,
                 hintStyle: const TextStyle(color: Colors.black45),
                 fillColor: Colors.grey.shade50,
                 filled: true,
@@ -98,10 +99,10 @@ class _SearchPostsState extends State<SearchPosts> {
             child: Consumer<AllServicesViewModel>(
               builder: (context, allServiceViewModel, _) {
                 if (allServiceViewModel.displayList.isEmpty) {
-                  return const Center(
+                  return Center(
                     child: Text(
-                      'Not result found',
-                      style: TextStyle(
+                      translation(context).noResultFoundText,
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 20.0,
                         fontWeight: FontWeight.w500,
@@ -137,12 +138,15 @@ class _SearchPostsState extends State<SearchPosts> {
                             fontSize: 16,
                           ),
                         ),
-                        subtitle: Text(
-                          '\$ ${allServiceViewModel.displayList[index].serviceAmount.toString()}',
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
+                        subtitle: Padding(
+                          padding: const EdgeInsets.only(top: 2.0),
+                          child: Text(
+                            '\$ ${allServiceViewModel.displayList[index].serviceAmount.toString()}',
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 17,
+                            ),
                           ),
                         ),
                         leading: allServiceViewModel
@@ -154,15 +158,19 @@ class _SearchPostsState extends State<SearchPosts> {
                                       allServiceViewModel.displayList[index]
                                           .imagesList![0].image
                                           .toString(),
-                                  height: 50,
-                                  width: 50,
+                                  height: 55,
+                                  width: 55,
                                   fit: BoxFit.cover,
                                 ),
                               )
-                            : Container(
-                                width: 50,
-                                height: 50,
-                                color: Colors.greenAccent,
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(4),
+                                child: Image.asset(
+                                  'assets/images/app_icon.png',
+                                  height: 55,
+                                  width: 55,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                       ),
                     );

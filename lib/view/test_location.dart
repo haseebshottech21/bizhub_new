@@ -19,7 +19,7 @@ class _TestLocationState extends State<TestLocation> {
   @override
   void initState() {
     // getLocationAddress();
-    Provider.of<LocationViewModel>(context, listen: false).getLatLong();
+    Provider.of<LocationViewModel>(context, listen: false).getLatLong(context);
     super.initState();
   }
 
@@ -62,13 +62,13 @@ class _TestLocationState extends State<TestLocation> {
               },
               child: const Text("My Address Long Lat"),
             ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: const Color(0xFF0D39F2),
-              ),
-              onPressed: locationViewModel.getLatLong,
-              child: const Text("Get My Location"),
-            ),
+            // ElevatedButton(
+            //   style: ElevatedButton.styleFrom(
+            //     primary: const Color(0xFF0D39F2),
+            //   ),
+            //   onPressed: locationViewModel.getLatLong,
+            //   child: const Text("Get My Location"),
+            // ),
           ],
         ),
       ),
@@ -143,7 +143,7 @@ class _TestSearchLocationState extends State<TestSearchLocation> {
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton.icon(
               onPressed: () {
-                locationViewModel.getLatLong();
+                // locationViewModel.getLatLong();
                 Navigator.of(context).pop();
               },
               icon: const Icon(Icons.location_searching),

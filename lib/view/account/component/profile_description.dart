@@ -1,6 +1,9 @@
+import 'package:bizhub_new/view/account/component/report_user_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../language/language_constant.dart';
 import '../../../model/rating_model.dart';
+import '../../../model/user_model.dart';
 import '../../../utils/app_url.dart';
 import '../../../utils/utils.dart';
 import '../../../widgets/common/cached_image.dart';
@@ -13,10 +16,18 @@ class ProfileDescription extends StatelessWidget {
     required this.avgRating,
     required this.totalReviews,
     required this.ratingAndReviews,
+    this.formKey,
+    this.userModel,
+    this.controller,
+    this.scaffoldKey,
   }) : super(key: key);
 
   final String? description, url, avgRating, totalReviews;
+  final UserModel? userModel;
+  final TextEditingController? controller;
   final List<UserRatingModel>? ratingAndReviews;
+  final GlobalKey<FormState>? formKey;
+  final GlobalKey<ScaffoldState>? scaffoldKey;
 
   @override
   Widget build(BuildContext context) {
@@ -25,16 +36,60 @@ class ProfileDescription extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.only(left: 15),
-          child: Text(
-            'About',
-            style: TextStyle(
-              // color: Theme.of(context).textTheme.bodyText1!.color,
-              fontSize: 20,
-              fontWeight: FontWeight.w500,
-              letterSpacing: 0.5,
-            ),
+        Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                translation(context).aboutTitle,
+                style: const TextStyle(
+                  // color: Theme.of(context).textTheme.bodyText1!.color,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.5,
+                ),
+              ),
+              PopupMenuButton<int>(
+                elevation: 4,
+                position: PopupMenuPosition.under,
+                onSelected: (value) {
+                  if (value == 1) {
+                    // print('reported user');
+
+                    scaffoldKey!.currentState?.showBottomSheet(
+                      enableDrag: false,
+                      (context) {
+                        return ReportUserBottom(
+                          reportUserId: userModel!.userId.toString(),
+                          controller: controller!,
+                          formKey: formKey!,
+                        );
+                      },
+                    );
+                    // _showDialog(context);
+                    // if value 2 show dialog
+                  }
+                  // your logic
+                  // setState(() {
+                  //   // selectedItem = value.toString();
+                  // });
+                  // print(value);
+                  // Navigator.pushNamed(context, value.toString());
+                },
+                itemBuilder: (BuildContext bc) {
+                  return const [
+                    PopupMenuItem(
+                      value: 1,
+                      child: Text(
+                        "Report user",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                  ];
+                },
+              )
+            ],
           ),
         ),
         Padding(
@@ -76,11 +131,11 @@ class ProfileDescription extends StatelessWidget {
         const SizedBox(height: 10),
         const Divider(),
         const SizedBox(height: 10),
-        const Padding(
-          padding: EdgeInsets.only(left: 15),
+        Padding(
+          padding: const EdgeInsets.only(left: 15),
           child: Text(
-            'Rate & Reviews',
-            style: TextStyle(
+            translation(context).rateAndReviewTitle,
+            style: const TextStyle(
               // color: Theme.of(context).textTheme.bodyText1!.color,
               fontSize: 20,
               fontWeight: FontWeight.w500,

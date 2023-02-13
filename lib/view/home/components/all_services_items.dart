@@ -65,7 +65,7 @@ class AllServiceIem extends StatelessWidget {
                   ),
                   child: serviceModel.imagesList!.isEmpty
                       ? Container(
-                          height: constraints.maxHeight * 0.55,
+                          height: constraints.maxHeight * 0.52,
                           width: double.infinity,
                           padding: const EdgeInsets.symmetric(horizontal: 12),
                           color: Colors.black,
@@ -75,7 +75,7 @@ class AllServiceIem extends StatelessWidget {
                           ),
                         )
                       : CachedNetworkImage(
-                          height: constraints.maxHeight * 0.55,
+                          height: constraints.maxHeight * 0.52,
                           width: double.infinity,
                           fadeInDuration: const Duration(milliseconds: 300),
                           placeholder: (context, url) => Container(

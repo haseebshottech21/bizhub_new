@@ -2,8 +2,9 @@ import 'package:bizhub_new/utils/shared_prefrences.dart';
 
 class AppUrl {
   final prefrences = Prefrences();
-  // static var baseUrl = 'http://10.0.0.39:125';
-  static var baseUrl = 'https://dev.bizhub.ai/bizhub/public';
+  static var baseUrl = 'http://10.0.0.39:125';
+  // http://10.0.0.39:125
+  // static var baseUrl = 'https://dev.bizhub.ai/bizhub/public';
 
   // Auth
   static var loginEndPoint = '$baseUrl/api/login';
@@ -21,6 +22,7 @@ class AppUrl {
 
   // User
   static var showUserEndPoint = '$baseUrl/api/show-user';
+  static var reportUserEndPoint = '$baseUrl/api/report-user';
 
   // Without Auth
   static var withoutAuthAllServiceEndPoint = '$baseUrl/api/all-services';
@@ -36,6 +38,7 @@ class AppUrl {
   static var myWorkerServiceEndPoint = '$baseUrl/api/my-worker-services';
   static var myPosterServiceDetailEndPoint = '$baseUrl/api/service-detail';
   static var updateMyServiceEndPoint = '$baseUrl/api/service-update';
+  static var bumpUpMyServiceEndPoint = '$baseUrl/api/thumbs-up-service';
   static var deleteMyServiceEndPoint = '$baseUrl/api/delete-service';
   static var completeMyServiceEndPoint = '$baseUrl/api/service-complete';
   static var rateAndCompleteServiceEndPoint = '$baseUrl/api/complete-job';

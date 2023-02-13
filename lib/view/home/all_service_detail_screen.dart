@@ -1,12 +1,16 @@
 import 'package:bizhub_new/components/custom_loader.dart';
 import 'package:bizhub_new/model/service_model.dart';
+import 'package:bizhub_new/utils/icons.dart';
 import 'package:bizhub_new/view/home/components/all_service_detail_body.dart';
-import 'package:bizhub_new/view/home/components/services_detail_bottom.dart';
 import 'package:bizhub_new/view_model/all_services_view_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import '../../language/language_constant.dart';
+import '../../utils/mytheme.dart';
 import '../../view_model/bottom_navigation_view_model.dart';
+import 'components/send_message.dart';
+import 'components/send_offer.dart';
 
 class AllServiceDetail extends StatefulWidget {
   const AllServiceDetail({Key? key}) : super(key: key);
@@ -16,6 +20,8 @@ class AllServiceDetail extends StatefulWidget {
 }
 
 class _AllServiceDetailState extends State<AllServiceDetail> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final _formKey = GlobalKey<FormState>();
   final offerController = TextEditingController();
   final messageController = TextEditingController();
 
@@ -39,13 +45,109 @@ class _AllServiceDetailState extends State<AllServiceDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final allServiceViewModel =
+        Provider.of<AllServicesViewModel>(context, listen: false);
     final bottomProvider = Provider.of<BottomNavigationViewModel>(context);
 
     return Scaffold(
-      bottomSheet: ServicesDetailBottom(
-        messageController: messageController,
-        offerController: offerController,
-      ),
+      key: scaffoldKey,
+
+      // floatingActionButton: showFab
+      //     ? Container(
+      //         color: Colors.green,
+      //         margin: EdgeInsets.only(left: 5),
+      //         child: Row(
+      //           mainAxisAlignment: MainAxisAlignment.center,
+      //           children: [
+      //             Expanded(
+      //               child: ElevatedButton(
+      //                 child: Text('button'),
+      //                 onPressed: () {
+      //                   var bottomSheetController =
+      //                       scaffoldKey.currentState?.showBottomSheet(
+      //                     (context) => Container(
+      //                       width: MediaQuery.of(context).size.width,
+      //                       // margin: const EdgeInsets.only(top: 5, left: 15, right: 15),
+      //                       height: 200,
+      //                       decoration: BoxDecoration(
+      //                         color: Colors.white,
+      //                         borderRadius: const BorderRadius.only(
+      //                           topLeft: Radius.circular(16),
+      //                           topRight: Radius.circular(16),
+      //                         ),
+      //                         boxShadow: kElevationToShadow[4],
+      //                       ),
+      //                       child: Column(
+      //                         mainAxisSize: MainAxisSize.max,
+      //                         mainAxisAlignment: MainAxisAlignment.start,
+      //                         children: [
+      //                           Container(
+      //                             height: 50,
+      //                             alignment: Alignment.center,
+      //                             padding: const EdgeInsets.symmetric(
+      //                                 horizontal: 10, vertical: 10),
+      //                             margin: const EdgeInsets.symmetric(
+      //                                 horizontal: 10, vertical: 10),
+      //                             decoration: BoxDecoration(
+      //                                 color: Colors.grey[100],
+      //                                 borderRadius: BorderRadius.circular(10)),
+      //                             child: const TextField(
+      //                               decoration: InputDecoration.collapsed(
+      //                                 hintText: 'Enter your message',
+      //                               ),
+      //                             ),
+      //                           ),
+      //                           !checkingFlight
+      //                               ? MaterialButton(
+      //                                   color: Colors.grey[800],
+      //                                   onPressed: () async {
+      //                                     setState(() {
+      //                                       checkingFlight = true;
+      //                                     });
+      //                                     await Future.delayed(
+      //                                         Duration(seconds: 1));
+      //                                     setState(() {
+      //                                       success = true;
+      //                                     });
+      //                                     await Future.delayed(
+      //                                         Duration(milliseconds: 500));
+      //                                     // Navigator.pop(context);
+      //                                   },
+      //                                   child: Text(
+      //                                     'Send Message',
+      //                                     style: TextStyle(color: Colors.white),
+      //                                   ),
+      //                                 )
+      //                               : !success
+      //                                   ? CircularProgressIndicator()
+      //                                   : Icon(
+      //                                       Icons.check,
+      //                                       color: Colors.green,
+      //                                     ),
+      //                         ],
+      //                       ),
+      //                     ),
+      //                   );
+
+      //                   showFoatingActionButton(false);
+      //                   bottomSheetController!.closed.then((value) {
+      //                     showFoatingActionButton(true);
+      //                   });
+      //                 },
+      //               ),
+      //             ),
+      //             Expanded(
+      //                 child: ElevatedButton(
+      //                     onPressed: () {}, child: Text('data'))),
+      //           ],
+      //         ),
+      //       )
+      //     : Container(),
+      // bottomSheet: ServicesDetailBottom(
+      //   messageController: messageController,
+      //   offerController: offerController,
+      // ),
+
       body: Stack(
         children: [
           // AllServiceDetailBody(allServiceViewModel: allServiceViewModel),
@@ -60,13 +162,13 @@ class _AllServiceDetailState extends State<AllServiceDetail> {
                       allServiceViewModel: allServiceViewModel,
                       bottomNavigationViewModel: bottomProvider,
                     ),
-                    if (allServiceViewModel.offerLoading)
-                      const Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                          strokeWidth: 1,
-                        ),
-                      ),
+                    // if (allServiceViewModel.offerLoading)
+                    //   const Center(
+                    //     child: CircularProgressIndicator(
+                    //       color: Colors.white,
+                    //       strokeWidth: 1,
+                    //     ),
+                    //   ),
                   ],
                 );
               }
@@ -74,41 +176,141 @@ class _AllServiceDetailState extends State<AllServiceDetail> {
           ),
           Positioned(
             top: 0,
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.10,
-              width: MediaQuery.of(context).size.width,
-              alignment: Alignment.bottomLeft,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.transparent.withOpacity(0.1),
-                    Colors.transparent.withOpacity(0.2),
-                    Colors.transparent,
-                  ],
-                  stops: const [
-                    0.1,
-                    0.5,
-                    0.9,
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
+            child: Stack(
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.09,
+                  width: MediaQuery.of(context).size.width,
+                  alignment: Alignment.bottomLeft,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.transparent.withOpacity(0.1),
+                        Colors.transparent.withOpacity(0.2),
+                        Colors.transparent,
+                      ],
+                      stops: const [
+                        0.1,
+                        0.5,
+                        0.9,
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                  ),
                 ),
-              ),
-              child: Container(
-                width: 40,
-                height: 50,
-                margin: const EdgeInsets.symmetric(horizontal: 12),
-                // decoration: const BoxDecoration(
-                //   color: Colors.white,
-                //   shape: BoxShape.circle,
-                // ),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Icon(Icons.arrow_back_ios, color: Colors.white),
+                Positioned(
+                  top: 40,
+                  left: 20,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Icon(
+                      CupertinoIcons.back,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                  ),
                 ),
-              ),
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 5,
+            left: 0,
+            right: 0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.45,
+                  height: 50,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: MyTheme.greenColor,
+                      padding: const EdgeInsets.all(10.0),
+                    ),
+                    onPressed: () {
+                      var bottomSheetController =
+                          scaffoldKey.currentState?.showBottomSheet(
+                        (context) => SendMessage(
+                          formKey: _formKey,
+                          controller: messageController,
+                          servicesViewModel: allServiceViewModel,
+                        ),
+                      );
+                      bottomSheetController!.closed.then((value) {
+                        messageController.clear();
+                      });
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          chat,
+                          color: Colors.white,
+                          size: 24,
+                        ),
+                        const SizedBox(width: 25),
+                        Text(
+                          translation(context).messageText,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.45,
+                  height: 50,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: MyTheme.greenColor,
+                      padding: const EdgeInsets.all(10.0),
+                    ),
+                    onPressed: () {
+                      var bottomSheetController =
+                          scaffoldKey.currentState?.showBottomSheet(
+                        (context) => SendOffer(
+                          formKey: _formKey,
+                          controller: offerController,
+                          servicesViewModel: allServiceViewModel,
+                        ),
+                      );
+
+                      // showFoatingActionButton(false);
+                      bottomSheetController!.closed.then((value) {
+                        offerController.clear();
+                      });
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          dollor,
+                          color: Colors.white,
+                          size: 24,
+                        ),
+                        const SizedBox(width: 25),
+                        Text(
+                          translation(context).offerText,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

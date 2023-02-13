@@ -277,6 +277,23 @@ class MyServiceViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // BUMP UP POST
+  Future<void> bumpUpPost({
+    required BuildContext context,
+    required String serviceId,
+  }) async {
+    setLoad(true);
+    final response = await serviceRepo.bumpUpMyService(serviceId: serviceId);
+    if (response) {
+      Future.delayed(Duration.zero).then((value) {
+        Navigator.of(context).pop();
+        setLoad(false);
+        getMyPosterServices(context);
+        Utils.toastMessage('BumpUp My Job Successfully!');
+      });
+    }
+  }
+
   // DELETE POST
   Future<void> deleteMyPost({
     required BuildContext context,

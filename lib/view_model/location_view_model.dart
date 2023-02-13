@@ -9,6 +9,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../model/auto_complete_prediction.dart';
 import '../model/place_auto_complete.dart';
 import '../model/place_detail_model.dart';
+import '../utils/routes/routes_name.dart';
+import '../utils/shared_prefrences.dart';
 // import '../model/place_model.dart';
 
 // class LocationViewModel with ChangeNotifier {
@@ -226,14 +228,19 @@ class LocationViewModel with ChangeNotifier {
   PlaceDetailModel mySearchLocation = PlaceDetailModel.fromEmptyJson();
   // PlaceDetailModel placeDetailModel = PlaceDetailModel.fromEmptyJson();
   PlacesRepo placeWebService = PlacesRepo();
+  final prefrences = Prefrences();
   LatLng latLng = const LatLng(0.0, 0.0);
   String locationAddress = "";
+
+  LatLng? mylatLng;
+  String? mylocationAddress;
+  bool checkGetMyLocation = false;
 
   /// Determine the current position of the device.
   ///
   /// When the location services are not enabled or permissions
   /// are denied the `Future` will return an error.
-  Future<Position> _determinePosition() async {
+  Future<Position> _determinePosition(BuildContext context) async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -271,8 +278,15 @@ class LocationViewModel with ChangeNotifier {
     return await Geolocator.getCurrentPosition();
   }
 
-  getLatLong() {
-    Future<Position> data = _determinePosition();
+  bool _loading = false;
+  bool get loading => _loading;
+  setLoad(bool status) {
+    _loading = status;
+    notifyListeners();
+  }
+
+  getLatLong(BuildContext context) {
+    Future<Position> data = _determinePosition(context);
     data.then((value) {
       // print("value $value");
       // setState(() {
@@ -290,6 +304,34 @@ class LocationViewModel with ChangeNotifier {
     });
   }
 
+  getMyLatLong(BuildContext context) async {
+    setLoad(true);
+    Future<Position> data = _determinePosition(context);
+    await data.then((value) async {
+      // print("value $value");
+      // setState(() {
+      //   lat = value.latitude;
+      //   long = value.longitude;
+      // });
+      mylatLng = LatLng(value.latitude, value.longitude);
+      // latitude = value.latitude;
+      // longitude = value.longitude;
+
+      getMyAddress(value.latitude, value.longitude);
+      await prefrences.setSharedPreferenceBoolValue('myloc', true);
+
+      // notifyListeners();
+      // if (mylocationAddress.isNotEmpty) {
+      setLoad(false);
+      Future.delayed(const Duration(seconds: 3)).then((value) {
+        Navigator.of(context).pushReplacementNamed(RouteName.home);
+      });
+      // }
+    }).catchError((error) {
+      // print("Error $error");
+    });
+  }
+
   //For convert lat long to address
   getAddress(lat, long) async {
     List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
@@ -302,6 +344,32 @@ class LocationViewModel with ChangeNotifier {
     for (int i = 0; i < placemarks.length; i++) {
       // print("INDEX $i ${placemarks[i]}");
     }
+    print(locationAddress);
+    // notifyListeners();
+  }
+
+  getMyAddress(lat, long) async {
+    List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
+    // '${address.street}, ${address.subLocality}, ${address.locality}, ${address.administrativeArea}, ${address.postalCode}, ${address.country}'
+    // setState(() {
+
+    // final address = placemarks;
+
+    // mylocationAddress =
+    //     "${placemarks[0].street!}, ${placemarks[0].locality!}, ${placemarks[0].administrativeArea!}, ${placemarks[0].postalCode!}, ${placemarks[0].country!}";
+
+    mylocationAddress =
+        "${placemarks[0].administrativeArea!}, ${placemarks[0].country!}";
+    // });
+
+    // mylocationAddress.replaceAll(', ,', ',');
+
+    // mylocationAddress = address
+
+    for (int i = 0; i < placemarks.length; i++) {
+      // print("INDEX $i ${placemarks[i]}");
+    }
+    print(mylocationAddress);
     // notifyListeners();
   }
 
@@ -342,4 +410,34 @@ class LocationViewModel with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void getMyPlaceDetail(String placeId) async {
+    mySearchLocation = await placeWebService.fetchPlacesDetail(placeId);
+    // print(mySearchLocation.placeAddress);
+    if (mySearchLocation.placeAddress.isNotEmpty) {
+      mylocationAddress = mySearchLocation.placeAddress;
+      mylatLng = mySearchLocation.placeLocation;
+    }
+    notifyListeners();
+  }
+
+  // LatLng? _center;
+  // Position? currentLocation;
+
+  // Future<Position> locateUser() async {
+  //   return Geolocator.getCurrentPosition(
+  //     desiredAccuracy: LocationAccuracy.high,
+  //   );
+  // }
+
+  // getUserLocation() async {
+  //   Future<Position> data = _determinePosition();
+  //   // currentLocation = await locateUser();
+
+  //   data.then((value) {
+  //     _center = LatLng(currentLocation!.latitude, currentLocation!.longitude);
+  //     notifyListeners();
+  //   });
+  //   print('center $_center');
+  // }
 }

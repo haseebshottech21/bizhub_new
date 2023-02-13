@@ -4,6 +4,10 @@ class RouteName {
   static const String loading = '/loading_screen';
   static const String authNotLogin = '/auth_not_login';
 
+  // Location
+  static const String getMyAddress = '/my_location_address';
+  static const String otherAddress = '/other_location_address';
+
   // Authentication
   static const String welcome = '/welcome_screen';
   static const String login = '/login_view';

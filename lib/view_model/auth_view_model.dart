@@ -6,6 +6,7 @@ import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/utils/shared_prefrences.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../model/report_model.dart';
 import '../model/user_model.dart';
 import '../repo/auth_repo.dart';
 import '../utils/utils.dart';
@@ -462,6 +463,79 @@ class AuthViewModel extends ChangeNotifier {
         // NotificationRepo().deleteFcmToken();
         // print('Successfully Login');
         Utils.toastMessage('Logged Out');
+      });
+    }
+  }
+
+  String? reportReasonText;
+  List<ReportModel> reportedData = [];
+
+  // selectReportedReason(int index) {
+  //   for (var element in reportedData) {
+  //     element.isSelected = false;
+  //   }
+  //   reportedData[index].isSelected = true;
+  //   reportReasonText = reportedData[index].reportText;
+  //   print(reportReasonText);
+  //   notifyListeners();
+  // }
+
+  // selectCategory(String id) {
+  //   if (id == categoryId) {
+  //     categoryId = '';
+  //   } else {
+  //     categoryId = id;
+  //   }
+  //   notifyListeners();
+  // }
+  String? reportedId;
+
+  getReportedDate() {
+    reportedData = [];
+    reportedData.add(ReportModel(false, 'Inappriopate post'));
+    reportedData.add(ReportModel(false, 'This user is threatenting me'));
+    reportedData.add(ReportModel(false, 'This is a fake account'));
+    reportedData.add(ReportModel(false, 'Spam'));
+    reportedData.add(ReportModel(false, 'Fraud'));
+    reportedData.add(ReportModel(false, 'Other'));
+  }
+
+  selectReportedReason(int index) {
+    for (var element in reportedData) {
+      element.isSelected = false;
+    }
+    reportedData[index].isSelected = true;
+    reportReasonText = reportedData[index].reportText;
+    notifyListeners();
+  }
+
+  unSelectReportedReason(TextEditingController controller) {
+    for (var element in reportedData) {
+      element.isSelected = false;
+    }
+    if (controller.text.isNotEmpty) {
+      controller.clear();
+    }
+    notifyListeners();
+  }
+
+  Future<void> reportUser({
+    required dynamic data,
+    required BuildContext context,
+    required TextEditingController controller,
+  }) async {
+    setLoad(true);
+    await Future.delayed(const Duration(seconds: 1));
+    // final loadedData = await chatRepo.sendOfferApi(data);
+    final loadedData = await authRepo.reportOtherUser(data);
+    if (loadedData == null) {
+      setLoad(false);
+    } else if (loadedData != null) {
+      setLoad(false);
+      await Future.delayed(const Duration(seconds: 1)).then((value) {
+        controller.clear();
+        Utils.toastMessage('Reported User Success!');
+        Navigator.pop(context);
       });
     }
   }

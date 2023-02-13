@@ -1,5 +1,6 @@
 import 'package:bizhub_new/components/deafult_button.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
+import 'package:bizhub_new/utils/shared_prefrences.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,9 +16,7 @@ class WithoutAuthScreen extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(systemNavigationBarColor: Colors.white),
     );
-
     final arg = ModalRoute.of(context)!.settings.arguments as bool;
-
     // print(checkArgument);
     return WillPopScope(
       onWillPop: arg
@@ -26,12 +25,15 @@ class WithoutAuthScreen extends StatelessWidget {
               final shouldPop = Navigator.of(context).maybePop();
               return shouldPop;
             }
-          : () {
+          : () async {
+              final myLocationEnable =
+                  await Prefrences().getSharedPreferenceBoolValue('myloc') ??
+                      false;
               final shouldPop =
                   Provider.of<BottomNavigationViewModel>(context, listen: false)
                       .toggleCurrentIndex(0);
               Navigator.of(context).pushNamedAndRemoveUntil(
-                RouteName.home,
+                myLocationEnable ? RouteName.home : RouteName.getMyAddress,
                 (route) => false,
               );
               return shouldPop;
@@ -46,12 +48,17 @@ class WithoutAuthScreen extends StatelessWidget {
                 ? () {
                     Navigator.of(context).pop();
                   }
-                : () {
+                : () async {
+                    final myLocationEnable = await Prefrences()
+                            .getSharedPreferenceBoolValue('myloc') ??
+                        false;
                     Provider.of<BottomNavigationViewModel>(context,
                             listen: false)
                         .toggleCurrentIndex(0);
                     Navigator.of(context).pushNamedAndRemoveUntil(
-                      RouteName.home,
+                      myLocationEnable
+                          ? RouteName.home
+                          : RouteName.getMyAddress,
                       (route) => false,
                     );
                   },

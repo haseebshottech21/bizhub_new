@@ -3,6 +3,7 @@ import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/utils/shared_prefrences.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../language/language_constant.dart';
 import '../../view_model/category_view_model.dart';
 
 class FilterScreen extends StatefulWidget {
@@ -39,11 +40,9 @@ class _FilterScreenState extends State<FilterScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Filter',
-          style: TextStyle(
-            color: Colors.black,
-          ),
+        title: Text(
+          translation(context).filterText,
+          style: const TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.white,
         automaticallyImplyLeading: true,
@@ -60,7 +59,10 @@ class _FilterScreenState extends State<FilterScreen> {
               onPressed: () {
                 context.read<CategoryViewModel>().clearFilter(context);
               },
-              child: const Text('Reset', style: TextStyle(fontSize: 17)),
+              child: Text(
+                translation(context).resetText,
+                style: const TextStyle(fontSize: 17),
+              ),
             ),
           ),
         ],
@@ -117,9 +119,9 @@ class _FilterScreenState extends State<FilterScreen> {
                   //   ),
                   // ),
                   const SizedBox(height: 20),
-                  const Text(
-                    'Select Categories',
-                    style: TextStyle(
+                  Text(
+                    translation(context).selectCategoriesText,
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
                     ),
@@ -183,7 +185,7 @@ class _FilterScreenState extends State<FilterScreen> {
                   Consumer<CategoryViewModel>(
                     builder: (context, categoriesViewModel, _) {
                       return DeafultButton(
-                        title: 'Apply',
+                        title: translation(context).applyText,
                         isloading: categoriesViewModel.btnLoading,
                         onPress: categoriesViewModel.selectedIndexList.isEmpty
                             ? null

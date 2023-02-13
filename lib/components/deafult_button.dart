@@ -69,14 +69,17 @@ class DeafultButton extends StatelessWidget {
 }
 
 class DeafultIconButton extends StatelessWidget {
-  final String title;
+  final String title, loadingTitle;
   final VoidCallback? onPress;
   final IconData icon;
   final Color color;
+  final bool isloading;
   const DeafultIconButton({
     required this.title,
     required this.onPress,
     required this.icon,
+    this.isloading = false,
+    this.loadingTitle = 'Please wait...',
     this.color = MyTheme.greenColor,
     Key? key,
   }) : super(key: key);
@@ -84,7 +87,7 @@ class DeafultIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: onPress,
+      onPressed: isloading ? null : onPress,
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.all(10.0),
         elevation: 0,
@@ -93,25 +96,45 @@ class DeafultIconButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(2),
         ),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            color: Colors.white,
-            size: 24,
-          ),
-          SizedBox(width: Utils.getDeviceType() == 'phone' ? 15 : 25),
-          Text(
-            title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.w400,
+      child: isloading
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  icon,
+                  color: Colors.white,
+                  size: 24,
+                ),
+                SizedBox(width: Utils.getDeviceType() == 'phone' ? 15 : 25),
+                Text(
+                  loadingTitle,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  icon,
+                  color: Colors.white,
+                  size: 24,
+                ),
+                SizedBox(width: Utils.getDeviceType() == 'phone' ? 15 : 25),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }

@@ -56,11 +56,11 @@ class SelectLanguage extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text(
-                              e.flag,
-                              style: const TextStyle(fontSize: 26),
-                            ),
-                            const SizedBox(width: 20),
+                            // Text(
+                            //   e.flag,
+                            //   style: const TextStyle(fontSize: 26),
+                            // ),
+                            const SizedBox(width: 12),
                             Text(
                               e.name,
                               style: const TextStyle(color: Colors.black),

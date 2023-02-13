@@ -35,7 +35,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
     Timer(
       Duration.zero,
       () => Navigator.of(context)
-          .pushNamedAndRemoveUntil(RouteName.home, (route) => false),
+          .pushNamedAndRemoveUntil(RouteName.getMyAddress, (route) => false),
     );
   }
 

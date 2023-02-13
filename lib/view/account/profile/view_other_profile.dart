@@ -2,11 +2,14 @@ import 'package:bizhub_new/model/user_model.dart';
 import 'package:bizhub_new/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../model/report_model.dart';
 import '../../../utils/app_url.dart';
 import '../../../utils/mytheme.dart';
 import '../../../widgets/common/cached_image.dart';
 import '../../../widgets/common/empty_profile.dart';
 import '../component/profile_description.dart';
+// import '../component/report_reason_item.dart';
+import '../component/report_user_bottom.dart';
 import '../component/view_profile.dart';
 
 class ViewOtherProfile extends StatefulWidget {
@@ -17,10 +20,16 @@ class ViewOtherProfile extends StatefulWidget {
 }
 
 class _ViewOtherProfileState extends State<ViewOtherProfile> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final _formKey = GlobalKey<FormState>();
+  final commentController = TextEditingController();
+  // List<ReportModel> reportedData = [];
+
   showOtherProile() async {
     final profileViewModel = Provider.of<AuthViewModel>(context, listen: false);
     final UserModel profile =
         ModalRoute.of(context)!.settings.arguments as UserModel;
+    await profileViewModel.getReportedDate();
     await profileViewModel.viewOtherProfile(
       context: context,
       userId: profile.userId.toString(),
@@ -32,24 +41,74 @@ class _ViewOtherProfileState extends State<ViewOtherProfile> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => showOtherProile(),
+      (_) {
+        showOtherProile();
+        // reportedData();
+      },
     );
   }
 
+  // void reportedData() {
+  //   final profileViewModel = Provider.of<AuthViewModel>(context, listen: false);
+  // }
+
   @override
   Widget build(BuildContext context) {
+    // final profileViewModel = Provider.of<AuthViewModel>(context, listen: false);
     final size = MediaQuery.of(context).size;
     final UserModel profile =
         ModalRoute.of(context)!.settings.arguments as UserModel;
 
-    // print(profile.image);
+    // print(profile.userId);
 
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: MyTheme.greenColor,
+        actions: const [
+          // PopupMenuButton<int>(
+          //   elevation: 0,
+          //   position: PopupMenuPosition.under,
+          //   onSelected: (value) {
+          //     if (value == 1) {
+          //       // print('reported user');
+
+          //       scaffoldKey.currentState?.showBottomSheet(
+          //         enableDrag: false,
+          //         (context) {
+          //           return ReportUserBottom(
+          //             reportUserId: profile.userId.toString(),
+          //             controller: commentController,
+          //             formKey: _formKey,
+          //           );
+          //         },
+          //       );
+          //       // _showDialog(context);
+          //       // if value 2 show dialog
+          //     }
+          //     // your logic
+          //     // setState(() {
+          //     //   // selectedItem = value.toString();
+          //     // });
+          //     // print(value);
+          //     // Navigator.pushNamed(context, value.toString());
+          //   },
+          //   itemBuilder: (BuildContext bc) {
+          //     return const [
+          //       PopupMenuItem(
+          //         value: 1,
+          //         child: Text(
+          //           "Report user",
+          //           style: TextStyle(color: Colors.black),
+          //         ),
+          //       ),
+          //     ];
+          //   },
+          // )
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -86,6 +145,10 @@ class _ViewOtherProfileState extends State<ViewOtherProfile> {
                   );
                 }
                 return ProfileDescription(
+                  formKey: _formKey,
+                  scaffoldKey: scaffoldKey,
+                  controller: commentController,
+                  userModel: profile,
                   description: authViewModel.viewUser!.description == null
                       ? 'No description added yet.'
                       : authViewModel.viewUser!.description.toString(),

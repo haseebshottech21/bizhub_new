@@ -369,9 +369,9 @@ class WithoutAuthMore extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Log in',
-                          style: TextStyle(
+                        Text(
+                          translation(context).loginText,
+                          style: const TextStyle(
                             fontSize: 24,
                             letterSpacing: 0.5,
                             color: Colors.white,
@@ -390,10 +390,12 @@ class WithoutAuthMore extends StatelessWidget {
                             );
                           },
                           child: Text(
-                            'Log in to your account',
+                            translation(context).loginToYourAccountText,
                             style: TextStyle(
                               color: Colors.grey.shade50,
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.w500,
+                              decoration: TextDecoration.underline,
+                              decorationStyle: TextDecorationStyle.solid,
                               fontSize: 16,
                               letterSpacing: 0.5,
                             ),
@@ -406,6 +408,14 @@ class WithoutAuthMore extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 15),
+            moreItem(
+              context: context,
+              text: translation(context).selectLanguage,
+              iconData: CupertinoIcons.globe,
+              onTap: () {
+                Navigator.pushNamed(context, RouteName.selectLanguage);
+              },
+            ),
             moreItem(
               context: context,
               text: translation(context).aboutUs,
@@ -434,7 +444,7 @@ class WithoutAuthMore extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(12.0, 16.0, 12.0, 14.0),
               child: DeafultButton(
-                title: 'Login or Register',
+                title: translation(context).loginOrRegister,
                 onPress: () {
                   Navigator.push(
                     context,

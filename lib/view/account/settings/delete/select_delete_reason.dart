@@ -120,9 +120,7 @@ class ReasonItem extends StatelessWidget {
                 width: 1.0,
                 color: radioModel.isSelected ? Colors.transparent : Colors.grey,
               ),
-              borderRadius: const BorderRadius.all(
-                Radius.circular(50.0),
-              ),
+              borderRadius: const BorderRadius.all(Radius.circular(50.0)),
               // shape: BoxShape.circle,
             ),
           ),

@@ -11,7 +11,7 @@ class Language {
       // Language(1, "🇦🇫", "فارسی", "fa"),
       Language(1, "🇺🇸", "English", "en"),
       // Language(3, "🇸🇦", "اَلْعَرَبِيَّةُ", "ar"),
-      Language(2, "🇪🇸", "España", "es")
+      Language(2, "🇪🇸", "Español", "es")
       // Language(2, "🇪🇸", "Español", "es")
     ];
   }

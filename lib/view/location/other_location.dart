@@ -1,31 +1,33 @@
-import 'package:bizhub_new/utils/mytheme.dart';
+import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../view_model/location_view_model.dart';
 
-class SearchLocationScreen extends StatefulWidget {
-  const SearchLocationScreen({Key? key}) : super(key: key);
+import '../../utils/mytheme.dart';
+import '../../view_model/location_view_model.dart';
+
+class MyOtherLocation extends StatefulWidget {
+  const MyOtherLocation({Key? key}) : super(key: key);
 
   @override
-  State<SearchLocationScreen> createState() => _SearchLocationScreenState();
+  State<MyOtherLocation> createState() => _MyOtherLocationState();
 }
 
-class _SearchLocationScreenState extends State<SearchLocationScreen> {
-  final TextEditingController controller = TextEditingController();
+final TextEditingController controller = TextEditingController();
 
+class _MyOtherLocationState extends State<MyOtherLocation> {
   @override
   Widget build(BuildContext context) {
     final locationViewModel =
         Provider.of<LocationViewModel>(context, listen: true);
-    final size = MediaQuery.of(context).size;
+    // final size = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
         title: const Text(
-          'Search Location',
+          'Locations',
           style: TextStyle(
             color: Colors.black,
             fontSize: 20,
@@ -60,11 +62,20 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
               },
               style: const TextStyle(color: Colors.black),
               textInputAction: TextInputAction.search,
+              // autofocus: true,
               decoration: InputDecoration(
-                border: InputBorder.none,
-                fillColor: Colors.grey.shade100,
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.green),
+                ),
+                fillColor: Colors.grey.shade50,
                 filled: true,
-                hintText: 'Search your location',
+                hintText: 'Search area, city or country',
+                enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.green),
+                ),
+                focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.green),
+                ),
               ),
             ),
           ),
@@ -73,29 +84,29 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
           //   thickness: 2,
           //   color: Colors.black12,
           // ),
-          Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
-            child: ElevatedButton.icon(
-              onPressed: () {
-                locationViewModel.getLatLong(context);
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(CupertinoIcons.location_fill),
-              label: const Text(
-                'My Current Location',
-                // style: TextStyle(color: Colors.white),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: MyTheme.greenColor,
-                foregroundColor: Colors.white,
-                elevation: 1,
-                fixedSize: Size(size.width, 45),
-                // shape: const RoundedRectangleBorder(
-                //   borderRadius: BorderRadius.all(Radius.circular(4)),
-                // ),
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
+          //   child: ElevatedButton.icon(
+          //     onPressed: () {
+          //       // locationViewModel.getLatLong(context);
+          //       Navigator.of(context).pop();
+          //     },
+          //     icon: const Icon(CupertinoIcons.location_fill),
+          //     label: const Text(
+          //       'My Current Location',
+          //       // style: TextStyle(color: Colors.white),
+          //     ),
+          //     style: ElevatedButton.styleFrom(
+          //       backgroundColor: MyTheme.greenColor,
+          //       foregroundColor: Colors.white,
+          //       elevation: 1,
+          //       fixedSize: Size(size.width, 45),
+          //       // shape: const RoundedRectangleBorder(
+          //       //   borderRadius: BorderRadius.all(Radius.circular(4)),
+          //       // ),
+          //     ),
+          //   ),
+          // ),
           const Divider(
             height: 1.5,
             thickness: 1.5,
@@ -111,10 +122,12 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
                     onTap: () {
                       // print(placePrediction[index].description!);
                       // print(placePrediction[index].placeId!);
-                      locationViewModel.getNewPlaceDetail(
+                      locationViewModel.getMyPlaceDetail(
                         locationViewModel.placePrediction[index].placeId!,
                       );
-                      Navigator.of(context).pop();
+                      // Navigator.pushAndRemoveUntil(context, RouteName.home, (route) => false);
+                      Navigator.of(context)
+                          .pushReplacementNamed(RouteName.home);
                     },
                     location:
                         locationViewModel.placePrediction[index].description!,

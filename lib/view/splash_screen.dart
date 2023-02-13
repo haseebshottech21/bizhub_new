@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:bizhub_new/view/location/my_location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../utils/mytheme.dart';
@@ -43,6 +44,9 @@ class _SplashScreenState extends State<SplashScreen>
     // print('MY TOKEN: ${SplashScreen.token}');
     final firstTime =
         await prefrences.getSharedPreferenceValue('first_time') ?? '0';
+    final myLocationEnable =
+        await prefrences.getSharedPreferenceBoolValue('myloc') ?? false;
+    print('Location Enabled: $myLocationEnable');
     // // final image = await prefrences.getSharedPreferenceValue('image');
     // print('token ' + token.toString());
     // // print('image ' + image.toString());
@@ -60,10 +64,12 @@ class _SplashScreenState extends State<SplashScreen>
               .pushNamedAndRemoveUntil(RouteName.onboard, (route) => false),
         );
       } else {
-        // print('object 2');
         Timer(
           const Duration(milliseconds: 2500),
-          () => Navigator.of(context).pushReplacementNamed(RouteName.home).then(
+          () => Navigator.of(context)
+              .pushReplacementNamed(
+                  myLocationEnable ? RouteName.home : RouteName.getMyAddress)
+              .then(
                 (value) => Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                     builder: (ctx) => const WithoutAuthScreen(),
@@ -75,12 +81,28 @@ class _SplashScreenState extends State<SplashScreen>
                 ),
               ),
         );
+        // Code work before
+        // Timer(
+        //   const Duration(milliseconds: 2500),
+        //   () => Navigator.of(context).pushReplacementNamed(RouteName.home).then(
+        //         (value) => Navigator.of(context).pushAndRemoveUntil(
+        //           MaterialPageRoute(
+        //             builder: (ctx) => const WithoutAuthScreen(),
+        //             settings: const RouteSettings(
+        //               arguments: false,
+        //             ),
+        //           ),
+        //           (route) => false,
+        //         ),
+        //       ),
+        // );
       }
     } else {
       Timer(
         const Duration(milliseconds: 2500),
-        () => Navigator.of(context)
-            .pushNamedAndRemoveUntil(RouteName.home, (route) => false),
+        () => Navigator.of(context).pushNamedAndRemoveUntil(
+            myLocationEnable ? RouteName.home : RouteName.getMyAddress,
+            (route) => false),
       );
     }
   }

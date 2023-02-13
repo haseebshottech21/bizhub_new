@@ -22,6 +22,8 @@ import 'package:bizhub_new/view/create/select_service.dart';
 import 'package:bizhub_new/view/auth/without_auth_screen.dart';
 import 'package:bizhub_new/view/home/filter_screen.dart';
 import 'package:bizhub_new/view/home/search_posts.dart';
+import 'package:bizhub_new/view/location/my_location.dart';
+import 'package:bizhub_new/view/location/other_location.dart';
 import 'package:bizhub_new/view/navigation/bottom_navigation.dart';
 import 'package:bizhub_new/view/onboard_screen.dart';
 import 'package:bizhub_new/view/posts/my_posts.dart';
@@ -60,6 +62,10 @@ class RouteGenerator {
       case RouteName.otpSuccess:
         return MaterialPageRoute(
             builder: (context) => const OTPSuccessScreen());
+      case RouteName.getMyAddress:
+        return MaterialPageRoute(builder: (context) => const MyLocation());
+      case RouteName.otherAddress:
+        return MaterialPageRoute(builder: (context) => const MyOtherLocation());
       case RouteName.home:
         return MaterialPageRoute(
             builder: (context) => const NavigatoionBarScreen());

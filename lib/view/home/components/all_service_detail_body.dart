@@ -3,6 +3,7 @@ import 'package:bizhub_new/view/account/profile/view_other_profile.dart';
 import 'package:bizhub_new/view/home/components/google_map_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import '../../../language/language_constant.dart';
 import '../../../utils/mytheme.dart';
 import '../../../view_model/all_services_view_model.dart';
 import '../../../view_model/bottom_navigation_view_model.dart';
@@ -32,7 +33,7 @@ class AllServiceDetailBody extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SizedBox(
-              height: size.height * 0.28,
+              height: size.height * 0.35,
               child: allServiceViewModel.serviceDetalModel!.imagesList!.isEmpty
                   ? Container(
                       width: size.width,
@@ -56,18 +57,15 @@ class AllServiceDetailBody extends StatelessWidget {
                                 fadeInDuration:
                                     const Duration(milliseconds: 300),
                                 placeholder: (context, url) => Container(
-                                  // height: size.height * 0.55,
-                                  // width: size.width,
-                                  padding: const EdgeInsets.all(50.0),
+                                  width: size.width,
                                   color: Colors.black,
                                   child: Image.asset(
-                                    'assets/images/bizhub3.png',
-                                    fit: BoxFit.contain,
+                                    'assets/images/bizhub_logo.png',
                                   ),
                                 ),
                                 imageUrl: AppUrl.baseUrl +
                                     serviceImages.image!.toString(),
-                                fit: BoxFit.contain,
+                                fit: BoxFit.cover,
                               ),
                               Positioned(
                                 right: 8,
@@ -78,16 +76,16 @@ class AllServiceDetailBody extends StatelessWidget {
                                     horizontal: 10,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: Colors.black.withOpacity(0.3),
-                                    borderRadius: BorderRadius.circular(20),
+                                    color: MyTheme.greenColor.withOpacity(0.8),
+                                    borderRadius: BorderRadius.circular(16),
                                   ),
                                   child: Center(
                                     child: Text(
                                       '${index + 1}/${allServiceViewModel.serviceDetalModel!.imagesList!.length}',
                                       style: const TextStyle(
                                         color: Colors.white,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
                                         letterSpacing: 2,
                                       ),
                                     ),
@@ -124,9 +122,9 @@ class AllServiceDetailBody extends StatelessWidget {
                   const SizedBox(height: 5),
                   const Divider(),
                   const SizedBox(height: 5),
-                  const Text(
-                    'Description',
-                    style: TextStyle(
+                  Text(
+                    translation(context).postDesctiptionTitle,
+                    style: const TextStyle(
                       fontSize: 18,
                       color: Colors.black87,
                       fontWeight: FontWeight.w500,
@@ -194,9 +192,9 @@ class AllServiceDetailBody extends StatelessWidget {
                                 style: const TextStyle(fontSize: 16),
                               ),
                               const SizedBox(height: 2),
-                              const Text(
-                                'VIEW PROFILE',
-                                style: TextStyle(
+                              Text(
+                                translation(context).viewYourProfile,
+                                style: const TextStyle(
                                   color: MyTheme.greenColor,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 15,
@@ -217,9 +215,9 @@ class AllServiceDetailBody extends StatelessWidget {
                   const SizedBox(height: 5),
                   const Divider(),
                   const SizedBox(height: 5),
-                  const Text(
-                    'Location',
-                    style: TextStyle(
+                  Text(
+                    translation(context).postLocationTitle,
+                    style: const TextStyle(
                       fontSize: 18,
                       color: Colors.black87,
                       fontWeight: FontWeight.w500,

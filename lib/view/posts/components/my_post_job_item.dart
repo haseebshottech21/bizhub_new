@@ -189,6 +189,35 @@ class MyPostJobItem extends StatelessWidget {
                                                       // }
                                                     },
                                                   ),
+                                                  BottomModalAction(
+                                                      text: 'Bump Up',
+                                                      onTap: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (context) =>
+                                                              simpleDialog(
+                                                            context: context,
+                                                            title:
+                                                                'Bump Up My Post ?',
+                                                            subTitle:
+                                                                'This will refresh the post to the top of the list ?',
+                                                            onPressed: () {
+                                                              context
+                                                                  .read<
+                                                                      MyServiceViewModel>()
+                                                                  .bumpUpPost(
+                                                                    serviceId: serviceModel
+                                                                        .serviceId
+                                                                        .toString(),
+                                                                    context:
+                                                                        context,
+                                                                  );
+                                                            },
+                                                          ),
+                                                        );
+                                                      }),
                                                   if (serviceModel
                                                           .serviceStatus ==
                                                       '0')

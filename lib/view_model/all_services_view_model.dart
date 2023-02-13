@@ -47,6 +47,13 @@ class AllServicesViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _success = false;
+  bool get success => _success;
+  setSuccess(bool status) {
+    _success = status;
+    notifyListeners();
+  }
+
   // bool _hasMore = true;
   // bool get hasMore => _hasMore;
   // setHasMore(bool status) {
@@ -280,53 +287,74 @@ class AllServicesViewModel extends ChangeNotifier {
   Future<void> sendOffer({
     required dynamic data,
     required BuildContext context,
-    TextEditingController? controller,
+    required TextEditingController controller,
   }) async {
     setOfferLoad(true);
+    await Future.delayed(const Duration(seconds: 1));
     final loadedData = await chatRepo.sendOfferApi(data);
-    // // print(loadedData);
     if (loadedData == null) {
-      setLoad(false);
+      setOfferLoad(false);
     } else if (loadedData != null) {
-      Future.delayed(Duration.zero).then(
-        (value) async {
-          Utils.toastMessage('Offer Send Successfully!');
-          Navigator.of(context).pop();
-          controller!.clear();
-          // notification.sendNotification(
-          //   notiTitle: 'Offer',
-          //   notiBody:
-          //       '${await prefernce.getSharedPreferenceValue('firstname')} send you Offer',
-          //   notifyToken: notificationId,
-          //   data: 'send-offer',
-          //   requestId: chatId,
-          // );
-          setOfferLoad(false);
-        },
-      );
+      setOfferLoad(false);
+      setSuccess(true);
+      await Future.delayed(const Duration(seconds: 1)).then((value) {
+        controller.clear();
+        Utils.toastMessage('Offer send successfully!');
+        Navigator.pop(context);
+        setSuccess(false);
+      });
     }
   }
+  // Future<void> sendOffer({
+  //   required dynamic data,
+  //   required BuildContext context,
+  //   TextEditingController? controller,
+  // }) async {
+  //   setOfferLoad(true);
+  //   final loadedData = await chatRepo.sendOfferApi(data);
+  //   // // print(loadedData);
+  //   if (loadedData == null) {
+  //     setLoad(false);
+  //   } else if (loadedData != null) {
+  //     Future.delayed(Duration.zero).then(
+  //       (value) async {
+  //         Utils.toastMessage('Offer Send Successfully!');
+  //         Navigator.of(context).pop();
+  //         controller!.clear();
+  //         // notification.sendNotification(
+  //         //   notiTitle: 'Offer',
+  //         //   notiBody:
+  //         //       '${await prefernce.getSharedPreferenceValue('firstname')} send you Offer',
+  //         //   notifyToken: notificationId,
+  //         //   data: 'send-offer',
+  //         //   requestId: chatId,
+  //         // );
+  //         setOfferLoad(false);
+  //       },
+  //     );
+  //   }
+  // }
 
   // SEND MESSAGE
   Future<void> sendMessage({
     required dynamic data,
     required BuildContext context,
-    TextEditingController? controller,
+    required TextEditingController controller,
   }) async {
     setOfferLoad(true);
+    await Future.delayed(const Duration(seconds: 1));
     final loadedData = await chatRepo.sendOfferApi(data);
-    // // print(loadedData);
     if (loadedData == null) {
       setOfferLoad(false);
     } else if (loadedData != null) {
-      Future.delayed(Duration.zero).then(
-        (value) async {
-          Utils.toastMessage('Message Send Successfully!');
-          Navigator.of(context).pop();
-          controller!.clear();
-          setOfferLoad(false);
-        },
-      );
+      setOfferLoad(false);
+      setSuccess(true);
+      await Future.delayed(const Duration(seconds: 1)).then((value) {
+        controller.clear();
+        Utils.toastMessage('Message send successfully!');
+        Navigator.pop(context);
+        setSuccess(false);
+      });
     }
   }
 }

@@ -172,7 +172,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
             widget.allServiceViewModel.serviceDetalModel!.longitude.toString(),
           ),
         ),
-        radius: 280,
+        radius: 2000,
         strokeWidth: 1,
         strokeColor: Colors.white,
         fillColor: const Color.fromRGBO(52, 186, 37, .6),
@@ -184,7 +184,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return SizedBox(
-      height: size.height * 0.20,
+      height: size.height * 0.22,
       // child: GoogleMap(
       //   onMapCreated: _onMapCreated,
       //   mapType: MapType.normal,
@@ -221,8 +221,8 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
                   .toString(),
             ),
           ),
-          zoom: 15,
-          bearing: 10,
+          zoom: 12,
+          bearing: 8,
         ),
         markers: _markers,
         circles: _circles,
