@@ -48,38 +48,52 @@ class BottomNavigationViewModel with ChangeNotifier {
       Navigator.of(context).pushNamed(RouteName.selectService);
     }
   }
-}
 
-class BottomController with ChangeNotifier {
-  int bottomSelectedIndex = 0;
+  bool? myLocationEnable;
 
-  PageController pageController = PageController(
-    initialPage: 0,
-    keepPage: true,
-  );
-
-  void pageChanged(int index) {
-    bottomSelectedIndex = index;
-    notifyListeners();
-  }
-
-  void bottomTapped(int index) {
-    bottomSelectedIndex = index;
-    pageController.animateToPage(
-      index,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.ease,
-    );
-    notifyListeners();
-  }
-
-  void goToYellow() {
-    bottomSelectedIndex = 2;
-    pageController.animateToPage(
-      2,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.ease,
-    );
-    notifyListeners();
+  routeCheck(BuildContext context) async {
+    final navigator = Navigator.of(context);
+    myLocationEnable =
+        await Prefrences().getSharedPreferenceBoolValue('myloc') ?? false;
+    if (myLocationEnable!) {
+      navigator.pushNamedAndRemoveUntil(RouteName.home, (route) => false);
+    } else {
+      navigator.pushNamedAndRemoveUntil(
+          RouteName.getMyAddress, (route) => false);
+    }
   }
 }
+
+// class BottomController with ChangeNotifier {
+//   int bottomSelectedIndex = 0;
+
+//   PageController pageController = PageController(
+//     initialPage: 0,
+//     keepPage: true,
+//   );
+
+//   void pageChanged(int index) {
+//     bottomSelectedIndex = index;
+//     notifyListeners();
+//   }
+
+//   void bottomTapped(int index) {
+//     bottomSelectedIndex = index;
+//     pageController.animateToPage(
+//       index,
+//       duration: const Duration(milliseconds: 500),
+//       curve: Curves.ease,
+//     );
+//     notifyListeners();
+//   }
+
+//   void goToYellow() {
+//     bottomSelectedIndex = 2;
+//     pageController.animateToPage(
+//       2,
+//       duration: const Duration(milliseconds: 500),
+//       curve: Curves.ease,
+//     );
+//     notifyListeners();
+//   }
+// }

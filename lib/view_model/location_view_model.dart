@@ -1,7 +1,9 @@
 // import 'dart:convert';
+// import 'dart:math';
 import 'package:bizhub_new/repo/places_repo.dart';
 // import 'package:bizhub_new/utils/shared_prefrences.dart';
 import 'package:flutter/material.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -226,15 +228,51 @@ class LocationViewModel with ChangeNotifier {
   // double? latitude;
   // double? longitude;
   PlaceDetailModel mySearchLocation = PlaceDetailModel.fromEmptyJson();
+  PlaceDetailModel myCurrentLocation = PlaceDetailModel.fromEmptyJson();
   // PlaceDetailModel placeDetailModel = PlaceDetailModel.fromEmptyJson();
   PlacesRepo placeWebService = PlacesRepo();
   final prefrences = Prefrences();
   LatLng latLng = const LatLng(0.0, 0.0);
   String locationAddress = "";
 
-  LatLng? mylatLng;
-  String? mylocationAddress;
+  LatLng mylatLng = const LatLng(0.0, 0.0);
+  String mylocationAddress = "";
   bool checkGetMyLocation = false;
+
+  PlaceDetailModel placeDetailModel = PlaceDetailModel.fromEmptyJson();
+
+  // updateMyLocation() {
+  //   if (placeDetailModel.placeAddress.isNotEmpty) {
+  //     myCurrentLocation = placeDetailModel;
+  //     setLocalCoordinates(placeDetailModel);
+  //     notifyListeners();
+  //     print(myCurrentLocation.placeAddress);
+  //     print(myCurrentLocation.placeLocation.latitude);
+  //     print(myCurrentLocation.placeLocation.longitude);
+  //     // Navigator.of(context).pop();
+  //   } else {
+  //     Fluttertoast.showToast(msg: "Please select a location");
+  //   }
+  // }
+
+  // setLocalCoordinates(PlaceDetailModel placeModel) async {
+  //   // placeDetailModel = PlaceDetailModel(
+  //   //   placeAddress: getAddress,
+  //   //   placeLocation: coordinate,
+  //   // );
+  //   await prefrences.setSharedPreferenceValue(
+  //     'longitude',
+  //     placeModel.placeLocation.longitude.toString(),
+  //   );
+  //   await prefrences.setSharedPreferenceValue(
+  //     'latitude',
+  //     placeModel.placeLocation.latitude.toString(),
+  //   );
+  //   await prefrences.setSharedPreferenceValue(
+  //       'myAddress', placeModel.placeAddress);
+  //   // notifyListeners();
+  //   // getLocalCoordinates();
+  // }
 
   /// Determine the current position of the device.
   ///
@@ -285,9 +323,15 @@ class LocationViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  getLatLong(BuildContext context) {
+  getMyCurrentLocation() async {
+    mylocationAddress =
+        await prefrences.getSharedPreferenceValue('myLocationAddress') ?? '';
+    // print(mylocationAddress);
+  }
+
+  Future<void> getLatLong(BuildContext context) async {
     Future<Position> data = _determinePosition(context);
-    data.then((value) {
+    await data.then((value) async {
       // print("value $value");
       // setState(() {
       //   lat = value.latitude;
@@ -297,14 +341,16 @@ class LocationViewModel with ChangeNotifier {
       // latitude = value.latitude;
       // longitude = value.longitude;
 
-      getAddress(value.latitude, value.longitude);
+      await getAddress(value.latitude, value.longitude);
       notifyListeners();
     }).catchError((error) {
       // print("Error $error");
     });
   }
 
-  getMyLatLong(BuildContext context) async {
+  Future<LatLng?> getMyLatLong({
+    required BuildContext context,
+  }) async {
     setLoad(true);
     Future<Position> data = _determinePosition(context);
     await data.then((value) async {
@@ -317,19 +363,30 @@ class LocationViewModel with ChangeNotifier {
       // latitude = value.latitude;
       // longitude = value.longitude;
 
-      getMyAddress(value.latitude, value.longitude);
+      // getMyAddress(value.latitude, value.longitude);
+      await getLocationFromCoordinates(mylatLng);
       await prefrences.setSharedPreferenceBoolValue('myloc', true);
+      await prefrences.setSharedPreferenceValue(
+          'myLocationAddress', mylocationAddress);
+
+      // notifyListeners();
 
       // notifyListeners();
       // if (mylocationAddress.isNotEmpty) {
+      // print('mylocation : ' + mylocationAddress);
       setLoad(false);
+
       Future.delayed(const Duration(seconds: 3)).then((value) {
         Navigator.of(context).pushReplacementNamed(RouteName.home);
       });
+
+      return mylatLng;
       // }
     }).catchError((error) {
       // print("Error $error");
+      return error;
     });
+    return null;
   }
 
   //For convert lat long to address
@@ -348,30 +405,55 @@ class LocationViewModel with ChangeNotifier {
     // notifyListeners();
   }
 
-  getMyAddress(lat, long) async {
-    List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
-    // '${address.street}, ${address.subLocality}, ${address.locality}, ${address.administrativeArea}, ${address.postalCode}, ${address.country}'
-    // setState(() {
+  // Future<void> getStoreLocationIfExist(BuildContext context) async {
+  //   final longitude = await prefrences.getSharedPreferenceValue('longitude');
+  //   // final latitude = await utilities.getSharedPreferenceValue('latitude');
+  //   // final address = await utilities.getSharedPreferenceValue('address');
+  //   print('$longitude long');
+  //   // print('$latitude lat');
+  //   // print('$address address');
+  //   if (longitude == null) {
+  //     LatLng currentCordinates =
+  //         await getMyLatLong(context: context) ?? const LatLng(0.0, 0.0);
+  //     myCurrentLocation = PlaceDetailModel(
+  //       placeAddress: mylocationAddress,
+  //       placeLocation: currentCordinates,
+  //     );
+  //   }
+  //   if (longitude != null) {
+  //     await getLocalCoordinates();
+  //   }
+  //   notifyListeners();
+  // }
 
-    // final address = placemarks;
-
+  Future<void> getLocationFromCoordinates(LatLng coordinate) async {
+    List<Placemark> placeMarks = await placemarkFromCoordinates(
+      coordinate.latitude,
+      coordinate.longitude,
+    );
+    final address = placeMarks.first;
     // mylocationAddress =
-    //     "${placemarks[0].street!}, ${placemarks[0].locality!}, ${placemarks[0].administrativeArea!}, ${placemarks[0].postalCode!}, ${placemarks[0].country!}";
+    //     '${address.street}, ${address.subLocality}, ${address.locality}, ${address.administrativeArea}, ${address.postalCode}, ${address.country}';
+    mylocationAddress = '${address.administrativeArea}, ${address.country}';
+    mylocationAddress = mylocationAddress.replaceAll(', ,', ',');
 
-    mylocationAddress =
-        "${placemarks[0].administrativeArea!}, ${placemarks[0].country!}";
-    // });
-
-    // mylocationAddress.replaceAll(', ,', ',');
-
-    // mylocationAddress = address
-
-    for (int i = 0; i < placemarks.length; i++) {
-      // print("INDEX $i ${placemarks[i]}");
-    }
-    print(mylocationAddress);
-    // notifyListeners();
+    print(address.administrativeArea);
   }
+
+  // Future<void> getLocalCoordinates() async {
+  //   final longitude = await prefrences.getSharedPreferenceValue('longitude');
+  //   final latitude = await prefrences.getSharedPreferenceValue('latitude');
+  //   final address = await prefrences.getSharedPreferenceValue('myAddress');
+
+  //   myCurrentLocation = PlaceDetailModel(
+  //     placeAddress: address.toString(),
+  //     placeLocation: LatLng(
+  //       double.parse(latitude.toString()),
+  //       double.parse(longitude.toString()),
+  //     ),
+  //   );
+  //   notifyListeners();
+  // }
 
   String mapAPIKEY = 'AIzaSyCSD5azLj8EdgAmcNdIFAq08bhij-4O7RU';
 
@@ -412,32 +494,29 @@ class LocationViewModel with ChangeNotifier {
   }
 
   void getMyPlaceDetail(String placeId) async {
-    mySearchLocation = await placeWebService.fetchPlacesDetail(placeId);
+    myCurrentLocation = await placeWebService.fetchPlacesDetail(placeId);
     // print(mySearchLocation.placeAddress);
-    if (mySearchLocation.placeAddress.isNotEmpty) {
-      mylocationAddress = mySearchLocation.placeAddress;
-      mylatLng = mySearchLocation.placeLocation;
+    if (myCurrentLocation.placeAddress.isNotEmpty) {
+      mylocationAddress = myCurrentLocation.placeAddress;
+      mylatLng = myCurrentLocation.placeLocation;
+
+      List<Placemark> placeMarks = await placemarkFromCoordinates(
+        myCurrentLocation.placeLocation.latitude,
+        myCurrentLocation.placeLocation.longitude,
+      );
+      final address = placeMarks.first;
+      // mylocationAddress =
+      //     '${address.street}, ${address.subLocality}, ${address.locality}, ${address.administrativeArea}, ${address.postalCode}, ${address.country}';
+      mylocationAddress =
+          ' ${address.locality}, ${address.administrativeArea}, ${address.postalCode}, ${address.country}';
+      mylocationAddress =
+          mylocationAddress.replaceAll(', ,', ',').replaceAll(' ,', '');
     }
+
+    await prefrences.setSharedPreferenceBoolValue('myloc', true);
+    await prefrences.setSharedPreferenceValue(
+        'myLocationAddress', mylocationAddress);
+    // print(mylocationAddress);
     notifyListeners();
   }
-
-  // LatLng? _center;
-  // Position? currentLocation;
-
-  // Future<Position> locateUser() async {
-  //   return Geolocator.getCurrentPosition(
-  //     desiredAccuracy: LocationAccuracy.high,
-  //   );
-  // }
-
-  // getUserLocation() async {
-  //   Future<Position> data = _determinePosition();
-  //   // currentLocation = await locateUser();
-
-  //   data.then((value) {
-  //     _center = LatLng(currentLocation!.latitude, currentLocation!.longitude);
-  //     notifyListeners();
-  //   });
-  //   print('center $_center');
-  // }
 }

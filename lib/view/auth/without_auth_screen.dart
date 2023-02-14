@@ -1,6 +1,5 @@
 import 'package:bizhub_new/components/deafult_button.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
-import 'package:bizhub_new/utils/shared_prefrences.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,15 +7,22 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../view_model/bottom_navigation_view_model.dart';
 
-class WithoutAuthScreen extends StatelessWidget {
+class WithoutAuthScreen extends StatefulWidget {
   const WithoutAuthScreen({Key? key}) : super(key: key);
 
+  @override
+  State<WithoutAuthScreen> createState() => _WithoutAuthScreenState();
+}
+
+class _WithoutAuthScreenState extends State<WithoutAuthScreen> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(systemNavigationBarColor: Colors.white),
     );
     final arg = ModalRoute.of(context)!.settings.arguments as bool;
+    final provider =
+        Provider.of<BottomNavigationViewModel>(context, listen: false);
     // print(checkArgument);
     return WillPopScope(
       onWillPop: arg
@@ -26,16 +32,12 @@ class WithoutAuthScreen extends StatelessWidget {
               return shouldPop;
             }
           : () async {
-              final myLocationEnable =
-                  await Prefrences().getSharedPreferenceBoolValue('myloc') ??
-                      false;
-              final shouldPop =
-                  Provider.of<BottomNavigationViewModel>(context, listen: false)
-                      .toggleCurrentIndex(0);
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                myLocationEnable ? RouteName.home : RouteName.getMyAddress,
-                (route) => false,
-              );
+              final shouldPop = provider.toggleCurrentIndex(0);
+              provider.routeCheck(context);
+              // Navigator.of(context).pushNamedAndRemoveUntil(
+              //   myLocationEnable ? RouteName.home : RouteName.getMyAddress,
+              //   (route) => false,
+              // );
               return shouldPop;
             },
       child: Scaffold(
@@ -49,18 +51,8 @@ class WithoutAuthScreen extends StatelessWidget {
                     Navigator.of(context).pop();
                   }
                 : () async {
-                    final myLocationEnable = await Prefrences()
-                            .getSharedPreferenceBoolValue('myloc') ??
-                        false;
-                    Provider.of<BottomNavigationViewModel>(context,
-                            listen: false)
-                        .toggleCurrentIndex(0);
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      myLocationEnable
-                          ? RouteName.home
-                          : RouteName.getMyAddress,
-                      (route) => false,
-                    );
+                    provider.toggleCurrentIndex(0);
+                    provider.routeCheck(context);
                   },
             icon: const Icon(
               Icons.clear,

@@ -2,6 +2,7 @@ import 'package:bizhub_new/components/custom_loader.dart';
 import 'package:bizhub_new/components/no_internet.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
+import 'package:bizhub_new/utils/shared_prefrences.dart';
 import 'package:bizhub_new/view/home/components/all_services_items.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,9 +12,11 @@ import '../../language/language_constant.dart';
 import '../../services/local_notification.dart';
 import '../../utils/utils.dart';
 import '../../view_model/all_services_view_model.dart';
+// import '../../view_model/auth_view_model.dart';
 import '../../view_model/bottom_navigation_view_model.dart';
 import '../../view_model/location_view_model.dart';
 import '../auth/without_auth_screen.dart';
+import '../location/other_location.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -24,62 +27,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final prefrences = Prefrences();
   final phoneDevice = Utils.getDeviceType() == 'phone';
-
-  // void getToken() async {
-  //   await FirebaseMessaging.instance.getToken().then((token) {
-  //     MyApp.notifyToken = token.toString();
-  //     // print('token: $token');
-  //   });
-  //   print('app_token: ${MyApp.notifyToken}');
-  // }
 
   storeNotificationToken() async {
     await FirebaseMessaging.instance.getToken().then((value) {
       setState(() {
         HomeScreen.notifyToken = value.toString();
-        print('app_token: ${HomeScreen.notifyToken}');
+        // print('app_token: ${HomeScreen.notifyToken}');
       });
     });
   }
 
-  // Future<void> setUpRequestNotification() async {
-  //   FirebaseMessaging messaging = FirebaseMessaging.instance;
-  //   NotificationSettings settings = await messaging.requestPermission(
-  //     alert: true,
-  //     announcement: false,
-  //     badge: true,
-  //     carPlay: false,
-  //     criticalAlert: false,
-  //     provisional: false,
-  //     sound: true,
-  //   );
-
-  //   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-  //     print('User granted permission');
-  //   } else if (settings.authorizationStatus ==
-  //       AuthorizationStatus.provisional) {
-  //     print('User granted provisional permission');
-  //   } else {
-  //     print('User declined or has not accept permission');
-  //   }
-  // }
-
   @override
   void initState() {
     super.initState();
-    // LocalNotificationService.requestPermissions();
     NotificationService().initNotification();
-    // setUpRequestNotification();
-    // await LocalNotifiaction().requestPermissions();
-    // Provider.of<AuthViewModel>(context, listen: false).setPrefrenceValues();
-
-    // FirebaseMessaging.onMessage.listen((event) {
-    //   print('FCM received message');
-    //   LocalNotificationService.display(event);
-    // });
     storeNotificationToken();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      getLocation();
       checkAuthServices();
       final provider =
           Provider.of<AllServicesViewModel>(context, listen: false);
@@ -90,6 +56,11 @@ class _HomeScreenState extends State<HomeScreen> {
       provider.controller = ScrollController()
         ..addListener(provider.getAllServiceMore);
     });
+  }
+
+  Future<void> getLocation() async {
+    await Provider.of<LocationViewModel>(context, listen: false)
+        .getMyCurrentLocation();
   }
 
   Future<void> checkAuthServices() async {
@@ -104,11 +75,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // final auth = context.watch<AuthViewModel>();
+
     final size = MediaQuery.of(context).size;
     final provider = Provider.of<AllServicesViewModel>(context);
-    final locationViewModel =
-        Provider.of<LocationViewModel>(context, listen: true);
+    // final locationViewModel =
+    //     Provider.of<LocationViewModel>(context, listen: true);
     final bottomProvider = Provider.of<BottomNavigationViewModel>(context);
+
+    // print(locationViewModel.mylocationAddress);
 
     return OrientationBuilder(
       builder: (context, orientation) {
@@ -214,8 +189,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           InkWell(
                             onTap: () {
-                              Navigator.pushNamed(
-                                  context, RouteName.otherAddress);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (ctx) => const MyOtherLocation(),
+                                  settings: const RouteSettings(
+                                    arguments: false,
+                                  ),
+                                ),
+                              );
                             },
                             child: Row(
                               children: [
@@ -233,16 +215,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Expanded(
                                   child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
-                                    child: Text(
-                                      locationViewModel.mylocationAddress ==
-                                              null
-                                          ? 'Choose'
-                                          : locationViewModel
-                                              .mylocationAddress!,
-                                      style: const TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                    child: Consumer<LocationViewModel>(
+                                      builder: (context, locationViewModel, _) {
+                                        return Text(
+                                          locationViewModel
+                                                  .mylocationAddress.isEmpty
+                                              ? 'Choose'
+                                              : locationViewModel
+                                                  .mylocationAddress,
+                                          style: const TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ),
                                 ),

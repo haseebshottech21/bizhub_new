@@ -7,6 +7,7 @@ import '../repo/chat_repo.dart';
 import '../repo/notification_repo.dart';
 import '../repo/service_repo.dart';
 import '../utils/utils.dart';
+// import 'auth_view_model.dart';
 
 class AllServicesViewModel extends ChangeNotifier {
   final serviceRepo = ServiceRepository();

@@ -118,7 +118,6 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => ChatViewModel()),
         ChangeNotifierProvider(create: (_) => LocationViewModel()),
         ChangeNotifierProvider(create: (_) => BottomNavigationViewModel()),
-        ChangeNotifierProvider(create: (_) => BottomController()),
       ],
       child: MaterialApp(
         builder: ((context, child) => ResponsiveWrapper.builder(

@@ -1,9 +1,10 @@
-import 'package:bizhub_new/utils/routes/routes_name.dart';
+// import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/mytheme.dart';
+import '../../utils/routes/routes_name.dart';
 import '../../view_model/location_view_model.dart';
 
 class MyOtherLocation extends StatefulWidget {
@@ -20,7 +21,10 @@ class _MyOtherLocationState extends State<MyOtherLocation> {
   Widget build(BuildContext context) {
     final locationViewModel =
         Provider.of<LocationViewModel>(context, listen: true);
-    // final size = MediaQuery.of(context).size;
+    final firstRequestLocation =
+        ModalRoute.of(context)!.settings.arguments as bool;
+
+    // controller.text = locationViewModel.mylocationAddress;
 
     return Scaffold(
       appBar: AppBar(
@@ -125,9 +129,13 @@ class _MyOtherLocationState extends State<MyOtherLocation> {
                       locationViewModel.getMyPlaceDetail(
                         locationViewModel.placePrediction[index].placeId!,
                       );
-                      // Navigator.pushAndRemoveUntil(context, RouteName.home, (route) => false);
-                      Navigator.of(context)
-                          .pushReplacementNamed(RouteName.home);
+                      controller.clear();
+                      if (firstRequestLocation) {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            RouteName.home, (route) => false);
+                      } else {
+                        Navigator.pop(context);
+                      }
                     },
                     location:
                         locationViewModel.placePrediction[index].description!,

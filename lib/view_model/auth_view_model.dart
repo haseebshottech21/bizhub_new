@@ -24,7 +24,7 @@ class AuthViewModel extends ChangeNotifier {
 
   checkToken() async {
     token = await prefrences.getSharedPreferenceValue('token');
-    print('TOKEN: $token');
+    // print('TOKEN: $token');
   }
 
   bool passwordHide = true;
@@ -119,6 +119,7 @@ class AuthViewModel extends ChangeNotifier {
     'image': '',
     'email': '',
     'phone': '',
+    'currentLocation': '',
   };
 
   Future<void> setPrefrenceValues() async {
@@ -127,12 +128,15 @@ class AuthViewModel extends ChangeNotifier {
     final image = await prefrences.getSharedPreferenceValue('image');
     final email = await prefrences.getSharedPreferenceValue('email');
     final phone = await prefrences.getSharedPreferenceValue('phone');
+    final currentLocation =
+        await prefrences.getSharedPreferenceValue('currentLocation');
     prefrence = {
       'firstName': firstName.toString(),
       'lastName': lastName.toString(),
       'image': image.toString(),
       'email': email.toString(),
       'phone': phone.toString(),
+      'currentLocation': currentLocation.toString(),
     };
     // print(prefrence);
     notifyListeners();

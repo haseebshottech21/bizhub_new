@@ -1,5 +1,6 @@
 import 'package:bizhub_new/components/deafult_button.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
+import 'package:bizhub_new/view/location/other_location.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -65,7 +66,9 @@ class MyLocation extends StatelessWidget {
                   loadingTitle: 'Getting location',
                   title: 'Near me',
                   onPress: () {
-                    provider.getMyLatLong(context);
+                    provider.getMyLatLong(context: context);
+                    // provider.getStoreLocationIfExist(context);
+                    // provider.updateMyLocation();
                   },
                 ),
               );
@@ -73,10 +76,19 @@ class MyLocation extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              Navigator.pushNamed(
+              // Navigator.pushNamed(
+              //   context,
+              //   RouteName.otherAddress,
+              //   arguments: true,
+              // );
+              Navigator.push(
                 context,
-                RouteName.otherAddress,
-                arguments: false,
+                MaterialPageRoute(
+                  builder: (ctx) => const MyOtherLocation(),
+                  settings: const RouteSettings(
+                    arguments: true,
+                  ),
+                ),
               );
             },
             child: const Text(
