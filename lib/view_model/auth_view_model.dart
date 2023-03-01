@@ -1,7 +1,5 @@
-// import 'package:bizhub_new/model/user_model.dart';
 import 'dart:convert';
 import 'dart:io';
-// import 'package:bizhub_new/repo/notification_repo.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/utils/shared_prefrences.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +17,6 @@ class AuthViewModel extends ChangeNotifier {
   UserModel? user;
   UserModel? viewUser;
   String? token;
-
-  // bool isLoading = false;
 
   checkToken() async {
     token = await prefrences.getSharedPreferenceValue('token');
@@ -422,7 +418,7 @@ class AuthViewModel extends ChangeNotifier {
   }) async {
     setLoad(true);
     final loadedData = await authRepo.deleteUserApi(data);
-    print(loadedData);
+    // print(loadedData);
     if (loadedData == null) {
       setLoad(false);
     } else if (loadedData != null) {
@@ -496,8 +492,8 @@ class AuthViewModel extends ChangeNotifier {
 
   getReportedDate() {
     reportedData = [];
-    reportedData.add(ReportModel(false, 'Inappriopate post'));
-    reportedData.add(ReportModel(false, 'This user is threatenting me'));
+    reportedData.add(ReportModel(false, 'Inappropriate post'));
+    reportedData.add(ReportModel(false, 'This user is threatening me'));
     reportedData.add(ReportModel(false, 'This is a fake account'));
     reportedData.add(ReportModel(false, 'Spam'));
     reportedData.add(ReportModel(false, 'Fraud'));
@@ -529,7 +525,7 @@ class AuthViewModel extends ChangeNotifier {
     required TextEditingController controller,
   }) async {
     setLoad(true);
-    await Future.delayed(const Duration(seconds: 1));
+    // await Future.delayed(Duration.zero);
     // final loadedData = await chatRepo.sendOfferApi(data);
     final loadedData = await authRepo.reportOtherUser(data);
     if (loadedData == null) {

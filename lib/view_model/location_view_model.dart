@@ -1,19 +1,15 @@
-// import 'dart:convert';
-// import 'dart:math';
 import 'package:bizhub_new/repo/places_repo.dart';
-// import 'package:bizhub_new/utils/shared_prefrences.dart';
 import 'package:flutter/material.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-// import '../model/place_detail_model.dart';
+import 'package:provider/provider.dart';
 import '../model/auto_complete_prediction.dart';
 import '../model/place_auto_complete.dart';
 import '../model/place_detail_model.dart';
 import '../utils/routes/routes_name.dart';
 import '../utils/shared_prefrences.dart';
-// import '../model/place_model.dart';
+import 'all_services_view_model.dart';
 
 // class LocationViewModel with ChangeNotifier {
 //   PlaceDetailModel myCurrentLocation = PlaceDetailModel.fromEmptyJson();
@@ -29,7 +25,7 @@ import '../utils/shared_prefrences.dart';
 //   set setAddress(
 //     String address,
 //   ) {
-//     this.address = address;
+//     this.addresdress;
 //     notifyListeners();
 //   }
 
@@ -255,24 +251,21 @@ class LocationViewModel with ChangeNotifier {
   //   }
   // }
 
-  // setLocalCoordinates(PlaceDetailModel placeModel) async {
-  //   // placeDetailModel = PlaceDetailModel(
-  //   //   placeAddress: getAddress,
-  //   //   placeLocation: coordinate,
-  //   // );
-  //   await prefrences.setSharedPreferenceValue(
-  //     'longitude',
-  //     placeModel.placeLocation.longitude.toString(),
-  //   );
-  //   await prefrences.setSharedPreferenceValue(
-  //     'latitude',
-  //     placeModel.placeLocation.latitude.toString(),
-  //   );
-  //   await prefrences.setSharedPreferenceValue(
-  //       'myAddress', placeModel.placeAddress);
-  //   // notifyListeners();
-  //   // getLocalCoordinates();
-  // }
+  setLocalCoordinates(PlaceDetailModel placeModel) async {
+    await prefrences.setSharedPreferenceValue(
+      'myLocationlongitude',
+      placeModel.placeLocation.longitude.toString(),
+    );
+    await prefrences.setSharedPreferenceValue(
+      'myLocationlatitude',
+      placeModel.placeLocation.latitude.toString(),
+    );
+    await prefrences.setSharedPreferenceValue(
+      'myLocationAddress',
+      placeModel.placeAddress,
+    );
+    getMyCurrentLocation();
+  }
 
   /// Determine the current position of the device.
   ///
@@ -323,10 +316,16 @@ class LocationViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  bool _btnloading = false;
+  bool get btnloading => _btnloading;
+  setBtnLoad(bool status) {
+    _btnloading = status;
+    notifyListeners();
+  }
+
   getMyCurrentLocation() async {
     mylocationAddress =
-        await prefrences.getSharedPreferenceValue('myLocationAddress') ?? '';
-    // print(mylocationAddress);
+        await prefrences.getSharedPreferenceValue('myLocationAddress');
   }
 
   Future<void> getLatLong(BuildContext context) async {
@@ -350,8 +349,10 @@ class LocationViewModel with ChangeNotifier {
 
   Future<LatLng?> getMyLatLong({
     required BuildContext context,
+    bool route = false,
   }) async {
-    setLoad(true);
+    setBtnLoad(true);
+    // setLoad(true);
     Future<Position> data = _determinePosition(context);
     await data.then((value) async {
       // print("value $value");
@@ -367,18 +368,35 @@ class LocationViewModel with ChangeNotifier {
       await getLocationFromCoordinates(mylatLng);
       await prefrences.setSharedPreferenceBoolValue('myloc', true);
       await prefrences.setSharedPreferenceValue(
-          'myLocationAddress', mylocationAddress);
+        'myLocationlongitude',
+        mylatLng.longitude.toString(),
+      );
+      await prefrences.setSharedPreferenceValue(
+        'myLocationlatitude',
+        mylatLng.latitude.toString(),
+      );
+      await prefrences.setSharedPreferenceValue(
+        'myLocationAddress',
+        mylocationAddress,
+      );
 
       // notifyListeners();
 
       // notifyListeners();
       // if (mylocationAddress.isNotEmpty) {
       // print('mylocation : ' + mylocationAddress);
-      setLoad(false);
+      setBtnLoad(false);
+      // setLoad(false);
 
-      Future.delayed(const Duration(seconds: 3)).then((value) {
-        Navigator.of(context).pushReplacementNamed(RouteName.home);
-      });
+      if (route) {
+        Future.delayed(const Duration(seconds: 1)).then((value) {
+          Navigator.of(context).pushReplacementNamed(RouteName.home);
+        });
+      } else {
+        Future.delayed(const Duration(seconds: 1)).then((value) async {
+          getAllSerices(context);
+        });
+      }
 
       return mylatLng;
       // }
@@ -401,7 +419,7 @@ class LocationViewModel with ChangeNotifier {
     for (int i = 0; i < placemarks.length; i++) {
       // print("INDEX $i ${placemarks[i]}");
     }
-    print(locationAddress);
+    // print(locationAddress);
     // notifyListeners();
   }
 
@@ -434,10 +452,11 @@ class LocationViewModel with ChangeNotifier {
     final address = placeMarks.first;
     // mylocationAddress =
     //     '${address.street}, ${address.subLocality}, ${address.locality}, ${address.administrativeArea}, ${address.postalCode}, ${address.country}';
-    mylocationAddress = '${address.administrativeArea}, ${address.country}';
+    mylocationAddress =
+        '${address.locality}, ${address.administrativeArea}, ${address.postalCode}, ${address.country}';
     mylocationAddress = mylocationAddress.replaceAll(', ,', ',');
 
-    print(address.administrativeArea);
+    // print(address.administrativeArea);
   }
 
   // Future<void> getLocalCoordinates() async {
@@ -493,7 +512,8 @@ class LocationViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void getMyPlaceDetail(String placeId) async {
+  Future<void> getMyPlaceDetail(String placeId) async {
+    setLoad(true);
     myCurrentLocation = await placeWebService.fetchPlacesDetail(placeId);
     // print(mySearchLocation.placeAddress);
     if (myCurrentLocation.placeAddress.isNotEmpty) {
@@ -508,15 +528,40 @@ class LocationViewModel with ChangeNotifier {
       // mylocationAddress =
       //     '${address.street}, ${address.subLocality}, ${address.locality}, ${address.administrativeArea}, ${address.postalCode}, ${address.country}';
       mylocationAddress =
-          ' ${address.locality}, ${address.administrativeArea}, ${address.postalCode}, ${address.country}';
+          '${address.locality}, ${address.administrativeArea}, ${address.postalCode}, ${address.country}';
       mylocationAddress =
           mylocationAddress.replaceAll(', ,', ',').replaceAll(' ,', '');
     }
 
     await prefrences.setSharedPreferenceBoolValue('myloc', true);
-    await prefrences.setSharedPreferenceValue(
-        'myLocationAddress', mylocationAddress);
-    // print(mylocationAddress);
+    await setLocalCoordinates(myCurrentLocation);
+    // await provider.getLatLong();
+    // await provider.checkAuth();
+
+    // print('setLong: ' + myCurrentLocation.placeLocation.longitude.toString());
+    // print('setLat: ' + myCurrentLocation.placeLocation.latitude.toString());
+
+    setLoad(false);
+  }
+
+  String? token;
+
+  Future<void> getAllSerices(BuildContext context) async {
+    final navigator = Navigator.of(context);
+    final serviceProvider =
+        Provider.of<AllServicesViewModel>(context, listen: false);
+    serviceProvider.page = 1;
+    serviceProvider.hasNextPage = true;
+    token = await prefrences.getSharedPreferenceValue('token');
+    Future.delayed(Duration.zero).then((value) async {
+      await serviceProvider.getLatLongAndMiles();
+      if (token == null || token == '') {
+        await serviceProvider.getAllServiceWithoutAuth();
+      } else {
+        await serviceProvider.getAllService();
+      }
+      navigator.pop();
+    });
     notifyListeners();
   }
 }

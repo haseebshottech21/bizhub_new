@@ -6,7 +6,7 @@ import 'package:bizhub_new/widgets/common/auth_botom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import '../../main.dart';
+import '../../language/language_constant.dart';
 import '../../utils/field_validator.dart';
 import '../../utils/routes/routes_name.dart';
 import '../../widgets/common/input_textfield.dart';
@@ -49,14 +49,14 @@ class _LoginScreenState extends State<LoginScreen> {
       const SystemUiOverlayStyle(systemNavigationBarColor: Colors.white),
     );
 
-    print('app_token on login: ${MyApp.notifyToken}');
+    // print('app_token on login: ${MyApp.notifyToken}');
 
     return Scaffold(
       backgroundColor: MyTheme.whiteColor,
       resizeToAvoidBottomInset: false,
       bottomSheet: AuthBottom(
-        title: 'Don\'t have an account?',
-        text: 'Sign Up!',
+        title: translation(context).dontHaveAccountTxt,
+        text: '${translation(context).signupTxt}!',
         onTap: () {
           Navigator.of(context).pushNamed(RouteName.signup);
         },
@@ -77,17 +77,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              const Text(
-                'WELCOME TO BIZHUB',
-                style: TextStyle(
+              Text(
+                translation(context).welcomeBizhubTxt,
+                style: const TextStyle(
                   fontSize: 26,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               const SizedBox(height: 10),
-              const Text(
-                'Sign in to continue',
-                style: TextStyle(
+              Text(
+                translation(context).signInToContinue,
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.normal,
                 ),
@@ -174,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Consumer<AuthViewModel>(
                       builder: (context, authViewModel, _) {
                         return DeafultButton(
-                          title: 'Log In',
+                          title: translation(context).loginTxt,
                           isloading: authViewModel.loading,
                           onPress: () {
                             validateAndLogin();

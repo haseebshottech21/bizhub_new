@@ -24,7 +24,7 @@ class ReportUserBottom extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.symmetric(horizontal: 12),
       // margin: const EdgeInsets.only(top: 5, left: 15, right: 15),
-      height: size.height * 0.52,
+      height: size.height * 0.50,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: const BorderRadius.only(
@@ -93,7 +93,7 @@ class ReportUserBottom extends StatelessWidget {
                       maxLines: 2,
                       cursorColor: MyTheme.greenColor,
                       style: const TextStyle(color: Colors.black),
-
+                      // textInputAction: TextInputAction.done,
                       decoration: const InputDecoration(
                         // filled: true,
                         // fillColor: Colors.grey[50],
@@ -106,7 +106,7 @@ class ReportUserBottom extends StatelessWidget {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.black87,
+                            color: MyTheme.greenColor,
                           ),
                         ),
                         enabledBorder: OutlineInputBorder(
@@ -159,13 +159,18 @@ class ReportUserBottom extends StatelessWidget {
                         };
 
                         if (formKey.currentState!.validate()) {
-                          print(data);
-
-                          // provider.reportUser(
-                          //   data: data,
-                          //   context: context,
-                          //   controller: controller,
-                          // );
+                          // print(data);
+                          provider
+                              .reportUser(
+                            data: data,
+                            context: context,
+                            controller: controller,
+                          )
+                              .then(
+                            (value) {
+                              provider.unSelectReportedReason(controller);
+                            },
+                          );
                         }
                       },
                       child: const Text(

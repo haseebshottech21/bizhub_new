@@ -1,4 +1,3 @@
-import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:flutter/material.dart';
 import '../components/deafult_button.dart';
 // import '../view/auth/without_auth_screen.dart';
@@ -34,10 +33,7 @@ class OnBoardWidget extends StatelessWidget {
           Align(
             alignment: Alignment.topRight,
             child: TextButton(
-              onPressed: () {
-                // Navigator.of(context).pushReplacementNamed(RouteName.welcome);
-                Navigator.of(context).pushReplacementNamed(RouteName.home);
-              },
+              onPressed: onPressed,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 6),
                 child: Container(

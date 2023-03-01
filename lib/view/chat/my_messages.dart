@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../components/custom_loader.dart';
+import '../../language/language_constant.dart';
 import '../../utils/app_url.dart';
 import '../../utils/mytheme.dart';
 import '../../view_model/chat_view_model.dart';
@@ -76,7 +77,7 @@ class _MyMessagesState extends State<MyMessages> {
   Widget build(BuildContext context) {
     Map? chat = ModalRoute.of(context)!.settings.arguments as Map;
 
-    print('IN Message:  ${chat['inner']}');
+    // print('IN Message:  ${chat['inner']}');
 
     return WillPopScope(
       onWillPop: () async {
@@ -244,7 +245,8 @@ class _MyMessagesState extends State<MyMessages> {
                                                     fontSize: 15,
                                                     color: Colors.grey.shade700,
                                                   ),
-                                                  hintText: 'Type a message',
+                                                  hintText: translation(context)
+                                                      .chatFieldHint,
                                                   border: InputBorder.none,
                                                   filled: true,
                                                   fillColor:

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:bizhub_new/components/custom_loader.dart';
 import 'package:bizhub_new/model/service_model.dart';
 import 'package:bizhub_new/utils/icons.dart';
@@ -9,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../../language/language_constant.dart';
 import '../../utils/mytheme.dart';
 import '../../view_model/bottom_navigation_view_model.dart';
+import '../auth/without_auth_screen.dart';
 import 'components/send_message.dart';
 import 'components/send_offer.dart';
 
@@ -51,103 +53,6 @@ class _AllServiceDetailState extends State<AllServiceDetail> {
 
     return Scaffold(
       key: scaffoldKey,
-
-      // floatingActionButton: showFab
-      //     ? Container(
-      //         color: Colors.green,
-      //         margin: EdgeInsets.only(left: 5),
-      //         child: Row(
-      //           mainAxisAlignment: MainAxisAlignment.center,
-      //           children: [
-      //             Expanded(
-      //               child: ElevatedButton(
-      //                 child: Text('button'),
-      //                 onPressed: () {
-      //                   var bottomSheetController =
-      //                       scaffoldKey.currentState?.showBottomSheet(
-      //                     (context) => Container(
-      //                       width: MediaQuery.of(context).size.width,
-      //                       // margin: const EdgeInsets.only(top: 5, left: 15, right: 15),
-      //                       height: 200,
-      //                       decoration: BoxDecoration(
-      //                         color: Colors.white,
-      //                         borderRadius: const BorderRadius.only(
-      //                           topLeft: Radius.circular(16),
-      //                           topRight: Radius.circular(16),
-      //                         ),
-      //                         boxShadow: kElevationToShadow[4],
-      //                       ),
-      //                       child: Column(
-      //                         mainAxisSize: MainAxisSize.max,
-      //                         mainAxisAlignment: MainAxisAlignment.start,
-      //                         children: [
-      //                           Container(
-      //                             height: 50,
-      //                             alignment: Alignment.center,
-      //                             padding: const EdgeInsets.symmetric(
-      //                                 horizontal: 10, vertical: 10),
-      //                             margin: const EdgeInsets.symmetric(
-      //                                 horizontal: 10, vertical: 10),
-      //                             decoration: BoxDecoration(
-      //                                 color: Colors.grey[100],
-      //                                 borderRadius: BorderRadius.circular(10)),
-      //                             child: const TextField(
-      //                               decoration: InputDecoration.collapsed(
-      //                                 hintText: 'Enter your message',
-      //                               ),
-      //                             ),
-      //                           ),
-      //                           !checkingFlight
-      //                               ? MaterialButton(
-      //                                   color: Colors.grey[800],
-      //                                   onPressed: () async {
-      //                                     setState(() {
-      //                                       checkingFlight = true;
-      //                                     });
-      //                                     await Future.delayed(
-      //                                         Duration(seconds: 1));
-      //                                     setState(() {
-      //                                       success = true;
-      //                                     });
-      //                                     await Future.delayed(
-      //                                         Duration(milliseconds: 500));
-      //                                     // Navigator.pop(context);
-      //                                   },
-      //                                   child: Text(
-      //                                     'Send Message',
-      //                                     style: TextStyle(color: Colors.white),
-      //                                   ),
-      //                                 )
-      //                               : !success
-      //                                   ? CircularProgressIndicator()
-      //                                   : Icon(
-      //                                       Icons.check,
-      //                                       color: Colors.green,
-      //                                     ),
-      //                         ],
-      //                       ),
-      //                     ),
-      //                   );
-
-      //                   showFoatingActionButton(false);
-      //                   bottomSheetController!.closed.then((value) {
-      //                     showFoatingActionButton(true);
-      //                   });
-      //                 },
-      //               ),
-      //             ),
-      //             Expanded(
-      //                 child: ElevatedButton(
-      //                     onPressed: () {}, child: Text('data'))),
-      //           ],
-      //         ),
-      //       )
-      //     : Container(),
-      // bottomSheet: ServicesDetailBottom(
-      //   messageController: messageController,
-      //   offerController: offerController,
-      // ),
-
       body: Stack(
         children: [
           // AllServiceDetailBody(allServiceViewModel: allServiceViewModel),
@@ -200,7 +105,7 @@ class _AllServiceDetailState extends State<AllServiceDetail> {
                   ),
                 ),
                 Positioned(
-                  top: 40,
+                  top: Platform.isIOS ? 55 : 40,
                   left: 20,
                   child: InkWell(
                     onTap: () {
@@ -217,7 +122,7 @@ class _AllServiceDetailState extends State<AllServiceDetail> {
             ),
           ),
           Positioned(
-            bottom: 5,
+            bottom: Platform.isIOS ? 35 : 20,
             left: 0,
             right: 0,
             child: Row(
@@ -231,19 +136,30 @@ class _AllServiceDetailState extends State<AllServiceDetail> {
                       backgroundColor: MyTheme.greenColor,
                       padding: const EdgeInsets.all(10.0),
                     ),
-                    onPressed: () {
-                      var bottomSheetController =
-                          scaffoldKey.currentState?.showBottomSheet(
-                        (context) => SendMessage(
-                          formKey: _formKey,
-                          controller: messageController,
-                          servicesViewModel: allServiceViewModel,
-                        ),
-                      );
-                      bottomSheetController!.closed.then((value) {
-                        messageController.clear();
-                      });
-                    },
+                    onPressed: bottomProvider.token == null ||
+                            bottomProvider.token == ''
+                        ? () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (ctx) => const WithoutAuthScreen(),
+                                settings: const RouteSettings(
+                                  arguments: true,
+                                ),
+                              ),
+                            )
+                        : () {
+                            var bottomSheetController =
+                                scaffoldKey.currentState?.showBottomSheet(
+                              (context) => SendMessage(
+                                formKey: _formKey,
+                                controller: messageController,
+                                servicesViewModel: allServiceViewModel,
+                              ),
+                            );
+                            bottomSheetController!.closed.then((value) {
+                              messageController.clear();
+                            });
+                          },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -274,21 +190,32 @@ class _AllServiceDetailState extends State<AllServiceDetail> {
                       backgroundColor: MyTheme.greenColor,
                       padding: const EdgeInsets.all(10.0),
                     ),
-                    onPressed: () {
-                      var bottomSheetController =
-                          scaffoldKey.currentState?.showBottomSheet(
-                        (context) => SendOffer(
-                          formKey: _formKey,
-                          controller: offerController,
-                          servicesViewModel: allServiceViewModel,
-                        ),
-                      );
+                    onPressed: bottomProvider.token == null ||
+                            bottomProvider.token == ''
+                        ? () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (ctx) => const WithoutAuthScreen(),
+                                settings: const RouteSettings(
+                                  arguments: true,
+                                ),
+                              ),
+                            )
+                        : () {
+                            var bottomSheetController =
+                                scaffoldKey.currentState?.showBottomSheet(
+                              (context) => SendOffer(
+                                formKey: _formKey,
+                                controller: offerController,
+                                servicesViewModel: allServiceViewModel,
+                              ),
+                            );
 
-                      // showFoatingActionButton(false);
-                      bottomSheetController!.closed.then((value) {
-                        offerController.clear();
-                      });
-                    },
+                            // showFoatingActionButton(false);
+                            bottomSheetController!.closed.then((value) {
+                              offerController.clear();
+                            });
+                          },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

@@ -7,13 +7,13 @@ import 'package:bizhub_new/view/home/components/all_services_items.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import '../../language/language_constant.dart';
-import '../../services/local_notification.dart';
 import '../../utils/utils.dart';
 import '../../view_model/all_services_view_model.dart';
-// import '../../view_model/auth_view_model.dart';
 import '../../view_model/bottom_navigation_view_model.dart';
+import '../../view_model/chat_view_model.dart';
 import '../../view_model/location_view_model.dart';
 import '../auth/without_auth_screen.dart';
 import '../location/other_location.dart';
@@ -31,22 +31,25 @@ class _HomeScreenState extends State<HomeScreen> {
   final phoneDevice = Utils.getDeviceType() == 'phone';
 
   storeNotificationToken() async {
+    FirebaseMessaging.instance.requestPermission();
     await FirebaseMessaging.instance.getToken().then((value) {
       setState(() {
         HomeScreen.notifyToken = value.toString();
-        // print('app_token: ${HomeScreen.notifyToken}');
+        print('app_token: ${HomeScreen.notifyToken}');
       });
     });
   }
 
   @override
   void initState() {
+    // init();
     super.initState();
-    NotificationService().initNotification();
     storeNotificationToken();
+    setupInteractedMessage();
+    // NotificationService().initNotification();
+    getLocation();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      getLocation();
-      checkAuthServices();
+      checkAndGetServices();
       final provider =
           Provider.of<AllServicesViewModel>(context, listen: false);
 
@@ -58,14 +61,109 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  Future<void> setupInteractedMessage() async {
+    final chatProvider = Provider.of<ChatViewModel>(context, listen: false);
+
+    // Get any messages which caused the application to open from
+    // a terminated state.
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+
+    // If the message also contains a data property with a "type" of "chat",
+    // navigate to a chat screen
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
+
+    // Also handle any interaction when the app is in the background via a
+    // Stream listener
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+
+    const AndroidNotificationChannel channel = AndroidNotificationChannel(
+      'bizchannel',
+      'biz channel',
+      importance: Importance.max,
+    );
+
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification!.android;
+
+      await chatProvider.getMyAllChatListSecond(context: context);
+
+      // If `onMessage` is triggered with a notification, construct our own
+      // local notification to show to users using the created channel.
+      if (chatProvider.onMessagesScreen) {
+        if (notification != null && android != null) {
+          flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                icon: android.smallIcon,
+                // other properties...
+              ),
+              iOS: const DarwinNotificationDetails(),
+            ),
+          );
+        }
+      }
+    });
+  }
+
+  void _handleMessage(RemoteMessage message) {}
+
+  // init() async {
+  //   String deviceToken = await getDeviceToken();
+  //   print("###### PRINT DEVICE TOKEN TO USE FOR PUSH NOTIFCIATION ######");
+  //   print(deviceToken);
+  //   print("############################################################");
+
+  //   // listen for user to click on notification
+  //   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage remoteMessage) {
+  //     String? title = remoteMessage.notification!.title;
+  //     String? description = remoteMessage.notification!.body;
+
+  //     //im gonna have an alertdialog when clicking from push notification
+  //     // Alert(
+  //     //   context: context,
+  //     //   type: AlertType.error,
+  //     //   title: title, // title from push notification data
+  //     //   desc: description, // description from push notifcation data
+  //     //   buttons: [
+  //     //     DialogButton(
+  //     //       child: Text(
+  //     //         "COOL",
+  //     //         style: TextStyle(color: Colors.white, fontSize: 20),
+  //     //       ),
+  //     //       onPressed: () => Navigator.pop(context),
+  //     //       width: 120,
+  //     //     )
+  //     //   ],
+  //     // ).show();
+  //   });
+  // }
+
   Future<void> getLocation() async {
     await Provider.of<LocationViewModel>(context, listen: false)
         .getMyCurrentLocation();
   }
 
-  Future<void> checkAuthServices() async {
-    await Provider.of<AllServicesViewModel>(context, listen: false)
-        .checkAuth(context);
+  Future<void> checkAndGetServices() async {
+    final provider = Provider.of<AllServicesViewModel>(context, listen: false);
+    await provider.getLatLongAndMiles();
+    await provider.checkAuth();
   }
 
   Future<void> refresh() async {
@@ -199,46 +297,49 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               );
                             },
-                            child: Row(
-                              children: [
-                                const Icon(Icons.location_pin, size: 20),
-                                const SizedBox(width: 6),
-                                // Text(
-                                //   locationViewModel.mylocationAddress.isEmpty
-                                //       ? 'Choose'
-                                //       : locationViewModel.mylocationAddress,
-                                //   style: const TextStyle(
-                                //     fontSize: 17,
-                                //     fontWeight: FontWeight.w500,
-                                //   ),
-                                // ),
-                                Expanded(
-                                  child: SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Consumer<LocationViewModel>(
-                                      builder: (context, locationViewModel, _) {
-                                        return Text(
-                                          locationViewModel
-                                                  .mylocationAddress.isEmpty
-                                              ? 'Choose'
-                                              : locationViewModel
-                                                  .mylocationAddress,
-                                          style: const TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        );
-                                      },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.location_pin, size: 20),
+                                  const SizedBox(width: 6),
+                                  // Text(
+                                  //   locationViewModel.mylocationAddress.isEmpty
+                                  //       ? 'Choose'
+                                  //       : locationViewModel.mylocationAddress,
+                                  //   style: const TextStyle(
+                                  //     fontSize: 17,
+                                  //     fontWeight: FontWeight.w500,
+                                  //   ),
+                                  // ),
+                                  Expanded(
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Consumer<LocationViewModel>(
+                                        builder:
+                                            (context, locationViewModel, _) {
+                                          return Text(
+                                            locationViewModel
+                                                    .mylocationAddress.isEmpty
+                                                ? 'Choose'
+                                                : locationViewModel
+                                                    .mylocationAddress,
+                                            style: const TextStyle(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          );
+                                        },
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const SizedBox(width: 8),
-                                // const Icon(CupertinoIcons.chevron_down,
-                                //     size: 17),
-                              ],
+                                  const SizedBox(width: 8),
+                                  // const Icon(CupertinoIcons.chevron_down,
+                                  //     size: 17),
+                                ],
+                              ),
                             ),
                           ),
-                          const SizedBox(height: 10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -359,7 +460,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         if (provider.isLoadMoreRunning == true)
                           const Center(child: CupertinoActivityIndicator()),
                         if (provider.hasNextPage == false &&
-                            provider.allServiceList.length > 10)
+                            provider.allServiceList.length >= 10)
                           Center(
                             child: Text(translation(context).noMoreDataText),
                           ),
@@ -446,10 +547,28 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // @override
+  // void dispose() {
+  //   final provider = Provider.of<AllServicesViewModel>(context, listen: false);
+  //   provider.controller.dispose();
+  //   super.dispose();
+  // }
+
+  //get device token to use for push notification
+  // Future getDeviceToken() async {
+  //   //request user permission for push notification
+  //   FirebaseMessaging.instance.requestPermission();
+  //   FirebaseMessaging _firebaseMessage = FirebaseMessaging.instance;
+  //   String? deviceToken = await _firebaseMessage.getToken();
+  //   return (deviceToken == null) ? "" : deviceToken;
+  // }
+
   @override
   void dispose() {
     final provider = Provider.of<AllServicesViewModel>(context, listen: false);
-    provider.controller.dispose();
+    provider.controller.removeListener(() {
+      provider.getAllServiceMore;
+    });
     super.dispose();
   }
 

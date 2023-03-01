@@ -2,9 +2,8 @@ import 'package:bizhub_new/utils/shared_prefrences.dart';
 
 class AppUrl {
   final prefrences = Prefrences();
-  static var baseUrl = 'http://10.0.0.39:125';
-  // http://10.0.0.39:125
-  // static var baseUrl = 'https://dev.bizhub.ai/bizhub/public';
+  // static var baseUrl = 'http://10.0.0.39:125';
+  static var baseUrl = 'https://dev.bizhub.ai/bizhub/public';
 
   // Auth
   static var loginEndPoint = '$baseUrl/api/login';
@@ -24,7 +23,7 @@ class AppUrl {
   static var showUserEndPoint = '$baseUrl/api/show-user';
   static var reportUserEndPoint = '$baseUrl/api/report-user';
 
-  // Without Auth
+  // Without Auth0
   static var withoutAuthAllServiceEndPoint = '$baseUrl/api/all-services';
   static var withoutAuthAllServiceDetailEndPoint =
       '$baseUrl/api/service-detail-without-auth';

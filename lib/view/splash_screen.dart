@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:bizhub_new/view/location/my_location.dart';
+// import 'package:bizhub_new/view/location/my_location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../utils/mytheme.dart';
@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen>
         await prefrences.getSharedPreferenceValue('first_time') ?? '0';
     final myLocationEnable =
         await prefrences.getSharedPreferenceBoolValue('myloc') ?? false;
-    print('Location Enabled: $myLocationEnable');
+    // print('Location Enabled: $myLocationEnable');
     // // final image = await prefrences.getSharedPreferenceValue('image');
     // print('token ' + token.toString());
     // // print('image ' + image.toString());

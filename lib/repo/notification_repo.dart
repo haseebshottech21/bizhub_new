@@ -43,12 +43,12 @@ class NotificationRepo {
       );
 
       if (response.statusCode == 200) {
-        print("Yeh notificatin is sended");
+        // print("Yeh notificatin is sended");
       } else {
-        print("Error");
+        // print("Error");
       }
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
     }
   }
 

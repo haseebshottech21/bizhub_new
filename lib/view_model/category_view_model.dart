@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:bizhub_new/model/category_model.dart';
 import 'package:bizhub_new/repo/category_repo.dart';
 import 'package:bizhub_new/utils/shared_prefrences.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'all_services_view_model.dart';
 
@@ -109,12 +110,21 @@ class CategoryViewModel extends ChangeNotifier {
 
   // FILTER
   int selectedIndex = 0;
+  String? deafultMiles;
   bool selected = false;
   List<String> selectedIndexList = [];
+  List<MilesModel> selectedMilesList = [];
 
   clearFilter(BuildContext context) async {
+    clearMiles();
+    Provider.of<AllServicesViewModel>(context, listen: false).page = 1;
+    Provider.of<AllServicesViewModel>(context, listen: false).hasNextPage =
+        true;
+    Provider.of<AllServicesViewModel>(context, listen: false)
+        .getLatLongAndMiles();
     token = await prefrence.getSharedPreferenceValue('token');
     selectedIndexList = [];
+
     pref.setSharedPreferenceListValue("categories", selectedIndexList);
     Future.delayed(Duration.zero).then((value) async {
       Navigator.of(context).pop();
@@ -155,6 +165,8 @@ class CategoryViewModel extends ChangeNotifier {
     Provider.of<AllServicesViewModel>(context, listen: false).page = 1;
     Provider.of<AllServicesViewModel>(context, listen: false).hasNextPage =
         true;
+    Provider.of<AllServicesViewModel>(context, listen: false)
+        .getLatLongAndMiles();
     setBtnLoad(true);
     token = await prefrence.getSharedPreferenceValue('token');
     Future.delayed(Duration.zero).then((value) async {
@@ -175,4 +187,75 @@ class CategoryViewModel extends ChangeNotifier {
     });
     notifyListeners();
   }
+
+  getMiles() async {
+    if (selectedMilesList.isEmpty || selectedMilesList == []) {
+      selectedMilesList.addAll(
+        {
+          MilesModel(
+            miles: '5 miles',
+            selectMiles: false,
+          ),
+          MilesModel(
+            miles: '10 miles',
+            selectMiles: false,
+          ),
+          MilesModel(
+            miles: '20 miles',
+            selectMiles: false,
+          ),
+          MilesModel(
+            miles: '50 miles',
+            selectMiles: false,
+          ),
+          MilesModel(
+            miles: '100 miles',
+            selectMiles: false,
+          ),
+          MilesModel(
+            miles: '200 miles',
+            selectMiles: false,
+          ),
+          MilesModel(
+            miles: '500 miles',
+            selectMiles: false,
+          ),
+        },
+      );
+    }
+    // print(selectedIndexList);
+    // await pref.setSharedPreferenceListValue('milesList', selectedMilesList);
+  }
+
+  void selectMiles(String name) async {
+    for (var e in selectedMilesList) {
+      if (name == e.miles) {
+        selectedMilesList[selectedMilesList.indexOf(e)].selectMiles = true;
+        deafultMiles = name;
+        await pref.setSharedPreferenceValue('myLocationMiles', deafultMiles!);
+      } else {
+        selectedMilesList[selectedMilesList.indexOf(e)].selectMiles = false;
+      }
+    }
+    notifyListeners();
+  }
+
+  void clearMiles() async {
+    for (var e in selectedMilesList) {
+      selectedMilesList[selectedMilesList.indexOf(e)].selectMiles = false;
+      deafultMiles = '';
+      await pref.setSharedPreferenceValue('myLocationMiles', deafultMiles!);
+    }
+    notifyListeners();
+  }
+}
+
+class MilesModel {
+  String miles;
+  bool selectMiles;
+
+  MilesModel({
+    required this.miles,
+    required this.selectMiles,
+  });
 }

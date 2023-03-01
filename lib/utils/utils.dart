@@ -66,11 +66,20 @@ class Utils {
 
   // DATE FORMAT
   String dateFormat(String date) {
-    var parsedDate = DateTime.parse(date);
+    final parsedDate = DateTime.parse(date.toUpperCase());
+
     // final inputDate = DateFormat.parse(date);
     // return DateFormat('d MMM, yyyy').format(parsedDate);
-    return DateFormat('dd/MMM/yy').format(parsedDate);
+    return DateFormat('dd MMM').format(parsedDate).toUpperCase();
   }
+
+  // DATE FORMAT
+  // String dateFormat(String date) {
+  //   final inputDate = DateFormat('dd-MM-yy').parse(date);
+  //   // print(inputDate);
+  //   // return outputFormat.format(inputDate);
+  //   return DateFormat('d MMM').format(inputDate);
+  // }
 
   // CROP IMAGE
   // Future<File?> cropImage({required File imageFile}) async {

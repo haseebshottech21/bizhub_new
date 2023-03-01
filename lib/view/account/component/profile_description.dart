@@ -20,6 +20,7 @@ class ProfileDescription extends StatelessWidget {
     this.userModel,
     this.controller,
     this.scaffoldKey,
+    this.viewOtherProfile = false,
   }) : super(key: key);
 
   final String? description, url, avgRating, totalReviews;
@@ -28,6 +29,7 @@ class ProfileDescription extends StatelessWidget {
   final List<UserRatingModel>? ratingAndReviews;
   final GlobalKey<FormState>? formKey;
   final GlobalKey<ScaffoldState>? scaffoldKey;
+  final bool viewOtherProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,7 @@ class ProfileDescription extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 15),
+          padding: const EdgeInsets.only(left: 16, top: 4),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -50,53 +52,51 @@ class ProfileDescription extends StatelessWidget {
                   letterSpacing: 0.5,
                 ),
               ),
-              PopupMenuButton<int>(
-                elevation: 4,
-                position: PopupMenuPosition.under,
-                onSelected: (value) {
-                  if (value == 1) {
-                    // print('reported user');
+              if (viewOtherProfile)
+                PopupMenuButton<int>(
+                  elevation: 4,
+                  position: PopupMenuPosition.under,
+                  onSelected: (value) {
+                    if (value == 1) {
+                      // print('reported user');
 
-                    scaffoldKey!.currentState?.showBottomSheet(
-                      enableDrag: false,
-                      (context) {
-                        return ReportUserBottom(
-                          reportUserId: userModel!.userId.toString(),
-                          controller: controller!,
-                          formKey: formKey!,
-                        );
-                      },
-                    );
-                    // _showDialog(context);
-                    // if value 2 show dialog
-                  }
-                  // your logic
-                  // setState(() {
-                  //   // selectedItem = value.toString();
-                  // });
-                  // print(value);
-                  // Navigator.pushNamed(context, value.toString());
-                },
-                itemBuilder: (BuildContext bc) {
-                  return const [
-                    PopupMenuItem(
-                      value: 1,
-                      child: Text(
-                        "Report user",
-                        style: TextStyle(color: Colors.red),
+                      scaffoldKey!.currentState?.showBottomSheet(
+                        enableDrag: false,
+                        (context) {
+                          return ReportUserBottom(
+                            reportUserId: userModel!.userId.toString(),
+                            controller: controller!,
+                            formKey: formKey!,
+                          );
+                        },
+                      );
+                      // _showDialog(context);
+                      // if value 2 show dialog
+                    }
+                    // your logic
+                    // setState(() {
+                    //   // selectedItem = value.toString();
+                    // });
+                    // print(value);
+                    // Navigator.pushNamed(context, value.toString());
+                  },
+                  itemBuilder: (BuildContext bc) {
+                    return const [
+                      PopupMenuItem(
+                        value: 1,
+                        child: Text(
+                          "Report user",
+                          style: TextStyle(color: Colors.red),
+                        ),
                       ),
-                    ),
-                  ];
-                },
-              )
+                    ];
+                  },
+                )
             ],
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 10,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -121,8 +121,9 @@ class ProfileDescription extends StatelessWidget {
                   ),
                 ),
                 onTap: () async {
-                  var launchUrl = 'https://$url';
-                  if (await canLaunch(launchUrl)) launch(launchUrl);
+                  var finalUrl = 'https://$url';
+                  _launchUrl(finalUrl);
+                  // if (await canLaunch(launchUrl)) launch(launchUrl);
                 },
               ),
             ],
@@ -269,5 +270,12 @@ class ProfileDescription extends StatelessWidget {
         )
       ],
     );
+  }
+
+  Future<void> _launchUrl(String decsUrl) async {
+    final Uri url = Uri.parse(decsUrl);
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
   }
 }

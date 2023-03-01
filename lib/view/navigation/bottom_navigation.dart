@@ -4,14 +4,12 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-
 import 'package:bizhub_new/utils/icons.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/view/account/more.dart';
 import 'package:bizhub_new/view/chat/my_chats.dart';
 import 'package:bizhub_new/view/home/home_screen.dart';
 import 'package:bizhub_new/view_model/bottom_navigation_view_model.dart';
-
 import '../../view_model/chat_view_model.dart';
 import '../auth/without_auth_screen.dart';
 import '../posts/my_posts.dart';
@@ -35,8 +33,6 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
 
   @override
   void initState() {
-    checkToken();
-
     // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
     //   await setUpRequestNotification();
     // });
@@ -45,17 +41,19 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
     //   // await localNotifiaction.initialize();
     // });
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await setupInteracted();
-    });
+    checkToken();
+    // setupInteracted();
+    // WidgetsBinding.instance.addPostFrameCallback((_) async {
+    //   await setupInteracted();
+    // });
   }
 
   Future<void> setupInteracted() async {
     final chatProvider = Provider.of<ChatViewModel>(context, listen: false);
     final bottomProvider =
         Provider.of<BottomNavigationViewModel>(context, listen: false);
-    await FirebaseMessaging.instance.getInitialMessage();
 
+    await FirebaseMessaging.instance.getInitialMessage();
     FirebaseMessaging.onMessageOpenedApp.listen(
       (event) async {
         await chatProvider.getMyAllChatListSecond(context: context);
@@ -66,22 +64,6 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
         //     context, MaterialPageRoute(builder: (context) => MyChats()));
       },
     );
-
-    // FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
-    // FirebaseMessaging.onMessage.listen(
-    //   (RemoteMessage message) async {
-    //     if (message.data['screen_two'] == 'rec-message') {
-    //       // getMyAllChatsListTwo();
-    //       if (chatProvider.onMessagesScreen) {
-    //         NotificationService().showNotificationWithSound(
-    //           title: message.notification!.title.toString(),
-    //           body: message.notification!.body.toString(),
-    //         );
-    //       }
-    //       print('Data:  ${message.data}');
-    //     }
-    //   },
-    // );
   }
 
   List<Widget> currentTab = const [

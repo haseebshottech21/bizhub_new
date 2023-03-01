@@ -2,6 +2,7 @@ import 'package:bizhub_new/utils/shared_prefrences.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../components/deafult_button.dart';
+import '../../../../language/language_constant.dart';
 import '../../../../utils/field_validator.dart';
 import '../../../../utils/mytheme.dart';
 import '../../../../view_model/auth_view_model.dart';
@@ -39,9 +40,9 @@ class _ConfirmDeletionState extends State<ConfirmDeletion> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: MyTheme.greenColor,
-        title: const Text(
-          'Delete Account',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          translation(context).deleteAccount,
+          style: const TextStyle(color: Colors.white),
         ),
       ),
       body: Padding(
@@ -49,15 +50,15 @@ class _ConfirmDeletionState extends State<ConfirmDeletion> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Delete Account',
-              style: TextStyle(
+            Text(
+              translation(context).deleteAccount,
+              style: const TextStyle(
                 fontSize: 22,
               ),
             ),
             const SizedBox(height: 10),
             Text(
-              'You will permanently lose all your reviews, messages, and profile info. After this, there is no turning back.',
+              translation(context).deleteAccountDescTxt,
               style: TextStyle(
                 fontSize: 17,
                 color: Colors.grey.shade500,
@@ -67,7 +68,7 @@ class _ConfirmDeletionState extends State<ConfirmDeletion> {
             const SizedBox(height: 30),
             DeafultButton(
               color: MyTheme.redBorder,
-              title: 'CONFIRM DELETION',
+              title: translation(context).confirmDeletionTxt,
               onPress: () {
                 if (confirmPassController.text.isNotEmpty) {
                   confirmPassController.clear();

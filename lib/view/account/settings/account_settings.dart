@@ -51,7 +51,7 @@ class AccountSettings extends StatelessWidget {
                 const SizedBox(height: 8),
                 actionItem(
                   context: context,
-                  text: 'Delete account',
+                  text: translation(context).deleteAccountSubTxt,
                   onTap: () {
                     Navigator.pushNamed(context, RouteName.deleteAccount);
                   },

@@ -14,7 +14,7 @@ class ReportReasonItem extends StatelessWidget {
       children: [
         Container(
           margin: const EdgeInsets.all(1),
-          padding: const EdgeInsets.all(1),
+          padding: const EdgeInsets.all(2),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black87),
             shape: BoxShape.circle,
@@ -22,14 +22,14 @@ class ReportReasonItem extends StatelessWidget {
           ),
           child: Icon(
             Icons.circle,
-            size: 20,
+            size: 16,
             color: reportModel.isSelected ? Colors.black87 : Colors.transparent,
           ),
         ),
-        const SizedBox(width: 10),
+        const SizedBox(width: 6),
         Text(
           reportModel.reportText,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
         ),
       ],
     );

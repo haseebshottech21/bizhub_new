@@ -1,3 +1,4 @@
+import 'package:bizhub_new/components/custom_loader.dart';
 import 'package:bizhub_new/components/deafult_button.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/utils/shared_prefrences.dart';
@@ -27,6 +28,7 @@ class _FilterScreenState extends State<FilterScreen> {
   getAllData() async {
     final categories = Provider.of<CategoryViewModel>(context, listen: false);
     await categories.checkAuth();
+    await categories.getMiles();
 
     categories.selectedIndexList =
         await pref.getSharedPreferenceListValue('categories');
@@ -37,6 +39,9 @@ class _FilterScreenState extends State<FilterScreen> {
   @override
   Widget build(BuildContext context) {
     final category = Provider.of<CategoryViewModel>(context, listen: true);
+    // final location = Provider.of<LocationViewModel>(context, listen: true);
+
+    // print(category.deafultMiles);
 
     return Scaffold(
       appBar: AppBar(
@@ -46,12 +51,15 @@ class _FilterScreenState extends State<FilterScreen> {
         ),
         backgroundColor: Colors.white,
         automaticallyImplyLeading: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
+        leading: Consumer<CategoryViewModel>(builder: (context, provider, _) {
+          return IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () {
+              Navigator.of(context).pop();
+              // provider.clearDistance();
+            },
+          );
+        }),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 10),
@@ -61,14 +69,17 @@ class _FilterScreenState extends State<FilterScreen> {
               },
               child: Text(
                 translation(context).resetText,
-                style: const TextStyle(fontSize: 17),
+                style: const TextStyle(
+                  fontSize: 17,
+                  color: MyTheme.greenColor,
+                ),
               ),
             ),
           ),
         ],
       ),
       body: category.loading
-          ? const Center(child: CircularProgressIndicator())
+          ? const CustomLoader()
           : Padding(
               padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 12.0),
               child: Column(
@@ -181,18 +192,120 @@ class _FilterScreenState extends State<FilterScreen> {
                       );
                     },
                   ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Select Distance',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Consumer<CategoryViewModel>(
+                    builder: (context, provider, _) {
+                      return Wrap(
+                        runSpacing: 8.0,
+                        spacing: 8.0,
+                        children: List.generate(
+                          provider.selectedMilesList.length,
+                          (index) {
+                            return GestureDetector(
+                              onTap: () {
+                                provider.selectMiles(
+                                  provider.selectedMilesList[index].miles,
+                                );
+                                // print(provider.selectedMilesList[index].miles);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 8.0,
+                                  horizontal: 10.0,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: provider.selectedMilesList[index]
+                                              .selectMiles ==
+                                          true
+                                      ? MyTheme.greenColor
+                                      : Colors.grey.shade100,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                child: Text(
+                                  provider.selectedMilesList[index].miles,
+                                  style: TextStyle(
+                                    color: provider.selectedMilesList[index]
+                                                .selectMiles ==
+                                            true
+                                        ? Colors.white
+                                        : Colors.black54,
+                                    // fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                  // Consumer<CategoryViewModel>(
+                  //   builder: (context, provider, _) {
+                  //     return Wrap(
+                  //       runSpacing: 8.0,
+                  //       spacing: 8.0,
+                  //       children: List.generate(
+                  //         provider.radius.length,
+                  //         (index) {
+                  //           return GestureDetector(
+                  //             onTap: () {
+                  //               provider.selectMiles(
+                  //                 provider.radius[index]['miles'],
+                  //               );
+                  //               print(provider.deafultMiles);
+                  //             },
+                  //             child: Container(
+                  //               padding: const EdgeInsets.symmetric(
+                  //                 vertical: 8.0,
+                  //                 horizontal: 10.0,
+                  //               ),
+                  //               decoration: BoxDecoration(
+                  //                 color:
+                  //                     provider.radius[index]['status'] == true
+                  //                         ? MyTheme.greenColor
+                  //                         : Colors.grey.shade100,
+                  //                 borderRadius: BorderRadius.circular(8.0),
+                  //               ),
+                  //               child: Text(
+                  //                 provider.radius[index]['miles'],
+                  //                 style: TextStyle(
+                  //                   color:
+                  //                       provider.radius[index]['status'] == true
+                  //                           ? Colors.white
+                  //                           : Colors.black,
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           );
+                  //         },
+                  //       ),
+                  //     );
+                  //   },
+                  // ),
                   const SizedBox(height: 30),
                   Consumer<CategoryViewModel>(
                     builder: (context, categoriesViewModel, _) {
+                      // print(categoriesViewModel.deafultMiles);
                       return DeafultButton(
                         title: translation(context).applyText,
                         isloading: categoriesViewModel.btnLoading,
-                        onPress: categoriesViewModel.selectedIndexList.isEmpty
-                            ? null
-                            : () {
-                                categoriesViewModel
-                                    .setAndApplyWithCategory(context);
-                              },
+                        onPress:
+                            categoriesViewModel.selectedIndexList.isEmpty &&
+                                    (categoriesViewModel.deafultMiles == null ||
+                                        categoriesViewModel.deafultMiles == '')
+                                ? null
+                                : () {
+                                    categoriesViewModel
+                                        .setAndApplyWithCategory(context);
+                                  },
                       );
                     },
                   ),

@@ -1,5 +1,7 @@
 // import 'package:bizhub_new/services/local_notification.dart';
 // import 'package:bizhub_new/utils/local_notification.dart';
+import 'dart:io';
+import 'package:bizhub_new/services/notifications_service.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/utils/routes/routes.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
@@ -13,62 +15,69 @@ import 'package:bizhub_new/view_model/location_view_model.dart';
 import 'package:bizhub_new/view_model/my_service_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'language/language_constant.dart';
 
-Future main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
+Future<void> _firebaseMessagingBackgroundHandler(message) async {
+  await Firebase.initializeApp();
+  print('Handling a background message ${message.messageId}');
+}
+
+Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   FlutterNativeSplash.remove();
+  await Firebase.initializeApp();
+  await FirebaseMessaging.instance.getInitialMessage();
+  if (Platform.isIOS) {
+    //IOS check permission
+    permission();
+  }
+  NotificationService().initLocalNotification();
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
   );
-  if (defaultTargetPlatform == TargetPlatform.android) {
-    AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
-  }
-  // await NotificationService().init();
-  // await dotenv.load(fileName: ENVSettings.fileName);
-  await Firebase.initializeApp();
-  await FirebaseMessaging.instance.getInitialMessage();
-
-  // final RemoteMessage? _message =
-  //     await FirebaseService.firebaseMessaging.getInitialMessage();
-  // runApp(const MyApp(message: _message));
-  // LocalNotificationService.initialize();
-
-  // await LocalNotifiaction().initialize();
-  // LocalNotificationService.initialize();
-  // FirebaseMessaging messaging = FirebaseMessaging.instance;
-  // NotificationSettings settings = await messaging.requestPermission(
-  //   alert: true,
-  //   announcement: false,
-  //   badge: true,
-  //   carPlay: false,
-  //   criticalAlert: false,
-  //   provisional: false,
-  //   sound: true,
-  // );
-
-  // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-  //   print('Got a message whilst in the foreground!');
-  //   print('Message data: ${message.data}');
-
-  //   if (message.notification != null) {
-  //     print('Message also contained a notification: ${message.notification}');
-  //   }
-  // });
-
-  // print('User granted permission: ${settings.authorizationStatus}');
   runApp(const MyApp());
 }
+
+void permission() async {
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: true,
+    sound: true,
+  );
+
+  if (settings.authorizationStatus == AuthorizationStatus.authorized ||
+      settings.authorizationStatus == AuthorizationStatus.provisional) {
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true, // headsup notification in IOS
+      badge: true,
+      sound: true,
+    );
+  } else {
+    //close the app
+    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+  }
+}
+
+// @pragma('vm:entry-point')
+// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   await Firebase.initializeApp();
+//   print(message.notification!.title.toString());
+// }
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);

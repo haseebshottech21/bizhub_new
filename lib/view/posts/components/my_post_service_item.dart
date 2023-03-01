@@ -64,47 +64,10 @@ class MyPostServiceItem extends StatelessWidget {
                       right: 8,
                       bottom: 8,
                     ),
-                    // color: Colors.grey.shade200,
                     alignment: Alignment.centerRight,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Padding(
-                        //   padding: const EdgeInsets.symmetric(vertical: 6.0),
-                        //   child: SizedBox(
-                        //     height: size.maxHeight,
-                        //     width: phoneDevice
-                        //         ? size.maxWidth * 0.18
-                        //         : size.maxWidth * 0.08,
-                        //     child: ClipRRect(
-                        //       borderRadius: BorderRadius.circular(6),
-                        //       child: serviceModel.imagesList!.isEmpty
-                        //           ? Container(
-                        //               color: Colors.grey.shade50,
-                        //               child: Icon(
-                        //                 Icons.photo_library,
-                        //                 color: Colors.grey.shade400,
-                        //                 size: 40,
-                        //               ),
-                        //             )
-                        //           : CachedNetworkImage(
-                        //               // height: constraints.maxHeight * 0.55,
-                        //               // width: double.infinity,
-                        //               fadeInDuration:
-                        //                   const Duration(milliseconds: 300),
-                        //               placeholder: (context, url) => const Icon(
-                        //                 Icons.photo_library,
-                        //                 color: MyTheme.greenColor,
-                        //                 size: 30,
-                        //               ),
-                        //               imageUrl: AppUrl.baseUrl +
-                        //                   serviceModel.imagesList![0].image
-                        //                       .toString(),
-                        //               fit: BoxFit.cover,
-                        //             ),
-                        //     ),
-                        //   ),
-                        // ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 6.0),
                           child: SizedBox(
@@ -217,63 +180,39 @@ class MyPostServiceItem extends StatelessWidget {
                                                           },
                                                         ),
                                                       );
-                                                      // if (myServices) {
-                                                      //   showDialog(
-                                                      //     context: context,
-                                                      //     builder: (context) =>
-                                                      //         simpleDialog(
-                                                      //       context: context,
-                                                      //       title:
-                                                      //           'Confirm Delete ?',
-                                                      //       subTitle:
-                                                      //           'Are you sure you want to delete service ?',
-                                                      //       onPressed: () {
-                                                      //         // Navigator.of(
-                                                      //         //         context)
-                                                      //         //     .pop();
-                                                      //         context
-                                                      //             .read<
-                                                      //                 MyServiceViewModel>()
-                                                      //             .deleteMyService(
-                                                      //               serviceId: serviceModel
-                                                      //                   .serviceId
-                                                      //                   .toString(),
-                                                      //               context:
-                                                      //                   context,
-                                                      //             );
-                                                      //       },
-                                                      //     ),
-                                                      //   );
-                                                      // } else {
-                                                      //   showDialog(
-                                                      //     context: context,
-                                                      //     builder: (context) =>
-                                                      //         simpleDialog(
-                                                      //       context: context,
-                                                      //       title:
-                                                      //           'Confirm Delete ?',
-                                                      //       subTitle:
-                                                      //           'Are you sure you want to delete job ?',
-                                                      //       onPressed: () {
-                                                      //         // Navigator.of(
-                                                      //         //         context)
-                                                      //         //     .pop();
-                                                      //         context
-                                                      //             .read<
-                                                      //                 MyServiceViewModel>()
-                                                      //             .deleteMyPost(
-                                                      //               serviceId: serviceModel
-                                                      //                   .serviceId
-                                                      //                   .toString(),
-                                                      //               context:
-                                                      //                   context,
-                                                      //             );
-                                                      //       },
-                                                      //     ),
-                                                      //   );
-                                                      // }
                                                     },
                                                   ),
+                                                  BottomModalAction(
+                                                      text: 'Bump Up',
+                                                      onTap: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (context) =>
+                                                              simpleDialog(
+                                                            context: context,
+                                                            title:
+                                                                'Bump Up My Service ?',
+                                                            subTitle:
+                                                                'This will refresh the post to the top of the list ?',
+                                                            onPressed: () {
+                                                              context
+                                                                  .read<
+                                                                      MyServiceViewModel>()
+                                                                  .bumpUpPost(
+                                                                    serviceId: serviceModel
+                                                                        .serviceId
+                                                                        .toString(),
+                                                                    context:
+                                                                        context,
+                                                                    service:
+                                                                        true,
+                                                                  );
+                                                            },
+                                                          ),
+                                                        );
+                                                      }),
                                                   if (serviceModel
                                                           .serviceStatus ==
                                                       '0')
@@ -312,47 +251,6 @@ class MyPostServiceItem extends StatelessWidget {
                                                                   ),
                                                                 ),
                                                               );
-                                                              // Navigator.pushNamed(
-                                                              //     context,
-                                                              //     RouteName
-                                                              //         .myJobComplete);
-                                                              // if (myServices) {
-                                                              //   Navigator.push(
-                                                              //     context,
-                                                              //     MaterialPageRoute(
-                                                              //       builder:
-                                                              //           (ctx) =>
-                                                              //               const PostComplete(),
-                                                              //       settings:
-                                                              //           RouteSettings(
-                                                              //         arguments: {
-                                                              //           'service_id':
-                                                              //               serviceModel.serviceId,
-                                                              //           'lead':
-                                                              //               false,
-                                                              //         },
-                                                              //       ),
-                                                              //     ),
-                                                              //   );
-                                                              // } else {
-                                                              //   Navigator.push(
-                                                              //     context,
-                                                              //     MaterialPageRoute(
-                                                              //       builder:
-                                                              //           (ctx) =>
-                                                              //               const PostComplete(),
-                                                              //       settings:
-                                                              //           RouteSettings(
-                                                              //         arguments: {
-                                                              //           'service_id':
-                                                              //               serviceModel.serviceId,
-                                                              //           'lead':
-                                                              //               true,
-                                                              //         },
-                                                              //       ),
-                                                              //     ),
-                                                              //   );
-                                                              // }
                                                             },
                                                           ),
                                                         );
@@ -374,7 +272,7 @@ class MyPostServiceItem extends StatelessWidget {
                                     },
                                     child: const Icon(
                                       CupertinoIcons.ellipsis_vertical,
-                                      size: 18,
+                                      size: 22,
                                     ),
                                   ),
                                 ],

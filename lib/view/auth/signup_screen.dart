@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bizhub_new/view/home/home_screen.dart';
 import 'package:bizhub_new/widgets/common/app_bar.dart';
 import 'package:bizhub_new/widgets/common/empty_profile.dart';
 import 'package:flutter/gestures.dart';
@@ -160,7 +161,7 @@ class _SignupScreenState extends State<SignupScreen> {
         "phone": phoneNumberController.text.trim(),
         "password": passwordController.text.trim(),
         "password_confirmation": confirmPasswordController.text.trim(),
-        "device_id": MyApp.notifyToken,
+        "device_id": HomeScreen.notifyToken,
       };
       // print(data);
       // authViewModel.sendOTPEmail = emailAddressController.text.trim();

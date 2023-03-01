@@ -2,14 +2,12 @@ import 'package:bizhub_new/model/user_model.dart';
 import 'package:bizhub_new/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../model/report_model.dart';
 import '../../../utils/app_url.dart';
 import '../../../utils/mytheme.dart';
 import '../../../widgets/common/cached_image.dart';
 import '../../../widgets/common/empty_profile.dart';
 import '../component/profile_description.dart';
 // import '../component/report_reason_item.dart';
-import '../component/report_user_bottom.dart';
 import '../component/view_profile.dart';
 
 class ViewOtherProfile extends StatefulWidget {
@@ -148,6 +146,7 @@ class _ViewOtherProfileState extends State<ViewOtherProfile> {
                   formKey: _formKey,
                   scaffoldKey: scaffoldKey,
                   controller: commentController,
+                  viewOtherProfile: true,
                   userModel: profile,
                   description: authViewModel.viewUser!.description == null
                       ? 'No description added yet.'

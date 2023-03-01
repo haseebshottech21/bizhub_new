@@ -14,8 +14,9 @@ class ServiceModel {
   String? address;
   double? latitude;
   double? longitude;
-
+  int? serviceBumpUp;
   List<ServiceImagesModel>? imagesList;
+  String? createdAt;
 
   ServiceModel({
     this.serviceId,
@@ -29,7 +30,9 @@ class ServiceModel {
     this.address,
     this.latitude,
     this.longitude,
+    this.serviceBumpUp,
     this.imagesList,
+    this.createdAt,
   });
 
   factory ServiceModel.fromJson(Map<String, dynamic> json) => ServiceModel(
@@ -44,11 +47,13 @@ class ServiceModel {
         address: json['address'],
         latitude: double.parse(json['latitude'].toString()),
         longitude: double.parse(json['longitude'].toString()),
+        serviceBumpUp: json['thumbs_up'],
         imagesList: json['images'] == null
             ? []
             : (json['images'] as List)
                 .map((e) => ServiceImagesModel.fromJson(e))
                 .toList(),
+        createdAt: json['created_at'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -63,7 +68,9 @@ class ServiceModel {
         'address': address,
         'latitude': latitude,
         'longitude': longitude,
+        'thumbs_up': serviceBumpUp,
         'images': imagesList,
+        'created_at': createdAt,
       };
 }
 

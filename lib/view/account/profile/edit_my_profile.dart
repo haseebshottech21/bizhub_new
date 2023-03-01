@@ -3,6 +3,7 @@ import 'package:bizhub_new/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../components/deafult_button.dart';
+import '../../../language/language_constant.dart';
 import '../../../utils/field_validator.dart';
 import '../../../widgets/common/app_bar.dart';
 import '../../../widgets/common/input_textfield.dart';
@@ -84,7 +85,10 @@ class _EditMyProfileState extends State<EditMyProfile> {
     return Scaffold(
       backgroundColor: Colors.white,
       // resizeToAvoidBottomInset: false,
-      appBar: mainAppBar(context: context, appBarTitle: 'Edit Profile'),
+      appBar: mainAppBar(
+        context: context,
+        appBarTitle: translation(context).editProfileTitle,
+      ),
       body: auth.loading
           ? const CustomLoader()
           : SingleChildScrollView(
@@ -156,7 +160,7 @@ class _EditMyProfileState extends State<EditMyProfile> {
                     Consumer<AuthViewModel>(
                       builder: (context, authViewModel, _) {
                         return DeafultButton(
-                          title: 'Update',
+                          title: translation(context).updateTxt,
                           isloading: authViewModel.btnloading,
                           onPress: () {
                             validateAndUpdate();

@@ -135,7 +135,7 @@ class _EditMyPostState extends State<EditMyPost> {
                 left: 5.0,
                 right: 5.0,
                 top: 15.0,
-                bottom: 15,
+                bottom: 30,
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -209,6 +209,7 @@ class _EditMyPostState extends State<EditMyPost> {
                       );
                     },
                   ),
+                  const SizedBox(height: 15),
                 ],
               ),
             ),
@@ -482,7 +483,5 @@ class LocationPicker extends StatelessWidget {
         ),
       ),
     );
-    //   },
-    // );
   }
 }

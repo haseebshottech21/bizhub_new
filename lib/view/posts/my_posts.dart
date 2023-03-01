@@ -1,5 +1,6 @@
 import 'package:bizhub_new/view/posts/my_services/my_services.dart';
 import 'package:flutter/material.dart';
+import '../../language/language_constant.dart';
 import '../../utils/mytheme.dart';
 import 'my_jobs/my_jobs.dart';
 
@@ -31,9 +32,9 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               pinned: true,
               centerTitle: true,
-              title: const Text(
-                "My Posts",
-                style: TextStyle(
+              title: Text(
+                translation(context).myPostTitle,
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 24,
                 ),
@@ -53,7 +54,7 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
                 tabs: [
                   Tab(
                     child: Text(
-                      'Jobs'.toUpperCase(),
+                      translation(context).jobsTitle.toUpperCase(),
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 18,
@@ -62,7 +63,7 @@ class _MyPostsState extends State<MyPosts> with SingleTickerProviderStateMixin {
                   ),
                   Tab(
                     child: Text(
-                      'Services'.toUpperCase(),
+                      translation(context).servicesTitle.toUpperCase(),
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 18,

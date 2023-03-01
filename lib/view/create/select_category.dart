@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:bizhub_new/components/custom_loader.dart';
 import 'package:bizhub_new/view_model/category_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../components/deafult_button.dart';
+import '../../language/language_constant.dart';
 import '../../utils/mytheme.dart';
 import '../../utils/routes/routes_name.dart';
 import '../../view_model/bottom_navigation_view_model.dart';
@@ -80,9 +83,9 @@ class _SelectCategoryState extends State<SelectCategory> {
           ),
         ),
         centerTitle: true,
-        title: const Text(
-          'Select Category',
-          style: TextStyle(
+        title: Text(
+          translation(context).selectCategoryTitle,
+          style: const TextStyle(
             color: Colors.black87,
             fontWeight: FontWeight.w400,
             fontSize: 20,
@@ -92,14 +95,14 @@ class _SelectCategoryState extends State<SelectCategory> {
       bottomSheet: category.categoryId.isNotEmpty
           ? SafeArea(
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 10),
+                padding: EdgeInsets.only(bottom: Platform.isIOS ? 20 : 10),
                 child: SizedBox(
                   height: size.height * 0.09,
                   child: Padding(
                     padding:
                         const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
                     child: DeafultButton(
-                      title: 'Continue',
+                      title: translation(context).continueTxt,
                       onPress: () {
                         Navigator.pushNamed(context, RouteName.createPost);
                         // print(post.isPoster);

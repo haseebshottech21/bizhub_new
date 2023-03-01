@@ -7,7 +7,6 @@ import '../repo/chat_repo.dart';
 import '../repo/notification_repo.dart';
 import '../repo/service_repo.dart';
 import '../utils/utils.dart';
-// import 'auth_view_model.dart';
 
 class AllServicesViewModel extends ChangeNotifier {
   final serviceRepo = ServiceRepository();
@@ -80,6 +79,7 @@ class AllServicesViewModel extends ChangeNotifier {
     allServiceList.clear();
 
     setLoad(true);
+    // final location = Provider.of<LocationViewModel>(context, listen: false);
 
     // isFirstLoadRunning = true;
     Future.delayed(Duration.zero).then(
@@ -87,9 +87,15 @@ class AllServicesViewModel extends ChangeNotifier {
         token = await prefernce.getSharedPreferenceValue('token');
         final loadedData = token == null || token == ''
             ? await serviceRepo.fetchAllServicesWithoutAuthList(
+                lat: latitude!,
+                long: longitutde!,
+                miles: miles!,
                 serviceType: nearByJobs ? '0' : '1',
               )
             : await serviceRepo.fetchAllServicesList(
+                lat: latitude!,
+                long: longitutde!,
+                miles: miles!,
                 serviceType: nearByJobs ? '0' : '1',
               );
         allServiceList = loadedData['allService'];
@@ -127,7 +133,7 @@ class AllServicesViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> checkAuth(BuildContext context) async {
+  Future<void> checkAuth() async {
     token = await prefernce.getSharedPreferenceValue('token');
     if (token == null || token == '') {
       getAllServiceWithoutAuth();
@@ -136,12 +142,37 @@ class AllServicesViewModel extends ChangeNotifier {
     }
   }
 
+  String? longitutde;
+  String? latitude;
+  String? miles;
+
+  Future<void> getLatLongAndMiles() async {
+    // print('run');
+    longitutde =
+        await prefernce.getSharedPreferenceValue('myLocationlongitude');
+    latitude = await prefernce.getSharedPreferenceValue('myLocationlatitude');
+    var getMiles = await prefernce.getSharedPreferenceValue('myLocationMiles');
+
+    if (getMiles != null) {
+      miles = getMiles!.split('miles')[0];
+      // print('miles: $miles');
+    } else {
+      miles = '';
+    }
+
+    // print('getLong: ' + longitutde.toString());
+    // print('getLat: ' + latitude.toString());
+  }
+
   Future<void> getAllServiceWithoutAuth() async {
     checkInternet();
     allServiceList.clear();
     isFirstLoadRunning = true;
 
     final loadedData = await serviceRepo.fetchAllServicesWithoutAuthList(
+      lat: latitude!,
+      long: longitutde!,
+      miles: miles!,
       serviceType: nearByJobs ? '0' : '1',
     );
     if (allServiceList.isEmpty) {
@@ -157,6 +188,9 @@ class AllServicesViewModel extends ChangeNotifier {
     isFirstLoadRunning = true;
 
     final loadedData = await serviceRepo.fetchAllServicesList(
+      lat: latitude!,
+      long: longitutde!,
+      miles: miles!,
       serviceType: nearByJobs ? '0' : '1',
     );
     if (allServiceList.isEmpty) {
@@ -167,6 +201,12 @@ class AllServicesViewModel extends ChangeNotifier {
   }
 
   Future<void> getAllServiceMore() async {
+    // final locationViewModel =
+    //     Provider.of<LocationViewModel>(context, listen: false);
+
+    // print(locationViewModel.myCurrentLocation.placeLocation.longitude);
+    // print(locationViewModel.myCurrentLocation.placeLocation.latitude);
+
     // checkInternet();
     if (next != '' &&
         hasNextPage == true &&
@@ -183,11 +223,17 @@ class AllServicesViewModel extends ChangeNotifier {
       token = await prefernce.getSharedPreferenceValue('token');
       if (token == null || token == '') {
         loadedData = await serviceRepo.fetchAllServicesWithoutAuthList(
+          lat: latitude!,
+          long: longitutde!,
+          miles: miles!,
           serviceType: nearByJobs ? '0' : '1',
           page: page,
         );
       } else {
         loadedData = await serviceRepo.fetchAllServicesList(
+          lat: latitude!,
+          long: longitutde!,
+          miles: miles!,
           serviceType: nearByJobs ? '0' : '1',
           page: page,
         );

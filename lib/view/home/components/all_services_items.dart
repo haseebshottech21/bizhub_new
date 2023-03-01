@@ -22,6 +22,7 @@ class AllServiceIem extends StatelessWidget {
     final phoneDevice = Utils.getDeviceType() == 'phone';
     // final bottomProvider =
     //     Provider.of<BottomNavigationViewModel>(context, listen: true);
+    // print(serviceModel.createdAt.toString());
 
     return InkWell(
       onTap: () {
@@ -58,50 +59,77 @@ class AllServiceIem extends StatelessWidget {
           builder: (context, constraints) {
             return Column(
               children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(6),
-                    topRight: Radius.circular(6),
-                  ),
-                  child: serviceModel.imagesList!.isEmpty
-                      ? Container(
-                          height: constraints.maxHeight * 0.52,
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          color: Colors.black,
-                          child: Image.asset(
-                            'assets/images/bizhub_logo.png',
-                            fit: BoxFit.contain,
-                          ),
-                        )
-                      : CachedNetworkImage(
-                          height: constraints.maxHeight * 0.52,
-                          width: double.infinity,
-                          fadeInDuration: const Duration(milliseconds: 300),
-                          placeholder: (context, url) => Container(
-                            // height: constraints.maxHeight * 0.55,
-                            // width: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 16,
+                Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(6),
+                        topRight: Radius.circular(6),
+                      ),
+                      child: serviceModel.imagesList!.isEmpty
+                          ? Container(
+                              height: constraints.maxHeight * 0.52,
+                              width: double.infinity,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              color: Colors.black,
+                              child: Image.asset(
+                                'assets/images/bizhub_logo.png',
+                                fit: BoxFit.contain,
+                              ),
+                            )
+                          : CachedNetworkImage(
+                              height: constraints.maxHeight * 0.52,
+                              width: double.infinity,
+                              fadeInDuration: const Duration(milliseconds: 300),
+                              placeholder: (context, url) => Container(
+                                // height: constraints.maxHeight * 0.55,
+                                // width: double.infinity,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 16,
+                                ),
+                                color: Colors.white,
+                                child: Image.asset(
+                                  'assets/images/bizhub3.png',
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                              // errorWidget: (context, url, error) => Container(
+                              //   color: Colors.black12,
+                              //   child: Icon(
+                              //     profileIcon,
+                              //     color: Colors.white,
+                              //   ),
+                              // ),
+                              imageUrl: AppUrl.baseUrl +
+                                  serviceModel.imagesList![0].image.toString(),
+                              fit: BoxFit.cover,
                             ),
-                            color: Colors.white,
-                            child: Image.asset(
-                              'assets/images/bizhub3.png',
-                              fit: BoxFit.contain,
+                    ),
+                    if (serviceModel.serviceBumpUp! > 0)
+                      Positioned(
+                        bottom: 8,
+                        left: 6,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 4,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: MyTheme.greenColor,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: const Text(
+                            'Featured',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
                             ),
                           ),
-                          // errorWidget: (context, url, error) => Container(
-                          //   color: Colors.black12,
-                          //   child: Icon(
-                          //     profileIcon,
-                          //     color: Colors.white,
-                          //   ),
-                          // ),
-                          imageUrl: AppUrl.baseUrl +
-                              serviceModel.imagesList![0].image.toString(),
-                          fit: BoxFit.cover,
                         ),
+                      )
+                  ],
                 ),
                 ClipRRect(
                   borderRadius: const BorderRadius.only(
@@ -154,12 +182,29 @@ class AllServiceIem extends StatelessWidget {
                               //     fontWeight: FontWeight.w500,
                               //   ),
                               // ),
-                              Text(
-                                '\$ ${serviceModel.serviceAmount}',
-                                style: TextStyle(
-                                  fontSize: phoneDevice ? 18 : 17,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '\$ ${serviceModel.serviceAmount}',
+                                    style: TextStyle(
+                                      fontSize: phoneDevice ? 18 : 17,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Text(
+                                    // '\$ ${serviceModel.createdAt}',
+                                    Utils().dateFormat(
+                                      serviceModel.createdAt.toString(),
+                                    ),
+                                    style: TextStyle(
+                                      fontSize: phoneDevice ? 13 : 12,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),

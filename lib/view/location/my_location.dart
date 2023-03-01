@@ -1,10 +1,9 @@
 import 'package:bizhub_new/components/deafult_button.dart';
-import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/view/location/other_location.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-
 import '../../view_model/location_view_model.dart';
 
 class MyLocation extends StatelessWidget {
@@ -12,17 +11,18 @@ class MyLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(systemNavigationBarColor: Colors.white),
+    );
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: Column(
+      body: ListView(
         children: [
           SizedBox(
-            // padding: EdgeInsets.all(16.0),
             width: size.width,
-            height: size.height * 0.45,
+            height: size.height * 0.40,
             child: const Image(
-              // fit: BoxFit.fitHeight,
               image: AssetImage('assets/images/location.png'),
             ),
           ),
@@ -41,7 +41,7 @@ class MyLocation extends StatelessWidget {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'To enjoy all that Bizhub has to other you, we need to know where to look for them.',
+                  'To Enjoy all that BizHub has to offer you, we need to know where to look.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 15,
@@ -62,11 +62,14 @@ class MyLocation extends StatelessWidget {
                 ),
                 child: DeafultIconButton(
                   icon: CupertinoIcons.location,
-                  isloading: provider.loading,
+                  isloading: provider.btnloading,
                   loadingTitle: 'Getting location',
                   title: 'Near me',
                   onPress: () {
-                    provider.getMyLatLong(context: context);
+                    provider.getMyLatLong(
+                      context: context,
+                      route: true,
+                    );
                     // provider.getStoreLocationIfExist(context);
                     // provider.updateMyLocation();
                   },

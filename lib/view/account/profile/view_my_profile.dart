@@ -84,10 +84,10 @@ class _ViewMyProfileState extends State<ViewMyProfile> {
                   ? const EmptyProfile()
                   : CachedImageWidget(
                       height:
-                          phoneDevice ? size.height * 0.20 : size.height * 0.20,
+                          phoneDevice ? size.height * 0.22 : size.height * 0.20,
                       width:
-                          phoneDevice ? size.width * 0.40 : size.height * 0.20,
-                      radius: 150,
+                          phoneDevice ? size.width * 0.48 : size.width * 0.20,
+                      radius: 120,
                       imgUrl: AppUrl.baseUrl + auth.getPrefrenceValue('image'),
                     ),
             ),

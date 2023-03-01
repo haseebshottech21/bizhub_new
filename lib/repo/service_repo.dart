@@ -32,6 +32,9 @@ class ServiceRepository {
   // All Services
   Future<Map<String, dynamic>> fetchAllServicesList({
     required String serviceType,
+    required String long,
+    required String lat,
+    required String? miles,
     int? page,
   }) async {
     try {
@@ -40,8 +43,9 @@ class ServiceRepository {
 
       for (var element
           in (await prefrence.getSharedPreferenceListValue("categories"))) {
-        catIds += "cat_ids[]=$element&";
+        catIds += "&cat_ids[]=$element";
       }
+      miles = miles != '' ? '&distance=$miles' : '&distance=2000';
       if (page == null) {
         servicePage = '';
       } else {
@@ -50,9 +54,12 @@ class ServiceRepository {
 
       final response = await http.get(
         Uri.parse(
-            '${AppUrl.allServiceEndPoint}?$servicePage&type=$serviceType&$catIds'),
+            '${AppUrl.allServiceEndPoint}?$servicePage&type=$serviceType$catIds&latitude=$lat&longitude=$long$miles'),
         headers: await AppUrl().headerWithAuth(),
       );
+
+      print(
+          '${AppUrl.allServiceEndPoint}?$servicePage&type=$serviceType$catIds&latitude=$lat&longitude=$long$miles');
 
       // print('${AppUrl.allServiceEndPoint}?type=$serviceType');
       final loadedData = json.decode(response.body);
@@ -65,8 +72,8 @@ class ServiceRepository {
         }).toList();
         return {
           'allService': allServicesList,
-          'prev': loadedData['links']['prev'],
-          'next': loadedData['links']['next'],
+          'prev': loadedData['prev_page_url'],
+          'next': loadedData['next_page_url'],
         };
       } else {
         Utils.toastMessage(loadedData['message']);
@@ -79,29 +86,20 @@ class ServiceRepository {
 
   Future<Map<String, dynamic>> fetchAllServicesWithoutAuthList({
     required String serviceType,
+    required String long,
+    required String lat,
+    required String? miles,
     int? page,
   }) async {
     try {
-      // var catIds = "";
-      // var servicePage = "";
-
-      // for (var element
-      //     in (await prefrence.getSharedPreferenceListValue("categories"))) {
-      //   catIds += "cat_ids[]=$element&";
-      // }
-      // if (page == null) {
-      //   servicePage = '';
-      // } else {
-      //   servicePage = 'page=$page';
-      // }
-
       var catIds = "";
       var servicePage = "";
 
       for (var element
           in (await prefrence.getSharedPreferenceListValue("categories"))) {
-        catIds += "cat_ids[]=$element&";
+        catIds += "&cat_ids[]=$element";
       }
+      miles = miles != '' ? '&distance=$miles' : '&distance=2000';
       if (page == null) {
         servicePage = '';
       } else {
@@ -110,10 +108,12 @@ class ServiceRepository {
 
       final response = await http.get(
         Uri.parse(
-            '${AppUrl.withoutAuthAllServiceEndPoint}?$servicePage&type=$serviceType&$catIds'),
+            '${AppUrl.withoutAuthAllServiceEndPoint}?$servicePage&type=$serviceType$catIds&latitude=$lat&longitude=$long$miles'),
         headers: AppUrl.header,
       );
 
+      print(
+          '${AppUrl.withoutAuthAllServiceEndPoint}?$servicePage&type=$serviceType$catIds&latitude=$lat&longitude=$long$miles');
       // print('${AppUrl.allServiceEndPoint}?type=$serviceType');
       final loadedData = json.decode(response.body);
       // print(loadedData);
@@ -125,8 +125,10 @@ class ServiceRepository {
         }).toList();
         return {
           'allService': allServicesList,
-          'prev': loadedData['links']['prev'],
-          'next': loadedData['links']['next'],
+          // 'prev': loadedData['links']['prev'],
+          // 'next': loadedData['links']['next'],
+          'prev': loadedData['prev_page_url'],
+          'next': loadedData['next_page_url'],
         };
       } else {
         Utils.toastMessage(loadedData['message']);
@@ -158,6 +160,7 @@ class ServiceRepository {
         Utils.toastMessage(loadedData['message']);
       }
     } catch (e) {
+      print(e.toString());
       // Utils.toastMessage(e.toString());
     }
     return allService;

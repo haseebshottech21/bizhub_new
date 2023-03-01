@@ -122,7 +122,7 @@ class SendOffer extends StatelessWidget {
                                       'offer': controller.text.trim(),
                                     };
 
-                                    print(data);
+                                    // print(data);
                                     // await Future.delayed(Duration(milliseconds: 500));
                                     // controller.clear();
                                     // Navigator.pop(context);

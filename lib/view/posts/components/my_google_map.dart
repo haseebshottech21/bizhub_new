@@ -64,8 +64,8 @@ class _MyGoogleMapState extends State<MyGoogleMap> {
     pinPosition = LatLng(latitude, longitude);
 
     initialLocation = CameraPosition(
-      zoom: 15,
-      bearing: 10,
+      zoom: 12,
+      bearing: 8,
       target: pinPosition,
     );
 
@@ -102,7 +102,7 @@ class _MyGoogleMapState extends State<MyGoogleMap> {
       Circle(
         circleId: const CircleId("0"),
         center: pinPosition,
-        radius: 200,
+        radius: 2000,
         strokeWidth: 1,
         strokeColor: Colors.white,
         fillColor: const Color.fromRGBO(52, 186, 37, .6),
@@ -114,7 +114,7 @@ class _MyGoogleMapState extends State<MyGoogleMap> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return SizedBox(
-      height: size.height * 0.18,
+      height: size.height * 0.22,
       child: GoogleMap(
         onMapCreated: _onMapCreated,
         mapType: MapType.normal,

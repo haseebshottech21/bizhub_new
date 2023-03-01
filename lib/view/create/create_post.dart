@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../components/deafult_button.dart';
+import '../../language/language_constant.dart';
 import '../../utils/field_validator.dart';
 import '../../utils/mytheme.dart';
 import '../../utils/routes/routes_name.dart';
@@ -115,9 +116,9 @@ class _CreatePostState extends State<CreatePost> {
           ),
         ),
         centerTitle: true,
-        title: const Text(
-          'Create Your Post',
-          style: TextStyle(
+        title: Text(
+          translation(context).createPostTitle,
+          style: const TextStyle(
             color: Colors.black87,
             fontWeight: FontWeight.w400,
             fontSize: 20,
@@ -211,7 +212,7 @@ class _CreatePostState extends State<CreatePost> {
                         ),
                         child: DeafultButton(
                           isloading: serviceViewModel.postLoading,
-                          title: 'POST',
+                          title: translation(context).postTxt,
                           onPress: () {
                             validateAndJobPost();
                           },

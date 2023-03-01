@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../language/language_constant.dart';
 import '../../view_model/bottom_navigation_view_model.dart';
 
 class WithoutAuthScreen extends StatefulWidget {
@@ -27,7 +28,6 @@ class _WithoutAuthScreenState extends State<WithoutAuthScreen> {
     return WillPopScope(
       onWillPop: arg
           ? () async {
-              // print('pop');
               final shouldPop = Navigator.of(context).maybePop();
               return shouldPop;
             }
@@ -57,7 +57,7 @@ class _WithoutAuthScreenState extends State<WithoutAuthScreen> {
             icon: const Icon(
               Icons.clear,
               color: Colors.black,
-              size: 24,
+              size: 26,
             ),
           ),
         ),
@@ -72,20 +72,20 @@ class _WithoutAuthScreenState extends State<WithoutAuthScreen> {
                   'assets/images/bizhub_logo_black.png',
                 ),
                 const SizedBox(height: 20),
-                const Text(
-                  'WELCOME TO BIZHUB',
-                  style: TextStyle(
+                Text(
+                  translation(context).welcomeBizhubTxt,
+                  style: const TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 const SizedBox(height: 16),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Text(
-                    'The trusted community of Poster or Provider',
+                    translation(context).welcomeSubTxt,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w300,
                     ),
@@ -93,7 +93,7 @@ class _WithoutAuthScreenState extends State<WithoutAuthScreen> {
                 ),
                 const SizedBox(height: 16),
                 DefaultOutlineButton(
-                  title: 'LOGIN',
+                  title: translation(context).welcomeLoginBtn,
                   btnIcon: true,
                   onPress: () {
                     Navigator.of(context).pushNamed(RouteName.login);
@@ -101,7 +101,7 @@ class _WithoutAuthScreenState extends State<WithoutAuthScreen> {
                 ),
                 const SizedBox(height: 12),
                 DefaultOutlineButton(
-                  title: 'CREATE ACCOUNT',
+                  title: translation(context).welcomeSignupBtn,
                   btnIcon: true,
                   onPress: () {
                     Navigator.of(context).pushNamed(RouteName.signup);
@@ -159,7 +159,7 @@ class _WithoutAuthScreenState extends State<WithoutAuthScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 40),
               ],
             ),
           ),

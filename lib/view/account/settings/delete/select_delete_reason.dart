@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../components/deafult_button.dart';
+import '../../../../language/language_constant.dart';
 import '../../../../utils/mytheme.dart';
 import '../../../../utils/routes/routes_name.dart';
 
@@ -30,18 +31,21 @@ class _SelectDeleteReasonState extends State<SelectDeleteReason> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: MyTheme.greenColor,
-        title: const Text(
-          'Delete Account',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          translation(context).deleteAccount,
+          style: const TextStyle(color: Colors.white),
         ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 20),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Text('Select Reason', style: TextStyle(fontSize: 22)),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              translation(context).selectReason,
+              style: const TextStyle(fontSize: 22),
+            ),
           ),
           const SizedBox(height: 20),
           ListView.separated(
@@ -84,7 +88,7 @@ class _SelectDeleteReasonState extends State<SelectDeleteReason> {
             Padding(
               padding: const EdgeInsets.fromLTRB(60, 60, 60, 0),
               child: DeafultButton(
-                title: 'Continue...',
+                title: '${translation(context).continueTxt}...',
                 onPress: () {
                   Navigator.pushNamed(context, RouteName.confirmDelete);
                   // print(post.isPoster);

@@ -1,8 +1,10 @@
+import 'dart:io';
 import 'package:bizhub_new/components/deafult_button.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/view_model/my_service_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../language/language_constant.dart';
 import '../../utils/routes/routes_name.dart';
 import '../../view_model/bottom_navigation_view_model.dart';
 import '../../widgets/common/dialog_box.dart';
@@ -51,9 +53,9 @@ class SelectService extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        title: const Text(
-          'What Would You Like To Post',
-          style: TextStyle(
+        title: Text(
+          translation(context).selectServiceTitle,
+          style: const TextStyle(
             color: Colors.black87,
             fontWeight: FontWeight.w400,
             fontSize: 20,
@@ -63,14 +65,14 @@ class SelectService extends StatelessWidget {
       bottomSheet: post.isPoster != null
           ? SafeArea(
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 10),
+                padding: EdgeInsets.only(bottom: Platform.isIOS ? 20 : 10),
                 child: SizedBox(
                   height: size.height * 0.09,
                   child: Padding(
                     padding:
                         const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
                     child: DeafultButton(
-                      title: 'Continue',
+                      title: translation(context).continueTxt,
                       onPress: () {
                         Navigator.pushNamed(context, RouteName.selectCategory);
                         // print(post.isPoster);
@@ -87,7 +89,7 @@ class SelectService extends StatelessWidget {
         width: size.width,
         padding: const EdgeInsets.only(left: 12, right: 12),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             // serviceItem(context),
             // serviceItem(context),
@@ -137,7 +139,7 @@ class ServiceTypeItem extends StatelessWidget {
       onTap: onTap,
       child: SizedBox(
         height: size.height * 0.31,
-        width: size.width * 0.46,
+        width: size.width * 0.44,
         child: Stack(
           children: [
             Center(
@@ -187,7 +189,7 @@ class ServiceTypeItem extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4),
                       child: Image.asset(
                         serviceTypeImage,
-                        fit: BoxFit.contain,
+                        fit: BoxFit.fill,
                       ),
                     ),
                   ),

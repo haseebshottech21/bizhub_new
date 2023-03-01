@@ -1,16 +1,12 @@
 import 'dart:async';
-
 import 'package:bizhub_new/model/service_model.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-// import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:provider/provider.dart';
 import '../repo/service_repo.dart';
 import '../utils/shared_prefrences.dart';
-import '../view/auth/without_auth_screen.dart';
 import 'bottom_navigation_view_model.dart';
 import 'category_view_model.dart';
 
@@ -281,6 +277,7 @@ class MyServiceViewModel extends ChangeNotifier {
   Future<void> bumpUpPost({
     required BuildContext context,
     required String serviceId,
+    bool service = false,
   }) async {
     setLoad(true);
     final response = await serviceRepo.bumpUpMyService(serviceId: serviceId);
@@ -289,7 +286,11 @@ class MyServiceViewModel extends ChangeNotifier {
         Navigator.of(context).pop();
         setLoad(false);
         getMyPosterServices(context);
-        Utils.toastMessage('BumpUp My Job Successfully!');
+        Utils.toastMessage(
+          service
+              ? 'BumpUp My Service Successfully!'
+              : 'BumpUp My Job Successfully!',
+        );
       });
     }
   }

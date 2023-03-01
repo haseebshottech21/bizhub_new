@@ -1,12 +1,10 @@
 import 'package:bizhub_new/components/custom_loader.dart';
 import 'package:bizhub_new/components/no_internet.dart';
-import 'package:bizhub_new/utils/routes/routes_name.dart';
-// import 'package:bizhub_new/utils/local_notification.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
-import '../../services/local_notification.dart';
-import '../../view_model/bottom_navigation_view_model.dart';
+import '../../language/language_constant.dart';
 import '../../view_model/chat_view_model.dart';
 import 'component/chat_item.dart';
 import 'my_messages.dart';
@@ -19,23 +17,11 @@ class MyChats extends StatefulWidget {
 }
 
 class _MyChatsState extends State<MyChats> {
-  // LocalNotifiaction localNotifiaction = LocalNotifiaction();
-
-  @override
-  void initState() {
-    super.initState();
-    // LocalNotificationService.initialize();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await getMyAllChatsList();
-      await setupInteracted();
-    });
-  }
-
   Future<void> getMyAllChatsList() async {
     final chatProvider = Provider.of<ChatViewModel>(context, listen: false);
     await chatProvider.getMyAllChatList(context: context);
     chatProvider.onMessagesScreen = true;
-    print('INNER:  ${chatProvider.onMessagesScreen}');
+    // print('INNER:  ${chatProvider.onMessagesScreen}');
   }
 
   Future<void> getNewMessages() async {
@@ -48,44 +34,115 @@ class _MyChatsState extends State<MyChats> {
     );
   }
 
-  String? notifTitle, notifBody;
+  @override
+  void initState() {
+    super.initState();
+    // LocalNotificationService.initialize();
+    setupInteractedMessage();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await getMyAllChatsList();
+      // await setupInteracted();
+    });
+  }
 
-  Future<void> setupInteracted() async {
+  Future<void> setupInteractedMessage() async {
     final chatProvider = Provider.of<ChatViewModel>(context, listen: false);
-    // final bottomProvider =
-    //     Provider.of<BottomNavigationViewModel>(context, listen: false);
 
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    // Get any messages which caused the application to open from
+    // a terminated state.
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
 
-    // FirebaseMessaging.onMessageOpenedApp.listen(
-    //   (event) async {
-    //     await chatProvider.getMyAllChatListSecond(context: context);
-    //     bottomProvider.toggleToChatIndex();
-    //     // Navigator.push(
-    //     //     context, MaterialPageRoute(builder: (context) => MyChats()));
-    //   },
-    // );
+    // If the message also contains a data property with a "type" of "chat",
+    // navigate to a chat screen
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
 
-    FirebaseMessaging.onMessage.listen((event) async {
-      print('FCM received message');
+    // Also handle any interaction when the app is in the background via a
+    // Stream listener
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+
+    // FirebaseMessaging.onMessage.listen((event) async {
+    //   // print('FCM received message');
+    //   await chatProvider.getMyAllChatListSecond(context: context);
+    //   if (chatProvider.onMessagesScreen) {
+    //     await NotificationService().showNotification(
+    //       title: event.notification!.title,
+    //       body: event.notification!.body,
+    //     );
+    //   }
+    // });
+
+    const AndroidNotificationChannel channel = AndroidNotificationChannel(
+      'bizchannel',
+      'biz channel',
+      importance: Importance.max,
+    );
+
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification!.android;
+
       await chatProvider.getMyAllChatListSecond(context: context);
+
+      // If `onMessage` is triggered with a notification, construct our own
+      // local notification to show to users using the created channel.
       if (chatProvider.onMessagesScreen) {
-        // LocalNotificationService.display(event);
-        NotificationService().showNotification(
-          title: event.notification!.title,
-          body: event.notification!.body,
-        );
+        if (notification != null && android != null) {
+          flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                icon: android.smallIcon,
+                // other properties...
+              ),
+              iOS: const DarwinNotificationDetails(),
+            ),
+          );
+        }
       }
     });
   }
 
-  Future<void> _firebaseMessagingBackgroundHandler(
-      RemoteMessage message) async {
-    // If you're going to use other Firebase services in the background, such as Firestore,
-    // make sure you call `initializeApp` before using other Firebase services.
-    // await Firebase.initializeApp();
-    print("Handling a background message: ${message.messageId}");
-  }
+  void _handleMessage(RemoteMessage message) {}
+
+  // Future<void> setupInteracted() async {
+  //   final chatProvider = Provider.of<ChatViewModel>(context, listen: false);
+
+  //   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  //   FirebaseMessaging.onMessage.listen((event) async {
+  //     // print('FCM received message');
+  //     await chatProvider.getMyAllChatListSecond(context: context);
+  //     if (chatProvider.onMessagesScreen) {
+  //       await NotificationService().showNotification(
+  //         title: event.notification!.title,
+  //         body: event.notification!.body,
+  //       );
+  //     }
+  //   });
+  // }
+
+  // Future<void> _firebaseMessagingBackgroundHandler(
+  //     RemoteMessage message) async {
+  //   // If you're going to use other Firebase services in the background, such as Firestore,
+  //   // make sure you call `initializeApp` before using other Firebase services.
+  //   // await Firebase.initializeApp();
+  //   // print("Handling a background message: ${message.messageId}");
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -94,9 +151,9 @@ class _MyChatsState extends State<MyChats> {
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         elevation: 1,
-        title: const Text(
-          'Messages',
-          style: TextStyle(color: Colors.black),
+        title: Text(
+          translation(context).chatTitle,
+          style: const TextStyle(color: Colors.black),
         ),
       ),
       body: Consumer<ChatViewModel>(

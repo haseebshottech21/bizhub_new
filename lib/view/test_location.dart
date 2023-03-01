@@ -46,9 +46,7 @@ class _TestLocationState extends State<TestLocation> {
               "Address : ${locationViewModel.locationAddress.isEmpty ? 'Choose Location' : locationViewModel.locationAddress}",
             ),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.green,
-              ),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
               onPressed: () {
                 Navigator.pushNamed(context, RouteName.testSearchLocation);
               },

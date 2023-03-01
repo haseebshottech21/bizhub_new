@@ -190,7 +190,7 @@ class _MoreScreenState extends State<MoreScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        translation(context).loginText,
+                        translation(context).loginTxt,
                         style: const TextStyle(
                           fontSize: 24,
                           letterSpacing: 0.5,

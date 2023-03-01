@@ -1,8 +1,7 @@
-// import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import '../../components/deafult_button.dart';
 import '../../utils/mytheme.dart';
 import '../../utils/routes/routes_name.dart';
 import '../../view_model/location_view_model.dart';
@@ -24,8 +23,7 @@ class _MyOtherLocationState extends State<MyOtherLocation> {
     final firstRequestLocation =
         ModalRoute.of(context)!.settings.arguments as bool;
 
-    // controller.text = locationViewModel.mylocationAddress;
-
+    print('other: ' + firstRequestLocation.toString());
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -43,7 +41,10 @@ class _MyOtherLocationState extends State<MyOtherLocation> {
             Icons.clear,
             color: Colors.black,
           ),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () {
+            Navigator.pop(context);
+            controller.clear();
+          },
         ),
         actions: const [
           Padding(
@@ -55,92 +56,140 @@ class _MyOtherLocationState extends State<MyOtherLocation> {
           ),
         ],
       ),
-      body: Column(
+      body: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextFormField(
-              controller: controller,
-              onChanged: (value) {
-                locationViewModel.placeAutoComplete(value);
-              },
-              style: const TextStyle(color: Colors.black),
-              textInputAction: TextInputAction.search,
-              // autofocus: true,
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.green),
-                ),
-                fillColor: Colors.grey.shade50,
-                filled: true,
-                hintText: 'Search area, city or country',
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.green),
-                ),
-                focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.green),
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: TextFormField(
+                  controller: controller,
+                  onChanged: (value) {
+                    locationViewModel.placeAutoComplete(value);
+                  },
+                  style: const TextStyle(color: Colors.black),
+                  textInputAction: TextInputAction.search,
+                  // autofocus: true,
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.green),
+                    ),
+                    fillColor: Colors.grey.shade50,
+                    filled: true,
+                    hintText: 'Search area, city or country',
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.green),
+                    ),
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.green),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          // const Divider(
-          //   height: 2,
-          //   thickness: 2,
-          //   color: Colors.black12,
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
-          //   child: ElevatedButton.icon(
-          //     onPressed: () {
-          //       // locationViewModel.getLatLong(context);
-          //       Navigator.of(context).pop();
-          //     },
-          //     icon: const Icon(CupertinoIcons.location_fill),
-          //     label: const Text(
-          //       'My Current Location',
-          //       // style: TextStyle(color: Colors.white),
-          //     ),
-          //     style: ElevatedButton.styleFrom(
-          //       backgroundColor: MyTheme.greenColor,
-          //       foregroundColor: Colors.white,
-          //       elevation: 1,
-          //       fixedSize: Size(size.width, 45),
-          //       // shape: const RoundedRectangleBorder(
-          //       //   borderRadius: BorderRadius.all(Radius.circular(4)),
-          //       // ),
-          //     ),
-          //   ),
-          // ),
-          const Divider(
-            height: 1.5,
-            thickness: 1.5,
-            color: Colors.black26,
-          ),
-          if (locationViewModel.placePrediction.isNotEmpty &&
-              controller.text.isNotEmpty)
-            Expanded(
-              child: ListView.builder(
-                itemCount: locationViewModel.placePrediction.length,
-                itemBuilder: (context, index) {
-                  return LocationTitle(
-                    onTap: () {
-                      // print(placePrediction[index].description!);
-                      // print(placePrediction[index].placeId!);
-                      locationViewModel.getMyPlaceDetail(
-                        locationViewModel.placePrediction[index].placeId!,
+              if (!firstRequestLocation)
+                Consumer<LocationViewModel>(
+                  builder: (context, provider, _) {
+                    return Padding(
+                      padding: const EdgeInsets.only(
+                        left: 16,
+                        right: 16,
+                        bottom: 12,
+                      ),
+                      child: DeafultIconButton(
+                          icon: CupertinoIcons.location,
+                          isloading: provider.btnloading,
+                          loadingTitle: 'Getting location',
+                          title: 'Use my Current Location',
+                          onPress: () {
+                            provider.getMyLatLong(
+                              context: context,
+                              route: false,
+                            );
+
+                            // if (firstRequestLocation) {
+                            //   provider
+                            //       .getMyLatLong(context: context)
+                            //       .then((value) async {
+                            //     Navigator.pushNamed(context, RouteName.home);
+                            //   });
+                            // } else {
+                            //   provider
+                            //       .getMyLatLong(context: context)
+                            //       .then((value) async {
+                            //     await locationViewModel.getAllSerices(context);
+                            //   });
+                            // }
+                          }),
+                      // provider.getStoreLocationIfExist(context);
+                      // provider.updateMyLocation();
+                    );
+                  },
+                ),
+              const Divider(
+                height: 1.5,
+                thickness: 1.5,
+                color: Colors.black26,
+              ),
+              if (locationViewModel.placePrediction.isNotEmpty &&
+                  controller.text.isNotEmpty)
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: locationViewModel.placePrediction.length,
+                    itemBuilder: (context, index) {
+                      return LocationTitle(
+                        onTap: () async {
+                          // print(placePrediction[index].description!);
+                          // print(placePrediction[index].placeId!);
+                          if (firstRequestLocation) {
+                            await locationViewModel
+                                .getMyPlaceDetail(
+                              locationViewModel.placePrediction[index].placeId!,
+                            )
+                                .then((value) {
+                              Navigator.pushReplacementNamed(
+                                  context, RouteName.home);
+                            });
+                          } else {
+                            await locationViewModel
+                                .getMyPlaceDetail(
+                              locationViewModel.placePrediction[index].placeId!,
+                            )
+                                .then((value) async {
+                              print('object');
+                              await locationViewModel.getAllSerices(context);
+                            });
+                          }
+                          // else {
+                          //   print('object');
+                          // }
+                          controller.clear();
+                        },
+                        location: locationViewModel
+                            .placePrediction[index].description!,
                       );
-                      controller.clear();
-                      if (firstRequestLocation) {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            RouteName.home, (route) => false);
-                      } else {
-                        Navigator.pop(context);
-                      }
                     },
-                    location:
-                        locationViewModel.placePrediction[index].description!,
-                  );
-                },
+                  ),
+                ),
+            ],
+          ),
+          if (locationViewModel.loading)
+            Positioned(
+              left: 0,
+              right: 0,
+              top: 180,
+              child: Container(
+                height: 60,
+                width: 60,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    color: MyTheme.greenColor,
+                    strokeWidth: 3.0,
+                  ),
+                ),
               ),
             ),
         ],

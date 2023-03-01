@@ -141,12 +141,19 @@ class MyPostJobItem extends StatelessWidget {
                                     onTap: () {
                                       showModalBottomSheet<void>(
                                         context: context,
+                                        backgroundColor: Colors.transparent,
                                         builder: (BuildContext context) {
                                           return SafeArea(
                                             child: Container(
                                               // height: 200,
                                               width: size.maxWidth,
-                                              color: Colors.white,
+                                              decoration: const BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(6),
+                                                  topRight: Radius.circular(6),
+                                                ),
+                                              ),
                                               child: Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -186,7 +193,6 @@ class MyPostJobItem extends StatelessWidget {
                                                           },
                                                         ),
                                                       );
-                                                      // }
                                                     },
                                                   ),
                                                   BottomModalAction(
@@ -259,9 +265,7 @@ class MyPostJobItem extends StatelessWidget {
                                                                         ),
                                                                       ),
                                                                     );
-                                                                  }
-                                                                  // },s
-                                                                  ),
+                                                                  }),
                                                         );
                                                       },
                                                     ),
@@ -281,7 +285,7 @@ class MyPostJobItem extends StatelessWidget {
                                     },
                                     child: const Icon(
                                       CupertinoIcons.ellipsis_vertical,
-                                      size: 20,
+                                      size: 22,
                                     ),
                                   ),
                                 ],
