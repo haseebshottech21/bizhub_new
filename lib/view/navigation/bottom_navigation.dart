@@ -10,6 +10,7 @@ import 'package:bizhub_new/view/account/more.dart';
 import 'package:bizhub_new/view/chat/my_chats.dart';
 import 'package:bizhub_new/view/home/home_screen.dart';
 import 'package:bizhub_new/view_model/bottom_navigation_view_model.dart';
+import '../../utils/dynamic_links.dart';
 import '../../view_model/chat_view_model.dart';
 import '../auth/without_auth_screen.dart';
 import '../posts/my_posts.dart';
@@ -24,6 +25,8 @@ class NavigatoionBarScreen extends StatefulWidget {
 class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
   PageController myPage = PageController(initialPage: 0);
 
+  final DynamicLinkProvider _dynamicLinkService = DynamicLinkProvider();
+
   checkToken() async {
     final bottom = context.read<BottomNavigationViewModel>();
     final chatProvider = context.read<ChatViewModel>();
@@ -33,19 +36,11 @@ class _NavigatoionBarScreenState extends State<NavigatoionBarScreen> {
 
   @override
   void initState() {
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-    //   await setUpRequestNotification();
-    // });
-    // WidgetsBinding.instance.addPostFrameCallback((_) async {
-    //   await setupInteracted();
-    //   // await localNotifiaction.initialize();
-    // });
     super.initState();
     checkToken();
-    // setupInteracted();
-    // WidgetsBinding.instance.addPostFrameCallback((_) async {
-    //   await setupInteracted();
-    // });
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _dynamicLinkService.initDynamicLinks(context);
+    });
   }
 
   Future<void> setupInteracted() async {

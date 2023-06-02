@@ -292,10 +292,7 @@ class AuthViewModel extends ChangeNotifier {
   }
 
   // VIEW OTHER PROFILE
-  Future<void> viewOtherProfile({
-    required BuildContext context,
-    required String userId,
-  }) async {
+  Future<void> viewOtherProfile({required String userId}) async {
     setLoad(true);
     Future.delayed(const Duration(seconds: 1)).then(
       (value) async {
@@ -406,6 +403,30 @@ class AuthViewModel extends ChangeNotifier {
           // if (kDebugMode) {
           Navigator.pushNamed(context, RouteName.otpSuccess);
           // Utils.toastMessage('Password Update Successfully!');
+          // }
+        },
+      );
+    }
+  }
+
+  Future<void> resenOtp() async {
+    setLoad(true);
+    Map data = {
+      'unique_id': await Prefrences().getSharedPreferenceValue('uniqueId'),
+    };
+    // print(await Prefrences().getSharedPreferenceValue('uniqueId'));
+    final loadedData = await authRepo.resendOTPApi(data);
+    // print(loadedData);
+    if (loadedData == null) {
+      setLoad(false);
+    } else if (loadedData != null) {
+      Future.delayed(const Duration(seconds: 1)).then(
+        (value) {
+          // print(value);
+          setLoad(false);
+          // if (kDebugMode) {
+          // Navigator.pushNamed(context, RouteName.otpSuccess);
+          Utils.toastMessage('OTP resend Successfully!');
           // }
         },
       );

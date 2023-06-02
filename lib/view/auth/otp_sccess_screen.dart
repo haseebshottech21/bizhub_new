@@ -78,7 +78,8 @@ class _OTPSuccessScreenState extends State<OTPSuccessScreen>
                 DeafultButton(
                   title: 'CONTINUE',
                   onPress: () {
-                    Navigator.pushNamed(context, RouteName.login);
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, RouteName.login, (route) => false);
                   },
                 ),
               ],

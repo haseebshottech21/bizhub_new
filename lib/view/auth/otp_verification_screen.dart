@@ -30,6 +30,11 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
     }
   }
 
+  resendOTP() {
+    final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
+    authViewModel.resenOtp();
+  }
+
   getOTPEmail() {
     final auth = context.read<AuthViewModel>();
     auth.getOTPEmail();
@@ -171,7 +176,9 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                   ),
                   TextButton(
                     // onPressed: () => snackBar("OTP resend!!"),
-                    onPressed: () {},
+                    onPressed: () {
+                      resendOTP();
+                    },
                     child: const Text(
                       "RESEND",
                       style: TextStyle(

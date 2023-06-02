@@ -116,12 +116,23 @@ class AuthRepository {
 
         return responseLoaded;
       } else {
-        Utils.toastMessage(responseLoaded['message']);
+        if (responseLoaded is Map<String, dynamic> &&
+            responseLoaded.containsKey('errors')) {
+          final errors = responseLoaded['errors'] as Map<String, dynamic>;
+          if (errors.containsKey('email')) {
+            final emailErrors = errors['email'] as List<dynamic>;
+            final errorMessage =
+                emailErrors.isNotEmpty ? emailErrors.first : 'Unknown error';
+
+            Utils.toastMessage(errorMessage.toString());
+          }
+        } else {
+          Utils.toastMessage(responseLoaded['message']);
+        }
       }
     } catch (e) {
       // print(e.toString());
       Utils.toastMessage(e.toString());
-      // Fluttertoast.showToast(msg: e.toString());
     }
   }
 
@@ -134,15 +145,56 @@ class AuthRepository {
       );
       final responseLoaded = jsonDecode(response.body);
       if (response.statusCode == 200 || response.statusCode == 201) {
+        await prefrence.removeSharedPreferenceValue('uniqueId');
+        await prefrence.removeSharedPreferenceValue('resendId');
+
+        return responseLoaded;
+      } else if (response.statusCode == 409 || response.statusCode == 404) {
+        setResendOTPCredientail(responseLoaded['data']);
+      } else {
+        // print('status: ${response.statusCode}');
+        // print(responseLoaded);
+        if (responseLoaded is Map<String, dynamic> &&
+            responseLoaded.containsKey('errors')) {
+          final errors = responseLoaded['errors'] as Map<String, dynamic>;
+          if (errors.containsKey('otp')) {
+            final otpErrors = errors['otp'] as List<dynamic>;
+            final errorMessage =
+                otpErrors.isNotEmpty ? otpErrors.first : 'Unknown error';
+
+            Utils.toastMessage(errorMessage.toString());
+          }
+        } else {
+          // print('status: ${response.statusCode}');
+
+          Utils.toastMessage(responseLoaded['message']);
+        }
+      }
+    } catch (e) {
+      // print(e.toString());
+      Utils.toastMessage(e.toString());
+      // Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  Future<dynamic> resendOTPApi(dynamic data) async {
+    try {
+      http.Response response = await http.post(
+        Uri.parse(AppUrl.resendOTPEndPoint),
+        body: data,
+        headers: AppUrl.header,
+      );
+      final responseLoaded = jsonDecode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        setOTPCredientail(responseLoaded['data']);
+
         // print(responseLoaded.toString());
         return responseLoaded;
       } else {
         Utils.toastMessage(responseLoaded['message']);
       }
     } catch (e) {
-      // print(e.toString());
       Utils.toastMessage(e.toString());
-      // Fluttertoast.showToast(msg: e.toString());
     }
   }
 
@@ -308,6 +360,13 @@ class AuthRepository {
     await prefrence.setSharedPreferenceValue(
       'uniqueId',
       loadedData['uniqueId'],
+    );
+  }
+
+  Future<void> setResendOTPCredientail(dynamic loadedData) async {
+    await prefrence.setSharedPreferenceValue(
+      'resendId',
+      loadedData['resendId'],
     );
   }
 

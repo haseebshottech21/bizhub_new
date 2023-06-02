@@ -1,6 +1,6 @@
-// import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../language/language_constant.dart';
 import '../../../utils/app_url.dart';
 import '../../../utils/mytheme.dart';
@@ -8,13 +8,57 @@ import '../../../view_model/my_service_view_model.dart';
 import 'edit_my_post.dart';
 import 'my_google_map.dart';
 
-class MyPostDetail extends StatelessWidget {
+class MyPostDetail extends StatefulWidget {
   const MyPostDetail({
     Key? key,
     required this.myServiceViewModel,
   }) : super(key: key);
 
   final MyServiceViewModel myServiceViewModel;
+
+  @override
+  State<MyPostDetail> createState() => _MyPostDetailState();
+}
+
+class _MyPostDetailState extends State<MyPostDetail> {
+  GoogleMapController? mapController;
+
+  bool? loading;
+  double? lat;
+  double? lng;
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
+
+  Set<Circle>? circles;
+
+  @override
+  initState() {
+    loading = true;
+    lat = double.parse(
+      widget.myServiceViewModel.serviceModel!.latitude.toString(),
+    );
+    lng = double.parse(
+      widget.myServiceViewModel.serviceModel!.longitude.toString(),
+    );
+
+    circles = {
+      Circle(
+        circleId: const CircleId("myCircle"),
+        radius: 2000,
+        center: LatLng(lat!, lng!),
+        fillColor: const Color.fromRGBO(52, 186, 37, .6),
+        strokeColor: Colors.white,
+        strokeWidth: 1,
+        // onTap: () {
+        //   print('circle pressed');
+        // },
+      )
+    };
+    loading = false;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,17 +72,18 @@ class MyPostDetail extends StatelessWidget {
             children: <Widget>[
               SizedBox(
                 height: size.height * 0.35,
-                child: myServiceViewModel.serviceModel!.imagesList!.isEmpty
+                child: widget
+                        .myServiceViewModel.serviceModel!.imagesList!.isEmpty
                     ? Container(
                         color: Colors.black,
                         child: Image.asset('assets/images/bizhub_logo.png'),
                       )
                     : ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount:
-                            myServiceViewModel.serviceModel!.imagesList!.length,
+                        itemCount: widget.myServiceViewModel.serviceModel!
+                            .imagesList!.length,
                         itemBuilder: (BuildContext context, int index) {
-                          final serviceImages = myServiceViewModel
+                          final serviceImages = widget.myServiceViewModel
                               .serviceModel!.imagesList![index];
                           return Stack(
                             children: [
@@ -58,31 +103,6 @@ class MyPostDetail extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              // Positioned(
-                              //   right: 8,
-                              //   bottom: 8,
-                              //   child: Container(
-                              //     padding: const EdgeInsets.symmetric(
-                              //       vertical: 4,
-                              //       horizontal: 10,
-                              //     ),
-                              //     decoration: BoxDecoration(
-                              //       color: Colors.black.withOpacity(0.3),
-                              //       borderRadius: BorderRadius.circular(20),
-                              //     ),
-                              //     child: Center(
-                              //       child: Text(
-                              //         '${index + 1}/${myServiceViewModel.serviceModel!.imagesList!.length}',
-                              //         style: const TextStyle(
-                              //           color: Colors.white,
-                              //           fontSize: 12,
-                              //           fontWeight: FontWeight.w400,
-                              //           letterSpacing: 2,
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ),
-                              // ),
                               Positioned(
                                 right: 8,
                                 bottom: 8,
@@ -97,7 +117,7 @@ class MyPostDetail extends StatelessWidget {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      '${index + 1}/${myServiceViewModel.serviceModel!.imagesList!.length}',
+                                      '${index + 1}/${widget.myServiceViewModel.serviceModel!.imagesList!.length}',
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 13,
@@ -120,7 +140,7 @@ class MyPostDetail extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '\$ ${myServiceViewModel.serviceModel!.serviceAmount.toString()}',
+                      '\$ ${widget.myServiceViewModel.serviceModel!.serviceAmount.toString()}',
                       style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w500,
@@ -128,7 +148,8 @@ class MyPostDetail extends StatelessWidget {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      myServiceViewModel.serviceModel!.serviceTitle.toString(),
+                      widget.myServiceViewModel.serviceModel!.serviceTitle
+                          .toString(),
                       style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w400,
@@ -146,7 +167,8 @@ class MyPostDetail extends StatelessWidget {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      myServiceViewModel.serviceModel!.serviceDesc.toString(),
+                      widget.myServiceViewModel.serviceModel!.serviceDesc
+                          .toString(),
                       style: const TextStyle(
                         fontSize: 16,
                         color: Colors.black54,
@@ -164,7 +186,18 @@ class MyPostDetail extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    MyGoogleMap(myServiceViewModel: myServiceViewModel),
+                    // MyGoogleMap(myServiceViewModel: widget.myServiceViewModel),
+                    loading == false
+                        ? SizedBox(
+                            height: size.height * 0.22,
+                            child: MyGoogleLocation(
+                              circles: circles,
+                              onMapCreated: _onMapCreated,
+                              lat: lat!,
+                              lng: lng!,
+                            ),
+                          )
+                        : const Center(child: CircularProgressIndicator()),
                   ],
                 ),
               )
@@ -209,7 +242,8 @@ class MyPostDetail extends StatelessWidget {
                             size: 30,
                           ),
                         ),
-                        myServiceViewModel.serviceModel!.serviceStatus == '0'
+                        widget.myServiceViewModel.serviceModel!.serviceStatus ==
+                                '0'
                             ? InkWell(
                                 onTap: () {
                                   Navigator.push(
@@ -217,8 +251,8 @@ class MyPostDetail extends StatelessWidget {
                                     MaterialPageRoute(
                                       builder: (context) => const EditMyPost(),
                                       settings: RouteSettings(
-                                        arguments:
-                                            myServiceViewModel.serviceModel,
+                                        arguments: widget
+                                            .myServiceViewModel.serviceModel,
                                       ),
                                     ),
                                   );
@@ -237,114 +271,8 @@ class MyPostDetail extends StatelessWidget {
               ],
             ),
           ),
-          // Positioned(
-          //   top: 0,
-          //   child: Container(
-          //     height: MediaQuery.of(context).size.height * 0.09,
-          //     width: MediaQuery.of(context).size.width,
-          //     padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          //     alignment: Alignment.bottomLeft,
-          //     decoration: BoxDecoration(
-          //       gradient: LinearGradient(
-          //         colors: [
-          //           Colors.transparent.withOpacity(0.2),
-          //           Colors.transparent.withOpacity(0.1),
-          //           Colors.transparent,
-          //         ],
-          //         stops: const [
-          //           0.1,
-          //           0.5,
-          //           0.9,
-          //         ],
-          //         begin: Alignment.topCenter,
-          //         end: Alignment.bottomCenter,
-          //       ),
-          //     ),
-          //     child: Row(
-          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //       children: [
-          //         _actionButton(
-          //           onTap: () {
-          //             Navigator.of(context).pop();
-          //           },
-          //           icon: Icons.arrow_back_ios,
-          //         ),
-          //         // Container(
-          //         //   width: 50,
-          //         //   height: 50,
-          //         //   margin: const EdgeInsets.symmetric(horizontal: 12),
-          //         //   child: InkWell(
-          //         //     onTap: () {
-          //         //       Navigator.of(context).pop();
-          //         //     },
-          //         //     child: const Icon(
-          //         //       Icons.arrow_back_ios,
-          //         //       color: MyTheme.greenColor,
-          //         //     ),
-          //         //   ),
-          //         // ),
-
-          //         // Container(
-          //         //   width: 40,
-          //         //   height: 50,
-          //         //   margin: const EdgeInsets.symmetric(horizontal: 12),
-          //         //   child: myServiceViewModel.serviceModel!.serviceStatus == '0'
-          //         //       ? InkWell(
-          //         //           onTap: () {
-          //         //             Navigator.push(
-          //         //               context,
-          //         //               MaterialPageRoute(
-          //         //                 builder: (context) => const EditMyPost(),
-          //         //                 settings: RouteSettings(
-          //         //                   arguments: myServiceViewModel.serviceModel,
-          //         //                 ),
-          //         //               ),
-          //         //             );
-          //         //           },
-          //         //           child: const Icon(
-          //         //             Icons.edit,
-          //         //             color: MyTheme.greenColor,
-          //         //           ),
-          //         //         )
-          //         //       : const SizedBox(),
-          //         // ),
-          //         myServiceViewModel.serviceModel!.serviceStatus == '0'
-          //             ? _actionButton(
-          //                 onTap: () {
-          //                   Navigator.push(
-          //                     context,
-          //                     MaterialPageRoute(
-          //                       builder: (context) => const EditMyPost(),
-          //                       settings: RouteSettings(
-          //                         arguments: myServiceViewModel.serviceModel,
-          //                       ),
-          //                     ),
-          //                   );
-          //                 },
-          //                 icon: Icons.edit,
-          //               )
-          //             : const SizedBox()
-          //       ],
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );
   }
-
-  // Widget _actionButton({
-  //   required VoidCallback onTap,
-  //   required IconData icon,
-  // }) {
-  //   return InkWell(
-  //     onTap: onTap,
-  //     borderRadius: BorderRadius.circular(50),
-  //     child: CircleAvatar(
-  //       radius: 22,
-  //       backgroundColor: Colors.white.withAlpha(30),
-  //       child: Center(child: Icon(icon, color: Colors.white, size: 22)),
-  //     ),
-  //   );
-  // }
 }

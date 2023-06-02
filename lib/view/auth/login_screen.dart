@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../../language/language_constant.dart';
 import '../../utils/field_validator.dart';
 import '../../utils/routes/routes_name.dart';
+import '../../utils/shared_prefrences.dart';
 import '../../widgets/common/input_textfield.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -24,10 +25,19 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final textFieldValidator = TextFieldValidators();
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  // }
+  var uniqueId = '';
+
+  @override
+  void initState() {
+    super.initState();
+    // get();
+  }
+
+  void get() async {
+    uniqueId =
+        await Prefrences().getSharedPreferenceValue('resendId') ?? 'no id';
+    // print(uniqueId);
+  }
 
   validateAndLogin() {
     if (!_formKey.currentState!.validate()) {

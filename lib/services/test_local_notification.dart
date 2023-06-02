@@ -51,13 +51,13 @@ class TestNotificationService {
     );
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      print('user granted permission');
+      // print('user granted permission');
     } else if (settings.authorizationStatus ==
         AuthorizationStatus.provisional) {
-      print('user granted provisional permission');
+      // print('user granted provisional permission');
     } else {
       AppSettings.openNotificationSettings();
-      print('user denied permission');
+      // print('user denied permission');
     }
   }
 

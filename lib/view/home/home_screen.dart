@@ -1,5 +1,6 @@
 import 'package:bizhub_new/components/custom_loader.dart';
 import 'package:bizhub_new/components/no_internet.dart';
+import 'package:bizhub_new/utils/dynamic_links.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/utils/shared_prefrences.dart';
@@ -35,19 +36,20 @@ class _HomeScreenState extends State<HomeScreen> {
     await FirebaseMessaging.instance.getToken().then((value) {
       setState(() {
         HomeScreen.notifyToken = value.toString();
-        print('app_token: ${HomeScreen.notifyToken}');
+        // print('app_token: ${HomeScreen.notifyToken}');
       });
     });
   }
 
   @override
   void initState() {
-    // init();
     super.initState();
+
     storeNotificationToken();
     setupInteractedMessage();
     // NotificationService().initNotification();
     getLocation();
+
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       checkAndGetServices();
       final provider =

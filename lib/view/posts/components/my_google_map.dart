@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import '../../../view_model/my_service_view_model.dart';
 
 class MyGoogleMap extends StatefulWidget {
@@ -17,13 +19,13 @@ class MyGoogleMap extends StatefulWidget {
 class _MyGoogleMapState extends State<MyGoogleMap> {
   static LatLng pinPosition = const LatLng(0, 0);
 
-  late CameraPosition initialLocation;
+  CameraPosition? initialLocation;
 
-  late BitmapDescriptor pinLocationIcon;
+  // BitmapDescriptor? pinLocationIcon;
   final Set<Marker> _markers = {};
   final Set<Circle> _circles = HashSet<Circle>();
   final Completer<GoogleMapController> mapController = Completer();
-  late BitmapDescriptor _markerIcon;
+  BitmapDescriptor? _markerIcon;
 
   // @override
   // void initState() {
@@ -91,7 +93,7 @@ class _MyGoogleMapState extends State<MyGoogleMap> {
           //   title: "San Francsico",
           //   snippet: "An Interesting city",
           // ),
-          icon: _markerIcon,
+          icon: _markerIcon!,
         ),
       );
     });
@@ -127,7 +129,7 @@ class _MyGoogleMapState extends State<MyGoogleMap> {
         //   target: LatLng(37.77483, -122.41942),
         //   zoom: 12,
         // ),
-        initialCameraPosition: initialLocation,
+        initialCameraPosition: initialLocation!,
         markers: _markers,
         // polygons: _polygons,
         // polylines: _polylines,
@@ -159,6 +161,47 @@ class _MyGoogleMapState extends State<MyGoogleMap> {
       //     );
       //   },
       // ),
+    );
+  }
+}
+
+class MyGoogleLocation extends StatelessWidget {
+  final Function(GoogleMapController)? onMapCreated;
+  final Set<Circle>? circles;
+  final double lat, lng;
+  const MyGoogleLocation({
+    Key? key,
+    required this.circles,
+    required this.onMapCreated,
+    required this.lat,
+    required this.lng,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GoogleMap(
+      mapType: MapType.normal,
+      circles: circles!,
+      // myLocationButtonEnabled: true,
+      myLocationEnabled: true,
+      onMapCreated: onMapCreated,
+      // zoomGesturesEnabled: true,
+      // compassEnabled: true,
+      // scrollGesturesEnabled: true,
+      rotateGesturesEnabled: true,
+      tiltGesturesEnabled: true,
+
+      zoomGesturesEnabled: false,
+      compassEnabled: false,
+      zoomControlsEnabled: false,
+      scrollGesturesEnabled: false,
+      myLocationButtonEnabled: false,
+      initialCameraPosition: CameraPosition(
+        target: LatLng(lat, lng),
+        zoom: 12.0,
+        bearing: 8.0,
+      ),
+      // markers: allMarkers,
     );
   }
 }

@@ -258,9 +258,7 @@ class AllServicesViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  noInternetAndGetServices({
-    required BuildContext context,
-  }) async {
+  noInternetAndGetServices({required BuildContext context}) async {
     if (await InternetConnectionChecker().hasConnection == true) {
       token = await prefernce.getSharedPreferenceValue('token');
       // getAllServices();

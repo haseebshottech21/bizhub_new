@@ -58,8 +58,8 @@ class ServiceRepository {
         headers: await AppUrl().headerWithAuth(),
       );
 
-      print(
-          '${AppUrl.allServiceEndPoint}?$servicePage&type=$serviceType$catIds&latitude=$lat&longitude=$long$miles');
+      // print(
+      //     '${AppUrl.allServiceEndPoint}?$servicePage&type=$serviceType$catIds&latitude=$lat&longitude=$long$miles');
 
       // print('${AppUrl.allServiceEndPoint}?type=$serviceType');
       final loadedData = json.decode(response.body);
@@ -112,9 +112,10 @@ class ServiceRepository {
         headers: AppUrl.header,
       );
 
-      print(
-          '${AppUrl.withoutAuthAllServiceEndPoint}?$servicePage&type=$serviceType$catIds&latitude=$lat&longitude=$long$miles');
+      // print(
+      //     '${AppUrl.withoutAuthAllServiceEndPoint}?$servicePage&type=$serviceType$catIds&latitude=$lat&longitude=$long$miles');
       // print('${AppUrl.allServiceEndPoint}?type=$serviceType');
+
       final loadedData = json.decode(response.body);
       // print(loadedData);
       if (response.statusCode == 200) {
@@ -160,8 +161,8 @@ class ServiceRepository {
         Utils.toastMessage(loadedData['message']);
       }
     } catch (e) {
-      print(e.toString());
-      // Utils.toastMessage(e.toString());
+      // print(e.toString());
+      Utils.toastMessage(e.toString());
     }
     return allService;
   }

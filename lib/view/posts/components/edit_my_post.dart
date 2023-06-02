@@ -111,7 +111,7 @@ class _EditMyPostState extends State<EditMyPost> {
         title: Text(
           'Edit My Job',
           style: TextStyle(
-            color: Theme.of(context).textTheme.bodyText1!.color,
+            color: Theme.of(context).textTheme.bodyLarge!.color,
           ),
         ),
         backgroundColor: Colors.white,

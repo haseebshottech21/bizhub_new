@@ -23,7 +23,7 @@ class _MyOtherLocationState extends State<MyOtherLocation> {
     final firstRequestLocation =
         ModalRoute.of(context)!.settings.arguments as bool;
 
-    print('other: ' + firstRequestLocation.toString());
+    // print('other: ' + firstRequestLocation.toString());
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -155,7 +155,7 @@ class _MyOtherLocationState extends State<MyOtherLocation> {
                               locationViewModel.placePrediction[index].placeId!,
                             )
                                 .then((value) async {
-                              print('object');
+                              // print('object');
                               await locationViewModel.getAllSerices(context);
                             });
                           }

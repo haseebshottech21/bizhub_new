@@ -1,8 +1,10 @@
+import 'package:bizhub_new/utils/dynamic_links.dart';
 import 'package:bizhub_new/view/posts/components/post_complete.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../model/service_model.dart';
 import '../../../utils/app_url.dart';
 import '../../../utils/mytheme.dart';
@@ -274,6 +276,18 @@ class MyPostJobItem extends StatelessWidget {
                                                     onTap: () =>
                                                         Navigator.of(context)
                                                             .pop(),
+                                                  ),
+                                                  BottomModalAction(
+                                                    text: 'Share',
+                                                    onTap: () {
+                                                      DynamicLinkProvider()
+                                                          .createLink(
+                                                        serviceModel.serviceId!,
+                                                      )
+                                                          .then((value) {
+                                                        Share.share(value);
+                                                      });
+                                                    },
                                                   ),
                                                   const SizedBox(height: 15),
                                                 ],

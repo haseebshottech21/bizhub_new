@@ -2,6 +2,7 @@
 // import 'package:bizhub_new/utils/local_notification.dart';
 import 'dart:io';
 import 'package:bizhub_new/services/notifications_service.dart';
+import 'package:bizhub_new/utils/dynamic_links.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/utils/routes/routes.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
@@ -14,6 +15,7 @@ import 'package:bizhub_new/view_model/chat_view_model.dart';
 import 'package:bizhub_new/view_model/location_view_model.dart';
 import 'package:bizhub_new/view_model/my_service_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,7 +27,7 @@ import 'language/language_constant.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(message) async {
   await Firebase.initializeApp();
-  print('Handling a background message ${message.messageId}');
+  // print('Handling a background message ${message.messageId}');
 }
 
 Future<void> main() async {
@@ -38,6 +40,7 @@ Future<void> main() async {
     //IOS check permission
     permission();
   }
+
   NotificationService().initLocalNotification();
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
@@ -100,6 +103,8 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // getToken();
     super.initState();
+
+    DynamicLinkProvider().initDynamicLinks(context);
   }
 
   Locale? _locale;

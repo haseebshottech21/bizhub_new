@@ -28,10 +28,7 @@ class _ViewOtherProfileState extends State<ViewOtherProfile> {
     final UserModel profile =
         ModalRoute.of(context)!.settings.arguments as UserModel;
     await profileViewModel.getReportedDate();
-    await profileViewModel.viewOtherProfile(
-      context: context,
-      userId: profile.userId.toString(),
-    );
+    await profileViewModel.viewOtherProfile(userId: profile.userId.toString());
     // print(profile.userId);
   }
 

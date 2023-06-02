@@ -9,6 +9,7 @@ class AppUrl {
   static var loginEndPoint = '$baseUrl/api/login';
   static var signUpEndPoint = '$baseUrl/api/register';
   static var validateOTPEndPoint = '$baseUrl/api/validate-otp';
+  static var resendOTPEndPoint = '$baseUrl/api/resend-otp';
   static var forgotPasswordEndPoint = '$baseUrl/api/forget-password';
   static var resetPasswordEndPoint = '$baseUrl/api/reset-password';
   static var updateUserEndPoint = '$baseUrl/api/update-user';

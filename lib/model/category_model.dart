@@ -29,4 +29,3 @@ class CategoryModel {
         'is_active': catActive,
       };
 }
-

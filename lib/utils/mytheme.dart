@@ -36,7 +36,6 @@ class MyTheme {
       subtitle1: TextStyle(color: Colors.white.withOpacity(0.7), inherit: true),
     ),
     brightness: Brightness.light,
-    backgroundColor: Colors.white,
     fontFamily: 'Poppins',
     buttonTheme: const ButtonThemeData(
       colorScheme: ColorScheme.light(
@@ -54,7 +53,6 @@ class MyTheme {
     scaffoldBackgroundColor: appBarColor,
     fontFamily: 'Poppins',
     brightness: Brightness.dark,
-    backgroundColor: appBarColor,
     buttonTheme: const ButtonThemeData(
       colorScheme: ColorScheme.dark(
         background: splash,

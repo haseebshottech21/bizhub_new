@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../components/deafult_button.dart';
-import '../../main.dart';
+// import '../../main.dart';
 import '../../utils/field_validator.dart';
 import '../../utils/mytheme.dart';
 import '../../utils/routes/routes_name.dart';
