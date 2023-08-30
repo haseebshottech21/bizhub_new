@@ -57,8 +57,8 @@ class _SignupScreenState extends State<SignupScreen> {
             titlePadding: const EdgeInsets.only(top: 16, left: 24, bottom: 6),
             contentPadding:
                 const EdgeInsets.only(top: 2, bottom: 12, left: 24, right: 24),
-            title: Column(
-              children: const [
+            title: const Column(
+              children: [
                 Icon(
                   Icons.check_circle_outline,
                   size: 60,

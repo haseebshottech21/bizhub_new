@@ -34,16 +34,17 @@ class BottomNavigationViewModel with ChangeNotifier {
   cerateNewPost(BuildContext context) async {
     checkToken();
     if (token == null || token == '') {
-      Timer(
-        Duration.zero,
-        () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (ctx) => const WithoutAuthScreen(),
-            settings: const RouteSettings(arguments: false),
-          ),
-        ),
-      );
+      // Timer(
+      //   Duration.zero,
+      //   () => Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //       builder: (ctx) => const WithoutAuthScreen(),
+      //       settings: const RouteSettings(arguments: false),
+      //     ),
+      //   ),
+      // );
+      Navigator.of(context).pushNamed(RouteName.selectService);
     } else {
       Navigator.of(context).pushNamed(RouteName.selectService);
     }

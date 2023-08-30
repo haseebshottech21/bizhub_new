@@ -32,6 +32,7 @@ import 'package:bizhub_new/view/splash_screen.dart';
 import 'package:flutter/material.dart';
 import '../../view/account/select_language.dart';
 import '../../view/auth/otp_verification_screen.dart';
+import '../../view/create/create_post_without_auth.dart';
 // import '../../view/posts/my_jobs/edit_poster_service.dart';
 
 class RouteGenerator {
@@ -90,6 +91,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const SelectCategory());
       case RouteName.createPost:
         return MaterialPageRoute(builder: (context) => const CreatePost());
+      case RouteName.createGuestPost:
+        return MaterialPageRoute(builder: (context) => const CreatePostWithoutAuth());
       // case RouteName.editMyPosterService:
       //   return MaterialPageRoute(
       //       builder: (context) => const EditMyPosterService());

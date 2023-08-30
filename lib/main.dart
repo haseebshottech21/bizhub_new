@@ -15,7 +15,7 @@ import 'package:bizhub_new/view_model/chat_view_model.dart';
 import 'package:bizhub_new/view_model/location_view_model.dart';
 import 'package:bizhub_new/view_model/my_service_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+// import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -85,6 +85,7 @@ void permission() async {
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
   static String? notifyToken;
+  static bool updateChecker = false;
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -104,7 +105,7 @@ class _MyAppState extends State<MyApp> {
     // getToken();
     super.initState();
 
-    DynamicLinkProvider().initDynamicLinks(context);
+    // DynamicLinkProvider().initDynamicLinks(context);
   }
 
   Locale? _locale;

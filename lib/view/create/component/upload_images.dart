@@ -37,9 +37,9 @@ class UploadImages extends StatelessWidget {
                     )
                     // boxShadow: kElevationToShadow[1],
                     ),
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     Text(
                       'UPLOAD MULTIPLE PHOTOS',
                       style: TextStyle(

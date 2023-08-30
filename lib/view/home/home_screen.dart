@@ -1,6 +1,6 @@
 import 'package:bizhub_new/components/custom_loader.dart';
 import 'package:bizhub_new/components/no_internet.dart';
-import 'package:bizhub_new/utils/dynamic_links.dart';
+// import 'package:bizhub_new/utils/dynamic_links.dart';
 import 'package:bizhub_new/utils/mytheme.dart';
 import 'package:bizhub_new/utils/routes/routes_name.dart';
 import 'package:bizhub_new/utils/shared_prefrences.dart';
@@ -166,6 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final provider = Provider.of<AllServicesViewModel>(context, listen: false);
     await provider.getLatLongAndMiles();
     await provider.checkAuth();
+    await provider.checkAppUpdateValue(context);
   }
 
   Future<void> refresh() async {
@@ -520,15 +521,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     return Column(
                       children: [
                         type(
-                          typeText: translation(context).jobsNearByText,
-                          typeIcon: CupertinoIcons.money_dollar_circle_fill,
-                          isSelected: allServiceViewModel.nearByJobs == true
-                              ? true
-                              : false,
-                          onTap: () =>
-                              allServiceViewModel.selectType(true, context),
-                        ),
-                        type(
                           typeText: translation(context).servicesNearByText,
                           typeIcon: CupertinoIcons.briefcase_fill,
                           isSelected: allServiceViewModel.nearByJobs == false
@@ -536,6 +528,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               : false,
                           onTap: () =>
                               allServiceViewModel.selectType(false, context),
+                        ),
+                        type(
+                          typeText: translation(context).jobsNearByText,
+                          typeIcon: CupertinoIcons.money_dollar_circle_fill,
+                          isSelected: allServiceViewModel.nearByJobs == true
+                              ? true
+                              : false,
+                          onTap: () =>
+                              allServiceViewModel.selectType(true, context),
                         ),
                       ],
                     );
@@ -567,10 +568,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    final provider = Provider.of<AllServicesViewModel>(context, listen: false);
-    provider.controller.removeListener(() {
-      provider.getAllServiceMore;
-    });
+    // final provider = Provider.of<AllServicesViewModel>(context, listen: false);
+    // provider.controller.removeListener(() {
+    //   provider.getAllServiceMore;
+    // });
     super.dispose();
   }
 

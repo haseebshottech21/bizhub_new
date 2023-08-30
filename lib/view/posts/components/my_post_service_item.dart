@@ -3,8 +3,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../model/service_model.dart';
 import '../../../utils/app_url.dart';
+import '../../../utils/dynamic_links.dart';
 import '../../../utils/mytheme.dart';
 import '../../../utils/utils.dart';
 import '../../../view_model/my_service_view_model.dart';
@@ -261,6 +263,20 @@ class MyPostServiceItem extends StatelessWidget {
                                                     onTap: () =>
                                                         Navigator.of(context)
                                                             .pop(),
+                                                  ),
+                                                  BottomModalAction(
+                                                    text: 'Share',
+                                                    onTap: () {
+                                                      DynamicLinkProvider()
+                                                          .createLink(
+                                                        serviceModel.serviceId!,
+                                                      )
+                                                          .then(
+                                                        (value) {
+                                                          Share.share(value);
+                                                        },
+                                                      );
+                                                    },
                                                   ),
                                                   const SizedBox(height: 15),
                                                 ],

@@ -2,6 +2,7 @@ import 'package:bizhub_new/components/custom_loader.dart';
 import 'package:bizhub_new/components/no_internet.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import '../../language/language_constant.dart';
@@ -17,6 +18,7 @@ class MyChats extends StatefulWidget {
 }
 
 class _MyChatsState extends State<MyChats> {
+
   Future<void> getMyAllChatsList() async {
     final chatProvider = Provider.of<ChatViewModel>(context, listen: false);
     await chatProvider.getMyAllChatList(context: context);
@@ -39,11 +41,15 @@ class _MyChatsState extends State<MyChats> {
     super.initState();
     // LocalNotificationService.initialize();
     setupInteractedMessage();
+
+
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await getMyAllChatsList();
       // await setupInteracted();
     });
   }
+
+ 
 
   Future<void> setupInteractedMessage() async {
     final chatProvider = Provider.of<ChatViewModel>(context, listen: false);

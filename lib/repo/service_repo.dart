@@ -117,13 +117,15 @@ class ServiceRepository {
       // print('${AppUrl.allServiceEndPoint}?type=$serviceType');
 
       final loadedData = json.decode(response.body);
-      // print(loadedData);
+      print(loadedData);
       if (response.statusCode == 200) {
-        List<ServiceModel> allServicesList =
-            (loadedData['data'] as List).map((e) {
-          // print(e);
-          return ServiceModel.fromJson(e);
-        }).toList();
+
+        List<ServiceModel> allServicesList = (loadedData['data'] as List).map(
+          (e) {
+            // print(e);
+            return ServiceModel.fromJson(e);
+          },
+        ).toList();
         return {
           'allService': allServicesList,
           // 'prev': loadedData['links']['prev'],

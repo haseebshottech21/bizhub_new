@@ -284,9 +284,11 @@ class MyPostJobItem extends StatelessWidget {
                                                           .createLink(
                                                         serviceModel.serviceId!,
                                                       )
-                                                          .then((value) {
-                                                        Share.share(value);
-                                                      });
+                                                          .then(
+                                                        (value) {
+                                                          Share.share(value);
+                                                        },
+                                                      );
                                                     },
                                                   ),
                                                   const SizedBox(height: 15),

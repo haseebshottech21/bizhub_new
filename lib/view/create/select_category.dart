@@ -29,9 +29,9 @@ class _SelectCategoryState extends State<SelectCategory> {
     super.initState();
   }
 
-  getAllData() {
+  getAllData() async {
     final categories = Provider.of<CategoryViewModel>(context, listen: false);
-    categories.getCategoriesList();
+    await categories.checkAuth();
   }
 
   @override
@@ -69,9 +69,7 @@ class _SelectCategoryState extends State<SelectCategory> {
                     (route) => false,
                   );
                   service.initailValue(context);
-                  // post.isPoster = null;
-                  // category.categoryId = '';
-                  // category.categoryName = '';
+         
                 },
               ),
             );
@@ -104,7 +102,12 @@ class _SelectCategoryState extends State<SelectCategory> {
                     child: DeafultButton(
                       title: translation(context).continueTxt,
                       onPress: () {
-                        Navigator.pushNamed(context, RouteName.createPost);
+                        if (category.token != null) {
+                          Navigator.pushNamed(context, RouteName.createPost);
+                        } else {
+                          Navigator.pushNamed(
+                              context, RouteName.createGuestPost);
+                        }
                         // print(post.isPoster);
                       },
                       // onPress: null,
@@ -114,7 +117,7 @@ class _SelectCategoryState extends State<SelectCategory> {
               ),
             )
           : const SizedBox(),
-      // body: categoryItem(size: size),
+ 
       body: Consumer<CategoryViewModel>(
         builder: (context, categoryViewModel, _) {
           if (categoryViewModel.loading) {

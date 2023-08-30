@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -83,6 +85,7 @@ class CategoryViewModel extends ChangeNotifier {
 
   Future<void> checkAuth() async {
     token = await prefrence.getSharedPreferenceValue('token');
+    log('cat token: $token');
     if (token == null || token == '') {
       getCategoriesListWithoutAuth();
     } else {

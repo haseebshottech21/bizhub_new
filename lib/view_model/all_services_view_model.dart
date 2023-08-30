@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:bizhub_new/utils/shared_prefrences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:new_version_plus/new_version_plus.dart';
+import '../main.dart';
 import '../model/service_model.dart';
 import '../repo/chat_repo.dart';
 import '../repo/notification_repo.dart';
@@ -13,13 +15,14 @@ class AllServicesViewModel extends ChangeNotifier {
   final chatRepo = ChatRepository();
   final prefernce = Prefrences();
   final notification = NotificationRepo();
+  final prefrences = Prefrences();
 
   List<ServiceModel> allServiceList = [];
   List<ServiceModel> allServiceMoreList = [];
   List<ServiceModel> displayList = [];
   ServiceModel? serviceModel;
   ServiceDetalModel? serviceDetalModel;
-  bool nearByJobs = true;
+  bool nearByJobs = false;
   bool isInternetConnect = true;
   String? token;
 
@@ -400,6 +403,39 @@ class AllServicesViewModel extends ChangeNotifier {
         Navigator.pop(context);
         setSuccess(false);
       });
+    }
+  }
+
+  bool? checker;
+
+  checkAppUpdateValue(BuildContext context) async {
+    final newVersion = NewVersionPlus(
+      // iOSAppStoreCountry: 'us',
+      iOSId: 'com.iOS.towrevoapp',
+      androidId: 'com.bizhub.bizhubAndroid',
+      // iOSId: 'com.google.Vespa',
+      // androidId: 'com.user.towr',
+    );
+
+    final version = await newVersion.getVersionStatus();
+
+    // print('version local: ${version!.localVersion}');
+    // print('version store: ${version.storeVersion}');
+    // print('version app store: ${version.appStoreLink}');
+
+    if (MyApp.updateChecker == false) {
+      if (version != null) {
+        checker = version.canUpdate;
+        print('Update Check: $checker');
+
+        if (checker == true) {
+          newVersion.showAlertIfNecessary(context: context);
+          await prefrences.setSharedPreferenceBoolValue('update', checker!);
+          checker = await prefernce.getSharedPreferenceBoolValue('update');
+          MyApp.updateChecker = true;
+        }
+        notifyListeners();
+      }
     }
   }
 }
