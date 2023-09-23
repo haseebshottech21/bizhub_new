@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/mytheme.dart';
 
-class UploadImages extends StatelessWidget {
-  const UploadImages({
+class UploadServiceImages extends StatelessWidget {
+  const UploadServiceImages({
     Key? key,
   }) : super(key: key);
 

@@ -79,7 +79,7 @@ class _ServiceDetailFromDynamicLinkState
                 return Stack(
                   children: [
                     AllServiceDetailBody(
-                      allServiceViewModel: allServiceViewModel,
+                      // allServiceViewModel: allServiceViewModel,
                       bottomNavigationViewModel: bottomProvider,
                     ),
                     // if (allServiceViewModel.offerLoading)

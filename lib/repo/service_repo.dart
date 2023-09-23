@@ -29,6 +29,29 @@ class ServiceRepository {
     }
   }
 
+  Future<dynamic> createGuestService(dynamic data) async {
+    try {
+      http.Response response = await http.post(
+        Uri.parse(AppUrl.createGuestServiceEndPoint),
+        body: data,
+        // headers: await AppUrl().headerWithAuth(),
+        headers: AppUrl.header,
+      );
+
+      print('createGuestService ${response.body}');
+      final responseLoaded = jsonDecode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return responseLoaded;
+      } else {
+        Utils.toastMessage(responseLoaded['message']);
+      }
+    } catch (e) {
+      // print(e.toString());
+      Utils.toastMessage(e.toString());
+      // Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
   // All Services
   Future<Map<String, dynamic>> fetchAllServicesList({
     required String serviceType,
@@ -119,7 +142,6 @@ class ServiceRepository {
       final loadedData = json.decode(response.body);
       print(loadedData);
       if (response.statusCode == 200) {
-
         List<ServiceModel> allServicesList = (loadedData['data'] as List).map(
           (e) {
             // print(e);

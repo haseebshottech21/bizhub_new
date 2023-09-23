@@ -101,6 +101,45 @@ class TextFieldValidators {
     return null;
   }
 
+  dynamic emailErrorGetterOptional(
+    String value,
+  ) {
+    // if (value.isEmpty) {
+    //   return 'Enter your Email address (optional)';
+    // } else if (!RegExp(
+    //         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+    //     .hasMatch(value)) {
+    //   return 'Enter a Valid Email address';
+    // }
+    // return null;
+
+    if (value.isEmpty) {
+      return null;
+    }
+
+    if (value.isNotEmpty) {
+      if (!RegExp(
+              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+          .hasMatch(value)) {
+        return 'Enter a Valid Email address';
+      }
+      return null;
+    }
+  }
+
+//   String validateLastName(String value,{bool isOptional = false})) {
+//   if(isOptional && (value==null || value.isEmpty)){
+//     return null;
+//   }
+//   if (value.isNotEmpty) {
+//     if (value.length > 20) {
+//       return 'Maksimal 20 karakter';
+//     }
+//     return null;
+//   }
+//   return null;
+// }
+
   dynamic passwordErrorGetter(String value) {
     if (value.isEmpty) {
       return 'PLease Enter Password';

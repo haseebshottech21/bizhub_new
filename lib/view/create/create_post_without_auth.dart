@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:developer';
 
+import 'package:bizhub_new/view/create/component/upload_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +30,6 @@ class CreatePostWithoutAuth extends StatefulWidget {
 class _CreatePostWithoutAuthState extends State<CreatePostWithoutAuth> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descController = TextEditingController();
-
   final TextEditingController numberController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
@@ -60,20 +61,27 @@ class _CreatePostWithoutAuthState extends State<CreatePostWithoutAuth> {
       }
       // if (post.serviceImgaes.isNotEmpty) {
 
-      post.serviceBody['type'] = post.isPoster! ? '0' : '1';
-      post.serviceBody['category_id'] = category.categoryId;
-      // post.serviceBody['images'] = json.encode(post.serviceImgaes);
-      post.serviceBody['title'] = titleController.text.trim();
-      post.serviceBody['description'] = descController.text.trim();
-      post.serviceBody['amount'] = priceController.text.trim();
-      post.serviceBody['longitude'] = location.latLng.longitude.toString();
-      post.serviceBody['latitude'] = location.latLng.latitude.toString();
-      post.serviceBody['address'] = location.locationAddress.trim();
-      post.serviceBody['is_negotiable'] = post.isPriceNegotiable ? '1' : '0';
-      if (post.serviceBody['images'] != null) {
-        post.serviceBody['images'] = json.encode(post.serviceImgaes);
+      post.guestServiceBody['type'] = post.isPoster! ? '0' : '1';
+      post.guestServiceBody['category_id'] = category.categoryId;
+
+      post.guestServiceBody['title'] = titleController.text.trim();
+      post.guestServiceBody['description'] = descController.text.trim();
+      post.guestServiceBody['amount'] = priceController.text.trim();
+      post.guestServiceBody['longitude'] = location.latLng.longitude.toString();
+      post.guestServiceBody['latitude'] = location.latLng.latitude.toString();
+      post.guestServiceBody['address'] = location.locationAddress.trim();
+      post.guestServiceBody['is_negotiable'] =
+          post.isPriceNegotiable ? '1' : '0';
+      if (post.guestServiceBody['images'] != null) {
+        post.guestServiceBody['images'] = json.encode(post.serviceImgaes);
       }
-      post.createPost(post.serviceBody, context);
+
+      post.guestServiceBody['email'] = emailController.text.trim();
+      post.guestServiceBody['phone'] = numberController.text.trim();
+
+      log('guestServiceBody ${post.guestServiceBody}');
+
+      post.createGuestPost(post.guestServiceBody, context);
       // print(post.serviceBody['images']);
       // }
     }
@@ -149,7 +157,7 @@ class _CreatePostWithoutAuthState extends State<CreatePostWithoutAuth> {
                   child: Column(
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // const UploadImages(),
+                      const UploadServiceImages(),
                       const SizedBox(height: 20),
                       LabelTextField(
                         label: 'Title *',
@@ -164,7 +172,6 @@ class _CreatePostWithoutAuthState extends State<CreatePostWithoutAuth> {
                         validator: textFieldValidator.descriptionErrorGetter,
                       ),
                       const SizedBox(height: 20),
-
                       LabelTextField(
                         label: 'Number *',
                         controller: numberController,

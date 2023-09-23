@@ -25,6 +25,7 @@ class AppUrl {
   static var reportUserEndPoint = '$baseUrl/api/report-user';
 
   // Without Auth0
+  static var createGuestServiceEndPoint = '$baseUrl/api/add-service-without-auth';
   static var withoutAuthAllServiceEndPoint = '$baseUrl/api/all-services';
   static var withoutAuthAllServiceDetailEndPoint =
       '$baseUrl/api/service-detail-without-auth';

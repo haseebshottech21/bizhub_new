@@ -35,6 +35,20 @@ class MyServiceViewModel extends ChangeNotifier {
     'is_negotiable': '',
   };
 
+  Map<String, dynamic> guestServiceBody = {
+    'category_id': '',
+    'title': '',
+    'description': '',
+    'amount': '',
+    'latitude': '',
+    'longitude': '',
+    'address': '',
+    'is_negotiable': '',
+    'email': '',
+    'phone': '',
+    'images': [],
+  };
+
   Map<String, dynamic> updateServiceBody = {
     'category_id': '',
     'images': [],
@@ -116,6 +130,39 @@ class MyServiceViewModel extends ChangeNotifier {
   ) async {
     postLoad(true);
     final loadedData = await serviceRepo.createService(data);
+    // print(loadedData);
+    if (loadedData == null) {
+      postLoad(false);
+    } else if (loadedData != null) {
+      Future.delayed(Duration.zero).then(
+        (value) {
+          // print(value);
+          postLoad(false);
+          // if (kDebugMode) {
+          Provider.of<BottomNavigationViewModel>(context, listen: false)
+              .bottomIndex = 0;
+          // Navigator.of(context).pop();
+          // Navigator.of(context).pop();
+          // Navigator.of(context).pop();
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            RouteName.home,
+            (route) => false,
+          );
+          initailValue(context);
+          serviceImgaes.clear();
+          Utils.toastMessage('Service Create Successfully!');
+          // }
+        },
+      );
+    }
+  }
+
+  Future<void> createGuestPost(
+    dynamic data,
+    BuildContext context,
+  ) async {
+    postLoad(true);
+    final loadedData = await serviceRepo.createGuestService(data);
     // print(loadedData);
     if (loadedData == null) {
       postLoad(false);

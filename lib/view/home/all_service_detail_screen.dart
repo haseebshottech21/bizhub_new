@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:bizhub_new/components/custom_loader.dart';
 import 'package:bizhub_new/model/service_model.dart';
@@ -49,37 +50,46 @@ class _AllServiceDetailState extends State<AllServiceDetail> {
 
   @override
   Widget build(BuildContext context) {
-    final allServiceViewModel =
-        Provider.of<AllServicesViewModel>(context, listen: false);
+    // final allServiceViewModel =
+    //     Provider.of<AllServicesViewModel>(context, listen: false);
     final bottomProvider = Provider.of<BottomNavigationViewModel>(context);
+
+    // log('service ${allServiceViewModel.loading}');
+    // log('user ${allServiceViewModel.serviceDetalModel!.user!.firstName}');
+    // log('user ${allServiceViewModel.serviceDetalModel!.user!.lastName}');
 
     return Scaffold(
       key: scaffoldKey,
       body: Stack(
         children: [
           // AllServiceDetailBody(allServiceViewModel: allServiceViewModel),
-          Consumer<AllServicesViewModel>(
-            builder: (context, allServiceViewModel, _) {
-              if (allServiceViewModel.loading) {
-                return const CustomLoader();
-              } else {
-                return Stack(
-                  children: [
-                    AllServiceDetailBody(
-                      allServiceViewModel: allServiceViewModel,
-                      bottomNavigationViewModel: bottomProvider,
-                    ),
-                    // if (allServiceViewModel.offerLoading)
-                    //   const Center(
-                    //     child: CircularProgressIndicator(
-                    //       color: Colors.white,
-                    //       strokeWidth: 1,
-                    //     ),
-                    //   ),
-                  ],
-                );
-              }
-            },
+          // Consumer<AllServicesViewModel>(
+          //   builder: (context, allServiceViewModel, _) {
+          //     if (allServiceViewModel.loading) {
+          //       return const CustomLoader();
+          //     } else {
+          //       return Stack(
+          //         children: [
+          //           AllServiceDetailBody(
+          //             allServiceViewModel: allServiceViewModel,
+          //             bottomNavigationViewModel: bottomProvider,
+          //           ),
+          //           // if (allServiceViewModel.offerLoading)
+          //           //   const Center(
+          //           //     child: CircularProgressIndicator(
+          //           //       color: Colors.white,
+          //           //       strokeWidth: 1,
+          //           //     ),
+          //           //   ),
+          //         ],
+          //       );
+          //     }
+          //   },
+          // ),
+
+          AllServiceDetailBody(
+            // allServiceViewModel: allServiceViewModel,
+            bottomNavigationViewModel: bottomProvider,
           ),
           Positioned(
             top: 0,
@@ -148,125 +158,140 @@ class _AllServiceDetailState extends State<AllServiceDetail> {
               ],
             ),
           ),
-          Positioned(
-            bottom: Platform.isIOS ? 35 : 20,
-            left: 0,
-            right: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.45,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: MyTheme.greenColor,
-                      padding: const EdgeInsets.all(10.0),
-                    ),
-                    onPressed: bottomProvider.token == null ||
-                            bottomProvider.token == ''
-                        ? () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (ctx) => const WithoutAuthScreen(),
-                                settings: const RouteSettings(
-                                  arguments: true,
-                                ),
-                              ),
-                            )
-                        : () {
-                            var bottomSheetController =
-                                scaffoldKey.currentState?.showBottomSheet(
-                              (context) => SendMessage(
-                                formKey: _formKey,
-                                controller: messageController,
-                                servicesViewModel: allServiceViewModel,
-                              ),
-                            );
-                            bottomSheetController!.closed.then((value) {
-                              messageController.clear();
-                            });
-                          },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          chat,
-                          color: Colors.white,
-                          size: 24,
-                        ),
-                        const SizedBox(width: 25),
-                        Text(
-                          translation(context).messageText,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.45,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: MyTheme.greenColor,
-                      padding: const EdgeInsets.all(10.0),
-                    ),
-                    onPressed: bottomProvider.token == null ||
-                            bottomProvider.token == ''
-                        ? () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (ctx) => const WithoutAuthScreen(),
-                                settings: const RouteSettings(
-                                  arguments: true,
-                                ),
-                              ),
-                            )
-                        : () {
-                            var bottomSheetController =
-                                scaffoldKey.currentState?.showBottomSheet(
-                              (context) => SendOffer(
-                                formKey: _formKey,
-                                controller: offerController,
-                                servicesViewModel: allServiceViewModel,
-                              ),
-                            );
+          // if (allServiceViewModel.serviceDetalModel!.user!.firstName !=
+          //         'Guest' &&
+          //     allServiceViewModel.serviceDetalModel!.user!.lastName == 'User')
 
-                            // showFoatingActionButton(false);
-                            bottomSheetController!.closed.then((value) {
-                              offerController.clear();
-                            });
-                          },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          dollor,
-                          color: Colors.white,
-                          size: 24,
+          // if (!(  allServiceViewModel.serviceDetalModel!.user!.firstName ==
+          //     "Guest"))
+          Consumer<AllServicesViewModel>(
+              builder: (context, allServiceViewModel, _) {
+            if (allServiceViewModel.loading) {
+              return const SizedBox();
+            }
+            if (allServiceViewModel.serviceDetalModel!.user!.firstName ==
+                'Guest') {
+              return const SizedBox();
+            }
+            return Positioned(
+                bottom: Platform.isIOS ? 35 : 20,
+                left: 0,
+                right: 0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.45,
+                      height: 50,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: MyTheme.greenColor,
+                          padding: const EdgeInsets.all(10.0),
                         ),
-                        const SizedBox(width: 25),
-                        Text(
-                          translation(context).offerText,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                          ),
+                        onPressed: bottomProvider.token == null ||
+                                bottomProvider.token == ''
+                            ? () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (ctx) => const WithoutAuthScreen(),
+                                    settings: const RouteSettings(
+                                      arguments: true,
+                                    ),
+                                  ),
+                                )
+                            : () {
+                                var bottomSheetController =
+                                    scaffoldKey.currentState?.showBottomSheet(
+                                  (context) => SendMessage(
+                                    formKey: _formKey,
+                                    controller: messageController,
+                                    servicesViewModel: allServiceViewModel,
+                                  ),
+                                );
+                                bottomSheetController!.closed.then((value) {
+                                  messageController.clear();
+                                });
+                              },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              chat,
+                              color: Colors.white,
+                              size: 24,
+                            ),
+                            const SizedBox(width: 25),
+                            Text(
+                              translation(context).messageText,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+                    const SizedBox(width: 10),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.45,
+                      height: 50,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: MyTheme.greenColor,
+                          padding: const EdgeInsets.all(10.0),
+                        ),
+                        onPressed: bottomProvider.token == null ||
+                                bottomProvider.token == ''
+                            ? () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (ctx) => const WithoutAuthScreen(),
+                                    settings: const RouteSettings(
+                                      arguments: true,
+                                    ),
+                                  ),
+                                )
+                            : () {
+                                var bottomSheetController =
+                                    scaffoldKey.currentState?.showBottomSheet(
+                                  (context) => SendOffer(
+                                    formKey: _formKey,
+                                    controller: offerController,
+                                    servicesViewModel: allServiceViewModel,
+                                  ),
+                                );
+
+                                // showFoatingActionButton(false);
+                                bottomSheetController!.closed.then((value) {
+                                  offerController.clear();
+                                });
+                              },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              dollor,
+                              color: Colors.white,
+                              size: 24,
+                            ),
+                            const SizedBox(width: 25),
+                            Text(
+                              translation(context).offerText,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ));
+          }),
         ],
       ),
     );

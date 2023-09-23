@@ -144,7 +144,7 @@ class _CreatePostState extends State<CreatePost> {
                   child: Column(
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const UploadImages(),
+                      const UploadServiceImages(),
                       const SizedBox(height: 20),
                       LabelTextField(
                         label: 'Title *',

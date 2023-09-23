@@ -305,7 +305,7 @@ class AllServicesViewModel extends ChangeNotifier {
     required String serviceId,
   }) async {
     setLoad(true);
-    Future.delayed(const Duration(seconds: 1)).then(
+    Future.delayed(Duration.zero).then(
       (value) async {
         serviceDetalModel = await serviceRepo.fetchAllServiceDetailWithoutAuth(
           serviceId: serviceId,
